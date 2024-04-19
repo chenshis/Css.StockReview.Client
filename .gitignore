@@ -1,0 +1,11 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+/.vs
+/src/StockReview.Api/bin/Debug/netstandard2.1
+/src/StockReview.Api/obj
+/src/StockReview.Client/bin/Debug/net6.0-windows
+/src/StockReview.Client/obj
+/src/StockReview.Infrastructure.Config/bin/Debug/netstandard2.1
+/src/StockReview.Infrastructure.Config/obj
