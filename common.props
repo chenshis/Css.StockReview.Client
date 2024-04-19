@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <Version>1.0.0.1</Version>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <FileVersion>1.0.0.1</FileVersion>
+  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+</Project>
