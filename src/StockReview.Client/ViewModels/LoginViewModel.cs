@@ -35,17 +35,23 @@ namespace StockReview.Client.ViewModels
             set { SetProperty(ref _password, value); }
         }
 
+        private bool _isEnable = true;
         /// <summary>
         /// 是否启用命令
         /// </summary>
-        public bool _isEnable = true;
+        public bool IsEnable
+        {
+            get { return _isEnable; }
+            set { SetProperty(ref _isEnable, value); }
+        }
+
 
         /// <summary>
         /// 登录命令
         /// </summary>
         public ICommand LoginCommand
         {
-            get => new DelegateCommand(SetLogin);
+            get => new DelegateCommand(SetLogin).ObservesCanExecute(() => IsEnable);
         }
 
         /// <summary>
@@ -53,7 +59,8 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         private void SetLogin()
         {
-           // todo 登录逻辑
+            IsEnable = false;
+            // todo 登录逻辑
         }
     }
 }
