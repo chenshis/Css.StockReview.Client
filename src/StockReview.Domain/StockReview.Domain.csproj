@@ -6,8 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StockReview.Domain\StockReview.Domain.csproj" />
-    <ProjectReference Include="..\StockReview.Infrastructure.Config\StockReview.Infrastructure.Config.csproj" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
   </ItemGroup>
 
 </Project>

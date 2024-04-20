@@ -2,6 +2,7 @@
     x:Class="StockReview.Client.Views.LoginView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:StockReview.Client.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,6 +14,22 @@
     mc:Ignorable="d">
     <Grid>
         <TextBlock Text="{Binding UserName}" />
-        <Button Command="{Binding LoginCommand}" Content="登录" />
+        <Button
+            Width="100"
+            Height="100"
+            VerticalAlignment="Top"
+            Command="{Binding LoginCommand}"
+            Content="登录" />
+        <Button
+            Width="100"
+            Height="100"
+            VerticalAlignment="Bottom"
+            Content="注册">
+            <behavior:Interaction.Triggers>
+                <behavior:EventTrigger EventName="Click">
+                    <behavior:InvokeCommandAction Command="{Binding LoginCommand}" />
+                </behavior:EventTrigger>
+            </behavior:Interaction.Triggers>
+        </Button>
     </Grid>
 </Window>
