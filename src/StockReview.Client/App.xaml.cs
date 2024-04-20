@@ -22,10 +22,7 @@ namespace StockReview.Client
         // 初始化Shell（主窗口）的时候执行这个方法
         protected override void InitializeShell(Window shell)
         {
-            // 可以用于实现登录逻辑，以下是伪代码
-
-            var loginWin = Container.Resolve<LoginView>();// 创建一个窗口对象
-            if (loginWin == null || loginWin.ShowDialog() != true)// 以模态窗口的方式打开这个窗口对象
+            if (shell == null || shell.ShowDialog() != true)// 以模态窗口的方式打开这个窗口对象
             {
                 // 不需要App的属性ShutdownMode配合
                 Application.Current.Shutdown();
@@ -41,7 +38,11 @@ namespace StockReview.Client
         /// <exception cref="NotImplementedException"></exception>
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterForNavigation<TestView>();
+            containerRegistry.RegisterForNavigation<MenuView>();
+            containerRegistry.RegisterForNavigation<ContentView>();
         }
+
     }
 
 }

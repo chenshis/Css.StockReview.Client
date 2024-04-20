@@ -1,0 +1,32 @@
+﻿<Window
+    x:Class="StockReview.Client.Views.TestMainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:StockReview.Client.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    Title="TestMainView"
+    Width="800"
+    Height="450"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Header" Value="{Binding DataContext.Title}" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <!--  占位  -->
+        <ContentControl Grid.Column="0" prism:RegionManager.RegionName="MenuRegion" />
+        <ContentControl
+            Grid.Column="1"
+            prism:RegionManager.RegionName="ContentRegion"
+            Visibility="Collapsed" />
+        <TabControl Grid.Column="1" prism:RegionManager.RegionName="TabContentRegion" />
+    </Grid>
+</Window>

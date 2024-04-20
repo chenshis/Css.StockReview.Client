@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,12 @@ namespace StockReview.Client.ViewModels
     /// </summary>
     public class LoginViewModel : BindableBase
     {
+        private readonly IDialogService _dialogService;
+
+        public LoginViewModel(IDialogService dialogService)
+        {
+            _dialogService = dialogService;
+        }
 
         private string _userName = "Test";
         /// <summary>
@@ -36,6 +43,7 @@ namespace StockReview.Client.ViewModels
         }
 
         private bool _isEnable = true;
+
         /// <summary>
         /// 是否启用命令
         /// </summary>
@@ -60,6 +68,8 @@ namespace StockReview.Client.ViewModels
         private void SetLogin()
         {
             IsEnable = false;
+
+            _dialogService.ShowDialog("TestView");
             // todo 登录逻辑
         }
     }
