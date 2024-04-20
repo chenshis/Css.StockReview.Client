@@ -9,3 +9,5 @@
 /src/StockReview.Client/obj
 /src/StockReview.Infrastructure.Config/bin/Debug/netstandard2.1
 /src/StockReview.Infrastructure.Config/obj
+/src/StockReview.Domain/bin/Debug/netstandard2.1
+/src/StockReview.Domain/obj
