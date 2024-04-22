@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:StockReview.Client.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
@@ -14,7 +15,22 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
-        <ResourceDictionary Source="/assets/styles/buttonstyles.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Assets/Styles/ButtonStyles.xaml" />
+                <ResourceDictionary>
+                    <Style TargetType="Hyperlink">
+                        <Setter Property="Foreground" Value="#AAA" />
+                        <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#999" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
     <WindowChrome.WindowChrome>
         <WindowChrome
@@ -26,25 +42,76 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0.618*" />
             <RowDefinition />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
-        <Border Background="#2E9FFB" />
+        <Border Background="#5EB4E7" />
         <StackPanel
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Orientation="Horizontal">
             <Button
                 Height="28"
+                VerticalAlignment="Center"
                 Background="Transparent"
                 Content="&#xe64b;"
                 Style="{StaticResource IconButtonStyle}" />
             <Button
                 Height="28"
+                VerticalAlignment="Center"
                 Background="Transparent"
                 Content="&#xe66c;"
                 Style="{StaticResource IconButtonStyle}" />
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom">
-            <Image Source="/assets/Images/login.png" />
+            <Image Source="/Assets/Images/login.png" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Width="240"
+            Margin="0,0,0,10"
+            VerticalAlignment="Bottom">
+            <hc:TextBox
+                Height="33"
+                Margin="0,5"
+                hc:InfoElement.Placeholder="会员账号"
+                FontSize="16" />
+            <hc:PasswordBox
+                Height="33"
+                Margin="0,5"
+                hc:InfoElement.Placeholder="会员密码"
+                hc:PasswordBoxAttach.IsMonitoring="True"
+                hc:ShowPassword="False"
+                FontSize="16"
+                ShowEyeButton="True" />
+            <UniformGrid Margin="2,5" Rows="1">
+                <TextBlock>
+                    <Hyperlink>忘记密码？</Hyperlink>
+                </TextBlock>
+                <TextBlock TextAlignment="Center">
+                    <Hyperlink>修改密码</Hyperlink>
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Right">
+                    <Hyperlink>联系我们</Hyperlink>
+                </TextBlock>
+            </UniformGrid>
+            <Button
+                Width="240"
+                Height="35"
+                Margin="0,5"
+                Background="#5EB4E7"
+                Command="{Binding LoginCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                Content="登  录（LOGIN）"
+                Cursor="Hand"
+                FontSize="16" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <TextBlock Margin="10,0" FontSize="16"><Hyperlink FontWeight="Bold" TextDecorations="Underline">
+                    注册账号
+                </Hyperlink></TextBlock>
         </StackPanel>
     </Grid>
 </Window>

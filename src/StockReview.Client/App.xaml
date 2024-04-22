@@ -5,6 +5,14 @@
     xmlns:local="clr-namespace:StockReview.Client"
     xmlns:prism="http://prismlibrary.com/">
     <Application.Resources>
-        <FontFamily x:Key="Iconfont">Assets/Fonts/#iconfont</FontFamily>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml" />
+                <ResourceDictionary>
+                    <FontFamily x:Key="Iconfont">Assets/Fonts/#iconfont</FontFamily>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>
