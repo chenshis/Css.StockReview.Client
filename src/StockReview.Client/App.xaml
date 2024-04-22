@@ -4,5 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:StockReview.Client"
     xmlns:prism="http://prismlibrary.com/">
-    <Application.Resources />
+    <Application.Resources>
+        <FontFamily x:Key="Iconfont">Assets/Fonts/#iconfont</FontFamily>
+    </Application.Resources>
 </prism:PrismApplication>

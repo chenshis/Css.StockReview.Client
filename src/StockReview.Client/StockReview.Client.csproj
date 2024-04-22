@@ -8,12 +8,20 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\Fonts\iconfont.ttf" />
+    <None Remove="Assets\Images\login.png" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StockReview.Api\StockReview.Api.csproj" />
     <ProjectReference Include="..\StockReview.Infrastructure.Config\StockReview.Infrastructure.Config.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Fonts\iconfont.ttf" />
+    <Resource Include="Assets\Images\login.png" />
   </ItemGroup>
 
 </Project>
