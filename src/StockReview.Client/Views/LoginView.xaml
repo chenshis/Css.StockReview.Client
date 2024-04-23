@@ -107,11 +107,16 @@
         </StackPanel>
         <StackPanel
             Grid.Row="2"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top">
-            <TextBlock Margin="10,0" FontSize="16"><Hyperlink FontWeight="Bold" TextDecorations="Underline">
-                    注册账号
-                </Hyperlink></TextBlock>
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+
+            <TextBlock Margin="10,0">
+                <Hyperlink FontSize="14" Foreground="#5EB4E7">
+                    <Run>没有账号？立即注册</Run>
+                    <Run FontFamily="{DynamicResource Iconfont}" Text="&#xe65b;" />
+                </Hyperlink>
+            </TextBlock>
         </StackPanel>
     </Grid>
 </Window>
