@@ -1,11 +1,18 @@
-﻿using Prism.Commands;
+﻿using HandyControl.Tools.Extension;
+using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Regions;
 using Prism.Services.Dialogs;
+using Prism.Unity;
+using StockReview.Client.Views;
+using StockReview.Infrastructure.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace StockReview.Client.ViewModels
@@ -19,10 +26,10 @@ namespace StockReview.Client.ViewModels
 
         public LoginViewModel(IDialogService dialogService)
         {
-            _dialogService = dialogService;
+            this._dialogService = dialogService;
         }
 
-        private string _userName = "Test";
+        private string _userName;
         /// <summary>
         /// 用户名
         /// </summary>
@@ -43,6 +50,7 @@ namespace StockReview.Client.ViewModels
         }
 
         private bool _isEnable = true;
+
 
         /// <summary>
         /// 是否启用命令
@@ -69,8 +77,42 @@ namespace StockReview.Client.ViewModels
         {
             IsEnable = false;
 
-            _dialogService.ShowDialog("TestView");
+            //_dialogService.ShowDialog("TestView");
             // todo 登录逻辑
         }
+
+        /// <summary>
+        /// 注册命令
+        /// </summary>
+        public ICommand RegisterCommand
+        {
+            get => new DelegateCommand<object>((parameter) => SetRegistration(parameter)).ObservesCanExecute(() => IsEnable);
+        }
+
+        private void SetRegistration(object parameter)
+        {
+            // 禁用按钮
+            IsEnable = false;
+
+            var loginWindow = parameter as Window;
+            if (loginWindow == null)
+            {
+                return;
+            }
+            loginWindow.Collapse();
+
+            bool flag = false;
+            _dialogService.ShowDialog(SystemConstant.RegisterView, result =>
+            {
+                // 处理对话框关闭后的结果
+            });
+            
+            //loginWindow.Show();
+
+            // 启用按钮
+            IsEnable = true;
+        }
+
+
     }
 }

@@ -17,7 +17,7 @@ namespace StockReview.Client.Views
     /// <summary>
     /// RegisterView.xaml 的交互逻辑
     /// </summary>
-    public partial class RegisterView : Window
+    public partial class RegisterView : UserControl
     {
         public RegisterView()
         {

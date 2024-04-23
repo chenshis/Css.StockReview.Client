@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace StockReview.Client.Views
 {
     /// <summary>
-    /// ContentView.xaml 的交互逻辑
+    /// VerificationCodeView.xaml 的交互逻辑
     /// </summary>
-    public partial class ContentView : UserControl
+    public partial class VerificationCodeView : UserControl
     {
-        public ContentView()
+        public VerificationCodeView()
         {
             InitializeComponent();
         }

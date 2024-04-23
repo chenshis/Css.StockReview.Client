@@ -98,12 +98,13 @@
                 Width="240"
                 Height="35"
                 Margin="0,5"
+                hc:BorderElement.CornerRadius="15"
                 Command="{Binding LoginCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                 Content="登  录（LOGIN）"
                 Cursor="Hand"
                 FontSize="16"
-                Style="{StaticResource ButtonInfo}" />
+                Style="{StaticResource ButtonPrimary}" />
         </StackPanel>
         <StackPanel
             Grid.Row="2"
@@ -113,9 +114,10 @@
 
             <TextBlock Margin="10,0">
                 <Hyperlink
+                    Command="{Binding RegisterCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                     FontSize="14"
-                    Foreground="{StaticResource InfoBrush}"
-                    NavigateUri="RegisterView.xaml">
+                    Foreground="{StaticResource InfoBrush}">
                     <Run>没有账号？立即注册</Run>
                     <Run FontFamily="{DynamicResource Iconfont}" Text="&#xe65b;" />
                 </Hyperlink>

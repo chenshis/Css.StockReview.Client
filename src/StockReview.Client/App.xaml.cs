@@ -1,6 +1,8 @@
 ﻿using Prism.Ioc;
 using Prism.Unity;
+using StockReview.Client.ViewModels;
 using StockReview.Client.Views;
+using StockReview.Infrastructure.Config;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
@@ -16,7 +18,7 @@ namespace StockReview.Client
         protected override Window CreateShell()
         {
             // 通过容器创造主界面实例
-            return Container.Resolve<RegisterView>();
+            return Container.Resolve<LoginView>();
         }
 
         // 初始化Shell（主窗口）的时候执行这个方法
@@ -38,9 +40,7 @@ namespace StockReview.Client
         /// <exception cref="NotImplementedException"></exception>
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<TestView>();
-            containerRegistry.RegisterForNavigation<MenuView>();
-            containerRegistry.RegisterForNavigation<ContentView>();
+            containerRegistry.RegisterDialog<RegisterView>(SystemConstant.RegisterView);
         }
 
     }
