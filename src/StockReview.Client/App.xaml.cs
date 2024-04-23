@@ -16,7 +16,7 @@ namespace StockReview.Client
         protected override Window CreateShell()
         {
             // 通过容器创造主界面实例
-            return Container.Resolve<LoginView>();
+            return Container.Resolve<RegisterView>();
         }
 
         // 初始化Shell（主窗口）的时候执行这个方法

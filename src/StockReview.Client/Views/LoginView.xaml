@@ -44,7 +44,7 @@
             <RowDefinition />
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
-        <Border Background="#5EB4E7" />
+        <Border Background="{StaticResource InfoBrush}" />
         <StackPanel
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
@@ -98,12 +98,12 @@
                 Width="240"
                 Height="35"
                 Margin="0,5"
-                Background="#5EB4E7"
                 Command="{Binding LoginCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                 Content="登  录（LOGIN）"
                 Cursor="Hand"
-                FontSize="16" />
+                FontSize="16"
+                Style="{StaticResource ButtonInfo}" />
         </StackPanel>
         <StackPanel
             Grid.Row="2"
@@ -112,7 +112,10 @@
             Orientation="Horizontal">
 
             <TextBlock Margin="10,0">
-                <Hyperlink FontSize="14" Foreground="#5EB4E7">
+                <Hyperlink
+                    FontSize="14"
+                    Foreground="{StaticResource InfoBrush}"
+                    NavigateUri="RegisterView.xaml">
                     <Run>没有账号？立即注册</Run>
                     <Run FontFamily="{DynamicResource Iconfont}" Text="&#xe65b;" />
                 </Hyperlink>

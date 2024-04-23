@@ -9,8 +9,14 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml" />
+                <!--  阿里字体  -->
                 <ResourceDictionary>
                     <FontFamily x:Key="Iconfont">Assets/Fonts/#iconfont</FontFamily>
+                </ResourceDictionary>
+                <!--  HandyControl 样式重写  -->
+                <ResourceDictionary>
+                    <Color x:Key="InfoColor">#5EB4E7</Color>
+                    <Color x:Key="DarkInfoColor">#5EB4E7</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
