@@ -17,6 +17,8 @@
                 <ResourceDictionary>
                     <Color x:Key="InfoColor">#5EB4E7</Color>
                     <Color x:Key="DarkInfoColor">#5EB4E7</Color>
+                    <Color x:Key="PrimaryColor">#5EB4E7</Color>
+                    <Color x:Key="DarkPrimaryColor">#5EB4E7</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

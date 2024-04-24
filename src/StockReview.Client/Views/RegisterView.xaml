@@ -141,7 +141,7 @@
                 </Grid.ColumnDefinitions>
                 <hc:TextBox
                     Height="33"
-                    Margin="0,15,0,0"
+                    Margin="0,15,15,0"
                     hc:InfoElement.HorizontalAlignment="Right"
                     hc:InfoElement.Necessary="True"
                     hc:InfoElement.Title="验证码："
@@ -149,7 +149,16 @@
                     hc:InfoElement.TitleWidth="110"
                     FontSize="14"
                     Style="{StaticResource TextBoxExtend}" />
-                <Image Name="CaptchaImage" Grid.Row="0" Width="100" Height="40" />
+                <Button
+                    Grid.Column="1"
+                    Width="120"
+                    Height="33"
+                    Margin="0,15,0,0"
+                    Background="White"
+                    BorderBrush="Transparent"
+                    Command="{Binding VerificationCodeCommand}">
+                    <Image Source="{Binding ImageSource}" />
+                </Button>
             </Grid>
         </StackPanel>
         <Border
