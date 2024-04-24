@@ -78,25 +78,8 @@
                 VerticalAlignment="Center"
                 FontFamily="{StaticResource Iconfont}"
                 FontSize="12"
-                Foreground="Red">
-                <TextBlock.Text>
-                    <MultiBinding StringFormat="{}&#xe621; {0}">
-                        <Binding Path="ErrorMessage" />
-                    </MultiBinding>
-                </TextBlock.Text>
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ErrorMessage}" Value="{x:Null}">
-                                <Setter Property="TextBlock.Text" Value="" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ErrorMessage}" Value="">
-                                <Setter Property="TextBlock.Text" Value="" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
+                Foreground="Red"
+                Text="{Binding ErrorMessage}" />
             <hc:TextBox
                 Height="33"
                 Margin="0,5"

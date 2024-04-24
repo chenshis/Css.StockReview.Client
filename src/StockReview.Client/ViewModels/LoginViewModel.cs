@@ -86,8 +86,18 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         private void SetLogin()
         {
-            IsEnable = false;
+            string GetErrorMessage(string msg)
+            {
+                return string.Concat(SystemConstant.ErrorIcon, msg);
+            }
 
+            if (string.IsNullOrWhiteSpace(UserName))
+            {
+                ErrorMessage = GetErrorMessage(SystemConstant.ErrorUserNameMessage);
+                return;
+            }
+
+            IsEnable = false;
             //_dialogService.ShowDialog("TestView");
             // todo 登录逻辑
         }
