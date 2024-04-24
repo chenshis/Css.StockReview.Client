@@ -20,11 +20,12 @@
                 <ResourceDictionary Source="../Assets/Styles/ButtonStyles.xaml" />
                 <ResourceDictionary>
                     <Style TargetType="Hyperlink">
-                        <Setter Property="Foreground" Value="#AAA" />
-                        <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+                        <Setter Property="Foreground" Value="{StaticResource InfoBrush}" />
+                        <Setter Property="TextDecorations" Value="{x:Null}" />
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="#999" />
+                                <Setter Property="TextDecorations" Value="Underline" />
+                                <Setter Property="Foreground" Value="#2EB4E7" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -70,6 +71,32 @@
             Width="240"
             Margin="0,0,0,10"
             VerticalAlignment="Bottom">
+            <TextBlock
+                Grid.Column="1"
+                Margin="3,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontFamily="{StaticResource Iconfont}"
+                FontSize="12"
+                Foreground="Red">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}&#xe621; {0}">
+                        <Binding Path="ErrorMessage" />
+                    </MultiBinding>
+                </TextBlock.Text>
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ErrorMessage}" Value="{x:Null}">
+                                <Setter Property="TextBlock.Text" Value="" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ErrorMessage}" Value="">
+                                <Setter Property="TextBlock.Text" Value="" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
             <hc:TextBox
                 Height="33"
                 Margin="0,5"
@@ -105,23 +132,28 @@
                 Cursor="Hand"
                 FontSize="16"
                 Style="{StaticResource ButtonPrimary}" />
+
         </StackPanel>
         <StackPanel
             Grid.Row="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Orientation="Horizontal">
-
-            <TextBlock Margin="10,0">
+            <TextBlock Margin="10,0,0,0">
                 <Hyperlink
                     Command="{Binding RegisterCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                    FontSize="14"
-                    Foreground="{StaticResource InfoBrush}">
+                    Cursor="Hand"
+                    FontSize="14">
                     <Run>没有账号？立即注册</Run>
-                    <Run FontFamily="{DynamicResource Iconfont}" Text="&#xe65b;" />
                 </Hyperlink>
             </TextBlock>
+            <TextBlock
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontFamily="{DynamicResource Iconfont}"
+                Foreground="{StaticResource InfoBrush}"
+                Text="&#xe65b;" />
         </StackPanel>
     </Grid>
 </Window>

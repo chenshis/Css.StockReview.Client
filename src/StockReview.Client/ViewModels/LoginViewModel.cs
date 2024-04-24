@@ -49,6 +49,17 @@ namespace StockReview.Client.ViewModels
             set { SetProperty(ref _password, value); }
         }
 
+        private string _errorMessage;
+        /// <summary>
+        /// 错误消息
+        /// </summary>
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set { SetProperty(ref _errorMessage, value); }
+        }
+
+
         private bool _isEnable = true;
 
 
@@ -106,7 +117,7 @@ namespace StockReview.Client.ViewModels
             {
                 // 处理对话框关闭后的结果
             });
-            
+
             //loginWindow.Show();
 
             // 启用按钮
