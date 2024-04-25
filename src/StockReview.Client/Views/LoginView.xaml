@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:StockReview.Client.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:pwdHelper="clr-namespace:StockReview.Client.Common"
     Title="登录"
     Width="428"
     Height="328"
@@ -51,15 +52,19 @@
             VerticalAlignment="Top"
             Orientation="Horizontal">
             <Button
+                x:Name="narrow"
                 Height="28"
                 VerticalAlignment="Center"
                 Background="Transparent"
+                Click="narrow_Click"
                 Content="&#xe64b;"
                 Style="{StaticResource IconButtonStyle}" />
             <Button
+                x:Name="btnClose"
                 Height="28"
                 VerticalAlignment="Center"
                 Background="Transparent"
+                Click="btnClose_Click"
                 Content="&#xe66c;"
                 Style="{StaticResource IconButtonStyle}" />
         </StackPanel>
@@ -84,13 +89,15 @@
                 Height="33"
                 Margin="0,5"
                 hc:InfoElement.Placeholder="会员账号"
-                FontSize="16" />
+                FontSize="16"
+                Text="{Binding UserName}" />
             <hc:PasswordBox
                 Height="33"
                 Margin="0,5"
                 hc:InfoElement.Placeholder="会员密码"
-                hc:PasswordBoxAttach.IsMonitoring="True"
                 hc:ShowPassword="False"
+                pwdHelper:PasswordHelper.IsAttach="true"
+                pwdHelper:PasswordHelper.Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 FontSize="16"
                 ShowEyeButton="True" />
             <UniformGrid Margin="2,5" Rows="1">

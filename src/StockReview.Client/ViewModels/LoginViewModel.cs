@@ -35,8 +35,14 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         public string UserName
         {
-            get { return _userName; }
-            set { SetProperty(ref _userName, value); }
+            get
+            {
+                return _userName;
+            }
+            set
+            {
+                SetProperty(ref _userName, value);
+            }
         }
 
         private string _password;
@@ -46,7 +52,10 @@ namespace StockReview.Client.ViewModels
         public string Password
         {
             get { return _password; }
-            set { SetProperty(ref _password, value); }
+            set
+            {
+                SetProperty(ref _password, value);
+            }
         }
 
         private string _errorMessage;
@@ -90,14 +99,18 @@ namespace StockReview.Client.ViewModels
             {
                 return string.Concat(SystemConstant.ErrorIcon, msg);
             }
-
+            ErrorMessage = string.Empty;
             if (string.IsNullOrWhiteSpace(UserName))
             {
-                ErrorMessage = GetErrorMessage(SystemConstant.ErrorUserNameMessage);
+                ErrorMessage = GetErrorMessage(SystemConstant.ErrorEmptyUserNameMessage);
                 return;
             }
-
-            IsEnable = false;
+            if (string.IsNullOrWhiteSpace(Password))
+            {
+                ErrorMessage = GetErrorMessage(SystemConstant.ErrorEmptyPasswordMessage);
+                return;
+            }
+            //IsEnable = false;
             //_dialogService.ShowDialog("TestView");
             // todo 登录逻辑
         }
