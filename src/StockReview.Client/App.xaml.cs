@@ -1,4 +1,6 @@
-﻿using Prism.Ioc;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
+using Prism.Ioc;
 using Prism.Unity;
 using StockReview.Client.ViewModels;
 using StockReview.Client.Views;
@@ -41,6 +43,13 @@ namespace StockReview.Client
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterDialog<RegisterView>(SystemConstant.RegisterView);
+            // 缓存引入
+            var options = Options.Create<MemoryCacheOptions>(new MemoryCacheOptions()
+            {
+                ExpirationScanFrequency = TimeSpan.FromSeconds(30),
+                CompactionPercentage = 0.2
+            });
+            containerRegistry.RegisterSingleton<IMemoryCache>(() => new MemoryCache(options));
         }
 
     }

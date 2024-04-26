@@ -22,8 +22,23 @@ namespace StockReview.Infrastructure.Config
         public const string ErrorEmptyUserNameMessage = "用户名不能为空！";
 
         /// <summary>
-        /// 粗错密码提示消息
+        /// 出错密码提示消息
         /// </summary>
         public const string ErrorEmptyPasswordMessage = "密码不能为空！";
+
+        /// <summary>
+        /// 重复密码提示消息
+        /// </summary>
+        public const string ErrorEmptyRepeatPasswordMessage = "重复密码不能为空！";
+
+        /// <summary>
+        /// 异常空消息
+        /// </summary>
+        public const string ErrorEmptyMessage = "{0}不能为空！";
+
+        /// <summary>
+        /// 验证码
+        /// </summary>
+        public const string VerificationCode = nameof(VerificationCode);
     }
 }

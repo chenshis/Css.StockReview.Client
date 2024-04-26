@@ -7,15 +7,16 @@
     xmlns:local="clr-namespace:StockReview.Client.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:pwdHelper="clr-namespace:StockReview.Client.Common"
     Width="428"
-    Height="450"
+    Height="470"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Background="#F1EFF2"
     mc:Ignorable="d">
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter Property="Width" Value="428" />
-            <Setter Property="Height" Value="450" />
+            <Setter Property="Height" Value="470" />
             <Setter Property="ResizeMode" Value="NoResize" />
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
@@ -38,7 +39,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition />
-            <RowDefinition Height="55" />
+            <RowDefinition Height="65" />
         </Grid.RowDefinitions>
         <Border Background="{StaticResource InfoBrush}" />
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -65,9 +66,16 @@
                 Style="{StaticResource IconButtonStyle}" />
         </StackPanel>
         <StackPanel Grid.Row="1" Margin="5,0,15,0">
+            <TextBlock
+                Margin="110,10,0,0"
+                VerticalAlignment="Bottom"
+                FontFamily="{StaticResource Iconfont}"
+                FontSize="12"
+                Foreground="Red"
+                Text="{Binding ErrorMessage}" />
             <hc:TextBox
                 Height="33"
-                Margin="0,10,0,0"
+                Margin="0,5,0,0"
                 hc:InfoElement.HorizontalAlignment="Right"
                 hc:InfoElement.Necessary="True"
                 hc:InfoElement.Placeholder="请输入5到20位"
@@ -75,7 +83,8 @@
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
-                Style="{StaticResource TextBoxExtend}" />
+                Style="{StaticResource TextBoxExtend}"
+                Text="{Binding UserName}" />
             <hc:PasswordBox
                 Height="33"
                 Margin="0,15,0,0"
@@ -85,8 +94,9 @@
                 hc:InfoElement.Title="用户密码："
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
-                hc:PasswordBoxAttach.IsMonitoring="True"
                 hc:ShowPassword="False"
+                pwdHelper:PasswordHelper.IsAttach="True"
+                pwdHelper:PasswordHelper.Password="{Binding Password}"
                 FontSize="14"
                 ShowEyeButton="True" />
             <hc:PasswordBox
@@ -97,8 +107,9 @@
                 hc:InfoElement.Title="重复密码："
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
-                hc:PasswordBoxAttach.IsMonitoring="True"
                 hc:ShowPassword="False"
+                pwdHelper:PasswordHelper.IsAttach="True"
+                pwdHelper:PasswordHelper.Password="{Binding RepeatPassword}"
                 FontSize="14"
                 ShowEyeButton="True" />
             <hc:TextBox
@@ -111,7 +122,8 @@
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
-                Style="{StaticResource TextBoxExtend}" />
+                Style="{StaticResource TextBoxExtend}"
+                Text="{Binding Contacts}" />
             <hc:TextBox
                 Height="33"
                 Margin="0,15,0,0"
@@ -122,7 +134,8 @@
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
-                Style="{StaticResource TextBoxExtend}" />
+                Style="{StaticResource TextBoxExtend}"
+                Text="{Binding Phone}" />
             <hc:TextBox
                 Height="33"
                 Margin="0,15,0,0"
@@ -133,7 +146,8 @@
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
-                Style="{StaticResource TextBoxExtend}" />
+                Style="{StaticResource TextBoxExtend}"
+                Text="{Binding QQ}" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -148,7 +162,8 @@
                     hc:InfoElement.TitlePlacement="Left"
                     hc:InfoElement.TitleWidth="110"
                     FontSize="14"
-                    Style="{StaticResource TextBoxExtend}" />
+                    Style="{StaticResource TextBoxExtend}"
+                    Text="{Binding VerificationCode}" />
                 <Button
                     Grid.Column="1"
                     Width="120"
@@ -179,6 +194,7 @@
                 Padding="0,3"
                 HorizontalAlignment="Left"
                 hc:BorderElement.CornerRadius="15"
+                Command="{Binding RegisterCommand}"
                 Content="注册"
                 Cursor="Hand"
                 FontSize="14"
