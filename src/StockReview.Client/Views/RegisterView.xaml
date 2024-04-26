@@ -96,7 +96,7 @@
                 hc:InfoElement.TitleWidth="110"
                 hc:ShowPassword="False"
                 pwdHelper:PasswordHelper.IsAttach="True"
-                pwdHelper:PasswordHelper.Password="{Binding Password}"
+                pwdHelper:PasswordHelper.Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 FontSize="14"
                 ShowEyeButton="True" />
             <hc:PasswordBox
@@ -109,7 +109,7 @@
                 hc:InfoElement.TitleWidth="110"
                 hc:ShowPassword="False"
                 pwdHelper:PasswordHelper.IsAttach="True"
-                pwdHelper:PasswordHelper.Password="{Binding RepeatPassword}"
+                pwdHelper:PasswordHelper.Password="{Binding RepeatPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 FontSize="14"
                 ShowEyeButton="True" />
             <hc:TextBox
