@@ -20,18 +20,19 @@ namespace StockReview.Client
         protected override Window CreateShell()
         {
             // 通过容器创造主界面实例
-            return Container.Resolve<LoginView>();
+            return Container.Resolve<MainView>();
         }
 
         // 初始化Shell（主窗口）的时候执行这个方法
         protected override void InitializeShell(Window shell)
         {
-            var dialogResult = shell.ShowDialog();
             // 以模态窗口的方式打开这个窗口对象
-            if (shell == null || dialogResult != true)
+            if (Container.Resolve<LoginView>().ShowDialog() == false)
             {
                 Application.Current.Shutdown();
             }
+            else
+                base.InitializeShell(shell);
         }
 
 

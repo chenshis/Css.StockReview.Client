@@ -1,0 +1,17 @@
+﻿using Prism.Mvvm;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StockReview.Client.ViewModels
+{
+    /// <summary>
+    /// 主体视图模型
+    /// </summary>
+    public class MainViewModel : BindableBase
+    {
+
+    }
+}

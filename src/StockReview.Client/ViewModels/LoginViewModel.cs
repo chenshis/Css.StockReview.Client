@@ -127,13 +127,13 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         public ICommand LoginCommand
         {
-            get => new DelegateCommand(SetLogin).ObservesCanExecute(() => IsEnable);
+            get => new DelegateCommand<Window>((w) => SetLogin(w)).ObservesCanExecute(() => IsEnable);
         }
 
         /// <summary>
         /// 登录方法
         /// </summary>
-        private void SetLogin()
+        private void SetLogin(Window window)
         {
             string GetErrorMessage(string msg)
             {
@@ -150,6 +150,8 @@ namespace StockReview.Client.ViewModels
                 ErrorMessage = GetErrorMessage(SystemConstant.ErrorEmptyPasswordMessage);
                 return;
             }
+            // 设置弹窗结果
+            window.DialogResult = true;
         }
 
         /// <summary>
