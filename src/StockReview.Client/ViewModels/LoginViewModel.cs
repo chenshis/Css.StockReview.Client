@@ -120,33 +120,16 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         public ICommand RegisterCommand
         {
-            get => new DelegateCommand<object>((parameter) => SetRegistration(parameter)).ObservesCanExecute(() => IsEnable);
+            get => new DelegateCommand(SetRegistration).ObservesCanExecute(() => IsEnable);
         }
 
-        private void SetRegistration(object parameter)
+        private void SetRegistration()
         {
             // 禁用按钮
             IsEnable = false;
-
-            var loginWindow = parameter as Window;
-            if (loginWindow == null)
-            {
-                return;
-            }
-            loginWindow.Visibility = Visibility.Hidden;
             _dialogService.ShowDialog(SystemConstant.RegisterView, dialogResult =>
             {
-                if (dialogResult.Result == ButtonResult.None)
-                {
-                    loginWindow.Close();
-                }
-                else if (dialogResult.Result == ButtonResult.Cancel)
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        loginWindow.Visibility = Visibility.Visible;
-                    });
-                }
+
             });
             // 启用按钮
             IsEnable = true;

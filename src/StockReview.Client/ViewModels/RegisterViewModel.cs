@@ -157,12 +157,12 @@ namespace StockReview.Client.ViewModels
             // 生成随机验证码字符串
             string captchaText = GenerateRandomString(4);
             // 创建验证码图片
-            Bitmap captchaBitmap = new Bitmap(100, 40);
+            Bitmap captchaBitmap = new Bitmap(120, 40);
             using (Graphics g = Graphics.FromImage(captchaBitmap))
             {
-                Font font = new Font("Arial", 16, System.Drawing.FontStyle.Bold);
+                Font font = new Font("Arial", 14, System.Drawing.FontStyle.Bold);
                 Brush brush = new SolidBrush(Color.Black);
-                PointF pointF = new PointF(2f, 2f);
+                PointF pointF = new PointF(1f, 1f);
                 g.DrawString(captchaText, font, brush, pointF);
             }
             // 缓存验证码

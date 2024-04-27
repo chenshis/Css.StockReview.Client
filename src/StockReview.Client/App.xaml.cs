@@ -27,9 +27,10 @@ namespace StockReview.Client
         protected override void InitializeShell(Window shell)
         {
             var dialogResult = shell.ShowDialog();
-            if (shell == null || dialogResult != true)// 以模态窗口的方式打开这个窗口对象
+            // 以模态窗口的方式打开这个窗口对象
+            if (shell == null || dialogResult != true)
             {
-               // Application.Current.Shutdown();
+                Application.Current.Shutdown();
             }
         }
 
