@@ -105,7 +105,7 @@
                     <Hyperlink Command="{Binding ForgotPasswordCommand}">忘记密码？</Hyperlink>
                 </TextBlock>
                 <TextBlock TextAlignment="Center">
-                    <Hyperlink>修改密码</Hyperlink>
+                    <Hyperlink  Command="{Binding UpdatePasswordCommand}">修改密码</Hyperlink>
                 </TextBlock>
                 <TextBlock HorizontalAlignment="Right">
                     <Hyperlink>联系我们</Hyperlink>

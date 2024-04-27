@@ -101,6 +101,26 @@ namespace StockReview.Client.ViewModels
             IsEnable = true;
         }
 
+        /// <summary>
+        /// 修改密码命令
+        /// </summary>
+        public ICommand UpdatePasswordCommand
+        {
+            get => new DelegateCommand(UpdateForgotPassword).ObservesCanExecute(() => IsEnable);
+        }
+
+        private void UpdateForgotPassword()
+        {
+            // 禁用按钮
+            IsEnable = false;
+            _dialogService.ShowDialog(SystemConstant.UpdatePasswordView, dialogResult =>
+            {
+
+            });
+            // 启用按钮
+            IsEnable = true;
+        }
+
 
         /// <summary>
         /// 登录命令
@@ -130,9 +150,6 @@ namespace StockReview.Client.ViewModels
                 ErrorMessage = GetErrorMessage(SystemConstant.ErrorEmptyPasswordMessage);
                 return;
             }
-            //IsEnable = false;
-            //_dialogService.ShowDialog("TestView");
-            // todo 登录逻辑
         }
 
         /// <summary>

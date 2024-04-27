@@ -14,6 +14,10 @@ namespace StockReview.Infrastructure.Config
         /// 忘记密码视图
         /// </summary>
         public const string ForgotPasswordView = nameof(ForgotPasswordView);
+        /// <summary>
+        /// 修改密码视图
+        /// </summary>
+        public const string UpdatePasswordView = nameof(UpdatePasswordView);
 
         /// <summary>
         /// 异常图标

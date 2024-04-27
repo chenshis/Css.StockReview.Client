@@ -44,6 +44,7 @@ namespace StockReview.Client
         {
             containerRegistry.RegisterDialog<RegisterView>(SystemConstant.RegisterView);
             containerRegistry.RegisterDialog<ForgotPasswordView>(SystemConstant.ForgotPasswordView);
+            containerRegistry.RegisterDialog<UpdatePasswordView>(SystemConstant.UpdatePasswordView);
             // 缓存引入
             var options = Options.Create(new MemoryCacheOptions()
             {
