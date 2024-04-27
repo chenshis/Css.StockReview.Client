@@ -81,6 +81,26 @@ namespace StockReview.Client.ViewModels
             set { SetProperty(ref _isEnable, value); }
         }
 
+        /// <summary>
+        /// 忘记密码命令
+        /// </summary>
+        public ICommand ForgotPasswordCommand
+        {
+            get => new DelegateCommand(SetForgotPassword).ObservesCanExecute(() => IsEnable);
+        }
+
+        private void SetForgotPassword()
+        {
+            // 禁用按钮
+            IsEnable = false;
+            _dialogService.ShowDialog(SystemConstant.ForgotPasswordView, dialogResult =>
+            {
+
+            });
+            // 启用按钮
+            IsEnable = true;
+        }
+
 
         /// <summary>
         /// 登录命令

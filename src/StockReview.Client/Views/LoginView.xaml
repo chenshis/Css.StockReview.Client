@@ -102,7 +102,7 @@
                 ShowEyeButton="True" />
             <UniformGrid Margin="2,5" Rows="1">
                 <TextBlock>
-                    <Hyperlink>忘记密码？</Hyperlink>
+                    <Hyperlink Command="{Binding ForgotPasswordCommand}">忘记密码？</Hyperlink>
                 </TextBlock>
                 <TextBlock TextAlignment="Center">
                     <Hyperlink>修改密码</Hyperlink>

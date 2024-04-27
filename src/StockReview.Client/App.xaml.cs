@@ -42,7 +42,8 @@ namespace StockReview.Client
         /// <exception cref="NotImplementedException"></exception>
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<RegisterView>(SystemConstant.RegisterView);
+            containerRegistry.RegisterDialog<RegisterView>(SystemConstant.RegisterView);
+            containerRegistry.RegisterDialog<ForgotPasswordView>(SystemConstant.ForgotPasswordView);
             // 缓存引入
             var options = Options.Create(new MemoryCacheOptions()
             {

@@ -10,6 +10,10 @@ namespace StockReview.Infrastructure.Config
         /// 注册视图
         /// </summary>
         public const string RegisterView = nameof(RegisterView);
+        /// <summary>
+        /// 忘记密码视图
+        /// </summary>
+        public const string ForgotPasswordView = nameof(ForgotPasswordView);
 
         /// <summary>
         /// 异常图标

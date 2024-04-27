@@ -10,28 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace StockReview.Client.Views
 {
     /// <summary>
-    /// LoginView.xaml 的交互逻辑
+    /// ForgotPasswordView.xaml 的交互逻辑
     /// </summary>
-    public partial class LoginView : Window
+    public partial class ForgotPasswordView : UserControl
     {
-        public LoginView()
+        public ForgotPasswordView()
         {
             InitializeComponent();
-        }
-
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
-        }
-
-        private void narrow_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
         }
     }
 }
