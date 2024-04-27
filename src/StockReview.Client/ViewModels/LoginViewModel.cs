@@ -133,16 +133,21 @@ namespace StockReview.Client.ViewModels
             {
                 return;
             }
-            loginWindow.Collapse();
-
-            bool flag = false;
-            _dialogService.ShowDialog(SystemConstant.RegisterView, result =>
+            loginWindow.Visibility = Visibility.Hidden;
+            _dialogService.ShowDialog(SystemConstant.RegisterView, dialogResult =>
             {
-                // 处理对话框关闭后的结果
+                if (dialogResult.Result == ButtonResult.None)
+                {
+                    loginWindow.Close();
+                }
+                else if (dialogResult.Result == ButtonResult.Cancel)
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        loginWindow.Visibility = Visibility.Visible;
+                    });
+                }
             });
-
-            //loginWindow.Show();
-
             // 启用按钮
             IsEnable = true;
         }

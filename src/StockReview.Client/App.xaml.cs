@@ -26,11 +26,10 @@ namespace StockReview.Client
         // 初始化Shell（主窗口）的时候执行这个方法
         protected override void InitializeShell(Window shell)
         {
-            if (shell == null || shell.ShowDialog() != true)// 以模态窗口的方式打开这个窗口对象
+            var dialogResult = shell.ShowDialog();
+            if (shell == null || dialogResult != true)// 以模态窗口的方式打开这个窗口对象
             {
-                // 不需要App的属性ShutdownMode配合
-                Application.Current.Shutdown();
-                // 如果没有强行退出的话，打开主窗口
+               // Application.Current.Shutdown();
             }
         }
 
@@ -42,9 +41,9 @@ namespace StockReview.Client
         /// <exception cref="NotImplementedException"></exception>
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterDialog<RegisterView>(SystemConstant.RegisterView);
+            containerRegistry.RegisterForNavigation<RegisterView>(SystemConstant.RegisterView);
             // 缓存引入
-            var options = Options.Create<MemoryCacheOptions>(new MemoryCacheOptions()
+            var options = Options.Create(new MemoryCacheOptions()
             {
                 ExpirationScanFrequency = TimeSpan.FromSeconds(30),
                 CompactionPercentage = 0.2

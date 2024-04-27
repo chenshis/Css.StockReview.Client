@@ -18,6 +18,7 @@
             <Setter Property="Width" Value="428" />
             <Setter Property="Height" Value="470" />
             <Setter Property="ResizeMode" Value="NoResize" />
+            <Setter Property="WindowState" Value="{Binding IsMinimized}" />
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
                     <WindowChrome
@@ -56,12 +57,14 @@
                 Height="28"
                 VerticalAlignment="Center"
                 Background="Transparent"
+                Command="{Binding MinimizedCommand}"
                 Content="&#xe64b;"
                 Style="{StaticResource IconButtonStyle}" />
             <Button
                 Height="28"
                 VerticalAlignment="Center"
                 Background="Transparent"
+                Command="{Binding CloseCommand}"
                 Content="&#xe66c;"
                 Style="{StaticResource IconButtonStyle}" />
         </StackPanel>

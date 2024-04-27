@@ -11,27 +11,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Namotion.Reflection;
 using System.Windows.Input;
+using StockReview.Client.Common;
 
 namespace StockReview.Client.ViewModels
 {
-    public class RegisterViewModel : BindableBase, IDialogAware
+    public class RegisterViewModel : DialogAwareViewModelBase
     {
-        public string Title => "欢迎注册";
+        public override string Title => "欢迎注册";
 
-        public event Action<IDialogResult> RequestClose;
-
-        public bool CanCloseDialog()
-        {
-            return true;
-        }
-
-        public void OnDialogClosed()
-        {
-        }
-
-        public void OnDialogOpened(IDialogParameters parameters)
-        {
-        }
         private readonly IMemoryCache _memoryCache;
         public RegisterViewModel(IMemoryCache memoryCache)
         {
@@ -281,6 +268,7 @@ namespace StockReview.Client.ViewModels
         {
             return this.GetType().GetProperty(propertyName).GetXmlDocsSummary();
         }
+
     }
 }
 
