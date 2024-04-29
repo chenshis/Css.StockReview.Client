@@ -12,3 +12,5 @@
 /src/StockReview.Domain/bin/Debug/netstandard2.1
 /src/StockReview.Domain/obj
 /src/StockReview.Client/StockReview.Client.csproj.user
+/src/StockReview.Server/bin/Debug/net6.0
+/src/StockReview.Server/obj
