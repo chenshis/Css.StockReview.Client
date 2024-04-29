@@ -18,6 +18,22 @@ namespace StockReview.Infrastructure.Config
         /// 修改密码视图
         /// </summary>
         public const string UpdatePasswordView = nameof(UpdatePasswordView);
+        /// <summary>
+        /// 主体头部视图
+        /// </summary>
+        public const string MainHeaderView = nameof(MainHeaderView);
+        /// <summary>
+        /// 主体头部区域
+        /// </summary>
+        public const string MainHeaderRegion = nameof(MainHeaderRegion);
+        /// <summary>
+        /// 菜单树
+        /// </summary>
+        public const string TreeMenuView = nameof(TreeMenuView);
+        /// <summary>
+        /// 菜单树区域
+        /// </summary>
+        public const string TreeMenuViewRegion = nameof(TreeMenuViewRegion);
 
         /// <summary>
         /// 异常图标

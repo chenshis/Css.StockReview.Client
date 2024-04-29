@@ -46,15 +46,12 @@ namespace StockReview.Client
             containerRegistry.RegisterDialog<RegisterView>(SystemConstant.RegisterView);
             containerRegistry.RegisterDialog<ForgotPasswordView>(SystemConstant.ForgotPasswordView);
             containerRegistry.RegisterDialog<UpdatePasswordView>(SystemConstant.UpdatePasswordView);
+            containerRegistry.RegisterForNavigation<MainHeaderView>(SystemConstant.MainHeaderView);
+            containerRegistry.RegisterForNavigation<TreeMenuView>(SystemConstant.TreeMenuView);
             // 缓存引入
-            var options = Options.Create(new MemoryCacheOptions()
-            {
-                ExpirationScanFrequency = TimeSpan.FromSeconds(30),
-                CompactionPercentage = 0.2
-            });
+            var options = Options.Create(new MemoryCacheOptions() { ExpirationScanFrequency = TimeSpan.FromSeconds(30), CompactionPercentage = 0.2 });
             containerRegistry.RegisterSingleton<IMemoryCache>(() => new MemoryCache(options));
         }
-
     }
 
 }
