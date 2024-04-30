@@ -111,6 +111,10 @@
             ResizeBorderThickness="0" />
     </WindowChrome.WindowChrome>
     <Grid Margin="1" Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <!--  左侧菜单栏  -->
         <hc:Drawer
             Name="DrawerLeft"
@@ -118,6 +122,14 @@
             ShowMask="False"
             ShowMode="Push">
             <Grid Width="230" Background="#EEE">
+                <Grid.Effect>
+                    <DropShadowEffect
+                        BlurRadius="5"
+                        Direction="0"
+                        Opacity="0.3"
+                        ShadowDepth="0"
+                        Color="Gray" />
+                </Grid.Effect>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition />
@@ -135,35 +147,44 @@
                 <ContentControl Grid.Row="1" prism:RegionManager.RegionName="TreeMenuViewRegion" />
             </Grid>
         </hc:Drawer>
-        <DockPanel>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="70" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <ToggleButton
-                        Height="30"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Content="&#xe614;"
-                        FontWeight="Bold"
-                        Foreground="Black"
-                        IsChecked="{Binding IsOpen, ElementName=DrawerLeft}"
-                        Style="{StaticResource IconToggleButtonStyle}" />
-                    <ContentControl Grid.Column="1" prism:RegionManager.RegionName="MainHeaderRegion" />
-                </Grid>
-                <TabControl
-                    Grid.Row="1"
-                    prism:RegionManager.RegionName="MainContentRegion"
-                    BorderThickness="0,1,0,0" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <ToggleButton
+                    Height="30"
+                    Margin="0,2,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    FontSize="20"
+                    Foreground="Gray"
+                    IsChecked="{Binding IsOpen, ElementName=DrawerLeft}">
+                    <ToggleButton.Style>
+                        <Style BasedOn="{StaticResource IconToggleButtonStyle}" TargetType="ToggleButton">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Content" Value="&#xe9c8;" />
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Content" Value="&#xe9c9;" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+                <ContentControl Grid.Column="1" prism:RegionManager.RegionName="MainHeaderRegion" />
             </Grid>
-        </DockPanel>
+            <TabControl
+                Grid.Row="1"
+                prism:RegionManager.RegionName="MainContentRegion"
+                BorderThickness="0,1,0,0" />
+        </Grid>
     </Grid>
 </Window>
