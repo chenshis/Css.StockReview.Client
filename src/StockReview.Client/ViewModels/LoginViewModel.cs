@@ -1,10 +1,12 @@
 ﻿using HandyControl.Tools.Extension;
+using Microsoft.Extensions.Caching.Memory;
 using Prism.Commands;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using Prism.Unity;
+using StockReview.Api.IApiService;
 using StockReview.Client.Views;
 using StockReview.Infrastructure.Config;
 using System;
@@ -23,10 +25,16 @@ namespace StockReview.Client.ViewModels
     public class LoginViewModel : BindableBase
     {
         private readonly IDialogService _dialogService;
+        private readonly IMemoryCache _memoryCache;
+        private readonly ILoginApiService _loginApiService;
 
-        public LoginViewModel(IDialogService dialogService)
+        public LoginViewModel(IDialogService dialogService,
+                              IMemoryCache memoryCache,
+                              ILoginApiService loginApiService)
         {
             this._dialogService = dialogService;
+            this._memoryCache = memoryCache;
+            this._loginApiService = loginApiService;
         }
 
         private string _userName;
@@ -150,6 +158,9 @@ namespace StockReview.Client.ViewModels
                 ErrorMessage = GetErrorMessage(SystemConstant.ErrorEmptyPasswordMessage);
                 return;
             }
+            var menus = _loginApiService.GetMenus();
+            _memoryCache.Set(SystemConstant.TreeMenuView, menus);
+
             // 设置弹窗结果
             window.DialogResult = true;
         }

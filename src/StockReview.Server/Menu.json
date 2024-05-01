@@ -1,0 +1,13 @@
+{
+  "Menus": [
+    {
+      "MenuId": 1,
+      "MenuHeader": "系统用户",
+      "TargetView": "UserManagementView",
+      "ParentId": 0,
+      "MenuIcon": "",
+      "Index": 1,
+      "MenuRole": 0
+    }
+  ]
+}

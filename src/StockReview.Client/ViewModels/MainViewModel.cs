@@ -19,17 +19,16 @@ namespace StockReview.Client.ViewModels
         public MainViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
-            InitRegionManager();
         }
 
         /// <summary>
         /// 初始化区域管理
         /// </summary>
-        private void InitRegionManager()
+        public void LoadRegionManager()
         {
             // 头部
             _regionManager.RegisterViewWithRegion(SystemConstant.MainHeaderRegion, SystemConstant.MainHeaderView);
-            _regionManager.RegisterViewWithRegion(SystemConstant.TreeMenuView, SystemConstant.TreeMenuViewRegion);
+            _regionManager.RegisterViewWithRegion(SystemConstant.TreeMenuViewRegion, SystemConstant.TreeMenuView);
         }
     }
 }

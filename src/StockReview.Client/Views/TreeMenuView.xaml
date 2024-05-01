@@ -10,5 +10,154 @@
     d:DesignWidth="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <Grid />
+    <Grid Background="#66FFFFFF">
+        <Grid.Resources>
+            <ControlTemplate x:Key="ArrowButtonTemplate" TargetType="ToggleButton">
+                <Grid Name="back" Background="Transparent">
+                    <TextBlock
+                        Name="arrow"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource Iconfont}"
+                        RenderTransformOrigin="0.5,0.5"
+                        Text="&#xe81d;" />
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter TargetName="arrow" Property="RenderTransform">
+                            <Setter.Value>
+                                <RotateTransform Angle="90" />
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="back" Property="Background" Value="#11000000" />
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
+            <Style TargetType="TreeViewItem">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                <Setter Property="KeyboardNavigation.AcceptsReturn" Value="True" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Padding" Value="8,5" />
+                <Setter Property="Foreground" Value="#FF565656" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TreeViewItem">
+                            <Grid Name="root" Background="Transparent">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition MaxWidth="30" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" MinHeight="36" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.InputBindings>
+                                    <MouseBinding
+                                        Command="{Binding OpenViewCommand}"
+                                        CommandParameter="{Binding}"
+                                        Gesture="LeftClick" />
+                                </Grid.InputBindings>
+
+                                <Border
+                                    x:Name="Bd"
+                                    Grid.ColumnSpan="2"
+                                    Padding="{TemplateBinding Padding}"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="0"
+                                    Cursor="Hand"
+                                    SnapsToDevicePixels="true">
+                                    <ContentPresenter
+                                        x:Name="PART_Header"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        ContentSource="Header"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </Border>
+                                <ToggleButton
+                                    x:Name="Expander"
+                                    Grid.Column="1"
+                                    ClickMode="Press"
+                                    IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Template="{StaticResource ArrowButtonTemplate}" />
+                                <ItemsPresenter
+                                    x:Name="ItemsHost"
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    Margin="18,0,0,0" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsExpanded" Value="false">
+                                    <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed" />
+                                </Trigger>
+                                <Trigger Property="HasItems" Value="false">
+                                    <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource InfoBrush}" />
+                                    <Setter Property="Foreground" Value="#FFFFFFFF" />
+                                    <Setter TargetName="Expander" Property="Foreground" Value="#FFFFFFFF" />
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="true" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource InfoBrush}" />
+                                    <Setter Property="Foreground" Value="#FFFFFFFF" />
+                                </MultiTrigger>
+                                <DataTrigger Binding="{Binding MenuIcon}" Value="{x:Null}">
+                                    <Setter TargetName="root" Property="Margin" Value="10,0,0,0" />
+                                </DataTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+        <TreeView
+            Margin="0,10"
+            Background="Transparent"
+            BorderThickness="0"
+            ItemsSource="{Binding Menus}"
+            ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Name="c1" Width="30" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource Iconfont}"
+                            FontSize="18"
+                            SnapsToDevicePixels="True"
+                            Text="{Binding MenuIcon}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="13"
+                            Text="{Binding MenuHeader}" />
+                    </Grid>
+                    <HierarchicalDataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding MenuIcon}" Value="{x:Null}">
+                            <Setter TargetName="c1" Property="Width" Value="0" />
+                        </DataTrigger>
+                    </HierarchicalDataTemplate.Triggers>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </Grid>
 </UserControl>

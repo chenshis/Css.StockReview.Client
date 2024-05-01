@@ -3,6 +3,8 @@ using Microsoft.Extensions.Options;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
+using StockReview.Api.ApiService;
+using StockReview.Api.IApiService;
 using StockReview.Client.ContentModule;
 using StockReview.Client.ViewModels;
 using StockReview.Client.Views;
@@ -34,7 +36,11 @@ namespace StockReview.Client
                 Application.Current.Shutdown();
             }
             else
+            {
+                Container.Resolve<MainViewModel>().LoadRegionManager();
                 base.InitializeShell(shell);
+            }
+
         }
 
 
@@ -48,11 +54,14 @@ namespace StockReview.Client
             containerRegistry.RegisterDialog<RegisterView>(SystemConstant.RegisterView);
             containerRegistry.RegisterDialog<ForgotPasswordView>(SystemConstant.ForgotPasswordView);
             containerRegistry.RegisterDialog<UpdatePasswordView>(SystemConstant.UpdatePasswordView);
-            containerRegistry.RegisterForNavigation<MainHeaderView>(SystemConstant.MainHeaderView);
-            containerRegistry.RegisterForNavigation<TreeMenuView>(SystemConstant.TreeMenuView);
+            containerRegistry.Register<MainHeaderView>(SystemConstant.MainHeaderView);
+            containerRegistry.Register<TreeMenuView>(SystemConstant.TreeMenuView);
             // 缓存引入
             var options = Options.Create(new MemoryCacheOptions() { ExpirationScanFrequency = TimeSpan.FromSeconds(30), CompactionPercentage = 0.2 });
             containerRegistry.RegisterSingleton<IMemoryCache>(() => new MemoryCache(options));
+
+            // 注册业务逻辑
+            containerRegistry.RegisterScoped<ILoginApiService, LoginApiService>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

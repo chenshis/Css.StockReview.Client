@@ -27,6 +27,10 @@ namespace StockReview.Infrastructure.Config
         /// </summary>
         public const string MainHeaderRegion = nameof(MainHeaderRegion);
         /// <summary>
+        /// 主体内容区域
+        /// </summary>
+        public const string MainContentRegion = nameof(MainContentRegion);
+        /// <summary>
         /// 菜单树
         /// </summary>
         public const string TreeMenuView = nameof(TreeMenuView);

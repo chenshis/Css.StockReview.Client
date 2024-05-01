@@ -184,10 +184,10 @@
                             <Style BasedOn="{StaticResource IconToggleButtonStyle}" TargetType="ToggleButton">
                                 <Style.Triggers>
                                     <Trigger Property="IsChecked" Value="True">
-                                        <Setter Property="Content" Value="&#xe9c8;" />
+                                        <Setter Property="Content" Value="&#xe9c9;" />
                                     </Trigger>
                                     <Trigger Property="IsChecked" Value="False">
-                                        <Setter Property="Content" Value="&#xe9c9;" />
+                                        <Setter Property="Content" Value="&#xe9c8;" />
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
