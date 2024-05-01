@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Prism.Ioc;
+using Prism.Modularity;
 using Prism.Unity;
+using StockReview.Client.ContentModule;
 using StockReview.Client.ViewModels;
 using StockReview.Client.Views;
 using StockReview.Infrastructure.Config;
@@ -51,6 +53,12 @@ namespace StockReview.Client
             // 缓存引入
             var options = Options.Create(new MemoryCacheOptions() { ExpirationScanFrequency = TimeSpan.FromSeconds(30), CompactionPercentage = 0.2 });
             containerRegistry.RegisterSingleton<IMemoryCache>(() => new MemoryCache(options));
+        }
+
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            moduleCatalog.AddModule<ContentInfoModule>();
+            base.ConfigureModuleCatalog(moduleCatalog);
         }
     }
 
