@@ -99,10 +99,22 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
+                    <Storyboard x:Key="DrawerStroyboard">
+                        <DoubleAnimation
+                            Storyboard.TargetName="brdrDrawer"
+                            Storyboard.TargetProperty="Width"
+                            To="0"
+                            Duration="0:0:0.2" />
+                    </Storyboard>
+                    <Storyboard x:Key="CloseDrawerStroyboard">
+                        <DoubleAnimation
+                            Storyboard.TargetName="brdrDrawer"
+                            Storyboard.TargetProperty="Width"
+                            Duration="0:0:0.2" />
+                    </Storyboard>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-
     </Window.Resources>
     <WindowChrome.WindowChrome>
         <WindowChrome
@@ -110,81 +122,84 @@
             NonClientFrameEdges="None"
             ResizeBorderThickness="0" />
     </WindowChrome.WindowChrome>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ToggleButton.Checked" SourceName="tgbtnDrawer">
+            <BeginStoryboard Storyboard="{StaticResource DrawerStroyboard}" />
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ToggleButton.Unchecked" SourceName="tgbtnDrawer">
+            <BeginStoryboard Storyboard="{StaticResource CloseDrawerStroyboard}" />
+        </EventTrigger>
+    </Window.Triggers>
     <Grid Margin="1" Background="Transparent">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <!--  左侧菜单栏  -->
-        <hc:Drawer
-            Name="DrawerLeft"
-            Dock="Left"
-            ShowMask="False"
-            ShowMode="Push">
-            <Grid Width="230" Background="#EEE">
-                <Grid.Effect>
-                    <DropShadowEffect
-                        BlurRadius="5"
-                        Direction="0"
-                        Opacity="0.3"
-                        ShadowDepth="0"
-                        Color="Gray" />
-                </Grid.Effect>
+        <DockPanel>
+            <Border
+                x:Name="brdrDrawer"
+                Width="230"
+                Background="#EEE"
+                DockPanel.Dock="Left">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock
+                            Margin="0,20,0,0"
+                            HorizontalAlignment="Center"
+                            FontFamily="{StaticResource Iconfont}"
+                            FontSize="40"
+                            Foreground="Red"
+                            Text="&#xe61f;" />
+                        <TextBlock
+                            Margin="0,20"
+                            HorizontalAlignment="Center"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Text="股票交易" />
+                    </StackPanel>
+                    <!--  放置菜单的区域  -->
+                    <ContentControl Grid.Row="1" prism:RegionManager.RegionName="TreeMenuViewRegion" />
+                </Grid>
+            </Border>
+            <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="70" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <StackPanel>
-                    <Image Width="70" Margin="0,30,0,0" />
-                    <TextBlock
-                        Margin="0,30"
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton
+                        x:Name="tgbtnDrawer"
+                        Height="30"
+                        Margin="0,2,0,0"
                         HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
                         FontSize="20"
-                        FontWeight="Bold"
-                        Text="股市交易" />
-                </StackPanel>
-                <!--  放置菜单的区域  -->
-                <ContentControl Grid.Row="1" prism:RegionManager.RegionName="TreeMenuViewRegion" />
+                        Foreground="Gray">
+                        <ToggleButton.Style>
+                            <Style BasedOn="{StaticResource IconToggleButtonStyle}" TargetType="ToggleButton">
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Content" Value="&#xe9c8;" />
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Content" Value="&#xe9c9;" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+                    <ContentControl Grid.Column="1" prism:RegionManager.RegionName="MainHeaderRegion" />
+                </Grid>
+                <TabControl
+                    Grid.Row="1"
+                    prism:RegionManager.RegionName="MainContentRegion"
+                    BorderThickness="0,1,0,0" />
             </Grid>
-        </hc:Drawer>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="70" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <ToggleButton
-                    Height="30"
-                    Margin="0,2,0,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Background="Transparent"
-                    FontSize="20"
-                    Foreground="Gray"
-                    IsChecked="{Binding IsOpen, ElementName=DrawerLeft}">
-                    <ToggleButton.Style>
-                        <Style BasedOn="{StaticResource IconToggleButtonStyle}" TargetType="ToggleButton">
-                            <Style.Triggers>
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Content" Value="&#xe9c8;" />
-                                </Trigger>
-                                <Trigger Property="IsChecked" Value="False">
-                                    <Setter Property="Content" Value="&#xe9c9;" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ToggleButton.Style>
-                </ToggleButton>
-                <ContentControl Grid.Column="1" prism:RegionManager.RegionName="MainHeaderRegion" />
-            </Grid>
-            <TabControl
-                Grid.Row="1"
-                prism:RegionManager.RegionName="MainContentRegion"
-                BorderThickness="0,1,0,0" />
-        </Grid>
+        </DockPanel>
     </Grid>
 </Window>
