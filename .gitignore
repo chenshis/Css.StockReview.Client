@@ -14,3 +14,6 @@
 /src/StockReview.Client/StockReview.Client.csproj.user
 /src/StockReview.Server/bin/Debug/net6.0
 /src/StockReview.Server/obj
+/src/StockReview.Client.ContentModule/bin/Debug/net6.0-windows
+/src/StockReview.Client.ContentModule/obj
+/src/StockReview.Client.ContentModule/StockReview.Client.ContentModule.csproj.user
