@@ -8,8 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     Title="MainView"
-    Width="1400"
-    Height="850"
+    Width="1024"
+    Height="768"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Background="Transparent"
     FontFamily="Microsoft YaHei"
@@ -22,83 +22,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Assets/Styles/ToggleButtonStyles.xaml" />
                 <ResourceDictionary>
-                    <ControlTemplate x:Key="TabCloseButtonTemp" TargetType="Button">
-                        <Border
-                            Name="back"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Background="Transparent"
-                            CornerRadius="3">
-                            <Path
-                                Margin="5"
-                                Data="M0 0 8 8M0 8 8 0"
-                                Stroke="{TemplateBinding Foreground}"
-                                StrokeThickness="1" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="back" Property="Background" Value="#19000000" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                    <Style TargetType="TabItem">
-                        <Setter Property="Header" Value="{Binding DataContext.PageTitle}" />
-                        <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="Margin" Value="2,0" />
-                        <Setter Property="Foreground" Value="#444" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="TabItem">
-                                    <Grid Background="{TemplateBinding Background}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition
-                                                Width="auto"
-                                                MinWidth="10"
-                                                MaxWidth="30" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            Margin="10,5,5,5"
-                                            VerticalAlignment="Center"
-                                            Text="{TemplateBinding Header}" />
-                                        <Grid
-                                            Name="close_grid"
-                                            Grid.Column="1"
-                                            Width="30"
-                                            Visibility="Collapsed">
-                                            <Button
-                                                Name="close_btn"
-                                                Command="{Binding DataContext.CloseCommand}"
-                                                CommandParameter="{Binding DataContext.NavUri}"
-                                                Foreground="{TemplateBinding Foreground}"
-                                                Template="{StaticResource TabCloseButtonTemp}"
-                                                Visibility="Collapsed" />
-                                        </Grid>
-                                    </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding DataContext.IsCanClose}" Value="True">
-                                            <Setter TargetName="close_grid" Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="close_btn" Property="Visibility" Value="Visible" />
-                                        </Trigger>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="close_btn" Property="Visibility" Value="Visible" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#EEE" />
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="#FF0ABEFF" />
-                                <Setter Property="Foreground" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
                     <Storyboard x:Key="DrawerStroyboard">
                         <DoubleAnimation
                             Storyboard.TargetName="brdrDrawer"
@@ -195,10 +118,68 @@
                     </ToggleButton>
                     <ContentControl Grid.Column="1" prism:RegionManager.RegionName="MainHeaderRegion" />
                 </Grid>
-                <TabControl
+                <hc:TabControl
                     Grid.Row="1"
                     prism:RegionManager.RegionName="MainContentRegion"
-                    BorderThickness="0,1,0,0" />
+                    BorderThickness="0,1,0,0"
+                    Style="{StaticResource TabControlInLine}">
+                    <TabControl.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource TabItemInLine}" TargetType="hc:TabItem">
+                            <Setter Property="Header" Value="{Binding DataContext.PageTitle}" />
+                            <Setter Property="HorizontalAlignment" Value="Left" />
+                            <Setter Property="Background" Value="{StaticResource InfoBrush}" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TabItem">
+                                        <Grid Background="{TemplateBinding Background}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition
+                                                    Width="auto"
+                                                    MinWidth="10"
+                                                    MaxWidth="30" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Margin="10,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Foreground="White"
+                                                Text="{TemplateBinding Header}" />
+                                            <Grid
+                                                Name="close_grid"
+                                                Grid.Column="1"
+                                                Width="30"
+                                                Visibility="Collapsed">
+                                                <Button
+                                                    Name="close_btn"
+                                                    Margin="0,1,0,0"
+                                                    hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                                    Background="Transparent"
+                                                    BorderBrush="Transparent"
+                                                    Command="{Binding DataContext.CloseCommand}"
+                                                    CommandParameter="{Binding DataContext.NavUri}"
+                                                    Cursor="Hand"
+                                                    Foreground="White"
+                                                    Visibility="Collapsed" />
+                                            </Grid>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding DataContext.IsCanClose}" Value="True">
+                                                <Setter TargetName="close_grid" Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="close_btn" Property="Visibility" Value="Visible" />
+                                                <Setter TargetName="close_btn" Property="Foreground" Value="#444" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="close_btn" Property="Visibility" Value="Visible" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TabControl.ItemContainerStyle>
+                </hc:TabControl>
             </Grid>
         </DockPanel>
     </Grid>
