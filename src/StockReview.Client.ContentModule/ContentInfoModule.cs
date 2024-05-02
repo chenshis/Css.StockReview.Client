@@ -13,13 +13,14 @@ namespace StockReview.Client.ContentModule
     {
         public void OnInitialized(IContainerProvider containerProvider)
         {
-           
+
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<UserManagementView>();
             containerRegistry.RegisterDialog<ModifyUserDialogView>();
+            containerRegistry.RegisterForNavigation<StockOutlookView>();
         }
     }
 }

@@ -22,6 +22,16 @@ namespace StockReview.Api.ApiService
                 MenuIcon = null,
                 MenuRole = 0,
             });
+            menuEntities.Add(new MenuEntity()
+            {
+                MenuHeader = "股市看盘",
+                MenuId = 2,
+                TargetView = "StockOutlookView",
+                ParentId = 0,
+                Index = 2,
+                MenuIcon = null,
+                MenuRole = 0,
+            });
 
             return menuEntities;
         }

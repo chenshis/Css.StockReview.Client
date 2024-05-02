@@ -126,7 +126,7 @@
                     <TabControl.ItemContainerStyle>
                         <Style BasedOn="{StaticResource TabItemInLine}" TargetType="hc:TabItem">
                             <Setter Property="Header" Value="{Binding DataContext.PageTitle}" />
-                            <Setter Property="HorizontalAlignment" Value="Left" />
+                            <Setter Property="Margin" Value="1,0" />
                             <Setter Property="Background" Value="{StaticResource InfoBrush}" />
                             <Setter Property="Template">
                                 <Setter.Value>

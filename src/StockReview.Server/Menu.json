@@ -8,6 +8,15 @@
       "MenuIcon": "",
       "Index": 1,
       "MenuRole": 0
+    },
+    {
+      "MenuId": 2,
+      "MenuHeader": "股市看盘",
+      "TargetView": "StockOutlookView",
+      "ParentId": 0,
+      "MenuIcon": "",
+      "Index": 2,
+      "MenuRole": 0
     }
   ]
 }
