@@ -16,7 +16,6 @@
             <RowDefinition Height="50" />
             <RowDefinition />
         </Grid.RowDefinitions>
-
         <Border BorderBrush="#DDD" BorderThickness="0,0,0,1" />
         <hc:SearchBar
             Width="300"

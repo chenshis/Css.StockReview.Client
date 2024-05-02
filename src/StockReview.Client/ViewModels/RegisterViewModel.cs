@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Namotion.Reflection;
 using System.Windows.Input;
-using StockReview.Client.Common;
+using StockReview.Client.ContentModule;
 
 namespace StockReview.Client.ViewModels
 {

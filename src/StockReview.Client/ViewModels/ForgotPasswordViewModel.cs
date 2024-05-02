@@ -1,13 +1,7 @@
 ﻿using Namotion.Reflection;
 using Prism.Commands;
-using StockReview.Client.Common;
+using StockReview.Client.ContentModule;
 using StockReview.Infrastructure.Config;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace StockReview.Client.ViewModels

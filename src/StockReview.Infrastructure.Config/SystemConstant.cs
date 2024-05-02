@@ -38,7 +38,10 @@ namespace StockReview.Infrastructure.Config
         /// 菜单树区域
         /// </summary>
         public const string TreeMenuViewRegion = nameof(TreeMenuViewRegion);
-
+        /// <summary>
+        /// 修改用户对话框窗口
+        /// </summary>
+        public const string ModifyUserDialogView = nameof(ModifyUserDialogView);
         /// <summary>
         /// 异常图标
         /// </summary>

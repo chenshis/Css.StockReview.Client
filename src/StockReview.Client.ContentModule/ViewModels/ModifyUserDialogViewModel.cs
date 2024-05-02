@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace StockReview.Client.ContentModule.ViewModels
 {
-    class ModifyUserDialogViewModel
+    /// <summary>
+    /// 修改用户窗体视图模型
+    /// </summary>
+    public class ModifyUserDialogViewModel: DialogAwareViewModelBase
     {
+
     }
 }

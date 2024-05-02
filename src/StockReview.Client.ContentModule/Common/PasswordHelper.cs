@@ -1,14 +1,14 @@
 ﻿using HandyControl.Controls;
 using System.Windows;
 
-namespace StockReview.Client.Common
+namespace StockReview.Client.ContentModule.Common
 {
     /// <summary>
     /// 密码框帮助类
     /// </summary>
     public class PasswordHelper
     {
-        private static Dictionary<HandyControl.Controls.PasswordBox, System.Windows.Controls.PasswordBox> PasswordDic =
+        private static Dictionary<PasswordBox, System.Windows.Controls.PasswordBox> PasswordDic =
             new Dictionary<PasswordBox, System.Windows.Controls.PasswordBox>();
         public static readonly DependencyProperty PasswordProperty =
             DependencyProperty.RegisterAttached("Password",

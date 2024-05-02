@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:StockReview.Client.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:pwdHelper="clr-namespace:StockReview.Client.Common"
+    xmlns:pwdHelper="clr-namespace:StockReview.Client.ContentModule.Common;assembly=StockReview.Client.ContentModule"
     Title="登录"
     Width="428"
     Height="328"
@@ -105,7 +105,7 @@
                     <Hyperlink Command="{Binding ForgotPasswordCommand}">忘记密码？</Hyperlink>
                 </TextBlock>
                 <TextBlock TextAlignment="Center">
-                    <Hyperlink  Command="{Binding UpdatePasswordCommand}">修改密码</Hyperlink>
+                    <Hyperlink Command="{Binding UpdatePasswordCommand}">修改密码</Hyperlink>
                 </TextBlock>
                 <TextBlock HorizontalAlignment="Right">
                     <Hyperlink>联系我们</Hyperlink>
