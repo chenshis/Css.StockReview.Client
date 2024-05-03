@@ -28,20 +28,26 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <UniformGrid Rows="1">
-                <Border
-                    MaxWidth="240"
-                    Margin="8"
-                    Background="White"
-                    BorderThickness="0"
-                    CornerRadius="4"
-                    Effect="{DynamicResource EffectShadow2}">
+                <UniformGrid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="14" />
+                        <Setter Property="Foreground" Value="Black" />
+                    </Style>
+                    <Style x:Key="bdrFrame" TargetType="Border">
+                        <Setter Property="MaxWidth" Value="240" />
+                        <Setter Property="Margin" Value="5" />
+                        <Setter Property="Background" Value="White" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="CornerRadius" Value="4" />
+                        <Setter Property="Effect" Value="{DynamicResource EffectShadow2}" />
+                    </Style>
+                </UniformGrid.Resources>
+                <Border Style="{StaticResource bdrFrame}">
                     <StackPanel>
                         <TextBlock
                             Margin="5,10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontSize="14"
-                            Style="{DynamicResource TextBlockDefault}"
                             Text="今昨涨跌停" />
                         <Border
                             BorderBrush="#88000000"
@@ -56,7 +62,6 @@
                                 <TextBlock
                                     HorizontalAlignment="Left"
                                     Foreground="Red"
-                                    Style="{DynamicResource TextBlockDefault}"
                                     Text="涨停：" />
                                 <TextBlock
                                     Grid.Column="1"
@@ -72,7 +77,6 @@
                                     Margin="0,5,0,0"
                                     HorizontalAlignment="Left"
                                     Foreground="Green"
-                                    Style="{DynamicResource TextBlockDefault}"
                                     Text="跌停：" />
                                 <TextBlock
                                     Grid.Column="1"
@@ -83,20 +87,12 @@
                     </StackPanel>
                 </Border>
 
-                <Border
-                    MaxWidth="240"
-                    Margin="8"
-                    Background="White"
-                    BorderThickness="0"
-                    CornerRadius="4"
-                    Effect="{DynamicResource EffectShadow2}">
+                <Border Style="{StaticResource bdrFrame}">
                     <StackPanel>
                         <TextBlock
                             Margin="5,10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontSize="14"
-                            Style="{DynamicResource TextBlockDefault}"
                             Text="今昨涨跌家数" />
                         <Border
                             BorderBrush="#88000000"
@@ -111,12 +107,12 @@
                                 <TextBlock
                                     HorizontalAlignment="Left"
                                     Foreground="Red"
-                                    Style="{DynamicResource TextBlockDefault}"
                                     Text="上涨：" />
                                 <TextBlock
                                     Grid.Column="1"
                                     HorizontalAlignment="Left"
-                                    Foreground="Red" />
+                                    Foreground="Red"
+                                    Text="268 / 1199" />
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -127,7 +123,6 @@
                                     Margin="0,5,0,0"
                                     HorizontalAlignment="Left"
                                     Foreground="Green"
-                                    Style="{DynamicResource TextBlockDefault}"
                                     Text="下跌：" />
                                 <TextBlock
                                     Grid.Column="1"
@@ -138,20 +133,12 @@
                     </StackPanel>
                 </Border>
 
-                <Border
-                    MaxWidth="240"
-                    Margin="8"
-                    Background="White"
-                    BorderThickness="0"
-                    CornerRadius="4"
-                    Effect="{DynamicResource EffectShadow2}">
+                <Border Style="{StaticResource bdrFrame}">
                     <StackPanel>
                         <TextBlock
                             Margin="5,10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontSize="14"
-                            Style="{DynamicResource TextBlockDefault}"
                             Text="资金统计" />
                         <Border
                             BorderBrush="#88000000"
@@ -166,7 +153,6 @@
                                 <TextBlock
                                     HorizontalAlignment="Left"
                                     Foreground="Red"
-                                    Style="{DynamicResource TextBlockDefault}"
                                     Text="今日能量：" />
                                 <TextBlock
                                     Grid.Column="1"
@@ -182,7 +168,6 @@
                                     Margin="0,5,0,0"
                                     HorizontalAlignment="Left"
                                     Foreground="Green"
-                                    Style="{DynamicResource TextBlockDefault}"
                                     Text="昨日能量：" />
                                 <TextBlock
                                     Grid.Column="1"
@@ -198,7 +183,6 @@
                                     Margin="0,5,0,0"
                                     HorizontalAlignment="Left"
                                     Foreground="Green"
-                                    Style="{DynamicResource TextBlockDefault}"
                                     Text="北向资金：" />
                                 <TextBlock
                                     Grid.Column="1"
@@ -209,20 +193,12 @@
                     </StackPanel>
                 </Border>
 
-                <Border
-                    MaxWidth="240"
-                    Margin="8"
-                    Background="White"
-                    BorderThickness="0"
-                    CornerRadius="4"
-                    Effect="{DynamicResource EffectShadow2}">
+                <Border Style="{StaticResource bdrFrame}">
                     <StackPanel>
                         <TextBlock
                             Margin="5,10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontSize="14"
-                            Style="{DynamicResource TextBlockDefault}"
                             Text="连板率" />
                         <Border
                             BorderBrush="#88000000"
@@ -237,7 +213,6 @@
                                 <TextBlock
                                     HorizontalAlignment="Left"
                                     Foreground="red"
-                                    Style="{DynamicResource TextBlockDefault}"
                                     Text="二板：" />
                                 <TextBlock
                                     Grid.Column="1"
@@ -253,7 +228,6 @@
                                     Margin="0,5,0,0"
                                     HorizontalAlignment="Left"
                                     Foreground="IndianRed"
-                                    Style="{DynamicResource TextBlockDefault}"
                                     Text="三板：" />
                                 <TextBlock
                                     Grid.Column="1"
@@ -269,7 +243,6 @@
                                     Margin="0,5,0,0"
                                     HorizontalAlignment="Left"
                                     Foreground="IndianRed"
-                                    Style="{DynamicResource TextBlockDefault}"
                                     Text="高板：" />
                                 <TextBlock
                                     Grid.Column="1"
@@ -281,20 +254,12 @@
                     </StackPanel>
                 </Border>
 
-                <Border
-                    MaxWidth="240"
-                    Margin="8"
-                    Background="White"
-                    BorderThickness="0"
-                    CornerRadius="4"
-                    Effect="{DynamicResource EffectShadow2}">
+                <Border Style="{StaticResource bdrFrame}">
                     <StackPanel>
                         <TextBlock
                             Margin="5,10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontSize="14"
-                            Style="{DynamicResource TextBlockDefault}"
                             Text="情绪" />
                         <Border
                             BorderBrush="#88000000"
@@ -320,8 +285,6 @@
                             Margin="5,10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontSize="14"
-                            Style="{DynamicResource TextBlockDefault}"
                             Text="今昨炸板率" />
                         <Border
                             BorderBrush="#88000000"
@@ -329,7 +292,7 @@
                             Opacity="0.2" />
                         <StackPanel Margin="10,5">
                             <Grid VerticalAlignment="Center">
-                                <TextBlock HorizontalAlignment="Left" Style="{DynamicResource TextBlockDefault}">
+                                <TextBlock HorizontalAlignment="Left">
                                     <Run Foreground="Red">26.3%</Run>
                                     <Run Foreground="Gray">/</Run>
                                     <Run Foreground="Gray">29.8%</Run>
