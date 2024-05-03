@@ -29,38 +29,18 @@ namespace StockReview.Client.ContentModule.ViewModels
             : base(unityContainer, regionManager)
         {
             this.PageTitle = "股市看盘";
-            VisualElements = new VisualElement<SkiaSharpDrawingContext>[]
-          {
-            new AngularTicksVisual
-            {
-                LabelsSize = 16,
-                LabelsOuterOffset = 15,
-                OuterOffset = 65,
-                TicksLength = 20
-            },
-            Needle
-          };
         }
 
 
-        public IEnumerable<ISeries> Series { get; set; } = GaugeGenerator.BuildAngularGaugeSections(
-                new GaugeItem(60, s => SetStyle(130, 20, s)),
-                new GaugeItem(30, s => SetStyle(130, 20, s)),
-                new GaugeItem(10, s => SetStyle(130, 20, s)));
+        public IEnumerable<ISeries> Series { get; set; } =
+         GaugeGenerator.BuildSolidGauge(
+             new GaugeItem(
+                 30,          // the gauge value
+                 series =>    // the series style
+                 {
+                     series.MaxRadialColumnWidth = 20;
+                     series.DataLabelsSize = 20;
+                 }));
 
-        public IEnumerable<VisualElement<SkiaSharpDrawingContext>> VisualElements { get; set; }
-
-        public NeedleVisual Needle { get; set; } =
-        new NeedleVisual
-        {
-            Value = 45
-        };
-        private static void SetStyle(double sectionsOuter,
-                                         double sectionsWidth,
-                                         PieSeries<ObservableValue> series)
-        {
-            series.OuterRadiusOffset = sectionsOuter;
-            series.MaxRadialColumnWidth = sectionsWidth;
-        }
     }
 }

@@ -27,257 +27,271 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <ListBox
-                Margin="5"
-                BorderThickness="0"
-                Style="{DynamicResource WrapPanelHorizontalListBox}">
-                <ListBoxItem>
-                    <hc:Card
-                        MaxWidth="240"
-                        Margin="5"
-                        BorderThickness="0"
-                        Effect="{DynamicResource EffectShadow2}">
-                        <!--  Card 的内容部分  -->
-                        <Border CornerRadius="4,4,0,0">
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="14"
-                                Style="{DynamicResource TextBlockDefault}"
-                                Text="今昨涨跌停"
-                                TextWrapping="Wrap" />
-                        </Border>
-                        <hc:Card.Footer>
-                            <StackPanel Width="160" Margin="10">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        HorizontalAlignment="Left"
-                                        Foreground="Red"
-                                        Style="{DynamicResource TextBlockDefault}"
-                                        Text="涨停：" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Red" />
-                                </Grid>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Margin="0,5,0,0"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Green"
-                                        Style="{DynamicResource TextBlockDefault}"
-                                        Text="跌停：" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Green" />
-                                </Grid>
-                            </StackPanel>
-                        </hc:Card.Footer>
-                    </hc:Card>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <hc:Card
-                        MaxWidth="240"
-                        Margin="5"
-                        BorderThickness="0"
-                        Effect="{DynamicResource EffectShadow2}">
-                        <!--  Card 的内容部分  -->
-                        <Border CornerRadius="4,4,0,0">
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="14"
-                                Style="{DynamicResource TextBlockDefault}"
-                                Text="今昨涨跌家数"
-                                TextWrapping="Wrap" />
-                        </Border>
-                        <hc:Card.Footer>
-                            <StackPanel Width="160" Margin="10">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        HorizontalAlignment="Left"
-                                        Foreground="Red"
-                                        Style="{DynamicResource TextBlockDefault}"
-                                        Text="上涨：" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Red" />
-                                </Grid>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Margin="0,5,0,0"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Green"
-                                        Style="{DynamicResource TextBlockDefault}"
-                                        Text="下跌：" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Green" />
-                                </Grid>
-                            </StackPanel>
-                        </hc:Card.Footer>
-                    </hc:Card>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <hc:Card
-                        MaxWidth="240"
-                        Margin="5"
-                        BorderThickness="0"
-                        Effect="{DynamicResource EffectShadow2}">
-                        <!--  Card 的内容部分  -->
-                        <Border CornerRadius="4,4,0,0">
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="14"
-                                Style="{DynamicResource TextBlockDefault}"
-                                Text="资金统计"
-                                TextWrapping="Wrap" />
-                        </Border>
-                        <hc:Card.Footer>
-                            <StackPanel Width="160" Margin="10">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        HorizontalAlignment="Left"
-                                        Foreground="Red"
-                                        Style="{DynamicResource TextBlockDefault}"
-                                        Text="今日能量：" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Red" />
-                                </Grid>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Margin="0,5,0,0"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Green"
-                                        Style="{DynamicResource TextBlockDefault}"
-                                        Text="昨日能量：" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Green" />
-                                </Grid>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Margin="0,5,0,0"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Green"
-                                        Style="{DynamicResource TextBlockDefault}"
-                                        Text="北向资金：" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Green" />
-                                </Grid>
-                            </StackPanel>
-                        </hc:Card.Footer>
-                    </hc:Card>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <hc:Card
-                        MaxWidth="240"
-                        Margin="5"
-                        BorderThickness="0"
-                        Effect="{DynamicResource EffectShadow2}">
-                        <!--  Card 的内容部分  -->
-                        <Border CornerRadius="4,4,0,0">
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="14"
-                                Style="{DynamicResource TextBlockDefault}"
-                                Text="连板率"
-                                TextWrapping="Wrap" />
-                        </Border>
-                        <hc:Card.Footer>
-                            <StackPanel Width="160" Margin="10">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        HorizontalAlignment="Left"
-                                        Foreground="red"
-                                        Style="{DynamicResource TextBlockDefault}"
-                                        Text="二板：" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Red" />
-                                </Grid>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Margin="0,5,0,0"
-                                        HorizontalAlignment="Left"
-                                        Foreground="IndianRed"
-                                        Style="{DynamicResource TextBlockDefault}"
-                                        Text="三板：" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        Foreground="IndianRed" />
-                                </Grid>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Margin="0,5,0,0"
-                                        HorizontalAlignment="Left"
-                                        Foreground="IndianRed"
-                                        Style="{DynamicResource TextBlockDefault}"
-                                        Text="高板：" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        Foreground="Green"
-                                        TextWrapping="Wrap" />
-                                </Grid>
-                            </StackPanel>
-                        </hc:Card.Footer>
-                    </hc:Card>
-                </ListBoxItem>
+            <UniformGrid Rows="1">
+                <hc:Card
+                    MaxWidth="240"
+                    Margin="5"
+                    BorderThickness="0"
+                    Effect="{DynamicResource EffectShadow2}">
+                    <!--  Card 的内容部分  -->
+                    <Border CornerRadius="4,4,0,0">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Style="{DynamicResource TextBlockDefault}"
+                            Text="今昨涨跌停"
+                            TextWrapping="Wrap" />
+                    </Border>
+                    <hc:Card.Footer>
+                        <StackPanel Width="160" Margin="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    HorizontalAlignment="Left"
+                                    Foreground="Red"
+                                    Style="{DynamicResource TextBlockDefault}"
+                                    Text="涨停：" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Red" />
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="0,5,0,0"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Green"
+                                    Style="{DynamicResource TextBlockDefault}"
+                                    Text="跌停：" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Green" />
+                            </Grid>
+                        </StackPanel>
+                    </hc:Card.Footer>
+                </hc:Card>
+                <hc:Card
+                    MaxWidth="240"
+                    Margin="5"
+                    BorderThickness="0"
+                    Effect="{DynamicResource EffectShadow2}">
+                    <!--  Card 的内容部分  -->
+                    <Border CornerRadius="4,4,0,0">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Style="{DynamicResource TextBlockDefault}"
+                            Text="今昨涨跌家数" />
+                    </Border>
+                    <hc:Card.Footer>
+                        <StackPanel Width="160" Margin="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    HorizontalAlignment="Left"
+                                    Foreground="Red"
+                                    Style="{DynamicResource TextBlockDefault}"
+                                    Text="上涨：" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Red" />
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="0,5,0,0"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Green"
+                                    Style="{DynamicResource TextBlockDefault}"
+                                    Text="下跌：" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Green" />
+                            </Grid>
+                        </StackPanel>
+                    </hc:Card.Footer>
+                </hc:Card>
+                <hc:Card
+                    MaxWidth="240"
+                    Margin="5"
+                    BorderThickness="0"
+                    Effect="{DynamicResource EffectShadow2}">
+                    <!--  Card 的内容部分  -->
+                    <Border CornerRadius="4,4,0,0">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Style="{DynamicResource TextBlockDefault}"
+                            Text="资金统计"
+                            TextWrapping="Wrap" />
+                    </Border>
+                    <hc:Card.Footer>
+                        <StackPanel Width="160" Margin="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    HorizontalAlignment="Left"
+                                    Foreground="Red"
+                                    Style="{DynamicResource TextBlockDefault}"
+                                    Text="今日能量：" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Red" />
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="0,5,0,0"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Green"
+                                    Style="{DynamicResource TextBlockDefault}"
+                                    Text="昨日能量：" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Green" />
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="0,5,0,0"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Green"
+                                    Style="{DynamicResource TextBlockDefault}"
+                                    Text="北向资金：" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Green" />
+                            </Grid>
+                        </StackPanel>
+                    </hc:Card.Footer>
+                </hc:Card>
+                <hc:Card
+                    MaxWidth="240"
+                    Margin="5"
+                    BorderThickness="0"
+                    Effect="{DynamicResource EffectShadow2}">
+                    <!--  Card 的内容部分  -->
+                    <Border CornerRadius="4,4,0,0">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Style="{DynamicResource TextBlockDefault}"
+                            Text="连板率" />
+                    </Border>
+                    <hc:Card.Footer>
+                        <StackPanel Width="160" Margin="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    HorizontalAlignment="Left"
+                                    Foreground="red"
+                                    Style="{DynamicResource TextBlockDefault}"
+                                    Text="二板：" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Red" />
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="0,5,0,0"
+                                    HorizontalAlignment="Left"
+                                    Foreground="IndianRed"
+                                    Style="{DynamicResource TextBlockDefault}"
+                                    Text="三板：" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Foreground="IndianRed" />
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="0,5,0,0"
+                                    HorizontalAlignment="Left"
+                                    Foreground="IndianRed"
+                                    Style="{DynamicResource TextBlockDefault}"
+                                    Text="高板：" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Green"
+                                    TextWrapping="Wrap" />
+                            </Grid>
+                        </StackPanel>
+                    </hc:Card.Footer>
+                </hc:Card>
+                <hc:Card
+                    MaxWidth="240"
+                    Margin="5"
+                    BorderThickness="0"
+                    Effect="{DynamicResource EffectShadow2}">
+                    <!--  Card 的内容部分  -->
+                    <Border Height="30" CornerRadius="4,4,0,0">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Style="{DynamicResource TextBlockDefault}"
+                            Text="情绪"
+                            TextWrapping="Wrap" />
+                    </Border>
+                    <hc:Card.Footer>
+                        <Grid Width="160" Height="80">
+                            <lvc:PieChart
+                                InitialRotation="-90"
+                                MaxValue="100"
+                                MinValue="0"
+                                Series="{Binding Series}" />
+                        </Grid>
+                    </hc:Card.Footer>
+                </hc:Card>
+            </UniformGrid>
 
-            </ListBox>
+
+
         </Grid>
     </Grid>
 </UserControl>
