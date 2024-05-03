@@ -156,7 +156,7 @@
                                                     Background="Transparent"
                                                     BorderBrush="Transparent"
                                                     Command="{Binding DataContext.CloseCommand}"
-                                                    CommandParameter="{Binding DataContext.NavUri}"
+                                                    CommandParameter="{Binding DataContext.NavigationUri}"
                                                     Cursor="Hand"
                                                     Foreground="White"
                                                     Visibility="Collapsed" />

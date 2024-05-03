@@ -1,6 +1,7 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
 using StockReview.Client.ContentModule.Views;
+using StockReview.Infrastructure.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;

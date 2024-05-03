@@ -14,7 +14,7 @@ namespace StockReview.Client.ContentModule
     public abstract class NavigationAwareViewModelBase : BindableBase, INavigationAware
     {
         private readonly IUnityContainer _unityContainer;
-        private readonly IRegionManager _regionManager;
+        protected IRegionManager _regionManager { get; }
 
 
         private string _pageTitle;

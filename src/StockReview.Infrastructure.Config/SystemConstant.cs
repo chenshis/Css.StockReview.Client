@@ -43,6 +43,14 @@ namespace StockReview.Infrastructure.Config
         /// </summary>
         public const string ModifyUserDialogView = nameof(ModifyUserDialogView);
         /// <summary>
+        /// 股票看盘头部视图
+        /// </summary>
+        public const string StockOutlookHeaderView = nameof(StockOutlookHeaderView);
+        /// <summary>
+        /// 股票看盘头部视图区域
+        /// </summary>
+        public const string StockOutlookHeaderViewRegion = nameof(StockOutlookHeaderViewRegion);
+        /// <summary>
         /// 异常图标
         /// </summary>
         public const string ErrorIcon = "\xe621 ";
