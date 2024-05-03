@@ -28,23 +28,26 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <UniformGrid Rows="1">
-                <hc:Card
+                <Border
                     MaxWidth="240"
-                    Margin="5"
+                    Margin="8"
+                    Background="White"
                     BorderThickness="0"
+                    CornerRadius="4"
                     Effect="{DynamicResource EffectShadow2}">
-                    <!--  Card 的内容部分  -->
-                    <Border CornerRadius="4,4,0,0">
+                    <StackPanel>
                         <TextBlock
+                            Margin="5,10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontSize="14"
                             Style="{DynamicResource TextBlockDefault}"
-                            Text="今昨涨跌停"
-                            TextWrapping="Wrap" />
-                    </Border>
-                    <hc:Card.Footer>
-                        <StackPanel Width="160" Margin="10">
+                            Text="今昨涨跌停" />
+                        <Border
+                            BorderBrush="#88000000"
+                            BorderThickness="0,0,0,1"
+                            Opacity="0.2" />
+                        <StackPanel Margin="10,5">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
@@ -77,24 +80,29 @@
                                     Foreground="Green" />
                             </Grid>
                         </StackPanel>
-                    </hc:Card.Footer>
-                </hc:Card>
-                <hc:Card
+                    </StackPanel>
+                </Border>
+
+                <Border
                     MaxWidth="240"
-                    Margin="5"
+                    Margin="8"
+                    Background="White"
                     BorderThickness="0"
+                    CornerRadius="4"
                     Effect="{DynamicResource EffectShadow2}">
-                    <!--  Card 的内容部分  -->
-                    <Border CornerRadius="4,4,0,0">
+                    <StackPanel>
                         <TextBlock
+                            Margin="5,10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontSize="14"
                             Style="{DynamicResource TextBlockDefault}"
                             Text="今昨涨跌家数" />
-                    </Border>
-                    <hc:Card.Footer>
-                        <StackPanel Width="160" Margin="10">
+                        <Border
+                            BorderBrush="#88000000"
+                            BorderThickness="0,0,0,1"
+                            Opacity="0.2" />
+                        <StackPanel Margin="10,5">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
@@ -127,25 +135,29 @@
                                     Foreground="Green" />
                             </Grid>
                         </StackPanel>
-                    </hc:Card.Footer>
-                </hc:Card>
-                <hc:Card
+                    </StackPanel>
+                </Border>
+
+                <Border
                     MaxWidth="240"
-                    Margin="5"
+                    Margin="8"
+                    Background="White"
                     BorderThickness="0"
+                    CornerRadius="4"
                     Effect="{DynamicResource EffectShadow2}">
-                    <!--  Card 的内容部分  -->
-                    <Border CornerRadius="4,4,0,0">
+                    <StackPanel>
                         <TextBlock
+                            Margin="5,10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontSize="14"
                             Style="{DynamicResource TextBlockDefault}"
-                            Text="资金统计"
-                            TextWrapping="Wrap" />
-                    </Border>
-                    <hc:Card.Footer>
-                        <StackPanel Width="160" Margin="10">
+                            Text="资金统计" />
+                        <Border
+                            BorderBrush="#88000000"
+                            BorderThickness="0,0,0,1"
+                            Opacity="0.2" />
+                        <StackPanel Margin="10,5">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
@@ -194,24 +206,29 @@
                                     Foreground="Green" />
                             </Grid>
                         </StackPanel>
-                    </hc:Card.Footer>
-                </hc:Card>
-                <hc:Card
+                    </StackPanel>
+                </Border>
+
+                <Border
                     MaxWidth="240"
-                    Margin="5"
+                    Margin="8"
+                    Background="White"
                     BorderThickness="0"
+                    CornerRadius="4"
                     Effect="{DynamicResource EffectShadow2}">
-                    <!--  Card 的内容部分  -->
-                    <Border CornerRadius="4,4,0,0">
+                    <StackPanel>
                         <TextBlock
+                            Margin="5,10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontSize="14"
                             Style="{DynamicResource TextBlockDefault}"
                             Text="连板率" />
-                    </Border>
-                    <hc:Card.Footer>
-                        <StackPanel Width="160" Margin="10">
+                        <Border
+                            BorderBrush="#88000000"
+                            BorderThickness="0,0,0,1"
+                            Opacity="0.2" />
+                        <StackPanel Margin="10,5">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
@@ -261,33 +278,66 @@
                                     TextWrapping="Wrap" />
                             </Grid>
                         </StackPanel>
-                    </hc:Card.Footer>
-                </hc:Card>
-                <hc:Card
+                    </StackPanel>
+                </Border>
+
+                <Border
                     MaxWidth="240"
-                    Margin="5"
+                    Margin="8"
+                    Background="White"
                     BorderThickness="0"
+                    CornerRadius="4"
                     Effect="{DynamicResource EffectShadow2}">
-                    <!--  Card 的内容部分  -->
-                    <Border Height="30" CornerRadius="4,4,0,0">
+                    <StackPanel>
                         <TextBlock
+                            Margin="5,10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontSize="14"
                             Style="{DynamicResource TextBlockDefault}"
-                            Text="情绪"
-                            TextWrapping="Wrap" />
-                    </Border>
-                    <hc:Card.Footer>
-                        <Grid Width="160" Height="80">
-                            <lvc:PieChart
-                                InitialRotation="-90"
-                                MaxValue="100"
-                                MinValue="0"
-                                Series="{Binding Series}" />
-                        </Grid>
-                    </hc:Card.Footer>
-                </hc:Card>
+                            Text="情绪" />
+                        <Border
+                            BorderBrush="#88000000"
+                            BorderThickness="0,0,0,1"
+                            Opacity="0.2" />
+                        <lvc:PieChart
+                            MinHeight="100"
+                            MaxValue="100"
+                            MinValue="0"
+                            Series="{Binding Series}" />
+                    </StackPanel>
+                </Border>
+
+                <Border
+                    MaxWidth="240"
+                    Margin="8"
+                    Background="White"
+                    BorderThickness="0"
+                    CornerRadius="4"
+                    Effect="{DynamicResource EffectShadow2}">
+                    <StackPanel>
+                        <TextBlock
+                            Margin="5,10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Style="{DynamicResource TextBlockDefault}"
+                            Text="今昨炸板率" />
+                        <Border
+                            BorderBrush="#88000000"
+                            BorderThickness="0,0,0,1"
+                            Opacity="0.2" />
+                        <StackPanel Margin="10,5">
+                            <Grid VerticalAlignment="Center">
+                                <TextBlock HorizontalAlignment="Left" Style="{DynamicResource TextBlockDefault}">
+                                    <Run Foreground="Red">26.3%</Run>
+                                    <Run Foreground="Gray">/</Run>
+                                    <Run Foreground="Gray">29.8%</Run>
+                                </TextBlock>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
             </UniformGrid>
 
 

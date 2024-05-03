@@ -38,7 +38,7 @@ namespace StockReview.Client.ContentModule.ViewModels
                  30,          // the gauge value
                  series =>    // the series style
                  {
-                     series.MaxRadialColumnWidth = 20;
+                     series.MaxRadialColumnWidth = 10;
                      series.DataLabelsSize = 20;
                  }));
 
