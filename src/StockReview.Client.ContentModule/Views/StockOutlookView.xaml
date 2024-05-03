@@ -22,11 +22,7 @@
             <ColumnDefinition />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+        <StackPanel>
             <UniformGrid Rows="1">
                 <UniformGrid.Resources>
                     <Style TargetType="TextBlock">
@@ -302,9 +298,83 @@
                     </StackPanel>
                 </Border>
             </UniformGrid>
+            <StackPanel
+                Margin="10,0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <lvc:CartesianChart
+                    Width="300"
+                    Height="150"
+                    Margin="5,0"
+                    VerticalAlignment="Top"
+                    Series="{Binding LineSeries}" />
 
+                <DataGrid
+                    Height="130"
+                    Margin="0,0,5,0"
+                    AutoGenerateColumns="False"
+                    Background="White"
+                    HeadersVisibility="All"
+                    RowHeaderWidth="50">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="序号" />
+                        <DataGridTextColumn Header="时间" />
+                        <DataGridTextColumn Header="涨停板" />
+                        <DataGridTextColumn Header="炸板" />
+                        <DataGridTextColumn Header="跌停板" />
+                        <DataGridTextColumn Header="跌封率" />
+                        <DataGridTextColumn Header="翘板" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid
+                    Margin="5,10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="0,0,0,30" Orientation="Horizontal">
+                        <CheckBox />
+                        <TextBlock
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Foreground="Black"
+                            Text="不看ST股" />
+                        <ComboBox Width="135" />
+                    </StackPanel>
+                    <Button
+                        Grid.Column="1"
+                        Width="100"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Top"
+                        Content="同花情绪"
+                        Style="{StaticResource ButtonPrimary}" />
+                    <DatePicker
+                        Grid.Row="1"
+                        Width="220"
+                        Height="30" />
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Width="100"
+                        Margin="10,0,0,0"
+                        Content="同花情绪"
+                        Style="{StaticResource ButtonPrimary}" />
+                </Grid>
+            </StackPanel>
+        </StackPanel>
 
-
-        </Grid>
+        <StackPanel Grid.Row="1">
+            <lvc:CartesianChart
+                Width="800"
+                Height="300"
+                Series="{Binding CandleSeries}"
+                XAxes="{Binding XAxes}" />
+        </StackPanel>
     </Grid>
 </UserControl>

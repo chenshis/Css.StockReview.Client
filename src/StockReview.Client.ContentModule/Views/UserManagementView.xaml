@@ -38,8 +38,7 @@
                 Width="100"
                 Command="{Binding AddCommand}"
                 Content="添加"
-                Style="{StaticResource ButtonPrimary}"
-                Tag="&#xe603;" />
+                Style="{StaticResource ButtonPrimary}" />
         </StackPanel>
 
         <!--  DataGrid  -->
