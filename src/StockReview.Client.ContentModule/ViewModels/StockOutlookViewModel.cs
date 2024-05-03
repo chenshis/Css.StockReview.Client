@@ -92,17 +92,19 @@ namespace StockReview.Client.ContentModule.ViewModels
    {
         new ColumnSeries<double>
         {
-            Values = new ObservableCollection<double> { 2, 5, 4, 3 ,7,1,6},
+            Values = new ObservableCollection<double> { 2, 5, 4, 3 ,7,1,10},
             IsVisible = true
         },
         new ColumnSeries<double>
         {
-            Values = new ObservableCollection<double> { 6, 3, 2, 8,5,4,7 },
+            Values = new ObservableCollection<double> { 6, 3, 10, 8,5,4,7 },
             IsVisible = true
         }
     };
 
         public Axis[] XAxes { get; set; }
+
+        public Axis[] YAxes { get; set; } = null;
 
         public ISeries[] CandleSeries { get; set; }
 
