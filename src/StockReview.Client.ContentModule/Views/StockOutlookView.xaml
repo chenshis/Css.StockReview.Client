@@ -17,7 +17,7 @@
             <RowDefinition />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <StackPanel>
+        <StackPanel Grid.Row="0">
             <UniformGrid Rows="1">
                 <UniformGrid.Resources>
                     <Style TargetType="TextBlock">
@@ -467,15 +467,17 @@
                             Grid.ColumnSpan="2"
                             HorizontalAlignment="Right"
                             Rows="1">
-                            <Button
-                                Width="120"
+                            <ToggleButton
+                                HorizontalAlignment="Stretch"
                                 Content="连板股晋级区"
-                                Style="{StaticResource ButtonSuccess}" />
-                            <Button
-                                Width="120"
+                                IsChecked="{Binding IsOpen, ElementName=DrawerBottom}"
+                                Style="{StaticResource ToggleButtonSuccess}" />
+                            <ToggleButton
                                 Margin="10,0,0,0"
+                                HorizontalAlignment="Stretch"
                                 Content="财联社电报"
-                                Style="{StaticResource ButtonSuccess}" />
+                                IsChecked="{Binding IsOpen, ElementName=DrawerRight}"
+                                Style="{StaticResource ToggleButtonSuccess}" />
                         </UniformGrid>
                     </Grid>
                 </Border>
@@ -701,7 +703,6 @@
                 </Border>
             </Grid>
         </StackPanel>
-
         <Grid Grid.Row="1">
             <Grid.Resources>
                 <Style x:Key="bdrFrame" TargetType="Border">
@@ -829,5 +830,68 @@
 
             </Border>
         </Grid>
+
+        <!--  连扳  -->
+        <Grid Grid.RowSpan="3">
+            <hc:Drawer
+                Name="DrawerBottom"
+                Dock="Bottom"
+                Effect="{DynamicResource EffectShadow2}"
+                MaskCanClose="False">
+                <Border
+                    MinHeight="600"
+                    Background="{DynamicResource DarkDefaultBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="0,1,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBlockTitle}"
+                            Text="连板晋级区" />
+                        <Button
+                            Grid.Row="0"
+                            HorizontalAlignment="Right"
+                            hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                            Command="hc:ControlCommands.Close"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Style="{StaticResource ButtonIcon}" />
+                    </Grid>
+                </Border>
+            </hc:Drawer>
+
+            <hc:Drawer Name="DrawerRight" MaskCanClose="False">
+                <Border
+                    MinWidth="600"
+                    Margin="0,92,0,0"
+                    Background="{DynamicResource DarkDefaultBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="0,1,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBlockTitle}"
+                            Text="财联社电报" />
+                        <Button
+                            HorizontalAlignment="Right"
+                            hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                            Command="hc:ControlCommands.Close"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Style="{StaticResource ButtonIcon}" />
+                    </Grid>
+                </Border>
+            </hc:Drawer>
+        </Grid>
     </Grid>
+
+
 </UserControl>
