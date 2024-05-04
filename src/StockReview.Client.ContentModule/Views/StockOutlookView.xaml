@@ -14,14 +14,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="auto" />
-        </Grid.ColumnDefinitions>
         <StackPanel>
             <UniformGrid Rows="1">
                 <UniformGrid.Resources>
@@ -434,6 +429,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -466,10 +462,24 @@
                             Margin="10,10,0,10"
                             Content="同花情绪"
                             Style="{StaticResource ButtonPrimary}" />
+                        <UniformGrid
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            HorizontalAlignment="Right"
+                            Rows="1">
+                            <Button
+                                Width="120"
+                                Content="连板股晋级区"
+                                Style="{StaticResource ButtonSuccess}" />
+                            <Button
+                                Width="120"
+                                Margin="10,0,0,0"
+                                Content="财联社电报"
+                                Style="{StaticResource ButtonSuccess}" />
+                        </UniformGrid>
                     </Grid>
                 </Border>
             </Grid>
-
             <Grid>
                 <Grid.Resources>
                     <Style x:Key="bdrFrame" TargetType="Border">
@@ -484,7 +494,7 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30" />
-                            <RowDefinition Height="200" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <!--  Table Header  -->
                         <Border Background="#EEE" />
@@ -690,11 +700,10 @@
                     </Grid>
                 </Border>
             </Grid>
-
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
-            <StackPanel.Resources>
+        <Grid Grid.Row="1">
+            <Grid.Resources>
                 <Style x:Key="bdrFrame" TargetType="Border">
                     <Setter Property="Margin" Value="5" />
                     <Setter Property="Background" Value="White" />
@@ -702,14 +711,123 @@
                     <Setter Property="CornerRadius" Value="4" />
                     <Setter Property="Effect" Value="{DynamicResource EffectShadow2}" />
                 </Style>
-            </StackPanel.Resources>
+            </Grid.Resources>
             <Border Style="{StaticResource bdrFrame}">
+                <lvc:CartesianChart Series="{Binding CurveSeries}" />
                 <!--<lvc:CartesianChart
                     MinHeight="250"
                     Series="{Binding CandleSeries}"
                     XAxes="{Binding XAxes}" />-->
-                <lvc:CartesianChart MinHeight="250" Series="{Binding CurveSeries}" />
             </Border>
-        </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.Resources>
+                <Style x:Key="bdrFrame" TargetType="Border">
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="Background" Value="White" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="CornerRadius" Value="4" />
+                    <Setter Property="Effect" Value="{DynamicResource EffectShadow2}" />
+                </Style>
+            </Grid.Resources>
+            <Border Style="{StaticResource bdrFrame}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="Margin" Value="5,0" />
+                            <Setter Property="BorderBrush" Value="Black" />
+                            <Setter Property="BorderThickness" Value="0.4,0" />
+                            <Setter Property="Opacity" Value="0.4" />
+                        </Style>
+                    </Grid.Resources>
+                    <StackPanel
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock Foreground="Black">
+                            <Run>用户:</Run>
+                            <Run>张三</Run>
+                            <Run>,</Run>
+                            <Run>到期:</Run>
+                            <Run>2099-12-30</Run>
+                        </TextBlock>
+                        <Border />
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock Foreground="Black">
+                            <Run>量能预测:</Run>
+                            <Run Foreground="Green">9420亿(-5.53%，缩量551亿)</Run>
+                        </TextBlock>
+                        <Border />
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock Foreground="Black">
+                            <Run>涨停破板率:</Run>
+                            <Run>26%</Run>
+                        </TextBlock>
+                        <Border />
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Column="3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock Foreground="Black">
+                            <Run>昨涨停今表现:</Run>
+                            <Run Foreground="Green">-0.767%</Run>
+                        </TextBlock>
+                        <Border />
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Column="4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock Foreground="Black">
+                            <Run>昨连扳今表现:</Run>
+                            <Run Foreground="Red">3.356%</Run>
+                        </TextBlock>
+                        <Border />
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Column="5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock Foreground="Black">
+                            <Run>昨破扳今表现:</Run>
+                            <Run Foreground="Green">-4.778%</Run>
+                        </TextBlock>
+                        <Border />
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Column="6"
+                        Margin="0,0,5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock Foreground="Black">
+                            <Run>2024-4-16 14:49:17 星期二</Run>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>
