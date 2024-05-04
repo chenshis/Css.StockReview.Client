@@ -14,7 +14,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
@@ -292,8 +292,6 @@
                     </StackPanel>
                 </Border>
             </UniformGrid>
-
-
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -474,9 +472,232 @@
                     </Grid>
                 </Border>
             </Grid>
+
+            <Grid>
+                <Grid.Resources>
+                    <Style x:Key="bdrFrame" TargetType="Border">
+                        <Setter Property="Margin" Value="5" />
+                        <Setter Property="Background" Value="White" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="CornerRadius" Value="4" />
+                        <Setter Property="Effect" Value="{DynamicResource EffectShadow2}" />
+                    </Style>
+                </Grid.Resources>
+                <Border Style="{StaticResource bdrFrame}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="200" />
+                        </Grid.RowDefinitions>
+                        <!--  Table Header  -->
+                        <Border Background="#EEE" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Style>
+                            </Grid.Resources>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="序号" />
+                            <TextBlock
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="代码" />
+                            <TextBlock
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                Text="股票名称" />
+                            <TextBlock
+                                Grid.Column="3"
+                                VerticalAlignment="Center"
+                                Text="涨幅" />
+                            <TextBlock
+                                Grid.Column="4"
+                                VerticalAlignment="Center"
+                                Text="最新" />
+                            <TextBlock
+                                Grid.Column="5"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="涨停原因" />
+                            <TextBlock
+                                Grid.Column="6"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="首封时间" />
+                            <TextBlock
+                                Grid.Column="7"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="最后封板" />
+                            <TextBlock
+                                Grid.Column="8"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="涨停形态" />
+                            <TextBlock
+                                Grid.Column="9"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="开板" />
+                            <TextBlock
+                                Grid.Column="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="几天几板" />
+                            <TextBlock
+                                Grid.Column="11"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="封单额（万）" />
+                            <TextBlock
+                                Grid.Column="12"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="换手率" />
+                            <TextBlock
+                                Grid.Column="13"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="流通值（亿）" />
+                            <TextBlock
+                                Grid.Column="14"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="连板" />
+                        </Grid>
+                        <ItemsControl ItemsSource="{Binding UserList}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Name="root">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Border
+                                            Grid.ColumnSpan="10"
+                                            BorderBrush="#EEE"
+                                            BorderThickness="0,0,0,1"
+                                            SnapsToDevicePixels="True" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="3"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="4"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="5"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="6"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="7"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="8"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="9"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="10"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="11"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="12"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="13"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                        <TextBlock
+                                            Grid.Column="14"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Index}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </Border>
+            </Grid>
+
         </StackPanel>
 
         <StackPanel Grid.Row="1">
+            <Border BorderBrush="Red" BorderThickness="0,1" />
             <lvc:CartesianChart
                 Height="300"
                 Series="{Binding CandleSeries}"
