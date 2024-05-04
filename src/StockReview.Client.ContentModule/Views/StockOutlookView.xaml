@@ -704,10 +704,11 @@
                 </Style>
             </StackPanel.Resources>
             <Border Style="{StaticResource bdrFrame}">
-                <lvc:CartesianChart
+                <!--<lvc:CartesianChart
                     MinHeight="250"
                     Series="{Binding CandleSeries}"
-                    XAxes="{Binding XAxes}" />
+                    XAxes="{Binding XAxes}" />-->
+                <lvc:CartesianChart MinHeight="250" Series="{Binding CurveSeries}" />
             </Border>
         </StackPanel>
     </Grid>
