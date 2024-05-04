@@ -307,20 +307,17 @@
                         <Setter Property="Effect" Value="{DynamicResource EffectShadow2}" />
                     </Style>
                 </Grid.Resources>
-
-
                 <Border Style="{StaticResource bdrFrame}">
                     <lvc:CartesianChart
-                        MinHeight="150"
+                        MinHeight="110"
                         Series="{Binding LineSeries}"
                         YAxes="{Binding LineYAxes}" />
                 </Border>
-
                 <Border Grid.Column="1" Style="{StaticResource bdrFrame}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30" />
-                            <RowDefinition Height="120" />
+                            <RowDefinition Height="80" />
                         </Grid.RowDefinitions>
                         <!--  Table Header  -->
                         <Border Background="#EEE" />
@@ -697,11 +694,21 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1">
-            <Border BorderBrush="Red" BorderThickness="0,1" />
-            <lvc:CartesianChart
-                Height="300"
-                Series="{Binding CandleSeries}"
-                XAxes="{Binding XAxes}" />
+            <StackPanel.Resources>
+                <Style x:Key="bdrFrame" TargetType="Border">
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="Background" Value="White" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="CornerRadius" Value="4" />
+                    <Setter Property="Effect" Value="{DynamicResource EffectShadow2}" />
+                </Style>
+            </StackPanel.Resources>
+            <Border Style="{StaticResource bdrFrame}">
+                <lvc:CartesianChart
+                    Height="240"
+                    Series="{Binding CandleSeries}"
+                    XAxes="{Binding XAxes}" />
+            </Border>
         </StackPanel>
     </Grid>
 </UserControl>
