@@ -86,7 +86,7 @@
             </Border>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="70" />
+                    <RowDefinition Height="60" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid>

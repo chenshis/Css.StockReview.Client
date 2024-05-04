@@ -705,7 +705,7 @@
             </StackPanel.Resources>
             <Border Style="{StaticResource bdrFrame}">
                 <lvc:CartesianChart
-                    Height="240"
+                    MinHeight="250"
                     Series="{Binding CandleSeries}"
                     XAxes="{Binding XAxes}" />
             </Border>
