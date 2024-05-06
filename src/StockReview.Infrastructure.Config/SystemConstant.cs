@@ -7,6 +7,10 @@ namespace StockReview.Infrastructure.Config
     public static class SystemConstant
     {
         /// <summary>
+        /// 龙头晋级视图
+        /// </summary>
+        public const string LeadingGroupPromotionView = nameof(LeadingGroupPromotionView);
+        /// <summary>
         /// 注册视图
         /// </summary>
         public const string RegisterView = nameof(RegisterView);
