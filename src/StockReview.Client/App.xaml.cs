@@ -56,6 +56,7 @@ namespace StockReview.Client
             containerRegistry.RegisterDialog<UpdatePasswordView>(SystemConstant.UpdatePasswordView);
             containerRegistry.Register<MainHeaderView>(SystemConstant.MainHeaderView);
             containerRegistry.Register<TreeMenuView>(SystemConstant.TreeMenuView);
+            containerRegistry.Register<LeadingGroupPromotionView>(SystemConstant.LeadingGroupPromotionView);
             // 缓存引入
             var options = Options.Create(new MemoryCacheOptions() { ExpirationScanFrequency = TimeSpan.FromSeconds(30), CompactionPercentage = 0.2 });
             containerRegistry.RegisterSingleton<IMemoryCache>(() => new MemoryCache(options));
