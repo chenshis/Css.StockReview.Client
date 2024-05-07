@@ -83,5 +83,19 @@ namespace StockReview.Infrastructure.Config
         /// 验证码
         /// </summary>
         public const string VerificationCode = nameof(VerificationCode);
+
+        /* IdentityServer4 系统常量 */
+        public const string IdentityServerClient = "stock_review_client";
+        public const string IdentityServerScope = "stock_review_scope";
+        public const string IdentityServerResource = "stock_review_resource";
+        public const string IdentityServerScopeDisplayName = "股市客户端请求作用域";
+        public const string IdentityServerResourceDisplayName = "股市客户端请求资源";
+        public const string IdentityServerSecret = "Css.StockReview.Client-StockReview.Server";
+
+        /// <summary>
+        /// 默认连接
+        /// </summary>
+        public const string DefaultConnection = nameof(DefaultConnection);
+
     }
 }
