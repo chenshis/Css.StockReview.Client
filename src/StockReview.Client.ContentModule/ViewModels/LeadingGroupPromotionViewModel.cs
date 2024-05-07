@@ -1,7 +1,4 @@
-﻿using Prism.Mvvm;
-using Prism.Regions;
-using Prism.Services.Dialogs;
-using StockReview.Client.ContentModule;
+﻿using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity;
 
-namespace StockReview.Client.ViewModels
+namespace StockReview.Client.ContentModule.ViewModels
 {
-    public class LeadingGroupPromotionViewModel : BindableBase
+    public class LeadingGroupPromotionViewModel : NavigationAwareViewModelBase
     {
-        public LeadingGroupPromotionViewModel()
+        public LeadingGroupPromotionViewModel(IUnityContainer unityContainer, IRegionManager regionManager) : base(unityContainer, regionManager)
         {
-            InitTableHeader();
+            this.PageTitle = "龙头晋级";
         }
 
 
@@ -48,4 +45,7 @@ namespace StockReview.Client.ViewModels
 
         }
     }
+
+    
+   
 }
