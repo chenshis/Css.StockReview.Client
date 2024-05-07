@@ -22,6 +22,13 @@ namespace StockReview.Client.ContentModule
             containerRegistry.RegisterForNavigation<UserManagementView>();
             containerRegistry.RegisterDialog<ModifyUserDialogView>();
             containerRegistry.RegisterForNavigation<StockOutlookView>();
+            containerRegistry.RegisterForNavigation<DragonTigerView>();
+
+            containerRegistry.RegisterForNavigation<LeadingGroupPromotionView>();
+            containerRegistry.RegisterForNavigation<MarketLadderView>();
+            containerRegistry.RegisterForNavigation<PlateRotationView>();
+            containerRegistry.RegisterForNavigation<ExplosiveBoardLImitDown>();
+            containerRegistry.RegisterForNavigation<MarketSentimentView>();
         }
     }
 }

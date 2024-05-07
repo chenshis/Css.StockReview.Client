@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StockReview.Client.Views
+namespace StockReview.Client.ContentModule.Views
 {
     /// <summary>
-    /// MarketLadderView.xaml 的交互逻辑
+    /// MarketSentimentView.xaml 的交互逻辑
     /// </summary>
-    public partial class MarketLadderView : UserControl
+    public partial class MarketSentimentView : UserControl
     {
-        public MarketLadderView()
+        public MarketSentimentView()
         {
             InitializeComponent();
         }

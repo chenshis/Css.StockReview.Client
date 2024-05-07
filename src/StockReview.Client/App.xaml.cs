@@ -6,6 +6,7 @@ using Prism.Unity;
 using StockReview.Api.ApiService;
 using StockReview.Api.IApiService;
 using StockReview.Client.ContentModule;
+using StockReview.Client.ContentModule.Views;
 using StockReview.Client.ViewModels;
 using StockReview.Client.Views;
 using StockReview.Infrastructure.Config;

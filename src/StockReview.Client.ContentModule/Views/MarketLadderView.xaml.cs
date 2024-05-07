@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StockReview.Client.Views
+namespace StockReview.Client.ContentModule.Views
 {
     /// <summary>
-    /// DragonTiger.xaml 的交互逻辑
+    /// MarketLadderView.xaml 的交互逻辑
     /// </summary>
-    public partial class DragonTiger : UserControl
+    public partial class MarketLadderView : UserControl
     {
-        public DragonTiger()
+        public MarketLadderView()
         {
             InitializeComponent();
         }

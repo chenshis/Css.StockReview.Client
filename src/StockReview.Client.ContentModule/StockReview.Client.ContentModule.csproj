@@ -20,4 +20,22 @@
     <ProjectReference Include="..\StockReview.Infrastructure.Config\StockReview.Infrastructure.Config.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\DragonTigerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ExplosiveBoardLImitDown.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\LeadingGroupPromotionView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\MarketLadderView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\PlateRotationView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

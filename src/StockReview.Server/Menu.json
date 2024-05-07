@@ -17,6 +17,15 @@
       "MenuIcon": "",
       "Index": 2,
       "MenuRole": 0
+    },
+    {
+      "MenuId": 3,
+      "MenuHeader": "龙虎榜",
+      "TargetView": "DragonTigerView",
+      "ParentId": 0,
+      "MenuIcon": "",
+      "Index": 3,
+      "MenuRole": 0
     }
   ]
 }

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StockReview.Client.Views
+namespace StockReview.Client.ContentModule.Views
 {
     /// <summary>
-    /// PlateRotationView.xaml 的交互逻辑
+    /// DragonTigerView.xaml 的交互逻辑
     /// </summary>
-    public partial class PlateRotationView : UserControl
+    public partial class DragonTigerView : UserControl
     {
-        public PlateRotationView()
+        public DragonTigerView()
         {
             InitializeComponent();
         }

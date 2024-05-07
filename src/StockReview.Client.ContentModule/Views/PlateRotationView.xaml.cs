@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StockReview.Client.Views
+namespace StockReview.Client.ContentModule.Views
 {
     /// <summary>
-    /// ExplosiveBoardLImitDown.xaml 的交互逻辑
+    /// PlateRotationView.xaml 的交互逻辑
     /// </summary>
-    public partial class ExplosiveBoardLImitDown : UserControl
+    public partial class PlateRotationView : UserControl
     {
-        public ExplosiveBoardLImitDown()
+        public PlateRotationView()
         {
             InitializeComponent();
         }
