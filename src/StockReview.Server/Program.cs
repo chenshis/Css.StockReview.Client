@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString(SystemConstant.DefaultConnection);
 // Add services to the container.
 builder.Services.AddScoped<IJWTApiService, JWTApiService>();
+builder.Services.AddScoped<ILoginServerApiService, LoginServerApiService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -24,7 +25,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuerSigningKey = true,//ÊÇ·ñÑéÖ¤SecurityKey
         ValidAudience = SystemConstant.JwtAudience,
         ValidIssuer = SystemConstant.JwtIssuer,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SystemConstant.JwtSecurityKey))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SystemConstant.JwtSecurityKey)),
+        LifetimeValidator = (notBefore, expires, securityToken, validationParameters) =>
+        {
+            return expires >= DateTime.Now;
+        }
     };
 });
 builder.Services.AddDbContext<StockReviewDbContext>((options) =>
