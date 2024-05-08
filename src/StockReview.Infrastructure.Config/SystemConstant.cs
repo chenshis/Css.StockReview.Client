@@ -84,13 +84,10 @@ namespace StockReview.Infrastructure.Config
         /// </summary>
         public const string VerificationCode = nameof(VerificationCode);
 
-        /* IdentityServer4 系统常量 */
-        public const string IdentityServerClient = "stock_review_client";
-        public const string IdentityServerScope = "stock_review_scope";
-        public const string IdentityServerResource = "stock_review_resource";
-        public const string IdentityServerScopeDisplayName = "股市客户端请求作用域";
-        public const string IdentityServerResourceDisplayName = "股市客户端请求资源";
-        public const string IdentityServerSecret = "Css.StockReview.Client-StockReview.Server";
+        /* jwt 系统常量 */
+        public const string JwtSecurityKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDI2a2EJ7m872v0afyoSDJT2o1+SitIeJSWtLJU8/Wz2m7gStexajkeD+Lka6DSTy8gt9UwfgVQo6uKjVLG5Ex7PiGOODVqAEghBuS7JzIYU5RvI543nNDAPfnJsas96mSA7L/mD7RTE2drj6hf3oZjJpMPZUQI/B1Qjb5H3K3PNwIDAQAB";
+        public const string JwtAudience = "http://localhost:5245";
+        public const string JwtIssuer = "http://localhost:5245";
 
         /// <summary>
         /// 默认连接
