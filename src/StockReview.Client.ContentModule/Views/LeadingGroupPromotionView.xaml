@@ -10,420 +10,95 @@
     d:DesignWidth="1380"
     mc:Ignorable="d">
     <Grid>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="50" />
-
         </Grid.RowDefinitions>
 
-        <!--  DataGrid  -->
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <!--  DataGrid  -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <Border Background="#EEE">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="Black" />
-                        </Style>
-                    </Grid.Resources>
+                <Border Background="#EEE">
+                    <ItemsControl ItemsSource="{Binding LeadingDateHeaderLists}">
+                        <ItemsControl.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="Grid.Row" Value="{Binding Path=HeadRow}" />
+                                <Setter Property="Grid.Column" Value="{Binding Path=HeadColumn}" />
+                                <Setter Property="TextBlock.Foreground" Value="Black" />
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
 
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="版数" />
-                    <!--<ItemsControl ItemsSource="{Binding LeadingDateHeaderList}">
-                                  <ItemsControl.ItemTemplate>
-                                      <DataTemplate>
-                                          <TextBlock
-                                              Grid.Column="{Binding HeadColumn}"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              Text="{Binding HeadName}" />
-                                      </DataTemplate>
-                                  </ItemsControl.ItemTemplate>
-                              </ItemsControl>-->
-                    <TextBlock
-                        Grid.Column="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月1日" />
-                    <TextBlock
-                        Grid.Column="2"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月2日" />
-                    <TextBlock
-                        Grid.Column="3"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月3日" />
-                    <TextBlock
-                        Grid.Column="4"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月4日" />
-                    <TextBlock
-                        Grid.Column="5"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月5日" />
-                    <TextBlock
-                        Grid.Column="6"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月6日" />
-                    <TextBlock
-                        Grid.Column="7"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月7日" />
-                    <TextBlock
-                        Grid.Column="8"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月8日" />
-                    <TextBlock
-                        Grid.Column="9"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月9日" />
-                    <TextBlock
-                        Grid.Column="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月10日" />
-                    <TextBlock
-                        Grid.Column="11"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月11日" />
-                    <TextBlock
-                        Grid.Column="12"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月12日" />
-                    <TextBlock
-                        Grid.Column="13"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月13日" />
-                    <TextBlock
-                        Grid.Column="14"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月14日" />
-                    <TextBlock
-                        Grid.Column="15"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月15日" />
-                    <TextBlock
-                        Grid.Column="16"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月16日" />
-                    <TextBlock
-                        Grid.Column="17"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月17日" />
-                    <TextBlock
-                        Grid.Column="18"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月18日" />
-                    <TextBlock
-                        Grid.Column="19"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月19日" />
-                    <TextBlock
-                        Grid.Column="20"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5月20日" />
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
 
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="2"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="3"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="4"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="5"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="6"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="7"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="8"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="9"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带年报预增" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="11"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="12"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="13"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="14"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="15"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带年报预增" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="16"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="17"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="18"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="19"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="20"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="轻型输送带" />
-
-                    <TextBlock
-                        Grid.Row="3"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="13版" />
-                    <TextBlock
-                        Grid.Row="4"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="12版" />
-                    <TextBlock
-                        Grid.Row="5"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="11版" />
-                    <TextBlock
-                        Grid.Row="6"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="10版" />
-                    <TextBlock
-                        Grid.Row="7"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="9版" />
-                    <TextBlock
-                        Grid.Row="8"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="8版" />
-                    <TextBlock
-                        Grid.Row="9"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="7版" />
-                    <TextBlock
-                        Grid.Row="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="6版" />
-                    <TextBlock
-                        Grid.Row="11"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="5版" />
-                    <TextBlock
-                        Grid.Row="12"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="4版" />
-                    <TextBlock
-                        Grid.Row="13"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="3版" />
-                    <TextBlock
-                        Grid.Row="14"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="2版" />
-                    <TextBlock
-                        Grid.Row="15"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="1版" />
-
-
-
-                </Grid>
-            </Border>
-
-            <Border Grid.Row="1" Background="#EEE">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="Black" />
-                        </Style>
-                    </Grid.Resources>
-
-                    <ItemsControl ItemsSource="{Binding LeadingTypeHeaderList}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
-                                    Grid.Column="{Binding HeadColumn}"
+                                    Grid.Row="{Binding Path=HeadRow}"
+                                    Grid.Column="{Binding Path=HeadColumn}"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Text="{Binding HeadName}" />
+                                    Text="{Binding HeadName}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </Grid>
-            </Border>
-        </Grid>
+                </Border>
+
+            </Grid>
+        </ScrollViewer>
     </Grid>
+
 </UserControl>
