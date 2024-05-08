@@ -111,6 +111,26 @@ namespace StockReview.Infrastructure.Config
         /// 默认连接
         /// </summary>
         public const string DefaultConnection = nameof(DefaultConnection);
+        /// <summary>
+        /// appsetting 配置
+        /// </summary>
+        public const string AppSettings = "appsettings.json";
+        /// <summary>
+        /// 股市服务地址
+        /// </summary>
+        public const string StockServerUrl = nameof(StockServerUrl);
 
+        /// <summary>
+        /// 登录路由
+        /// </summary>
+        public const string LoginRoute = "v1/stockreview/account/login";
+        /// <summary>
+        /// 刷新token路由
+        /// </summary>
+        public const string RefreshTokenRoute = "v1/stockreview/account/refresh-token";
+        /// <summary>
+        /// 注册路由
+        /// </summary>
+        public const string RegisterRoute = "v1/stockreview/account/register";
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
+using StockReview.Infrastructure.Config;
 
 namespace StockReview.Server.Controllers
 {
@@ -25,7 +26,7 @@ namespace StockReview.Server.Controllers
         /// <param name="accountRequest">账户信息</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/stockreview/account/login")]
+        [Route(SystemConstant.LoginRoute)]
         public string Login([FromBody] AccountRequestDto accountRequest)
         {
             var user = _loginServerApiService.Login(accountRequest);
@@ -38,7 +39,7 @@ namespace StockReview.Server.Controllers
         /// <param name="token"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/stockreview/account/refresh-token")]
+        [Route(SystemConstant.RefreshTokenRoute)]
         public string RefreshToken([FromBody] string token)
         {
             return _jWTApiService.RefreshToken(token);
@@ -50,7 +51,7 @@ namespace StockReview.Server.Controllers
         /// <param name="registerRequest">注册信息</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/stockreview/account/register")]
+        [Route(SystemConstant.RegisterRoute)]
         public bool Register([FromBody] RegisterRequestDto registerRequest)
         {
             return _loginServerApiService.Register(registerRequest);
