@@ -16,18 +16,20 @@ namespace StockReview.Api.ApiService
         {
             var claims = new Claim[]
             {
+                 new Claim(JwtClaimTypes.JwtId,Guid.NewGuid().ToString()),
+                 new Claim(JwtClaimTypes.Actor,SystemConstant.JwtActor),
+                 new Claim(JwtClaimTypes.NickName,userEntity.Contacts),
                  new Claim(JwtClaimTypes.Id,userEntity.Id.ToString()),
                  new Claim(JwtClaimTypes.Role,userEntity.Role.ToString())
             };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SystemConstant.JwtSecurityKey));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SystemConstant.JwtSecurityKey));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                 issuer: SystemConstant.JwtIssuer,
                 audience: SystemConstant.JwtAudience,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(60),//5分钟有效期
-                notBefore: DateTime.Now.AddMinutes(1),//1分钟后有效
-                signingCredentials: creds);
+                expires: DateTime.Now.AddMinutes(1),//5分钟有效期
+                signingCredentials: credentials);
             var returnToken = new JwtSecurityTokenHandler().WriteToken(token);
             return returnToken;
         }
