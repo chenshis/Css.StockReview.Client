@@ -143,6 +143,67 @@ namespace StockReview.Client.ContentModule.ViewModels
                 HeadName = string.Format("2板龙"),
             });
             #endregion
+
+            for (int i = 0; i < 10; i++) 
+            {
+                LeadingDateHeaderLists.Add(new LeadingDateHeaderList
+                {
+                    HeadRow = 3,
+                    HeadColumn = 1,
+                    HeadName = string.Format("北京瑞华"),
+                });
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                LeadingDateHeaderLists.Add(new LeadingDateHeaderList
+                {
+                    HeadRow = 3,
+                    HeadColumn = 4,
+                    HeadName = string.Format("北京瑞华"),
+                });
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                LeadingDateHeaderLists.Add(new LeadingDateHeaderList
+                {
+                    HeadRow = 8,
+                    HeadColumn = 3,
+                    HeadName = string.Format("北京瑞华"),
+                });
+            }
+
+
+            for (int i = 0; i < 10; i++)
+            {
+                LeadingDateHeaderLists.Add(new LeadingDateHeaderList
+                {
+                    HeadRow = 5,
+                    HeadColumn = 6,
+                    HeadName = string.Format("北京瑞华"),
+                });
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                LeadingDateHeaderLists.Add(new LeadingDateHeaderList
+                {
+                    HeadRow = 5,
+                    HeadColumn = 8,
+                    HeadName = string.Format("北京瑞华"),
+                });
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                LeadingDateHeaderLists.Add(new LeadingDateHeaderList
+                {
+                    HeadRow = 5,
+                    HeadColumn = 10,
+                    HeadName = string.Format("北京瑞华"),
+                });
+            }
         }
     }
 
