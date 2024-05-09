@@ -15,5 +15,12 @@ namespace StockReview.Api.IApiService
         /// <param name="userEntity"></param>
         /// <returns></returns>
         string GetToken(UserEntity userEntity);
+
+        /// <summary>
+        /// 刷新token
+        /// </summary>
+        /// <param name="oldToken"></param>
+        /// <returns></returns>
+        string RefreshToken(string oldToken);
     }
 }

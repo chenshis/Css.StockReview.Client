@@ -29,5 +29,13 @@
     <Resource Include="Assets\Fonts\iconfont.ttf" />
     <Resource Include="Assets\Images\login.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="nlog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>

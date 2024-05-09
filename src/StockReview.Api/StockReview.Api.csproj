@@ -10,8 +10,4 @@
     <ProjectReference Include="..\StockReview.Infrastructure.Config\StockReview.Infrastructure.Config.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mappers\" />
-  </ItemGroup>
-
 </Project>

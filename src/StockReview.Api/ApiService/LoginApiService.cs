@@ -8,6 +8,7 @@ namespace StockReview.Api.ApiService
 {
     public class LoginApiService : ILoginApiService
     {
+
         public List<MenuEntity> GetMenus()
         {
             var menuEntities = new List<MenuEntity>();

@@ -1,10 +1,8 @@
-﻿using IdentityModel.Client;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
-using StockReview.Domain;
+using StockReview.Infrastructure.Config;
 
 namespace StockReview.Server.Controllers
 {
@@ -13,61 +11,50 @@ namespace StockReview.Server.Controllers
     /// </summary>
     public class AccountController : StockReviewControllerBase
     {
-        private readonly StockReviewDbContext _dbContext;
+        private readonly ILoginServerApiService _loginServerApiService;
         private readonly IJWTApiService _jWTApiService;
 
-        public AccountController(StockReviewDbContext dbContext, IJWTApiService jWTApiService)
+        public AccountController(ILoginServerApiService loginServerApiService, IJWTApiService jWTApiService)
         {
-            _dbContext = dbContext;
+            this._loginServerApiService = loginServerApiService;
             this._jWTApiService = jWTApiService;
         }
 
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="accountRequest">账户信息</param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("v1/stock-review/account/login")]
-        public async Task<string> Login([FromBody] AccountRequestDto accountRequest)
+        [Route(SystemConstant.LoginRoute)]
+        public string Login([FromBody] AccountRequestDto accountRequest)
         {
-            var client = new HttpClient();
-
-            var userEntity = _dbContext.UserEntities.First();
-
-            var token = _jWTApiService.GetToken(userEntity);
-            //client.SetBearerToken(token);
-            var response = client.PostAsync("http://localhost:5245/v1/stock-review/account/index", null).Result;
-
-            //PasswordTokenRequest tokenRequest = new PasswordTokenRequest();
-            //tokenRequest.Address = "http://localhost:5245/connect/token";
-            //tokenRequest.GrantType = GrantType.ResourceOwnerPassword;
-            //tokenRequest.ClientId = SystemConstant.IdentityServerClient;
-            //tokenRequest.ClientSecret = SystemConstant.IdentityServerSecret;
-            //tokenRequest.Scope = SystemConstant.IdentityServerScope;
-            //tokenRequest.Parameters = new Dictionary<string, string>()
-            //{
-            //    ["role"] = "8",
-            //    [IdentityModel.JwtClaimTypes.NickName] = "管理员"
-            //};
-            //tokenRequest.UserName = "admin";
-            //tokenRequest.Password = "admin123456";
-
-
-            //var tokenResponse = await client.RequestPasswordTokenAsync(tokenRequest);
-
-            //var token = tokenResponse.AccessToken;
-            //var tokenType = tokenResponse.TokenType;
-
-
-            //client.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse($"{tokenType} {token}");
-
-
-
-            return "token";
+            var user = _loginServerApiService.Login(accountRequest);
+            return _jWTApiService.GetToken(user);
         }
 
-        [Authorize]
+        /// <summary>
+        /// token刷新
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("v1/stock-review/account/index")]
-        public string Index()
+        [Route(SystemConstant.RefreshTokenRoute)]
+        public string RefreshToken([FromBody] string token)
         {
-            return "";
+            return _jWTApiService.RefreshToken(token);
+        }
+
+        /// <summary>
+        /// 用户注册
+        /// </summary>
+        /// <param name="registerRequest">注册信息</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(SystemConstant.RegisterRoute)]
+        public bool Register([FromBody] RegisterRequestDto registerRequest)
+        {
+            return _loginServerApiService.Register(registerRequest);
         }
     }
 }

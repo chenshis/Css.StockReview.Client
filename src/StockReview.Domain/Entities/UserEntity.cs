@@ -1,4 +1,5 @@
 ﻿using StockReview.Domain.Base;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StockReview.Domain.Entities
@@ -35,6 +36,11 @@ namespace StockReview.Domain.Entities
         /// 角色;1，2，4，8 免费用户 普通用户 vip 管理员
         /// </summary>
         public RoleEnum Role { get; set; }
+
+        /// <summary>
+        /// jwt id 用于刷新token
+        /// </summary>
+        public string Jti { get; set; } = Guid.NewGuid().ToString("N");
 
     }
 

@@ -6,6 +6,8 @@ namespace StockReview.Infrastructure.Config
     /// </summary>
     public static class SystemConstant
     {
+        public const int Zero = 0;
+
         /// <summary>
         /// 龙头晋级视图
         /// </summary>
@@ -70,14 +72,29 @@ namespace StockReview.Infrastructure.Config
         public const string ErrorEmptyPasswordMessage = "密码不能为空！";
 
         /// <summary>
+        /// 错误用户或密码
+        /// </summary>
+        public const string ErrorUserOrPasswordMessage = "用户名或密码不正确！";
+
+        /// <summary>
         /// 重复密码提示消息
         /// </summary>
         public const string ErrorEmptyRepeatPasswordMessage = "重复密码不能为空！";
 
         /// <summary>
+        /// 刷新token异常
+        /// </summary>
+        public const string ErrorRefreshTokenFailMessage = "token刷新失败，请重新登录！";
+
+        /// <summary>
         /// 异常空消息
         /// </summary>
         public const string ErrorEmptyMessage = "{0}不能为空！";
+
+        /// <summary>
+        /// 异常存在消息
+        /// </summary>
+        public const string ErrorExistMessage = "{0}已存在！";
 
         /// <summary>
         /// 验证码
@@ -94,6 +111,26 @@ namespace StockReview.Infrastructure.Config
         /// 默认连接
         /// </summary>
         public const string DefaultConnection = nameof(DefaultConnection);
+        /// <summary>
+        /// appsetting 配置
+        /// </summary>
+        public const string AppSettings = "appsettings.json";
+        /// <summary>
+        /// 股市服务地址
+        /// </summary>
+        public const string StockServerUrl = nameof(StockServerUrl);
 
+        /// <summary>
+        /// 登录路由
+        /// </summary>
+        public const string LoginRoute = "v1/stockreview/account/login";
+        /// <summary>
+        /// 刷新token路由
+        /// </summary>
+        public const string RefreshTokenRoute = "v1/stockreview/account/refresh-token";
+        /// <summary>
+        /// 注册路由
+        /// </summary>
+        public const string RegisterRoute = "v1/stockreview/account/register";
     }
 }
