@@ -20,17 +20,16 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Border BorderBrush="#DDD" BorderThickness="0,0,0,1" />
-
         <StackPanel HorizontalAlignment="Left">
             <Label
                 Background="Transparent"
                 BorderBrush="Transparent"
+                Content="{Binding MarketTitle}"
                 FontSize="15"
-                Foreground="#F06632">
-                20240506 涨停25只 晋级率：5.26% 炸板率：50.98% 竞价涨幅：0.0696%
-            </Label>
+                Foreground="#F06632" />
         </StackPanel>
         <StackPanel
+            Grid.Row="0"
             Grid.Column="1"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
@@ -48,102 +47,27 @@
                 Style="{StaticResource ButtonPrimary}" />
         </StackPanel>
 
-        <Grid Grid.Row="1" Background="#F06632">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.Column="0"
+            Width="500"
+            Height="700"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <Grid x:Name="MarketGrid" />
+        </ScrollViewer>
 
-            <Label
-                Background="Transparent"
-                BorderBrush="Transparent"
-                FontSize="12"
-                Foreground="#DDD">
-                五连板
-            </Label>
-            <Label
-                Grid.Column="1"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                FontSize="12"
-                Foreground="#DDD">
-                1只
-            </Label>
-            <Label
-                Grid.Column="2"
-                Grid.ColumnSpan="2"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                FontSize="8"
-                Foreground="#DDD">
-                (晋级率：100%   炸板率：98%   竞价涨幅：10.1% )
-            </Label>
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="500"
+            Height="700"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <Grid x:Name="MarketNewsGrid" />
+        </ScrollViewer>
 
-        </Grid>
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Foreground="#DDD"
-                Text="代码" />
-            <TextBlock
-                Grid.Column="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Foreground="#DDD"
-                Text="股票名称" />
-            <TextBlock
-                Grid.Column="2"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Foreground="#DDD"
-                Text="首次涨停" />
-            <TextBlock
-                Grid.Column="3"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Foreground="#DDD"
-                Text="涨停原因" />
-        </Grid>
-
-        <Grid Grid.Row="2" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Label
-                HorizontalAlignment="Left"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                FontSize="12"
-                Foreground="#F06632">
-                五连板
-            </Label>
-
-            <Label
-                Grid.Row="2"
-                HorizontalAlignment="Left"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                FontSize="8"
-                Foreground="#DDD">
-                生物制造业最近很成功
-            </Label>
-        </Grid>
     </Grid>
 </UserControl>
