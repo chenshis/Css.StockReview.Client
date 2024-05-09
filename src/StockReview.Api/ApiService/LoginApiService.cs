@@ -1,4 +1,5 @@
-﻿using StockReview.Api.IApiService;
+﻿using StockReview.Api.Dtos;
+using StockReview.Api.IApiService;
 using StockReview.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,11 @@ namespace StockReview.Api.ApiService
     public class LoginApiService : ILoginApiService
     {
 
-        public List<MenuEntity> GetMenus()
+        public List<MenuDto> GetMenus()
         {
-            var menuEntities = new List<MenuEntity>();
+            var menuEntities = new List<MenuDto>();
             //todo 调用接口
-            menuEntities.Add(new MenuEntity()
+            menuEntities.Add(new MenuDto()
             {
                 MenuHeader = "系统用户",
                 MenuId = 1,
@@ -23,7 +24,7 @@ namespace StockReview.Api.ApiService
                 MenuIcon = null,
                 MenuRole = 0,
             });
-            menuEntities.Add(new MenuEntity()
+            menuEntities.Add(new MenuDto()
             {
                 MenuHeader = "股市看盘",
                 MenuId = 2,
@@ -33,7 +34,7 @@ namespace StockReview.Api.ApiService
                 MenuIcon = null,
                 MenuRole = 0,
             });
-            menuEntities.Add(new MenuEntity()
+            menuEntities.Add(new MenuDto()
             {
                 MenuHeader = "龙虎榜",
                 MenuId = 3,
@@ -43,7 +44,7 @@ namespace StockReview.Api.ApiService
                 MenuIcon = null,
                 MenuRole = 0,
             });
-            menuEntities.Add(new MenuEntity()
+            menuEntities.Add(new MenuDto()
             {
                 MenuHeader = "龙头晋级",
                 MenuId = 4,
@@ -53,7 +54,7 @@ namespace StockReview.Api.ApiService
                 MenuIcon = null,
                 MenuRole = 0,
             });
-            menuEntities.Add(new MenuEntity()
+            menuEntities.Add(new MenuDto()
             {
                 MenuHeader = "市场天梯",
                 MenuId = 5,
@@ -63,7 +64,7 @@ namespace StockReview.Api.ApiService
                 MenuIcon = null,
                 MenuRole = 0,
             });
-            menuEntities.Add(new MenuEntity()
+            menuEntities.Add(new MenuDto()
             {
                 MenuHeader = "板块轮动",
                 MenuId = 6,
@@ -73,7 +74,7 @@ namespace StockReview.Api.ApiService
                 MenuIcon = null,
                 MenuRole = 0,
             });
-            menuEntities.Add(new MenuEntity()
+            menuEntities.Add(new MenuDto()
             {
                 MenuHeader = "炸板与涨停板",
                 MenuId = 7,
@@ -83,7 +84,7 @@ namespace StockReview.Api.ApiService
                 MenuIcon = null,
                 MenuRole = 0,
             });
-            menuEntities.Add(new MenuEntity()
+            menuEntities.Add(new MenuDto()
             {
                 MenuHeader = "市场情绪",
                 MenuId = 8,

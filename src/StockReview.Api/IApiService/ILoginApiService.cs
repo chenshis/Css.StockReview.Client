@@ -1,4 +1,5 @@
-﻿using StockReview.Domain.Entities;
+﻿using StockReview.Api.Dtos;
+using StockReview.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,6 @@ namespace StockReview.Api.IApiService
     /// </summary>
     public interface ILoginApiService
     {
-        List<MenuEntity> GetMenus();
+        List<MenuDto> GetMenus();
     }
 }

@@ -1,31 +1,74 @@
-{
-  "Menus": [
-    {
-      "MenuId": 1,
-      "MenuHeader": "系统用户",
-      "TargetView": "UserManagementView",
-      "ParentId": 0,
-      "MenuIcon": "",
-      "Index": 1,
-      "MenuRole": 0
-    },
-    {
-      "MenuId": 2,
-      "MenuHeader": "股市看盘",
-      "TargetView": "StockOutlookView",
-      "ParentId": 0,
-      "MenuIcon": "",
-      "Index": 2,
-      "MenuRole": 0
-    },
-    {
-      "MenuId": 3,
-      "MenuHeader": "龙虎榜",
-      "TargetView": "DragonTigerView",
-      "ParentId": 0,
-      "MenuIcon": "",
-      "Index": 3,
-      "MenuRole": 0
-    }
-  ]
-}
+[
+  {
+    "MenuId": 1,
+    "MenuHeader": "系统用户",
+    "TargetView": "UserManagementView",
+    "ParentId": 0,
+    "MenuIcon": "",
+    "Index": 1,
+    "MenuRole": 8
+  },
+  {
+    "MenuId": 2,
+    "MenuHeader": "股市看盘",
+    "TargetView": "StockOutlookView",
+    "ParentId": 0,
+    "MenuIcon": "",
+    "Index": 2,
+    "MenuRole": 2
+  },
+  {
+    "MenuId": 3,
+    "MenuHeader": "龙虎榜",
+    "TargetView": "DragonTigerView",
+    "ParentId": 0,
+    "MenuIcon": "",
+    "Index": 3,
+    "MenuRole": 2
+  },
+  {
+    "MenuId": 4,
+    "MenuHeader": "龙头晋级",
+    "TargetView": "LeadingGroupPromotionView",
+    "ParentId": 0,
+    "MenuIcon": "",
+    "Index": 4,
+    "MenuRole": 1
+  },
+  {
+    "MenuId": 5,
+    "MenuHeader": "市场天梯",
+    "TargetView": "MarketLadderView",
+    "ParentId": 0,
+    "MenuIcon": "",
+    "Index": 5,
+    "MenuRole": 1
+  },
+  {
+    "MenuId": 6,
+    "MenuHeader": "板块轮动",
+    "TargetView": "PlateRotationView",
+    "ParentId": 0,
+    "MenuIcon": "",
+    "Index": 6,
+    "MenuRole": 1
+  },
+  {
+    "MenuId": 7,
+    "MenuHeader": "炸板与涨停板",
+    "TargetView": "ExplosiveBoardLImitDown",
+    "ParentId": 0,
+    "MenuIcon": "",
+    "Index": 7,
+    "MenuRole": 1
+  },
+  {
+    "MenuId": 8,
+    "MenuHeader": "市场情绪",
+    "TargetView": "MarketSentimentView",
+    "ParentId": 0,
+    "MenuIcon": "",
+    "Index": 8,
+    "MenuRole": 1
+  }
+]

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using IdentityModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
 using StockReview.Infrastructure.Config;
+using System.Security.Claims;
 
 namespace StockReview.Server.Controllers
 {
@@ -58,15 +60,16 @@ namespace StockReview.Server.Controllers
         }
 
         /// <summary>
-        /// 测试索引
+        /// 菜单路由
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/stockreview/account/index")]
+        [Route(SystemConstant.MenuRoute)]
         [Authorize]
-        public string Index()
+        public List<MenuDto> PostMenus()
         {
-            return "Index";
+            var role = HttpContext.User.Claims.Where(t => t.Type == ClaimTypes.Role).Select(t => t.Value).FirstOrDefault();
+            return _loginServerApiService.GetMenus(role);
         }
     }
 }

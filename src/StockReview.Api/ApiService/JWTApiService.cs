@@ -36,10 +36,10 @@ namespace StockReview.Api.ApiService
             var claims = new Claim[]
             {
                  new Claim(JwtClaimTypes.JwtId,userEntity.Jti),
-                 new Claim(JwtClaimTypes.Actor,SystemConstant.JwtActor),
-                 new Claim(JwtClaimTypes.NickName,userEntity.Contacts),
-                 new Claim(JwtClaimTypes.Id,userEntity.Id.ToString()),
-                 new Claim(JwtClaimTypes.Role,((int)userEntity.Role).ToString())
+                 new Claim(ClaimTypes.Actor,SystemConstant.JwtActor),
+                 new Claim(ClaimTypes.Name,userEntity.Contacts),
+                 new Claim(ClaimTypes.PrimarySid,userEntity.Id.ToString()),
+                 new Claim(ClaimTypes.Role,((int)userEntity.Role).ToString())
             };
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SystemConstant.JwtSecurityKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

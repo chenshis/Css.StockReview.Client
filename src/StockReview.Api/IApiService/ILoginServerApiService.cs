@@ -1,5 +1,6 @@
 ﻿using StockReview.Api.Dtos;
 using StockReview.Domain.Entities;
+using System.Collections.Generic;
 
 namespace StockReview.Api.IApiService
 {
@@ -21,5 +22,12 @@ namespace StockReview.Api.IApiService
         /// <param name="registerRequest"></param>
         /// <returns></returns>
         bool Register(RegisterRequestDto registerRequest);
+
+        /// <summary>
+        /// 根据角色过滤菜单
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        List<MenuDto> GetMenus(string role);
     }
 }

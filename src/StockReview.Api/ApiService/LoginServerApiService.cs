@@ -1,4 +1,5 @@
 ﻿using Namotion.Reflection;
+using Newtonsoft.Json;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
 using StockReview.Api.Mappers;
@@ -8,6 +9,7 @@ using StockReview.Infrastructure.Config;
 using StockReview.Infrastructure.Config.ExtensionMethods;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -23,6 +25,7 @@ namespace StockReview.Api.ApiService
         {
             this._dbContext = dbContext;
         }
+
         public UserEntity Login(AccountRequestDto accountRequest)
         {
             if (string.IsNullOrWhiteSpace(accountRequest.Password))
@@ -95,6 +98,44 @@ namespace StockReview.Api.ApiService
 
             return result > SystemConstant.Zero;
         }
+
+
+        public List<MenuDto> GetMenus(string role)
+        {
+            if (string.IsNullOrWhiteSpace(role))
+            {
+                return new List<MenuDto>();
+            }
+            if (!Enum.TryParse(role, out RoleEnum result))
+            {
+                return new List<MenuDto>();
+            }
+            var menuFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SystemConstant.MenuJson);
+            if (!File.Exists(menuFile))
+            {
+                throw new Exception(SystemConstant.ErrorMenuNotExist);
+            }
+            var strMenuInfo = File.ReadAllText(menuFile);
+
+            try
+            {
+                var deserializeMenuDtos = JsonConvert.DeserializeObject<List<MenuDto>>(strMenuInfo);
+                List<MenuDto> menuDtos = new List<MenuDto>();
+                foreach (var item in deserializeMenuDtos)
+                {
+                    if ((item.MenuRole & result) > 0)
+                    {
+                        menuDtos.Add(item);
+                    }
+                }
+                return menuDtos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
         /// <summary>
         /// 获取属性名称

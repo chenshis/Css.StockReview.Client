@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
 using StockReview.Infrastructure.Config;
 using StockReview.Infrastructure.Config.HttpClients;
@@ -149,6 +150,17 @@ namespace StockReview.Client.ViewModels
                 ErrorMessage = GetErrorMessage(SystemConstant.ErrorEmptyPasswordMessage);
                 return;
             }
+
+            var apiResponse = _stockHttpClient.Post(SystemConstant.LoginRoute, new AccountRequestDto
+            {
+                UserName = UserName,
+                Password = Password
+            });
+            _stockHttpClient.SetToken(apiResponse.Data.ToString());
+
+            var men = _stockHttpClient.Post(SystemConstant.MenuRoute);
+
+
             var menus = _loginApiService.GetMenus();
             _memoryCache.Set(SystemConstant.TreeMenuView, menus);
 

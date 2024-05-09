@@ -47,6 +47,7 @@ namespace StockReview.Domain.Entities
     /// <summary>
     /// 角色枚举
     /// </summary>
+    [Flags]
     public enum RoleEnum
     {
         /// <summary>

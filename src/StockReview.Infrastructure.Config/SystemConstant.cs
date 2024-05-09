@@ -120,6 +120,15 @@ namespace StockReview.Infrastructure.Config
         /// appsetting 配置
         /// </summary>
         public const string AppSettings = "appsettings.json";
+
+        /// <summary>
+        /// menu 配置文件
+        /// </summary>
+        public const string MenuJson = "Menu.json";
+        /// <summary>
+        /// 没有菜单
+        /// </summary>
+        public const string ErrorMenuNotExist = "菜单信息不存在！";
         /// <summary>
         /// 股市服务地址
         /// </summary>
@@ -137,5 +146,9 @@ namespace StockReview.Infrastructure.Config
         /// 注册路由
         /// </summary>
         public const string RegisterRoute = "v1/stockreview/account/register";
+        /// <summary>
+        /// 菜单路由
+        /// </summary>
+        public const string MenuRoute = "v1/stockreview/account/menu";
     }
 }

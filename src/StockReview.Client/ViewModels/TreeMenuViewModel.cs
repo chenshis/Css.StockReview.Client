@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using StockReview.Api.Dtos;
 using StockReview.Domain.Entities;
 using StockReview.Infrastructure.Config;
 using System;
@@ -32,10 +33,10 @@ namespace StockReview.Client.ViewModels
 
         private void Init()
         {
-            var menuEntities = _memoryCache.Get<List<MenuEntity>>(SystemConstant.TreeMenuView);
-            if (menuEntities != null && menuEntities.Count > 0)
+            var menuDtos = _memoryCache.Get<List<MenuDto>>(SystemConstant.TreeMenuView);
+            if (menuDtos != null && menuDtos.Count > 0)
             {
-                FillMenus(menuEntities, 0);
+                FillMenus(menuDtos, 0);
             }
         }
 
@@ -45,7 +46,7 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         /// <param name="origMenus"></param>
         /// <param name="parentId"></param>
-        private void FillMenus(List<MenuEntity> origMenus, int parentId)
+        private void FillMenus(List<MenuDto> origMenus, int parentId)
         {
             var sub = origMenus.Where(m => m.ParentId == parentId).OrderBy(o => o.Index);
             if (sub.Count() > 0)

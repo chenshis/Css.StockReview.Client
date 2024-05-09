@@ -1,13 +1,13 @@
-﻿using System;
+﻿using StockReview.Domain.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace StockReview.Domain.Entities
+namespace StockReview.Api.Dtos
 {
-    /// <summary>
-    /// 菜单实体
-    /// </summary>
-    public class MenuEntity
+    public class MenuDto
     {
         /// <summary>
         /// 菜单主键
@@ -36,25 +36,6 @@ namespace StockReview.Domain.Entities
         /// <summary>
         /// 菜单角色
         /// </summary>
-        public MenuRoleEnum MenuRole { get; set; }
-    }
-
-    /// <summary>
-    /// 菜单角色枚举
-    /// </summary>
-    public enum MenuRoleEnum
-    {
-        /// <summary>
-        /// 免费
-        /// </summary>
-        Free,
-        /// <summary>
-        /// 普通
-        /// </summary>
-        Ordinary,
-        /// <summary>
-        /// vip会员
-        /// </summary>
-        VIP
+        public RoleEnum MenuRole { get; set; }
     }
 }
