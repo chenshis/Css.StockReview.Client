@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NLog.Extensions.Logging;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
@@ -76,7 +78,16 @@ namespace StockReview.Client
             if (containerRegistry is IContainerExtension container)
             {
                 // 注入 httpClient
-                container.CreateServiceProvider((services) => services.AddHttpClient());
+                container.CreateServiceProvider((services) =>
+                {
+                    services.AddHttpClient();
+                    services.AddLogging(configure =>
+                    {
+                        configure.ClearProviders();
+                        configure.SetMinimumLevel(LogLevel.Trace);
+                        configure.AddNLog();
+                    });
+                });
             }
             // 注册业务逻辑
             containerRegistry.RegisterScoped<ILoginApiService, LoginApiService>();
