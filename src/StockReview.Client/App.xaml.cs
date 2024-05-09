@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using LiveChartsCore;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -45,6 +48,7 @@ namespace StockReview.Client
         }
 
 
+
         /// <summary>
         /// 用于注册一些内容
         /// </summary>
@@ -61,6 +65,21 @@ namespace StockReview.Client
             // 缓存引入
             var options = Options.Create(new MemoryCacheOptions() { ExpirationScanFrequency = TimeSpan.FromSeconds(30), CompactionPercentage = 0.2 });
             containerRegistry.RegisterSingleton<IMemoryCache>(() => new MemoryCache(options));
+            // IConfiguration 注入
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile(SystemConstant.AppSettings)
+                .Build();
+            containerRegistry.RegisterSingleton<IConfiguration>(() => configuration);
+          
+            if (containerRegistry is IContainerExtension container)
+            {
+                var serviceDescriptors = new ServiceCollection();
+                // 注入 httpClient
+                serviceDescriptors.AddHttpClient();
+                IServiceProviderExtensions.CreateServiceProvider(container, serviceDescriptors);
+            }
+
 
             // 注册业务逻辑
             containerRegistry.RegisterScoped<ILoginApiService, LoginApiService>();

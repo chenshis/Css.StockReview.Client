@@ -17,6 +17,7 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
+    <PackageReference Include="Prism.Unity.Extensions" Version="8.0.62" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.4" />
   </ItemGroup>
@@ -28,6 +29,11 @@
   <ItemGroup>
     <Resource Include="Assets\Fonts\iconfont.ttf" />
     <Resource Include="Assets\Images\login.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
