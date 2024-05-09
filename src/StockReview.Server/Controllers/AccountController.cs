@@ -56,5 +56,17 @@ namespace StockReview.Server.Controllers
         {
             return _loginServerApiService.Register(registerRequest);
         }
+
+        /// <summary>
+        /// 测试索引
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("v1/stockreview/account/index")]
+        [Authorize]
+        public string Index()
+        {
+            return "Index";
+        }
     }
 }

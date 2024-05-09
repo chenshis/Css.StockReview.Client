@@ -89,6 +89,11 @@ namespace StockReview.Client
                     });
                 });
             }
+            // httpclient帮助类注册
+            containerRegistry.RegisterSingleton<StockHttpClient>();
+
+
+
             // 注册业务逻辑
             containerRegistry.RegisterScoped<ILoginApiService, LoginApiService>();
         }

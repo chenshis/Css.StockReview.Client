@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using StockReview.Infrastructure.Config;
 
 namespace StockReview.Server.Exceptions
 {

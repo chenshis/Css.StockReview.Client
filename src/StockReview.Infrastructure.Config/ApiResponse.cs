@@ -1,4 +1,6 @@
-﻿namespace StockReview.Server
+﻿using System;
+
+namespace StockReview.Infrastructure.Config
 {
     /// <summary>
     /// Api响应
@@ -10,6 +12,10 @@
         /// </summary>
         public virtual object Data { get; set; }
 
+        public ApiResponse()
+        {
+            
+        }
 
         public ApiResponse(int code, string msg, object data)
         {

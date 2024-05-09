@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Concurrent;
+using StockReview.Infrastructure.Config;
 
 namespace StockReview.Server
 {

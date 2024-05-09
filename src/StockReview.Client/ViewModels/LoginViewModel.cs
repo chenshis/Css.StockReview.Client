@@ -1,19 +1,10 @@
-﻿using HandyControl.Tools.Extension;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Prism.Commands;
-using Prism.Ioc;
 using Prism.Mvvm;
-using Prism.Regions;
 using Prism.Services.Dialogs;
-using Prism.Unity;
 using StockReview.Api.IApiService;
-using StockReview.Client.Views;
 using StockReview.Infrastructure.Config;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StockReview.Infrastructure.Config.HttpClients;
 using System.Windows;
 using System.Windows.Input;
 
@@ -27,14 +18,14 @@ namespace StockReview.Client.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IMemoryCache _memoryCache;
         private readonly ILoginApiService _loginApiService;
+        private readonly StockHttpClient _stockHttpClient;
 
-        public LoginViewModel(IDialogService dialogService,
-                              IMemoryCache memoryCache,
-                              ILoginApiService loginApiService)
+        public LoginViewModel(IDialogService dialogService, IMemoryCache memoryCache, ILoginApiService loginApiService, StockHttpClient stockHttpClient)
         {
             this._dialogService = dialogService;
             this._memoryCache = memoryCache;
             this._loginApiService = loginApiService;
+            this._stockHttpClient = stockHttpClient;
         }
 
         private string _userName;
