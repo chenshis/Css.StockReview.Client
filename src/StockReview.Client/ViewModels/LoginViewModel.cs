@@ -135,6 +135,10 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         private void SetLogin(Window window)
         {
+            HandyControl.Controls.PasswordBox pwdBox = null;
+            pwdBox = window.FindName(nameof(pwdBox)) as HandyControl.Controls.PasswordBox;
+            Password = pwdBox.Password;
+
             string GetErrorMessage(string msg)
             {
                 return string.Concat(SystemConstant.ErrorIcon, msg);

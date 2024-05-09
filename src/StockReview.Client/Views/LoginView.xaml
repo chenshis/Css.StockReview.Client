@@ -96,8 +96,7 @@
                 Margin="0,5"
                 hc:InfoElement.Placeholder="会员密码"
                 hc:ShowPassword="False"
-                pwdHelper:PasswordHelper.IsAttach="true"
-                pwdHelper:PasswordHelper.Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                x:Name="pwdBox"
                 FontSize="16"
                 ShowEyeButton="True" />
             <UniformGrid Margin="2,5" Rows="1">
