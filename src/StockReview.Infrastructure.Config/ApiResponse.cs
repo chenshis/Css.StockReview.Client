@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace StockReview.Infrastructure.Config
 {
@@ -14,7 +15,7 @@ namespace StockReview.Infrastructure.Config
 
         public ApiResponse()
         {
-            
+
         }
 
         public ApiResponse(int code, string msg, object data)
@@ -32,6 +33,12 @@ namespace StockReview.Infrastructure.Config
             this.Data = data;
             this.ServerTime = serverTimeTicks;
         }
+    }
+
+
+    public class ApiResponse<TData> : ApiResponse
+    {
+        public new TData Data { get; set; }
     }
 
 

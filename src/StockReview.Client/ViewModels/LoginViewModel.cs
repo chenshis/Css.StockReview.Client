@@ -154,19 +154,20 @@ namespace StockReview.Client.ViewModels
                 ErrorMessage = GetErrorMessage(SystemConstant.ErrorEmptyPasswordMessage);
                 return;
             }
-
-            var apiResponse = _stockHttpClient.Post(SystemConstant.LoginRoute, new AccountRequestDto
+            // 数据处理
+            var response = _loginApiService.Login(UserName, Password);
+            if (response.Code!=0)
             {
-                UserName = UserName,
-                Password = Password
-            });
-            _stockHttpClient.SetToken(apiResponse.Data.ToString());
-
-            var men = _stockHttpClient.Post(SystemConstant.MenuRoute);
-
-
-            var menus = _loginApiService.GetMenus();
-            _memoryCache.Set(SystemConstant.TreeMenuView, menus);
+                ErrorMessage = response.Msg;
+                return;
+            }
+            var responseMenus = _loginApiService.GetMenus();
+            if(response.Code!=0)
+            {
+                ErrorMessage = response.Msg;
+                return;
+            }
+            _memoryCache.Set(SystemConstant.TreeMenuView, responseMenus.Data);
 
             // 设置弹窗结果
             window.DialogResult = true;

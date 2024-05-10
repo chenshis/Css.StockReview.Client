@@ -27,22 +27,22 @@ namespace StockReview.Infrastructure.Config.HttpClients
             return this;
         }
 
-        public ApiResponse Get(string route)
+        public ApiResponse<TData> Get<TData>(string route)
         {
             try
             {
                 HttpResponseMessage responseMessage = _httpClient.GetAsync(route).Result;
-                var responseResult = GetResponseCodeResult(responseMessage);
+                var responseResult = GetResponseCodeResult<TData>(responseMessage);
                 // 未授权 但是有token 则刷新token
                 if (responseResult.Code == (int)System.Net.HttpStatusCode.Unauthorized)
                 {
-                    responseResult = RefreshToken();
+                    responseResult = RefreshToken<TData>();
                     if (responseResult.Code != 0)
                     {
                         return responseResult;
                     }
                     responseMessage = _httpClient.GetAsync(route).Result;
-                    responseResult = GetResponseCodeResult(responseMessage);
+                    responseResult = GetResponseCodeResult<TData>(responseMessage);
                     if (responseResult.Code != 0)
                     {
                         responseResult.Code = 1;
@@ -53,17 +53,22 @@ namespace StockReview.Infrastructure.Config.HttpClients
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Get请求异常：{ex.Message}");
-                return new ApiResponse(1, ex.Message, ex);
+                var apiResponse = new ApiResponse<TData>();
+                apiResponse.Code = 1;
+                apiResponse.Msg = ex.Message;
+                apiResponse.Data = default(TData);
+                apiResponse.ServerTime = DateTime.Now.Ticks;
+                return apiResponse;
             }
         }
 
 
-        public ApiResponse Post(string route)
+        public ApiResponse<TData> Post<TData>(string route)
         {
-            return Post(route, 0);
+            return Post<int, TData>(route, 0);
         }
 
-        public ApiResponse Post<TRequest>(string route, TRequest request)
+        public ApiResponse<TData> Post<TRequest, TData>(string route, TRequest request)
         {
             StringContent stringContent = null;
             if (request != null)
@@ -73,17 +78,17 @@ namespace StockReview.Infrastructure.Config.HttpClients
             try
             {
                 HttpResponseMessage responseMessage = _httpClient.PostAsync(route, stringContent).Result;
-                var responseResult = GetResponseCodeResult(responseMessage);
+                var responseResult = GetResponseCodeResult<TData>(responseMessage);
                 // 未授权 但是有token 则刷新token
                 if (responseResult.Code == (int)System.Net.HttpStatusCode.Unauthorized)
                 {
-                    responseResult = RefreshToken();
+                    responseResult = RefreshToken<TData>();
                     if (responseResult.Code != 0)
                     {
                         return responseResult;
                     }
                     responseMessage = _httpClient.PostAsync(route, stringContent).Result;
-                    responseResult = GetResponseCodeResult(responseMessage);
+                    responseResult = GetResponseCodeResult<TData>(responseMessage);
                     if (responseResult.Code != 0)
                     {
                         responseResult.Code = 1;
@@ -94,7 +99,12 @@ namespace StockReview.Infrastructure.Config.HttpClients
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Post请求异常：{ex.Message}");
-                return new ApiResponse(1, ex.Message, ex);
+                var apiResponse = new ApiResponse<TData>();
+                apiResponse.Code = 1;
+                apiResponse.Msg = ex.Message;
+                apiResponse.Data = default(TData);
+                apiResponse.ServerTime = DateTime.Now.Ticks;
+                return apiResponse;
             }
         }
 
@@ -103,13 +113,17 @@ namespace StockReview.Infrastructure.Config.HttpClients
         /// 刷新token
         /// </summary>
         /// <returns></returns>
-        private ApiResponse RefreshToken()
+        private ApiResponse<TData> RefreshToken<TData>()
         {
-            ApiResponse apiResponse = null;
+            ApiResponse<TData> apiResponse = null;
             var token = _httpClient.DefaultRequestHeaders.Authorization?.Parameter;
             if (string.IsNullOrWhiteSpace(token))
             {
-                apiResponse = new ApiResponse(1, SystemConstant.Unauthorized, System.Net.HttpStatusCode.Unauthorized);
+                apiResponse = new ApiResponse<TData>();
+                apiResponse.Code = 1;
+                apiResponse.Msg = SystemConstant.Unauthorized;
+                apiResponse.Data = default(TData);
+                apiResponse.ServerTime = DateTime.Now.Ticks;
             }
             else
             {
@@ -117,7 +131,7 @@ namespace StockReview.Infrastructure.Config.HttpClients
                 try
                 {
                     HttpResponseMessage responseMessage = _httpClient.PostAsync(SystemConstant.RefreshTokenRoute, stringContent).Result;
-                    apiResponse = GetResponseCodeResult(responseMessage);
+                    apiResponse = GetResponseCodeResult<TData>(responseMessage);
                     if (apiResponse.Code == 0)
                     {
                         SetToken(apiResponse.Data.ToString());
@@ -131,7 +145,11 @@ namespace StockReview.Infrastructure.Config.HttpClients
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, $"Post请求异常：{ex.Message}");
-                    apiResponse = new ApiResponse(1, ex.Message, ex);
+                    apiResponse = new ApiResponse<TData>();
+                    apiResponse.Code = 1;
+                    apiResponse.Msg = ex.Message;
+                    apiResponse.Data = default(TData);
+                    apiResponse.ServerTime = DateTime.Now.Ticks;
                 }
 
             }
@@ -145,20 +163,24 @@ namespace StockReview.Infrastructure.Config.HttpClients
         /// <param name="responseMessage">响应消息</param>
         /// <param name="route">路由</param>
         /// <returns></returns>
-        private ApiResponse GetResponseCodeResult(HttpResponseMessage responseMessage)
+        private ApiResponse<TData> GetResponseCodeResult<TData>(HttpResponseMessage responseMessage)
         {
-            ApiResponse apiResponse = null;
+            ApiResponse<TData> apiResponse = null;
             if (responseMessage.IsSuccessStatusCode)
             {
                 try
                 {
                     var stringResult = responseMessage.Content.ReadAsStringAsync().Result;
-                    apiResponse = JsonConvert.DeserializeObject<ApiResponse>(stringResult);
+                    apiResponse = JsonConvert.DeserializeObject<ApiResponse<TData>>(stringResult);
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, $"接口请求序列化异常：{ex.Message}");
-                    apiResponse = new ApiResponse(1, ex.Message, ex);
+                    apiResponse = new ApiResponse<TData>();
+                    apiResponse.Code = 1;
+                    apiResponse.Msg = ex.Message;
+                    apiResponse.Data = default(TData);
+                    apiResponse.ServerTime = DateTime.Now.Ticks;
                 }
             }
             else
@@ -170,17 +192,29 @@ namespace StockReview.Infrastructure.Config.HttpClients
                     var authorization = _httpClient.DefaultRequestHeaders.Authorization?.ToString();
                     if (string.IsNullOrWhiteSpace(authorization))
                     {
-                        apiResponse = new ApiResponse(1, SystemConstant.Unauthorized, responseMessage.StatusCode);
+                        apiResponse = new ApiResponse<TData>();
+                        apiResponse.Code = 1;
+                        apiResponse.Msg = SystemConstant.Unauthorized;
+                        apiResponse.Data = default(TData);
+                        apiResponse.ServerTime = DateTime.Now.Ticks;
                     }
                     else
                     {
                         // 赋值401状态 用于上层处理
-                        apiResponse = new ApiResponse((int)responseMessage.StatusCode, SystemConstant.Unauthorized, responseMessage.StatusCode);
+                        apiResponse = new ApiResponse<TData>();
+                        apiResponse.Code = (int)responseMessage.StatusCode;
+                        apiResponse.Msg = SystemConstant.Unauthorized;
+                        apiResponse.Data = default(TData);
+                        apiResponse.ServerTime = DateTime.Now.Ticks;
                     }
                 }
                 else
                 {
-                    apiResponse = new ApiResponse(1, responseMessage.ReasonPhrase, responseMessage.StatusCode);
+                    apiResponse = new ApiResponse<TData>();
+                    apiResponse.Code = 1;
+                    apiResponse.Msg = responseMessage.ReasonPhrase;
+                    apiResponse.Data = default(TData);
+                    apiResponse.ServerTime = DateTime.Now.Ticks;
                 }
             }
             return apiResponse;

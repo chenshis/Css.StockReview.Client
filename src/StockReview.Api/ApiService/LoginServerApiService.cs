@@ -36,8 +36,9 @@ namespace StockReview.Api.ApiService
             {
                 throw new Exception(SystemConstant.ErrorEmptyUserNameMessage);
             }
-            var userPassword = accountRequest.Password.GetMd5();
-            var userEntity = _dbContext.UserEntities.FirstOrDefault(t => t.UserName == accountRequest.UserName && t.Password == userPassword);
+            var userPassword = accountRequest.Password;
+            var userName = accountRequest.UserName;
+            var userEntity = _dbContext.UserEntities.FirstOrDefault(t => t.UserName == userName && t.Password == userPassword);
             if (userEntity == null)
             {
                 throw new Exception(SystemConstant.ErrorUserOrPasswordMessage);
