@@ -235,6 +235,12 @@ namespace StockReview.Client.ViewModels
                 IsEnable = true;
                 return;
             }
+            if (apiResponse.Data != true)
+            {
+                ErrorMessage = SystemConstant.ErrorDataSumbit;
+                IsEnable = true;
+                return;
+            }
             HandyControl.Controls.MessageBox.Success(SystemConstant.RegisterSuccess, SystemConstant.RegisterWindow);
             // 关闭注册窗口
             IDialogParameters dialogParameters = new DialogParameters();

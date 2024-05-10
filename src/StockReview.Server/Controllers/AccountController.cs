@@ -65,7 +65,7 @@ namespace StockReview.Server.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route(SystemConstant.ForgotPasswordRoute)]
-        public bool ForgotPassword(ForgotPasswordRequestDto request)
+        public bool ForgotPassword([FromBody] ForgotPasswordRequestDto request)
         {
             return _loginServerApiService.ForgotPassword(request);
         }
@@ -77,7 +77,7 @@ namespace StockReview.Server.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route(SystemConstant.UpdatePasswordRoute)]
-        public bool UpdatePassword(UpdatePasswordRequestDto request)
+        public bool UpdatePassword([FromBody] UpdatePasswordRequestDto request)
         {
             return _loginServerApiService.UpdatePassword(request);
         }

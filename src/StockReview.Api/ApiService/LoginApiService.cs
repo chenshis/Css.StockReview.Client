@@ -15,6 +15,7 @@ namespace StockReview.Api.ApiService
         {
             this._stockHttpClient = stockHttpClient;
         }
+
         public ApiResponse<List<MenuDto>> GetMenus()
             => _stockHttpClient.Post<List<MenuDto>>(SystemConstant.MenuRoute);
 
@@ -37,6 +38,24 @@ namespace StockReview.Api.ApiService
         {
             registerRequest.Password = registerRequest.Password.GetMd5();
             var apiResponse = _stockHttpClient.Post<RegisterRequestDto, bool?>(SystemConstant.RegisterRoute, registerRequest);
+            return apiResponse;
+        }
+
+        public ApiResponse<bool?> ForgotPassword(ForgotPasswordRequestDto request)
+        {
+            request.Password = request.Password.GetMd5();
+            request.ConfirmPassword = request.ConfirmPassword.GetMd5();
+            var apiResponse = _stockHttpClient.Post<ForgotPasswordRequestDto, bool?>(SystemConstant.ForgotPasswordRoute, request);
+            return apiResponse;
+        }
+
+
+        public ApiResponse<bool?> UpdatePassword(UpdatePasswordRequestDto request)
+        {
+            request.Password = request.Password.GetMd5();
+            request.NewPassword = request.NewPassword.GetMd5();
+            request.ConfirmPassword = request.ConfirmPassword.GetMd5();
+            var apiResponse = _stockHttpClient.Post<UpdatePasswordRequestDto, bool?>(SystemConstant.UpdatePasswordRoute, request);
             return apiResponse;
         }
     }
