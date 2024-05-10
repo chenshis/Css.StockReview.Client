@@ -58,5 +58,16 @@ namespace StockReview.Api.ApiService
             var apiResponse = _stockHttpClient.Post<UpdatePasswordRequestDto, bool?>(SystemConstant.UpdatePasswordRoute, request);
             return apiResponse;
         }
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="keyword">关键字</param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public ApiResponse<List<UserDto>> GetUsers(string keyword)
+        {
+            return _stockHttpClient.Get<List<UserDto>>(string.Format(SystemConstant.UsersRouteQuery, keyword));
+        }
     }
 }

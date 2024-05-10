@@ -1,5 +1,6 @@
 ﻿using StockReview.Domain.Base;
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StockReview.Domain.Entities
@@ -53,18 +54,22 @@ namespace StockReview.Domain.Entities
         /// <summary>
         /// 免费
         /// </summary>
+        [Description("免费")]
         Free = 1,
         /// <summary>
         /// 普通
         /// </summary>
+        [Description("普通")]
         Ordinary = 2,
         /// <summary>
         /// vip
         /// </summary>
+        [Description("会员")]
         VIP = 4,
         /// <summary>
         /// 管理员
         /// </summary>
+        [Description("管理员")]
         Admin = 8
     }
 }

@@ -5,7 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 using StockReview.Api.ApiService;
 using StockReview.Api.IApiService;
 using StockReview.Domain;
+using StockReview.Domain.Entities;
 using StockReview.Infrastructure.Config;
+using StockReview.Server;
 using StockReview.Server.Exceptions;
 using System.Text;
 
@@ -19,10 +21,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,//是否验证Issuer
-        ValidateAudience = true,//是否验证Audience
-        ValidateLifetime = true,//是否验证失效时间
-        ValidateIssuerSigningKey = true,//是否验证SecurityKey
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
         ValidAudience = SystemConstant.JwtAudience,
         ValidIssuer = SystemConstant.JwtIssuer,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SystemConstant.JwtSecurityKey)),
@@ -32,11 +34,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         }
     };
 });
+builder.Services.AddAuthorization(options =>
+{
+    //options.AddPolicy(nameof(RoleEnum.), policyBuilder => policyBuilder.Requirements.Add(new AdminRequirement()));
+});
 builder.Services.AddDbContext<StockReviewDbContext>((options) =>
 {
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36)));
 });
-builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

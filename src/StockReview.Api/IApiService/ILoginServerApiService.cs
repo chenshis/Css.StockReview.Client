@@ -1,6 +1,7 @@
 ﻿using StockReview.Api.Dtos;
 using StockReview.Domain.Entities;
 using System.Collections.Generic;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace StockReview.Api.IApiService
 {
@@ -43,5 +44,12 @@ namespace StockReview.Api.IApiService
         /// <param name="role"></param>
         /// <returns></returns>
         List<MenuDto> GetMenus(string role);
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="keyword">关键字</param>
+        /// <returns></returns>
+        List<UserDto> GetUsers(string keyword);
     }
 }

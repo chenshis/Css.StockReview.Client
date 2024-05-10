@@ -189,5 +189,10 @@ namespace StockReview.Infrastructure.Config
         /// 菜单路由
         /// </summary>
         public const string MenuRoute = "v1/stockreview/account/menu";
+        /// <summary>
+        /// 用户列表集合
+        /// </summary>
+        public const string UsersRoute = "v1/stockreview/user/list";
+        public const string UsersRouteQuery = "v1/stockreview/user/list?keyword={0}";
     }
 }

@@ -39,7 +39,7 @@ namespace StockReview.Api.ApiService
                  new Claim(ClaimTypes.Actor,SystemConstant.JwtActor),
                  new Claim(ClaimTypes.Name,userEntity.Contacts),
                  new Claim(ClaimTypes.PrimarySid,userEntity.Id.ToString()),
-                 new Claim(ClaimTypes.Role,((int)userEntity.Role).ToString())
+                 new Claim(ClaimTypes.Role,userEntity.Role.ToString())
             };
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SystemConstant.JwtSecurityKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

@@ -141,7 +141,7 @@ namespace StockReview.Api.ApiService
                 List<MenuDto> menuDtos = new List<MenuDto>();
                 foreach (var item in deserializeMenuDtos)
                 {
-                    if ((item.MenuRole & result) > 0)
+                    if (item.MenuRole <= result)
                     {
                         menuDtos.Add(item);
                     }
@@ -155,16 +155,6 @@ namespace StockReview.Api.ApiService
         }
 
 
-        /// <summary>
-        /// 获取属性名称
-        /// </summary>
-        /// <param name="type">类型</param>
-        /// <param name="propertyName">属性名</param>
-        /// <returns></returns>
-        private string GetDocSummary(Type type, string propertyName)
-        {
-            return type.GetProperty(propertyName).GetXmlDocsSummary();
-        }
 
         public bool ForgotPassword(ForgotPasswordRequestDto request)
         {
@@ -234,6 +224,35 @@ namespace StockReview.Api.ApiService
             }
             userEntity.Password = request.NewPassword;
             return _dbContext.SaveChanges() > SystemConstant.Zero;
+        }
+
+        public List<UserDto> GetUsers(string keyword)
+        {
+            List<UserEntity> userEntities = null;
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                userEntities = _dbContext.UserEntities.ToList();
+            }
+            else
+            {
+                userEntities = _dbContext.UserEntities
+                                         .Where(t => t.Contacts.Contains(keyword) || t.UserName.Contains(keyword) || t.QQ.Contains(keyword))
+                                         .ToList();
+            }
+
+            return userEntities.ToDtos();
+        }
+
+
+        /// <summary>
+        /// 获取属性名称
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <param name="propertyName">属性名</param>
+        /// <returns></returns>
+        private string GetDocSummary(Type type, string propertyName)
+        {
+            return type.GetProperty(propertyName).GetXmlDocsSummary();
         }
     }
 }

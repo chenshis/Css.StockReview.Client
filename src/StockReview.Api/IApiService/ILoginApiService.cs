@@ -47,5 +47,12 @@ namespace StockReview.Api.IApiService
         /// <param name="request"></param>
         /// <returns></returns>
         ApiResponse<bool?> UpdatePassword(UpdatePasswordRequestDto request);
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="keyword">关键字</param>
+        /// <returns></returns>
+        ApiResponse<List<UserDto>> GetUsers(string keyword);
     }
 }

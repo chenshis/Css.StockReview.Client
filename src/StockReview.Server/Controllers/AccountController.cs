@@ -1,8 +1,10 @@
 ﻿using IdentityModel;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
+using StockReview.Domain.Entities;
 using StockReview.Infrastructure.Config;
 using System.Security.Claims;
 
@@ -94,5 +96,17 @@ namespace StockReview.Server.Controllers
             var role = HttpContext.User.Claims.Where(t => t.Type == ClaimTypes.Role).Select(t => t.Value).FirstOrDefault();
             return _loginServerApiService.GetMenus(role);
         }
+
+        /// <summary>
+        /// 用户列表
+        /// </summary>
+        /// <param name="userName">用户名</param>
+        /// <param name="qq"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route(SystemConstant.UsersRoute)]
+        [Authorize(Roles = nameof(RoleEnum.Admin))]
+        public List<UserDto> GetUsers([FromQuery] string keyword) => _loginServerApiService.GetUsers(keyword);
+
     }
 }
