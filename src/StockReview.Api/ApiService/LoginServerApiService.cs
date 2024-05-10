@@ -14,10 +14,17 @@ using System.Text.RegularExpressions;
 
 namespace StockReview.Api.ApiService
 {
+    /// <summary>
+    /// 登陆服务实现
+    /// </summary>
     public class LoginServerApiService : ILoginServerApiService
     {
         private readonly StockReviewDbContext _dbContext;
 
+        /// <summary>
+        /// 构造
+        /// </summary>
+        /// <param name="dbContext"></param>
         public LoginServerApiService(StockReviewDbContext dbContext)
         {
             this._dbContext = dbContext;
@@ -151,6 +158,7 @@ namespace StockReview.Api.ApiService
         /// <summary>
         /// 获取属性名称
         /// </summary>
+        /// <param name="type">类型</param>
         /// <param name="propertyName">属性名</param>
         /// <returns></returns>
         private string GetDocSummary(Type type, string propertyName)
