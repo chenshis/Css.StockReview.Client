@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace StockReview.Api.ApiService
 {
@@ -53,6 +54,11 @@ namespace StockReview.Api.ApiService
             {
                 throw new Exception(GetErrorMessage(nameof(registerRequest.UserName), SystemConstant.ErrorEmptyMessage));
             }
+            var userNameLength = registerRequest.UserName.Length;
+            if (userNameLength < 5 || userNameLength > 20)
+            {
+                throw new Exception(SystemConstant.ErrorUserNameLengthMessage);
+            }
             if (string.IsNullOrWhiteSpace(registerRequest.Password))
             {
                 throw new Exception(GetErrorMessage(nameof(registerRequest.Password), SystemConstant.ErrorEmptyMessage));
@@ -65,9 +71,17 @@ namespace StockReview.Api.ApiService
             {
                 throw new Exception(GetErrorMessage(nameof(registerRequest.Phone), SystemConstant.ErrorEmptyMessage));
             }
+            if (!Regex.IsMatch(registerRequest.Phone, @"^1[3-9][0-9]{9}$"))
+            {
+                throw new Exception(SystemConstant.ErrorPhoneRuleMessage);
+            }
             if (string.IsNullOrWhiteSpace(registerRequest.QQ))
             {
                 throw new Exception(GetErrorMessage(nameof(registerRequest.QQ), SystemConstant.ErrorEmptyMessage));
+            }
+            if (!Regex.IsMatch(registerRequest.QQ, @"^[1-9][0-9]{4,9}$"))
+            {
+                throw new Exception(SystemConstant.ErrorQQRuleMessage);
             }
 
             var userEntity = _dbContext.UserEntities.FirstOrDefault(t => t.UserName == registerRequest.UserName

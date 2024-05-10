@@ -13,6 +13,8 @@ using Namotion.Reflection;
 using System.Windows.Input;
 using StockReview.Client.ContentModule;
 using System.Windows;
+using System.Windows.Controls;
+using StockReview.Api.IApiService;
 
 namespace StockReview.Client.ViewModels
 {
@@ -21,9 +23,12 @@ namespace StockReview.Client.ViewModels
         public override string Title => "欢迎注册";
 
         private readonly IMemoryCache _memoryCache;
-        public RegisterViewModel(IMemoryCache memoryCache)
+        private readonly ILoginApiService _loginApiService;
+
+        public RegisterViewModel(IMemoryCache memoryCache, ILoginApiService loginApiService)
         {
-            _memoryCache = memoryCache;
+            this._memoryCache = memoryCache;
+            this._loginApiService = loginApiService;
             GenerateCaptcha();
         }
 
@@ -196,10 +201,10 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         public ICommand RegisterCommand
         {
-            get => new DelegateCommand<Window>((w) => SetRegister(w)).ObservesCanExecute(() => IsEnable);
+            get => new DelegateCommand<UserControl>((u) => SetRegister(u)).ObservesCanExecute(() => IsEnable);
         }
 
-        private void SetRegister(Window window)
+        private void SetRegister(UserControl window)
         {
             HandyControl.Controls.PasswordBox userPwd = null;
             userPwd = window.FindName(nameof(userPwd)) as HandyControl.Controls.PasswordBox;
@@ -215,7 +220,21 @@ namespace StockReview.Client.ViewModels
                 IsEnable = true;
                 return;
             }
+            var apiResponse = _loginApiService.Register(new()
+            {
+                UserName = UserName,
+                Password = Password,
+                Contacts = Contacts,
+                Phone = Phone,
+                QQ = QQ
+            });
 
+            if (apiResponse.Code != 0)
+            {
+                ErrorMessage = apiResponse.Msg;
+                IsEnable = true;
+                return;
+            }
         }
 
         /// <summary>
@@ -244,6 +263,11 @@ namespace StockReview.Client.ViewModels
                 ErrorMessage = GetErrorMessage(nameof(RepeatPassword), SystemConstant.ErrorEmptyMessage);
                 return false;
             }
+            if (Password.Length < 6 || Password.Length > 20)
+            {
+                ErrorMessage = SystemConstant.ErrorPasswordLengthMessage;
+                return false;
+            }
             if (string.IsNullOrWhiteSpace(Contacts))
             {
                 ErrorMessage = GetErrorMessage(nameof(Contacts), SystemConstant.ErrorEmptyMessage);
@@ -262,6 +286,11 @@ namespace StockReview.Client.ViewModels
             if (string.IsNullOrWhiteSpace(VerificationCode))
             {
                 ErrorMessage = GetErrorMessage(nameof(VerificationCode), SystemConstant.ErrorEmptyMessage);
+                return false;
+            }
+            if (VerificationCode != _memoryCache.Get<string>(SystemConstant.VerificationCode))
+            {
+                ErrorMessage = SystemConstant.ErrorInconsistentVerificationCode;
                 return false;
             }
 
