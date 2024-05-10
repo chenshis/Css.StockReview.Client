@@ -20,28 +20,32 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <DataGrid
+        <ScrollViewer
             Grid.RowSpan="3"
-            AutoGenerateColumns="False"
-            HeadersVisibility="All"
-            RowHeaderWidth="60">
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="30"
-                    Binding="{Binding Number}"
-                    Header="序号" />
-                <DataGridCheckBoxColumn Width="100" Header="股票名称" />
-                <DataGridComboBoxColumn Width="100" Header="游资 " />
-                <DataGridTextColumn Width="100" Header="涨幅" />
-                <DataGridTextColumn Width="100" Header="净买" />
-                <DataGridTextColumn Width="100" Header="板" />
-            </DataGrid.Columns>
-        </DataGrid>
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding DragonTigerGetInfos}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="序号" />
+                    <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
+                    <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
+                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅" />
+                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买" />
+                    <DataGridTextColumn Binding="{Binding DragonPlate}" Header="板" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
         <Label
             Grid.Column="1"
             Background="Transparent"
             BorderBrush="Transparent"
-            FontSize="15"
+            FontSize="12"
             Foreground="Black">
             游资名称
         </Label>
@@ -50,8 +54,7 @@
             Grid.Row="1"
             Grid.RowSpan="2"
             Grid.Column="1">
-
-            <ListBox SelectionMode="Multiple">
+            <ListBox ItemsSource="{Binding SpeculatvieGroups}" SelectionMode="Multiple">
                 <CheckBox Content="测试1" />
                 <CheckBox Content="测试1" />
                 <CheckBox Content="测试1" />
@@ -71,80 +74,95 @@
                 Command="{Binding ExportCommand}"
                 Content="恢复"
                 Style="{StaticResource ButtonPrimary}" />
-
         </StackPanel>
 
-        <DataGrid
+        <ScrollViewer
             Grid.RowSpan="2"
             Grid.Column="2"
-            AutoGenerateColumns="False"
-            HeadersVisibility="All"
-            RowHeaderWidth="60">
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="30"
-                    Binding="{Binding Number}"
-                    Header="序号" />
-                <DataGridCheckBoxColumn Width="100" Header="股票名称" />
-                <DataGridComboBoxColumn Width="100" Header="游资 " />
-                <DataGridTextColumn Width="100" Header="涨幅" />
-                <DataGridTextColumn Width="100" Header="净买" />
-            </DataGrid.Columns>
-        </DataGrid>
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding DragonTigerGetInfosOne}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="序号1" />
+                    <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
+                    <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
+                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅" />
+                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
 
-        <DataGrid
+        <ScrollViewer
             Grid.Row="2"
+            Grid.Column="3"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding DragonTigerGetInfosTwo}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="序号2" />
+                    <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
+                    <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
+                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅" />
+                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+
+        <ScrollViewer
+            Grid.Row="3"
             Grid.Column="2"
-            AutoGenerateColumns="False"
-            HeadersVisibility="All"
-            RowHeaderWidth="60">
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="30"
-                    Binding="{Binding Number}"
-                    Header="序号" />
-                <DataGridCheckBoxColumn Width="100" Header="股票名称" />
-                <DataGridComboBoxColumn Width="100" Header="游资 " />
-                <DataGridTextColumn Width="100" Header="涨幅" />
-                <DataGridTextColumn Width="100" Header="净买" />
-            </DataGrid.Columns>
-        </DataGrid>
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding DragonTigerGetInfosThree}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="序号3" />
+                    <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
+                    <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
+                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅" />
+                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
 
-        <DataGrid
+        <ScrollViewer
             Grid.RowSpan="2"
             Grid.Column="3"
-            AutoGenerateColumns="False"
-            HeadersVisibility="All"
-            RowHeaderWidth="60">
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="30"
-                    Binding="{Binding Number}"
-                    Header="序号" />
-                <DataGridCheckBoxColumn Width="100" Header="股票名称" />
-                <DataGridComboBoxColumn Width="100" Header="游资 " />
-                <DataGridTextColumn Width="100" Header="涨幅" />
-                <DataGridTextColumn Width="100" Header="净买" />
-            </DataGrid.Columns>
-        </DataGrid>
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding DragonTigerGetInfosFous}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="序号4" />
+                    <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
+                    <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
+                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅" />
+                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
 
-        <DataGrid
-            Grid.Row="1"
-            Grid.RowSpan="2"
-            Grid.Column="3"
-            AutoGenerateColumns="False"
-            HeadersVisibility="All"
-            RowHeaderWidth="60">
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="30"
-                    Binding="{Binding Number}"
-                    Header="序号" />
-                <DataGridCheckBoxColumn Width="100" Header="股票名称" />
-                <DataGridComboBoxColumn Width="100" Header="游资 " />
-                <DataGridTextColumn Width="100" Header="涨幅" />
-                <DataGridTextColumn Width="100" Header="净买" />
-            </DataGrid.Columns>
-        </DataGrid>
     </Grid>
 </UserControl>
