@@ -11,6 +11,22 @@ namespace StockReview.Client.ViewModels
     /// </summary>
     public class ForgotPasswordViewModel : DialogAwareViewModelBase
     {
+        private string _userName;
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        public string UserName
+        {
+            get
+            {
+                return _userName;
+            }
+            set
+            {
+                SetProperty(ref _userName, value);
+            }
+        }
+
         private string _password;
         /// <summary>
         /// 密码
@@ -92,6 +108,11 @@ namespace StockReview.Client.ViewModels
             {
                 var errorName = GetDocSummary(propertyName);
                 return string.Concat(SystemConstant.ErrorIcon, string.Format(errorTemplate, errorName));
+            }
+            if (string.IsNullOrWhiteSpace(UserName))
+            {
+                ErrorMessage = GetErrorMessage(nameof(UserName), SystemConstant.ErrorEmptyMessage);
+                return false;
             }
             if (string.IsNullOrWhiteSpace(QQ))
             {

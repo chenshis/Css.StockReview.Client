@@ -147,5 +147,41 @@ namespace StockReview.Api.ApiService
         {
             return type.GetProperty(propertyName).GetXmlDocsSummary();
         }
+
+        public bool ForgotPassword(ForgotPasswordRequestDto request)
+        {
+            string GetErrorMessage(string propertyName, string errorTemplate)
+            {
+                var errorName = GetDocSummary(typeof(RegisterRequestDto), propertyName);
+                return string.Concat(SystemConstant.ErrorIcon, string.Format(errorTemplate, errorName));
+            }
+            if (string.IsNullOrWhiteSpace(request.UserName))
+            {
+                throw new Exception(GetErrorMessage(nameof(request.UserName), SystemConstant.ErrorEmptyMessage));
+            }
+            if (string.IsNullOrWhiteSpace(request.QQ))
+            {
+                throw new Exception(GetErrorMessage(nameof(request.QQ), SystemConstant.ErrorEmptyMessage));
+            }
+            if (string.IsNullOrWhiteSpace(request.Password))
+            {
+                throw new Exception(GetErrorMessage(nameof(request.Password), SystemConstant.ErrorEmptyMessage));
+            }
+            if (string.IsNullOrWhiteSpace(request.ConfirmPassword))
+            {
+                throw new Exception(GetErrorMessage(nameof(request.ConfirmPassword), SystemConstant.ErrorEmptyMessage));
+            }
+            if (request.ConfirmPassword != request.Password)
+            {
+                throw new Exception(SystemConstant.ErrorInconsistentConfirmPwd);
+            }
+            var userEntity = _dbContext.UserEntities.FirstOrDefault(t => t.UserName == request.UserName && t.QQ == request.QQ);
+            if (userEntity == null)
+            {
+                throw new Exception(SystemConstant.ErrorInconsistentUserNameOrQQ);
+            }
+            userEntity.Password = request.Password;
+            return _dbContext.SaveChanges() > SystemConstant.Zero;
+        }
     }
 }

@@ -24,6 +24,13 @@ namespace StockReview.Api.IApiService
         bool Register(RegisterRequestDto registerRequest);
 
         /// <summary>
+        /// 忘记密码
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        bool ForgotPassword(ForgotPasswordRequestDto request);
+
+        /// <summary>
         /// 根据角色过滤菜单
         /// </summary>
         /// <param name="role"></param>

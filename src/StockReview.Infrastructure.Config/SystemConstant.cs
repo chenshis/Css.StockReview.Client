@@ -97,6 +97,13 @@ namespace StockReview.Infrastructure.Config
         public const string ErrorExistMessage = "{0}已存在！";
 
         /// <summary>
+        /// 密码错误
+        /// </summary>
+        public const string ErrorInconsistentConfirmPwd = "新密码与确认密码不一致！";
+
+        public const string ErrorInconsistentUserNameOrQQ = "登录名和QQ不匹配！";
+
+        /// <summary>
         /// 验证码
         /// </summary>
         public const string VerificationCode = nameof(VerificationCode);
@@ -146,6 +153,10 @@ namespace StockReview.Infrastructure.Config
         /// 注册路由
         /// </summary>
         public const string RegisterRoute = "v1/stockreview/account/register";
+        /// <summary>
+        /// 忘记密码路由
+        /// </summary>
+        public const string ForgotPasswordRoute = "v1/stockreview/account/forgot-password";
         /// <summary>
         /// 菜单路由
         /// </summary>

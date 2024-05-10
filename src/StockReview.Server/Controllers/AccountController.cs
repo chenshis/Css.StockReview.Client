@@ -60,6 +60,17 @@ namespace StockReview.Server.Controllers
         }
 
         /// <summary>
+        /// 忘记密码
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(SystemConstant.ForgotPasswordRoute)]
+        public bool ForgotPassword(ForgotPasswordRequestDto request)
+        {
+            return true;
+        }
+
+        /// <summary>
         /// 菜单路由
         /// </summary>
         /// <returns></returns>
