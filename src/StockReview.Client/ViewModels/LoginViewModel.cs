@@ -178,21 +178,25 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         public ICommand RegisterCommand
         {
-            get => new DelegateCommand(SetRegistration).ObservesCanExecute(() => IsEnable);
+            get => new DelegateCommand<Window>((w) => SetRegistration(w)).ObservesCanExecute(() => IsEnable);
         }
 
-        private void SetRegistration()
+        private void SetRegistration(Window window)
         {
+            HandyControl.Controls.PasswordBox pwdBox = null;
+            pwdBox = window.FindName(nameof(pwdBox)) as HandyControl.Controls.PasswordBox;
             // 禁用按钮
             IsEnable = false;
             _dialogService.ShowDialog(SystemConstant.RegisterView, dialogResult =>
             {
-
+                if (dialogResult.Result == ButtonResult.OK)
+                {
+                    pwdBox.Password = dialogResult.Parameters.GetValue<string>(nameof(Password));
+                    UserName = dialogResult.Parameters.GetValue<string>(nameof(UserName));
+                }
             });
             // 启用按钮
             IsEnable = true;
         }
-
-
     }
 }

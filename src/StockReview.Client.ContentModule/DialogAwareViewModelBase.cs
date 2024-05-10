@@ -36,6 +36,15 @@ namespace StockReview.Client.ContentModule
         public ICommand CloseCommand { get => new DelegateCommand(() => RequestClose?.Invoke(new DialogResult(ButtonResult.Cancel))); }
 
         /// <summary>
+        /// 执行成功窗口命令
+        /// </summary>
+        public ICommand SuccessCommand
+        {
+            get =>
+                new DelegateCommand<IDialogParameters>((parameters) => RequestClose?.Invoke(new DialogResult(ButtonResult.OK, parameters)));
+        }
+
+        /// <summary>
         /// 标题
         /// </summary>
         public virtual string Title { get; set; }

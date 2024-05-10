@@ -132,6 +132,7 @@
             <TextBlock Margin="10,0,0,0">
                 <Hyperlink
                     Command="{Binding RegisterCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                     Cursor="Hand"
                     FontSize="14">
                     <Run>没有账号？立即注册</Run>

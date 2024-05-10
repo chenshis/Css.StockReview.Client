@@ -90,7 +90,8 @@ namespace StockReview.Infrastructure.Config
         /// 异常空消息
         /// </summary>
         public const string ErrorEmptyMessage = "{0}不能为空！";
-
+        public const string RegisterSuccess = "注册成功！";
+        public const string RegisterWindow = "注册窗口";
         /// <summary>
         /// 异常存在消息
         /// </summary>

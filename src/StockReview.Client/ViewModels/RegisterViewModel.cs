@@ -204,14 +204,14 @@ namespace StockReview.Client.ViewModels
             get => new DelegateCommand<UserControl>((u) => SetRegister(u)).ObservesCanExecute(() => IsEnable);
         }
 
-        private void SetRegister(UserControl window)
+        private void SetRegister(UserControl uControl)
         {
             HandyControl.Controls.PasswordBox userPwd = null;
-            userPwd = window.FindName(nameof(userPwd)) as HandyControl.Controls.PasswordBox;
+            userPwd = uControl.FindName(nameof(userPwd)) as HandyControl.Controls.PasswordBox;
             Password = userPwd.Password;
 
             HandyControl.Controls.PasswordBox repeatPwd = null;
-            repeatPwd = window.FindName(nameof(repeatPwd)) as HandyControl.Controls.PasswordBox;
+            repeatPwd = uControl.FindName(nameof(repeatPwd)) as HandyControl.Controls.PasswordBox;
             RepeatPassword = repeatPwd.Password;
 
             IsEnable = false;
@@ -235,6 +235,12 @@ namespace StockReview.Client.ViewModels
                 IsEnable = true;
                 return;
             }
+            HandyControl.Controls.MessageBox.Success(SystemConstant.RegisterSuccess, SystemConstant.RegisterWindow);
+            // 关闭注册窗口
+            IDialogParameters dialogParameters = new DialogParameters();
+            dialogParameters.Add(nameof(UserName), UserName);
+            dialogParameters.Add(nameof(Password), Password);
+            SuccessCommand.Execute(dialogParameters);
         }
 
         /// <summary>
