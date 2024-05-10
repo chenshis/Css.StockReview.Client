@@ -89,6 +89,7 @@
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding UserName}" />
             <hc:PasswordBox
+                x:Name="userPwd"
                 Height="33"
                 Margin="0,15,0,0"
                 hc:InfoElement.HorizontalAlignment="Right"
@@ -98,11 +99,10 @@
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 hc:ShowPassword="False"
-                pwdHelper:PasswordHelper.IsAttach="True"
-                pwdHelper:PasswordHelper.Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 FontSize="14"
                 ShowEyeButton="True" />
             <hc:PasswordBox
+                x:Name="repeatPwd"
                 Height="33"
                 Margin="0,15,0,0"
                 hc:InfoElement.HorizontalAlignment="Right"
@@ -111,8 +111,6 @@
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 hc:ShowPassword="False"
-                pwdHelper:PasswordHelper.IsAttach="True"
-                pwdHelper:PasswordHelper.Password="{Binding RepeatPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 FontSize="14"
                 ShowEyeButton="True" />
             <hc:TextBox
@@ -198,6 +196,7 @@
                 HorizontalAlignment="Left"
                 hc:BorderElement.CornerRadius="15"
                 Command="{Binding RegisterCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                 Content="注册"
                 Cursor="Hand"
                 FontSize="14"

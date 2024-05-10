@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Namotion.Reflection;
 using System.Windows.Input;
 using StockReview.Client.ContentModule;
+using System.Windows;
 
 namespace StockReview.Client.ViewModels
 {
@@ -195,11 +196,19 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         public ICommand RegisterCommand
         {
-            get => new DelegateCommand(() => SetRegister()).ObservesCanExecute(() => IsEnable);
+            get => new DelegateCommand<Window>((w) => SetRegister(w)).ObservesCanExecute(() => IsEnable);
         }
 
-        private void SetRegister()
+        private void SetRegister(Window window)
         {
+            HandyControl.Controls.PasswordBox userPwd = null;
+            userPwd = window.FindName(nameof(userPwd)) as HandyControl.Controls.PasswordBox;
+            Password = userPwd.Password;
+
+            HandyControl.Controls.PasswordBox repeatPwd = null;
+            repeatPwd = window.FindName(nameof(repeatPwd)) as HandyControl.Controls.PasswordBox;
+            RepeatPassword = repeatPwd.Password;
+
             IsEnable = false;
             if (!Valiedate())
             {
