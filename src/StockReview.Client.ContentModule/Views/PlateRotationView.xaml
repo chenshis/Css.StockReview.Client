@@ -21,33 +21,39 @@
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <TextBlock
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="2024-05-07" />
+            Foreground="Black"
+            Text="{Binding PlateRotationHeaderTitle.PlateDateOne}" />
         <TextBlock
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="2024-05-07" />
+            Foreground="Black"
+            Text="{Binding PlateRotationHeaderTitle.PlateDateTwo}" />
         <TextBlock
             Grid.Column="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="2024-05-07" />
+            Foreground="Black"
+            Text="{Binding PlateRotationHeaderTitle.PlateDateThree}" />
         <TextBlock
             Grid.Column="3"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="2024-05-07" />
+            Foreground="Black"
+            Text="{Binding PlateRotationHeaderTitle.PlateDateFour}" />
         <TextBlock
             Grid.Column="4"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="2024-05-07" />
+            Foreground="Black"
+            Text="{Binding PlateRotationHeaderTitle.PlateDateFive}" />
 
         <StackPanel
             Grid.Column="5"
@@ -57,7 +63,8 @@
             <TextBlock
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Text="2024-05-07" />
+                Foreground="Black"
+                Text="{Binding PlateRotationHeaderTitle.PlateDateSix}" />
             <Button
                 Width="70"
                 Margin="5,0"
@@ -66,70 +73,299 @@
                 Style="{StaticResource ButtonSuccess}" />
         </StackPanel>
 
-
-        <DataGrid
+        <ScrollViewer
             Grid.Row="1"
-            AutoGenerateColumns="False"
-            HeadersVisibility="All"
-            RowHeaderWidth="60">
-            <DataGrid.RowHeaderTemplate>
-                <DataTemplate>
-                    <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=DataGridRow}}" />
-                </DataTemplate>
-            </DataGrid.RowHeaderTemplate>
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding PlateRotationInfosOne}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="" />
+                    <DataGridTextColumn Binding="{Binding PlateName}" Header="版块名称" />
+                    <DataGridTextColumn Binding="{Binding PlateStrength}" Header="强度" />
+                    <DataGridTextColumn Binding="{Binding PlateMainForce}" Header="主力净额（亿）" />
+                    <DataGridTextColumn Binding="{Binding PlateMainBuy}" Header="主力买（亿）" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.Column="1"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding PlateRotationInfosTwo}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="" />
+                    <DataGridTextColumn Binding="{Binding PlateName}" Header="版块名称" />
+                    <DataGridTextColumn Binding="{Binding PlateStrength}" Header="强度" />
+                    <DataGridTextColumn Binding="{Binding PlateMainForce}" Header="主力净额（亿）" />
+                    <DataGridTextColumn Binding="{Binding PlateMainBuy}" Header="主力买（亿）" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.Column="2"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding PlateRotationInfosThree}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="" />
+                    <DataGridTextColumn Binding="{Binding PlateName}" Header="版块名称" />
+                    <DataGridTextColumn Binding="{Binding PlateStrength}" Header="强度" />
+                    <DataGridTextColumn Binding="{Binding PlateMainForce}" Header="主力净额（亿）" />
+                    <DataGridTextColumn Binding="{Binding PlateMainBuy}" Header="主力买（亿）" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.Column="3"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding PlateRotationInfosFour}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="" />
+                    <DataGridTextColumn Binding="{Binding PlateName}" Header="版块名称" />
+                    <DataGridTextColumn Binding="{Binding PlateStrength}" Header="强度" />
+                    <DataGridTextColumn Binding="{Binding PlateMainForce}" Header="主力净额（亿）" />
+                    <DataGridTextColumn Binding="{Binding PlateMainBuy}" Header="主力买（亿）" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.Column="4"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding PlateRotationInfosFive}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="" />
+                    <DataGridTextColumn Binding="{Binding PlateName}" Header="版块名称" />
+                    <DataGridTextColumn Binding="{Binding PlateStrength}" Header="强度" />
+                    <DataGridTextColumn Binding="{Binding PlateMainForce}" Header="主力净额（亿）" />
+                    <DataGridTextColumn Binding="{Binding PlateMainBuy}" Header="主力买（亿）" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.Column="5"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding PlateRotationInfosSix}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="" />
+                    <DataGridTextColumn Binding="{Binding PlateName}" Header="版块名称" />
+                    <DataGridTextColumn Binding="{Binding PlateStrength}" Header="强度" />
+                    <DataGridTextColumn Binding="{Binding PlateMainForce}" Header="主力净额（亿）" />
+                    <DataGridTextColumn Binding="{Binding PlateMainBuy}" Header="主力买（亿）" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
 
 
-            <DataGrid.Columns>
-                <DataGridTextColumn Width="5" Header="" />
-                <DataGridCheckBoxColumn Header="版块名称" />
-                <DataGridComboBoxColumn Header="强度" />
-                <DataGridTextColumn Header="主力净额（亿）" />
-                <DataGridTextColumn Header="主力买（亿）" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid Grid.Row="1" Grid.Column="1" />
-        <DataGrid Grid.Row="1" Grid.Column="2" />
-        <DataGrid Grid.Row="1" Grid.Column="3" />
-        <DataGrid Grid.Row="1" Grid.Column="4" />
-        <DataGrid Grid.Row="1" Grid.Column="5" />
-
-        <DataGrid
+        <ScrollViewer
             Grid.Row="2"
-            AutoGenerateColumns="False"
-            HeadersVisibility="All"
-            RowHeaderWidth="60">
-
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="30"
-                    Binding="{Binding Number}"
-                    Header="" />
-                <DataGridCheckBoxColumn
-                    Width="100"
-                    CanUserResize="False"
-                    Header="股票代码" />
-                <DataGridComboBoxColumn
-                    Width="100"
-                    Header="股票名称"
-                    SelectedValueBinding="{Binding Type}" />
-                <DataGridTextColumn Width="100" Header="价格" />
-                <DataGridTextColumn Width="100" Header="涨幅" />
-                <DataGridTextColumn Width="100" Header="地位" />
-
-                <DataGridTextColumn Width="100" Header="连板数" />
-                <DataGridTextColumn Width="100" Header="主力" />
-
-                <DataGridTextColumn Width="100" Header="成交额（亿）" />
-                <DataGridTextColumn Width="100" Header="流通值（亿）" />
-            </DataGrid.Columns>
-        </DataGrid>
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding PlateSharesLimitUpInfosOne}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesCode}" Header="股票代码" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesName}" Header="股票名称" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesPrice}" Header="价格" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesIncrease}" Header="涨幅" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesStatus}" Header="地位" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesNumberBoards}" Header="连板数" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesMainForce}" Header="主力" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesTranVoume}" Header="成交额（亿）" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesCirculationValue}" Header="流通值（亿）" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
 
 
-        <DataGrid Grid.Row="2" Grid.Column="1" />
-        <DataGrid Grid.Row="2" Grid.Column="2" />
-        <DataGrid Grid.Row="2" Grid.Column="3" />
-        <DataGrid Grid.Row="2" Grid.Column="4" />
-        <DataGrid Grid.Row="2" Grid.Column="5" />
 
+        <ScrollViewer
+            Grid.Row="2"
+            Grid.Column="1"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding PlateSharesLimitUpInfosTwo}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesCode}" Header="股票代码" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesName}" Header="股票名称" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesPrice}" Header="价格" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesIncrease}" Header="涨幅" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesStatus}" Header="地位" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesNumberBoards}" Header="连板数" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesMainForce}" Header="主力" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesTranVoume}" Header="成交额（亿）" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesCirculationValue}" Header="流通值（亿）" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+
+        <ScrollViewer
+            Grid.Row="2"
+            Grid.Column="2"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding PlateSharesLimitUpInfosThree}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesCode}" Header="股票代码" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesName}" Header="股票名称" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesPrice}" Header="价格" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesIncrease}" Header="涨幅" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesStatus}" Header="地位" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesNumberBoards}" Header="连板数" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesMainForce}" Header="主力" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesTranVoume}" Header="成交额（亿）" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesCirculationValue}" Header="流通值（亿）" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+
+        <ScrollViewer
+            Grid.Row="2"
+            Grid.Column="3"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding PlateSharesLimitUpInfosFour}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesCode}" Header="股票代码" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesName}" Header="股票名称" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesPrice}" Header="价格" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesIncrease}" Header="涨幅" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesStatus}" Header="地位" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesNumberBoards}" Header="连板数" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesMainForce}" Header="主力" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesTranVoume}" Header="成交额（亿）" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesCirculationValue}" Header="流通值（亿）" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+
+        <ScrollViewer
+            Grid.Row="2"
+            Grid.Column="4"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding PlateSharesLimitUpInfosFive}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesCode}" Header="股票代码" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesName}" Header="股票名称" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesPrice}" Header="价格" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesIncrease}" Header="涨幅" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesStatus}" Header="地位" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesNumberBoards}" Header="连板数" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesMainForce}" Header="主力" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesTranVoume}" Header="成交额（亿）" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesCirculationValue}" Header="流通值（亿）" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+
+        <ScrollViewer
+            Grid.Row="2"
+            Grid.Column="5"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                FontFamily="Microsoft YaHei"
+                ItemsSource="{Binding PlateSharesLimitUpInfosSix}"
+                RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesCode}" Header="股票代码" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesName}" Header="股票名称" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesPrice}" Header="价格" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesIncrease}" Header="涨幅" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesStatus}" Header="地位" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesNumberBoards}" Header="连板数" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesMainForce}" Header="主力" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesTranVoume}" Header="成交额（亿）" />
+                    <DataGridTextColumn Binding="{Binding PlateSharesCirculationValue}" Header="流通值（亿）" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
     </Grid>
 </UserControl>
