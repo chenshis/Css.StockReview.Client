@@ -7,6 +7,11 @@ namespace StockReview.Api.Dtos
     public class UpdatePasswordRequestDto
     {
         /// <summary>
+        /// 登录名
+        /// </summary>
+        public string UserName { get; set; }
+
+        /// <summary>
         /// QQ
         /// </summary>
         public string QQ { get; set; }

@@ -1,5 +1,7 @@
 ﻿using Namotion.Reflection;
 using Prism.Commands;
+using Prism.Services.Dialogs;
+using StockReview.Api.IApiService;
 using StockReview.Client.ContentModule;
 using StockReview.Infrastructure.Config;
 using System.Windows.Input;
@@ -11,6 +13,11 @@ namespace StockReview.Client.ViewModels
     /// </summary>
     public class ForgotPasswordViewModel : DialogAwareViewModelBase
     {
+        private readonly ILoginApiService _loginApiService;
+        public ForgotPasswordViewModel(ILoginApiService loginApiService)
+        {
+            this._loginApiService = loginApiService;
+        }
         private string _userName;
         /// <summary>
         /// 用户名
@@ -94,6 +101,32 @@ namespace StockReview.Client.ViewModels
                 IsEnable = true;
                 return;
             }
+            var apiResponse = _loginApiService.ForgotPassword(new()
+            {
+                UserName = UserName,
+                Password = Password,
+                ConfirmPassword = RepeatPassword,
+                QQ = QQ
+            });
+
+            if (apiResponse.Code != 0)
+            {
+                ErrorMessage = apiResponse.Msg;
+                IsEnable = true;
+                return;
+            }
+            if (apiResponse.Data != true)
+            {
+                ErrorMessage = SystemConstant.ErrorDataSumbit;
+                IsEnable = true;
+                return;
+            }
+            HandyControl.Controls.MessageBox.Success(SystemConstant.ForgotPasswordSuccess, SystemConstant.ForgotPasswordWindow);
+            // 关闭忘记密码窗口
+            IDialogParameters dialogParameters = new DialogParameters();
+            dialogParameters.Add(nameof(UserName), UserName);
+            dialogParameters.Add(nameof(Password), Password);
+            SuccessCommand.Execute(dialogParameters);
         }
 
 
@@ -122,6 +155,11 @@ namespace StockReview.Client.ViewModels
             if (string.IsNullOrWhiteSpace(Password))
             {
                 ErrorMessage = GetErrorMessage(nameof(Password), SystemConstant.ErrorEmptyMessage);
+                return false;
+            }
+            if (Password.Length < 6 || Password.Length > 20)
+            {
+                ErrorMessage = SystemConstant.ErrorPasswordLengthMessage;
                 return false;
             }
             if (string.IsNullOrWhiteSpace(RepeatPassword))

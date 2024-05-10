@@ -86,16 +86,21 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         public ICommand ForgotPasswordCommand
         {
-            get => new DelegateCommand(SetForgotPassword).ObservesCanExecute(() => IsEnable);
+            get => new DelegateCommand<Window>((w) => SetForgotPassword(w)).ObservesCanExecute(() => IsEnable);
         }
 
-        private void SetForgotPassword()
+        private void SetForgotPassword(Window window)
         {
             // 禁用按钮
             IsEnable = false;
             _dialogService.ShowDialog(SystemConstant.ForgotPasswordView, dialogResult =>
             {
-
+                if (dialogResult.Result == ButtonResult.OK)
+                {
+                    HandyControl.Controls.PasswordBox pwdBox = null;
+                    pwdBox.Password = dialogResult.Parameters.GetValue<string>(nameof(Password));
+                    UserName = dialogResult.Parameters.GetValue<string>(nameof(UserName));
+                }
             });
             // 启用按钮
             IsEnable = true;
@@ -106,16 +111,21 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         public ICommand UpdatePasswordCommand
         {
-            get => new DelegateCommand(UpdateForgotPassword).ObservesCanExecute(() => IsEnable);
+            get => new DelegateCommand<Window>((w)=>UpdateForgotPassword(w)).ObservesCanExecute(() => IsEnable);
         }
 
-        private void UpdateForgotPassword()
+        private void UpdateForgotPassword(Window window)
         {
             // 禁用按钮
             IsEnable = false;
             _dialogService.ShowDialog(SystemConstant.UpdatePasswordView, dialogResult =>
             {
-
+                if (dialogResult.Result == ButtonResult.OK)
+                {
+                    HandyControl.Controls.PasswordBox pwdBox = null;
+                    pwdBox.Password = dialogResult.Parameters.GetValue<string>(nameof(Password));
+                    UserName = dialogResult.Parameters.GetValue<string>(nameof(UserName));
+                }
             });
             // 启用按钮
             IsEnable = true;

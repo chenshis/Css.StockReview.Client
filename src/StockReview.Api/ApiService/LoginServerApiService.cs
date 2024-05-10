@@ -217,7 +217,9 @@ namespace StockReview.Api.ApiService
             {
                 throw new Exception(SystemConstant.ErrorInconsistentConfirmPwd);
             }
-            var userEntity = _dbContext.UserEntities.FirstOrDefault(t => t.QQ == request.QQ && t.Password == request.Password);
+            var userEntity = _dbContext.UserEntities.FirstOrDefault(t => t.UserName == request.UserName
+                                                                         && t.QQ == request.QQ
+                                                                         && t.Password == request.Password);
             if (userEntity == null)
             {
                 throw new Exception(SystemConstant.ErrorInconsistentUserNameOrQQ);

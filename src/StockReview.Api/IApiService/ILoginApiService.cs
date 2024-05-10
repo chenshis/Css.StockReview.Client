@@ -33,5 +33,19 @@ namespace StockReview.Api.IApiService
         /// <param name="registerRequest"></param>
         /// <returns></returns>
         ApiResponse<bool?> Register(RegisterRequestDto registerRequest);
+
+        /// <summary>
+        /// 忘记密码
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        ApiResponse<bool?> ForgotPassword(ForgotPasswordRequestDto request);
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        ApiResponse<bool?> UpdatePassword(UpdatePasswordRequestDto request);
     }
 }

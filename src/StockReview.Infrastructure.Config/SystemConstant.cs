@@ -92,6 +92,10 @@ namespace StockReview.Infrastructure.Config
         public const string ErrorEmptyMessage = "{0}不能为空！";
         public const string RegisterSuccess = "注册成功！";
         public const string RegisterWindow = "注册窗口";
+        public const string ForgotPasswordSuccess = "找回密码成功！";
+        public const string ForgotPasswordWindow = "找回密码窗口";
+        public const string UpdatePasswordSuccess = "修改密码成功！";
+        public const string UpdatePasswordWindow = "修改密码窗口";
         /// <summary>
         /// 异常存在消息
         /// </summary>
@@ -102,7 +106,7 @@ namespace StockReview.Infrastructure.Config
         /// </summary>
         public const string ErrorInconsistentConfirmPwd = "新密码与确认密码不一致！";
 
-        public const string ErrorInconsistentUserNameOrQQ = "登录名和QQ不匹配！";
+        public const string ErrorInconsistentUserNameOrQQ = "登录信息和密码不匹配！";
         /// <summary>
         /// 用户名长度
         /// </summary>
@@ -125,6 +129,8 @@ namespace StockReview.Infrastructure.Config
         /// 验证码
         /// </summary>
         public const string VerificationCode = nameof(VerificationCode);
+
+        public const string ErrorDataSumbit = "数据提交失败！";
 
         /// <summary>
         /// 401 说明
