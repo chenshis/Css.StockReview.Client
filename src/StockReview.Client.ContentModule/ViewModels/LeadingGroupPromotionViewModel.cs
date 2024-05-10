@@ -18,13 +18,13 @@ namespace StockReview.Client.ContentModule.ViewModels
         {
             this.PageTitle = "龙头晋级";
             InitTableHeader(); //组织头部
-
         }
 
 
-        /// <summary>
-        /// 初始化表头
-        /// </summary>
+
+            /// <summary>
+            /// 初始化表头
+            /// </summary>
         private void InitTableHeader()
         {
             var dateTime = DateTime.Now;
