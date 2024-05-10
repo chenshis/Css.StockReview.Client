@@ -26,5 +26,12 @@ namespace StockReview.Api.IApiService
         /// </summary>
         /// <returns></returns>
         ApiResponse<List<MenuDto>> GetMenus();
+
+        /// <summary>
+        /// 用户注册
+        /// </summary>
+        /// <param name="registerRequest"></param>
+        /// <returns></returns>
+        ApiResponse<bool?> Register(RegisterRequestDto registerRequest);
     }
 }

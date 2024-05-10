@@ -196,7 +196,7 @@
                 HorizontalAlignment="Left"
                 hc:BorderElement.CornerRadius="15"
                 Command="{Binding RegisterCommand}"
-                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
                 Content="注册"
                 Cursor="Hand"
                 FontSize="14"

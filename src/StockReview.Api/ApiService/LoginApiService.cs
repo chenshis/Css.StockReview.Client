@@ -32,5 +32,12 @@ namespace StockReview.Api.ApiService
             }
             return apiResponse;
         }
+
+        public ApiResponse<bool?> Register(RegisterRequestDto registerRequest)
+        {
+            registerRequest.Password = registerRequest.Password.GetMd5();
+            var apiResponse = _stockHttpClient.Post<RegisterRequestDto, bool?>(SystemConstant.RegisterRoute, registerRequest);
+            return apiResponse;
+        }
     }
 }

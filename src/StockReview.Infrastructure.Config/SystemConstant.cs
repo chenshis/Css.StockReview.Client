@@ -95,14 +95,31 @@ namespace StockReview.Infrastructure.Config
         /// 异常存在消息
         /// </summary>
         public const string ErrorExistMessage = "{0}已存在！";
-
+        public const string ErrorInconsistentVerificationCode = "验证码输入不正确！";
         /// <summary>
         /// 密码错误
         /// </summary>
         public const string ErrorInconsistentConfirmPwd = "新密码与确认密码不一致！";
 
         public const string ErrorInconsistentUserNameOrQQ = "登录名和QQ不匹配！";
+        /// <summary>
+        /// 用户名长度
+        /// </summary>
+        public const string ErrorUserNameLengthMessage = "登录名长度不在指定范围内！";
 
+        /// <summary>
+        /// 密码长度
+        /// </summary>
+        public const string ErrorPasswordLengthMessage = "密码长度不在指定范围内";
+
+        /// <summary>
+        /// QQ不合法消息
+        /// </summary>
+        public const string ErrorQQRuleMessage = "QQ号码不符合实际规则！";
+        /// <summary>
+        /// phone不合法消息
+        /// </summary>
+        public const string ErrorPhoneRuleMessage = "手机号码不符合实际规则！";
         /// <summary>
         /// 验证码
         /// </summary>
