@@ -56,7 +56,7 @@
   {
     "MenuId": 7,
     "MenuHeader": "炸板与涨停板",
-    "TargetView": "ExplosiveBoardLImitDown",
+    "TargetView": "ExplosiveBoardLImitDownView",
     "ParentId": 0,
     "MenuIcon": "",
     "Index": 7,

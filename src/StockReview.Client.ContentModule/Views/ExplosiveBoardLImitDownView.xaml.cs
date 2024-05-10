@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace StockReview.Client.ContentModule.Views
 {
     /// <summary>
-    /// ExplosiveBoardLImitDown.xaml 的交互逻辑
+    /// ExplosiveBoardLImitDownView.xaml 的交互逻辑
     /// </summary>
-    public partial class ExplosiveBoardLImitDown : UserControl
+    public partial class ExplosiveBoardLImitDownView : UserControl
     {
-        public ExplosiveBoardLImitDown()
+        public ExplosiveBoardLImitDownView()
         {
             InitializeComponent();
         }

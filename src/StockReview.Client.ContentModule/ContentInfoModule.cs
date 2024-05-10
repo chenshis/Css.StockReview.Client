@@ -27,7 +27,7 @@ namespace StockReview.Client.ContentModule
             containerRegistry.RegisterForNavigation<LeadingGroupPromotionView>();
             containerRegistry.RegisterForNavigation<MarketLadderView>();
             containerRegistry.RegisterForNavigation<PlateRotationView>();
-            containerRegistry.RegisterForNavigation<ExplosiveBoardLImitDown>();
+            containerRegistry.RegisterForNavigation<ExplosiveBoardLImitDownView>();
             containerRegistry.RegisterForNavigation<MarketSentimentView>();
         }
     }
