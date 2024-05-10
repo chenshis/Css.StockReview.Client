@@ -294,7 +294,7 @@ namespace StockReview.Client.ViewModels
                 ErrorMessage = GetErrorMessage(nameof(VerificationCode), SystemConstant.ErrorEmptyMessage);
                 return false;
             }
-            if (VerificationCode != _memoryCache.Get<string>(SystemConstant.VerificationCode))
+            if (!(_memoryCache.Get<string>(SystemConstant.VerificationCode).Equals(VerificationCode, StringComparison.OrdinalIgnoreCase)))
             {
                 ErrorMessage = SystemConstant.ErrorInconsistentVerificationCode;
                 return false;
