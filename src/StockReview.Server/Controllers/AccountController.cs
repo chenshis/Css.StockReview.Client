@@ -67,7 +67,19 @@ namespace StockReview.Server.Controllers
         [Route(SystemConstant.ForgotPasswordRoute)]
         public bool ForgotPassword(ForgotPasswordRequestDto request)
         {
-            return true;
+            return _loginServerApiService.ForgotPassword(request);
+        }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(SystemConstant.UpdatePasswordRoute)]
+        public bool UpdatePassword(UpdatePasswordRequestDto request)
+        {
+            return _loginServerApiService.UpdatePassword(request);
         }
 
         /// <summary>

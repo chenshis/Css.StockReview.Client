@@ -6,14 +6,10 @@ using StockReview.Api.Mappers;
 using StockReview.Domain;
 using StockReview.Domain.Entities;
 using StockReview.Infrastructure.Config;
-using StockReview.Infrastructure.Config.ExtensionMethods;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockReview.Api.ApiService
 {
@@ -152,7 +148,7 @@ namespace StockReview.Api.ApiService
         {
             string GetErrorMessage(string propertyName, string errorTemplate)
             {
-                var errorName = GetDocSummary(typeof(RegisterRequestDto), propertyName);
+                var errorName = GetDocSummary(typeof(ForgotPasswordRequestDto), propertyName);
                 return string.Concat(SystemConstant.ErrorIcon, string.Format(errorTemplate, errorName));
             }
             if (string.IsNullOrWhiteSpace(request.UserName))
@@ -181,6 +177,38 @@ namespace StockReview.Api.ApiService
                 throw new Exception(SystemConstant.ErrorInconsistentUserNameOrQQ);
             }
             userEntity.Password = request.Password;
+            return _dbContext.SaveChanges() > SystemConstant.Zero;
+        }
+
+        public bool UpdatePassword(UpdatePasswordRequestDto request)
+        {
+            string GetErrorMessage(string propertyName, string errorTemplate)
+            {
+                var errorName = GetDocSummary(typeof(UpdatePasswordRequestDto), propertyName);
+                return string.Concat(SystemConstant.ErrorIcon, string.Format(errorTemplate, errorName));
+            }
+            if (string.IsNullOrWhiteSpace(request.QQ))
+            {
+                throw new Exception(GetErrorMessage(nameof(request.QQ), SystemConstant.ErrorEmptyMessage));
+            }
+            if (string.IsNullOrWhiteSpace(request.Password))
+            {
+                throw new Exception(GetErrorMessage(nameof(request.Password), SystemConstant.ErrorEmptyMessage));
+            }
+            if (string.IsNullOrWhiteSpace(request.NewPassword))
+            {
+                throw new Exception(GetErrorMessage(nameof(request.NewPassword), SystemConstant.ErrorEmptyMessage));
+            }
+            if (request.ConfirmPassword != request.NewPassword)
+            {
+                throw new Exception(SystemConstant.ErrorInconsistentConfirmPwd);
+            }
+            var userEntity = _dbContext.UserEntities.FirstOrDefault(t => t.QQ == request.QQ && t.Password == request.Password);
+            if (userEntity == null)
+            {
+                throw new Exception(SystemConstant.ErrorInconsistentUserNameOrQQ);
+            }
+            userEntity.Password = request.NewPassword;
             return _dbContext.SaveChanges() > SystemConstant.Zero;
         }
     }

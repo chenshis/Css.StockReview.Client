@@ -158,6 +158,10 @@ namespace StockReview.Infrastructure.Config
         /// </summary>
         public const string ForgotPasswordRoute = "v1/stockreview/account/forgot-password";
         /// <summary>
+        /// 修改密码路由
+        /// </summary>
+        public const string UpdatePasswordRoute = "v1/stockreview/account/update-password";
+        /// <summary>
         /// 菜单路由
         /// </summary>
         public const string MenuRoute = "v1/stockreview/account/menu";

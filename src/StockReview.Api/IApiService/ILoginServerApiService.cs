@@ -31,6 +31,13 @@ namespace StockReview.Api.IApiService
         bool ForgotPassword(ForgotPasswordRequestDto request);
 
         /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        bool UpdatePassword(UpdatePasswordRequestDto request);
+
+        /// <summary>
         /// 根据角色过滤菜单
         /// </summary>
         /// <param name="role"></param>

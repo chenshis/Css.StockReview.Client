@@ -1,11 +1,5 @@
 ﻿using StockReview.Api.Dtos;
 using StockReview.Domain.Entities;
-using StockReview.Infrastructure.Config.ExtensionMethods;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockReview.Api.Mappers
 {
@@ -23,7 +17,8 @@ namespace StockReview.Api.Mappers
             userEntity.Contacts = dto.Contacts;
             userEntity.Phone = dto.Phone;
             userEntity.QQ = dto.QQ;
-            userEntity.Password = dto.Password.GetMd5();
+            userEntity.Role = RoleEnum.Free;
+            userEntity.Password = dto.Password;
             return userEntity;
         }
     }
