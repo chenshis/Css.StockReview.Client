@@ -29,7 +29,7 @@ namespace StockReview.Client.ViewModels
             this._stockHttpClient = stockHttpClient;
         }
 
-        private string _userName;
+        private string _userName = "admin";
         /// <summary>
         /// 用户名
         /// </summary>
@@ -156,13 +156,13 @@ namespace StockReview.Client.ViewModels
             }
             // 数据处理
             var response = _loginApiService.Login(UserName, Password);
-            if (response.Code!=0)
+            if (response.Code != 0)
             {
                 ErrorMessage = response.Msg;
                 return;
             }
             var responseMenus = _loginApiService.GetMenus();
-            if(response.Code!=0)
+            if (response.Code != 0)
             {
                 ErrorMessage = response.Msg;
                 return;

@@ -92,12 +92,13 @@
                 FontSize="16"
                 Text="{Binding UserName}" />
             <hc:PasswordBox
+                x:Name="pwdBox"
                 Height="33"
                 Margin="0,5"
                 hc:InfoElement.Placeholder="会员密码"
                 hc:ShowPassword="False"
-                x:Name="pwdBox"
                 FontSize="16"
+                Password="admin5211234567"
                 ShowEyeButton="True" />
             <UniformGrid Margin="2,5" Rows="1">
                 <TextBlock>
