@@ -4,6 +4,7 @@ using Prism.Services.Dialogs;
 using StockReview.Api.IApiService;
 using StockReview.Client.ContentModule;
 using StockReview.Infrastructure.Config;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace StockReview.Client.ViewModels
@@ -104,10 +105,21 @@ namespace StockReview.Client.ViewModels
         /// <summary>
         /// 修改密码命令
         /// </summary>
-        public ICommand UpdatePasswordCommand { get => new DelegateCommand(SetUpdatePassword).ObservesCanExecute(() => IsEnable); }
+        public ICommand UpdatePasswordCommand { get => new DelegateCommand<UserControl>((u)=>SetUpdatePassword(u)).ObservesCanExecute(() => IsEnable); }
 
-        private void SetUpdatePassword()
+        private void SetUpdatePassword(UserControl uControl)
         {
+            HandyControl.Controls.PasswordBox oldPwd = null;
+            oldPwd = uControl.FindName(nameof(oldPwd)) as HandyControl.Controls.PasswordBox;
+            OldPassword = oldPwd.Password;
+
+            HandyControl.Controls.PasswordBox newPwd = null;
+            newPwd = uControl.FindName(nameof(newPwd)) as HandyControl.Controls.PasswordBox;
+            Password = newPwd.Password;
+
+            HandyControl.Controls.PasswordBox confirmPwd = null;
+            confirmPwd = uControl.FindName(nameof(confirmPwd)) as HandyControl.Controls.PasswordBox;
+            RepeatPassword = confirmPwd.Password;
             IsEnable = false;
             if (!Valiedate())
             {
