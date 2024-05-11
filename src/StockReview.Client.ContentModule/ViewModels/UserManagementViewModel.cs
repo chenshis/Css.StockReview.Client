@@ -77,7 +77,12 @@ namespace StockReview.Client.ContentModule.ViewModels
                 {
                     if (result.Result == ButtonResult.OK)
                     {
-                        HandyControl.Controls.Growl.Success(SystemConstant.SuccessDataSumbit);
+                        HandyControl.Controls.Growl.Success(new HandyControl.Data.GrowlInfo
+                        {
+                            Message = SystemConstant.SuccessDataSumbit,
+                            Token = SystemConstant.headerGrowl,
+                            WaitTime = 0
+                        });
                         this.Refresh();
                     }
                 });

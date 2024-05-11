@@ -92,6 +92,11 @@ namespace StockReview.Infrastructure.Config
         public const string ErrorRefreshTokenFailMessage = "token刷新失败，请重新登录！";
 
         /// <summary>
+        /// 标记
+        /// </summary>
+        public const string headerGrowl =nameof(headerGrowl);
+
+        /// <summary>
         /// 异常空消息
         /// </summary>
         public const string ErrorEmptyMessage = "{0}不能为空！";

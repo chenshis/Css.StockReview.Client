@@ -11,155 +11,158 @@
     d:DesignWidth="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Border BorderBrush="#DDD" BorderThickness="0,0,0,1" />
-        <hc:SearchBar
-            Width="300"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            hc:InfoElement.Necessary="True"
-            hc:InfoElement.Placeholder="输入关键词查找"
-            Style="{StaticResource SearchBarExtend}" />
-        <StackPanel
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Orientation="Horizontal">
-            <Button
-                Width="70"
-                Margin="5,0"
-                Command="{Binding RefreshCommand}"
-                Content="刷新"
-                Style="{StaticResource ButtonSuccess}" />
-            <Button
-                Width="100"
-                Command="{Binding AddCommand}"
-                Content="添加"
-                Style="{StaticResource ButtonPrimary}" />
-        </StackPanel>
-
-        <!--  DataGrid  -->
-        <Grid Grid.Row="1">
+    <Grid>
+        <Grid Margin="20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="35" />
+                <RowDefinition Height="50" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <!--  Table Header  -->
-            <Border Background="#EEE" />
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition Width="120" />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="150" />
-                </Grid.ColumnDefinitions>
-                <Grid.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Foreground" Value="Black" />
-                    </Style>
-                </Grid.Resources>
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="索引" />
-                <TextBlock
-                    Grid.Column="1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="用户名" />
-                <TextBlock
-                    Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="联系人" />
-                <TextBlock
-                    Grid.Column="3"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="手机号" />
-                <TextBlock
-                    Grid.Column="4"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="QQ" />
-                <TextBlock
-                    Grid.Column="5"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="操作" />
+            <Border BorderBrush="#DDD" BorderThickness="0,0,0,1" />
+
+            <hc:SearchBar
+                Width="300"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                hc:InfoElement.Necessary="True"
+                hc:InfoElement.Placeholder="输入关键词查找"
+                Style="{StaticResource SearchBarExtend}" />
+            <StackPanel
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    Width="70"
+                    Margin="5,0"
+                    Command="{Binding RefreshCommand}"
+                    Content="刷新"
+                    Style="{StaticResource ButtonSuccess}" />
+                <Button
+                    Width="100"
+                    Command="{Binding AddCommand}"
+                    Content="添加"
+                    Style="{StaticResource ButtonPrimary}" />
+            </StackPanel>
+
+            <!--  DataGrid  -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <!--  Table Header  -->
+                <Border Background="#EEE" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Black" />
+                        </Style>
+                    </Grid.Resources>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="索引" />
+                    <TextBlock
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="用户名" />
+                    <TextBlock
+                        Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="联系人" />
+                    <TextBlock
+                        Grid.Column="3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="手机号" />
+                    <TextBlock
+                        Grid.Column="4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="QQ" />
+                    <TextBlock
+                        Grid.Column="5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="操作" />
+                </Grid>
+                <!--  Table Body  -->
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding users}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Name="root">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="150" />
+                                </Grid.ColumnDefinitions>
+                                <Border
+                                    Grid.ColumnSpan="10"
+                                    Height="40"
+                                    BorderBrush="#EEE"
+                                    BorderThickness="0,0,0,1"
+                                    SnapsToDevicePixels="True" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="Black"
+                                    Text="{Binding Index}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="Black"
+                                    Text="{Binding UserName}" />
+                                <TextBlock
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="Black"
+                                    Text="{Binding Contacts}" />
+
+                                <TextBlock
+                                    Grid.Column="3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="Black"
+                                    Text="{Binding Phone}" />
+                                <TextBlock
+                                    Grid.Column="4"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="Black"
+                                    Text="{Binding QQ}" />
+
+                                <StackPanel
+                                    Grid.Column="5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                                    <TextBlock Margin="3,0">
+                                        <Hyperlink Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">编辑</Hyperlink>
+                                    </TextBlock>
+                                    <TextBlock Margin="3,0">
+                                        <Hyperlink Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">删除</Hyperlink>
+                                    </TextBlock>
+                                </StackPanel>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
-            <!--  Table Body  -->
-            <ItemsControl Grid.Row="1" ItemsSource="{Binding users}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Name="root">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40" />
-                                <ColumnDefinition Width="120" />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="150" />
-                            </Grid.ColumnDefinitions>
-                            <Border
-                                Grid.ColumnSpan="10"
-                                Height="40"
-                                BorderBrush="#EEE"
-                                BorderThickness="0,0,0,1"
-                                SnapsToDevicePixels="True" />
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="Black"
-                                Text="{Binding Index}" />
-                            <TextBlock
-                                Grid.Column="1"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="Black"
-                                Text="{Binding UserName}" />
-                            <TextBlock
-                                Grid.Column="2"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="Black"
-                                Text="{Binding Contacts}" />
-
-                            <TextBlock
-                                Grid.Column="3"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="Black"
-                                Text="{Binding Phone}" />
-                            <TextBlock
-                                Grid.Column="4"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="Black"
-                                Text="{Binding QQ}" />
-
-                            <StackPanel
-                                Grid.Column="5"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal">
-                                <TextBlock Margin="3,0">
-                                    <Hyperlink Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">编辑</Hyperlink>
-                                </TextBlock>
-                                <TextBlock Margin="3,0">
-                                    <Hyperlink Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">删除</Hyperlink>
-                                </TextBlock>
-                            </StackPanel>
-
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
         </Grid>
     </Grid>
 </UserControl>
