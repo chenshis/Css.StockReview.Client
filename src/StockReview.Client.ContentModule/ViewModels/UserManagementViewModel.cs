@@ -82,8 +82,29 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// <summary>
         /// 新增命令
         /// </summary>
-        public ICommand AddCommand =>
-            new DelegateCommand(() => SetAddActive()).ObservesCanExecute(() => IsEnable);
+        public ICommand AddCommand => new DelegateCommand(() => SetAddActive()).ObservesCanExecute(() => IsEnable);
+
+        /// <summary>
+        /// 编辑命令
+        /// </summary>
+        public ICommand EditCommand => new DelegateCommand<UserDto>((u) => SetEditActive(u)).ObservesCanExecute(() => IsEnable);
+
+        private void SetEditActive(UserDto user)
+        {
+            DialogParameters param = new DialogParameters();
+            param.Add(nameof(UserDto), user);
+            _dialogService.ShowDialog(
+                SystemConstant.ModifyUserDialogView,
+                param,
+                result =>
+                {
+                    if (result.Result == ButtonResult.OK)
+                    {
+                        System.Windows.MessageBox.Show("数据保存成功", "提示");
+                        this.Refresh();
+                    }
+                });
+        }
 
         /// <summary>
         /// 新增
