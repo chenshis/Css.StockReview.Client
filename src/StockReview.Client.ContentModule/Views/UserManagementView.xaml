@@ -149,10 +149,10 @@
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal">
                                 <TextBlock Margin="3,0">
-                                    <Hyperlink Command="{Binding EditCommand}" CommandParameter="{Binding}">编辑</Hyperlink>
+                                    <Hyperlink Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">编辑</Hyperlink>
                                 </TextBlock>
                                 <TextBlock Margin="3,0">
-                                    <Hyperlink Command="{Binding DeleteCommand}" CommandParameter="{Binding}">删除</Hyperlink>
+                                    <Hyperlink Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">删除</Hyperlink>
                                 </TextBlock>
                             </StackPanel>
 

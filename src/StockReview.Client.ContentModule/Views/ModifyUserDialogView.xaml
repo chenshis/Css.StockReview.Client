@@ -7,12 +7,16 @@
     xmlns:local="clr-namespace:StockReview.Client.ContentModule.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:pwdHelper="clr-namespace:StockReview.Client.ContentModule.Common"
+    xmlns:rdtConvert="clr-namespace:StockReview.Client.ContentModule.Common"
+    xmlns:roleEn="clr-namespace:StockReview.Domain.Entities;assembly=StockReview.Domain"
     d:DesignHeight="428"
     d:DesignWidth="428"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Background="Transparent"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <rdtConvert:RadioConvert x:Key="rdtnConvert" />
+    </UserControl.Resources>
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter Property="Width" Value="428" />
@@ -56,9 +60,9 @@
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
-                IsReadOnly="True"
+                IsEnabled="False"
                 Style="{StaticResource TextBoxExtend}"
-                Text="{Binding UserName}" />
+                Text="{Binding UserModel.UserName}" />
             <hc:TextBox
                 Height="33"
                 Margin="0,15,0,0"
@@ -67,9 +71,9 @@
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
-                IsReadOnly="True"
+                IsEnabled="False"
                 Style="{StaticResource TextBoxExtend}"
-                Text="{Binding Contacts}" />
+                Text="{Binding UserModel.Contacts}" />
             <hc:TextBox
                 Height="33"
                 Margin="0,15,0,0"
@@ -78,9 +82,9 @@
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
-                IsReadOnly="True"
+                IsEnabled="False"
                 Style="{StaticResource TextBoxExtend}"
-                Text="{Binding Phone}" />
+                Text="{Binding UserModel.Phone}" />
             <hc:TextBox
                 Height="33"
                 Margin="0,15,0,0"
@@ -89,9 +93,9 @@
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
-                IsReadOnly="True"
+                IsEnabled="False"
                 Style="{StaticResource TextBoxExtend}"
-                Text="{Binding QQ}" />
+                Text="{Binding UserModel.QQ}" />
             <StackPanel
                 Height="33"
                 Margin="34,15,0,0"
@@ -103,9 +107,16 @@
                 <RadioButton
                     Margin="5,0,0,0"
                     Content="免费用户"
-                    IsChecked="True" />
-                <RadioButton Margin="20,0" Content="普通用户" />
-                <RadioButton Content="VIP" />
+                    IsChecked="{Binding UserModel.Role, Converter={StaticResource rdtnConvert}, ConverterParameter={x:Static roleEn:RoleEnum.Free}}" />
+                <RadioButton
+                    Margin="15,0"
+                    Content="普通用户"
+                    IsChecked="{Binding UserModel.Role, Converter={StaticResource rdtnConvert}, ConverterParameter={x:Static roleEn:RoleEnum.Ordinary}}" />
+                <RadioButton
+                    Margin="0,0,15,0"
+                    Content="VIP"
+                    IsChecked="{Binding UserModel.Role, Converter={StaticResource rdtnConvert}, ConverterParameter={x:Static roleEn:RoleEnum.VIP}}" />
+                <RadioButton Content="管理员" IsChecked="{Binding UserModel.Role, Converter={StaticResource rdtnConvert}, ConverterParameter={x:Static roleEn:RoleEnum.Admin}}" />
             </StackPanel>
             <DatePicker
                 Height="33"
@@ -113,7 +124,8 @@
                 hc:InfoElement.Title="过期时间："
                 hc:InfoElement.TitlePlacement="Left"
                 FontSize="14"
-                Style="{StaticResource DatePickerExtend}" />
+                Style="{StaticResource DatePickerExtend}"
+                Text="{Binding Expires}" />
         </StackPanel>
         <Border
             Grid.Row="2"
@@ -134,7 +146,7 @@
                 Padding="0,3"
                 HorizontalAlignment="Right"
                 hc:BorderElement.CornerRadius="4"
-                Command="{Binding RegisterCommand}"
+                Command="{Binding ConfirmCommand}"
                 Content="确定"
                 Cursor="Hand"
                 FontSize="14"
@@ -149,6 +161,7 @@
                 hc:BackgroundSwitchElement.MouseHoverBackground="#ccc"
                 hc:BorderElement.CornerRadius="4"
                 Background="#DDD"
+                Command="{Binding CloseCommand}"
                 Content="取消"
                 Cursor="Hand"
                 FontSize="14"

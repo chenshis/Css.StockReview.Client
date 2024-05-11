@@ -41,8 +41,9 @@ namespace StockReview.Api.Mappers
                     CreateTime = userEntity.CreateTime,
                     Phone = userEntity.Phone,
                     QQ = userEntity.QQ,
-                    Role = RoleEnum.Free,
-                    UserName = userEntity.UserName
+                    Role = userEntity.Role,
+                    UserName = userEntity.UserName,
+                    Expires = userEntity.Expires
                 });
             }
             return userDtos;

@@ -1,10 +1,6 @@
 ﻿using StockReview.Api.Dtos;
-using StockReview.Domain.Entities;
 using StockReview.Infrastructure.Config;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
 
 namespace StockReview.Api.IApiService
 {
@@ -54,5 +50,26 @@ namespace StockReview.Api.IApiService
         /// <param name="keyword">关键字</param>
         /// <returns></returns>
         ApiResponse<List<UserDto>> GetUsers(string keyword);
+
+        /// <summary>
+        /// 修改角色
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        ApiResponse<bool?> UpdateUserRole(UpdateUserRoleRequestDto request);
+
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        ApiResponse<bool?> AddUser(UserRequestDto request);
+
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        ApiResponse<bool?> DeleteUser(string userName);
     }
 }

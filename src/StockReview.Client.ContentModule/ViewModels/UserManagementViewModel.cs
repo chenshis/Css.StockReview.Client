@@ -25,36 +25,13 @@ namespace StockReview.Client.ContentModule.ViewModels
             this.PageTitle = "系统用户管理";
             this._dialogService = dialogService;
             this._loginApiService = loginApiService;
-            Init();
+            Refresh();
         }
 
         /// <summary>
         /// 用户列表
         /// </summary>
         public ObservableCollection<UserDto> users { get; set; } = new ObservableCollection<UserDto>();
-
-
-        private void Init()
-        {
-            var apiReponse = _loginApiService.GetUsers(null);
-            if (apiReponse.Code != 0)
-            {
-                HandyControl.Controls.Growl.Error(apiReponse.Msg);
-                return;
-            }
-            if (apiReponse.Data == null)
-            {
-                return;
-            }
-            int i = 0;
-            foreach (var user in apiReponse.Data)
-            {
-                i++;
-                user.Index = i;
-                users.Add(user);
-            }
-        }
-
 
         private string _errorMessage;
         /// <summary>
@@ -100,10 +77,32 @@ namespace StockReview.Client.ContentModule.ViewModels
                 {
                     if (result.Result == ButtonResult.OK)
                     {
-                        System.Windows.MessageBox.Show("数据保存成功", "提示");
+                        HandyControl.Controls.Growl.Success(SystemConstant.SuccessDataSumbit);
                         this.Refresh();
                     }
                 });
+        }
+
+        public override void Refresh()
+        {
+            users.Clear();
+            var apiReponse = _loginApiService.GetUsers(null);
+            if (apiReponse.Code != 0)
+            {
+                HandyControl.Controls.Growl.Error(apiReponse.Msg);
+                return;
+            }
+            if (apiReponse.Data == null)
+            {
+                return;
+            }
+            int i = 0;
+            foreach (var user in apiReponse.Data)
+            {
+                i++;
+                user.Index = i;
+                users.Add(user);
+            }
         }
 
         /// <summary>
