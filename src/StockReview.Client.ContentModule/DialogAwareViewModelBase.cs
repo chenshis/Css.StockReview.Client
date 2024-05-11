@@ -35,8 +35,7 @@ namespace StockReview.Client.ContentModule
         /// </summary>
         public ICommand CloseCommand
         {
-            get => new DelegateCommand<ButtonResult>((br) =>
-                RequestClose?.Invoke(new DialogResult(br == ButtonResult.None ? ButtonResult.Cancel : br)));
+            get => new DelegateCommand(() => RequestClose?.Invoke(new DialogResult(ButtonResult.OK)));
         }
 
         /// <summary>

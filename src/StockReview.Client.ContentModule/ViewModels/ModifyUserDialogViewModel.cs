@@ -1,4 +1,6 @@
-﻿using Prism.Commands;
+﻿using HandyControl.Data;
+using Newtonsoft.Json.Linq;
+using Prism.Commands;
 using Prism.Services.Dialogs;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
@@ -32,6 +34,17 @@ namespace StockReview.Client.ContentModule.ViewModels
             set { SetProperty(ref _userModel, value); }
         }
 
+        private string _errorMessage;
+        /// <summary>
+        /// 错误消息
+        /// </summary>
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set { SetProperty(ref _errorMessage, value); }
+        }
+
+
         public override void OnDialogOpened(IDialogParameters parameters)
         {
             UserModel = parameters.GetValue<UserDto>(nameof(UserDto));
@@ -53,12 +66,12 @@ namespace StockReview.Client.ContentModule.ViewModels
             });
             if (apiResponse.Code != 0)
             {
-                HandyControl.Controls.Growl.Error(apiResponse.Msg);
+                ErrorMessage = apiResponse.Msg;
                 return;
             }
             if (apiResponse.Data != true)
             {
-                HandyControl.Controls.Growl.Error(SystemConstant.ErrorDataSumbit);
+                ErrorMessage = SystemConstant.ErrorDataSumbit;
                 return;
             }
             CloseCommand.Execute(ButtonResult.OK);

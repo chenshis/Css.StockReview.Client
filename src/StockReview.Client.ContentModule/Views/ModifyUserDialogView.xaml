@@ -46,7 +46,7 @@
             Text="{Binding Title}" />
         <StackPanel Grid.Row="1" Margin="5,0,15,0">
             <TextBlock
-                Margin="110,10,0,0"
+                Margin="110,10,5,0"
                 VerticalAlignment="Bottom"
                 FontFamily="{StaticResource Iconfont}"
                 FontSize="12"

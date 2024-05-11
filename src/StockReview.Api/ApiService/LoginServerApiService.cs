@@ -273,9 +273,9 @@ namespace StockReview.Api.ApiService
 
             userEntity.Role = request.Role;
             userEntity.Expires = request.Expires;
-            var result = _dbContext.SaveChanges();
 
-            return result > 0;
+            _dbContext.SaveChanges();
+            return true;
         }
 
         public bool AddUser(UserRequestDto request)

@@ -124,7 +124,7 @@ namespace StockReview.Server.Controllers
         [HttpPost]
         [Route(SystemConstant.UpdateUserRoleRoute)]
         [Authorize(Roles = nameof(RoleEnum.Admin))]
-        public bool UpdateUserRole(UpdateUserRoleRequestDto request) => _loginServerApiService.UpdateUserRole(request);
+        public bool UpdateUserRole([FromBody] UpdateUserRoleRequestDto request) => _loginServerApiService.UpdateUserRole(request);
 
         /// <summary>
         /// 删除用户
@@ -134,7 +134,7 @@ namespace StockReview.Server.Controllers
         [HttpPost]
         [Route(SystemConstant.DeleteUserRoute)]
         [Authorize(Roles = nameof(RoleEnum.Admin))]
-        public bool DeleteUser(string userName) => _loginServerApiService.DeleteUser(userName);
+        public bool DeleteUser([FromBody] string userName) => _loginServerApiService.DeleteUser(userName);
 
     }
 }

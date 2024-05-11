@@ -1,5 +1,6 @@
 ﻿using StockReview.Api.Dtos;
 using StockReview.Domain.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace StockReview.Api.Mappers
@@ -23,6 +24,7 @@ namespace StockReview.Api.Mappers
             userEntity.QQ = dto.QQ;
             userEntity.Role = RoleEnum.Free;
             userEntity.Password = dto.Password;
+            userEntity.Jti = Guid.NewGuid().ToString("N");
             return userEntity;
         }
 

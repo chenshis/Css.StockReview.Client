@@ -49,7 +49,7 @@ namespace StockReview.Api.ApiService
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SystemConstant.JwtSecurityKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(SystemConstant.JwtIssuer, SystemConstant.JwtAudience, claims, null, DateTime.Now.AddHours(8).AddMinutes(1), credentials);
+            var token = new JwtSecurityToken(SystemConstant.JwtIssuer, SystemConstant.JwtAudience, claims, null, DateTime.Now.AddHours(10).AddMinutes(1), credentials);
             var returnToken = _jwtHandler.WriteToken(token);
             return returnToken;
         }
