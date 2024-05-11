@@ -9,8 +9,8 @@ namespace StockReview.Client.ContentModule.ViewModels
     /// <summary>
     /// 修改用户窗体视图模型
     /// </summary>
-    public class ModifyUserDialogViewModel: DialogAwareViewModelBase
+    public class ModifyUserDialogViewModel : DialogAwareViewModelBase
     {
-
+        public override string Title { get; set; } = "用户信息编辑";
     }
 }

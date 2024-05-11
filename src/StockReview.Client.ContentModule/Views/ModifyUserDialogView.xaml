@@ -8,14 +8,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:pwdHelper="clr-namespace:StockReview.Client.ContentModule.Common"
-    d:DesignHeight="328"
+    d:DesignHeight="428"
     d:DesignWidth="428"
     prism:ViewModelLocator.AutoWireViewModel="True"
+    Background="Transparent"
     mc:Ignorable="d">
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter Property="Width" Value="428" />
-            <Setter Property="Height" Value="328" />
+            <Setter Property="Height" Value="428" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
@@ -33,7 +34,12 @@
             <RowDefinition />
             <RowDefinition Height="65" />
         </Grid.RowDefinitions>
-
+        <TextBlock
+            Margin="10,0"
+            VerticalAlignment="Center"
+            FontSize="20"
+            Foreground="#888"
+            Text="{Binding Title}" />
         <StackPanel Grid.Row="1" Margin="5,0,15,0">
             <TextBlock
                 Margin="110,10,0,0"
@@ -46,65 +52,68 @@
                 Height="33"
                 Margin="0,5,0,0"
                 hc:InfoElement.HorizontalAlignment="Right"
-                hc:InfoElement.Necessary="True"
-                hc:InfoElement.Placeholder="请输入5到20位"
                 hc:InfoElement.Title="登录名："
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
+                IsReadOnly="True"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding UserName}" />
-            <hc:PasswordBox
-                Height="33"
-                Margin="0,15,0,0"
-                hc:InfoElement.HorizontalAlignment="Right"
-                hc:InfoElement.Necessary="True"
-                hc:InfoElement.Placeholder="请输入6到20位"
-                hc:InfoElement.Title="用户密码："
-                hc:InfoElement.TitlePlacement="Left"
-                hc:InfoElement.TitleWidth="110"
-                hc:ShowPassword="False"
-                pwdHelper:PasswordHelper.IsAttach="True"
-                pwdHelper:PasswordHelper.Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                FontSize="14"
-                ShowEyeButton="True" />
-
             <hc:TextBox
                 Height="33"
                 Margin="0,15,0,0"
                 hc:InfoElement.HorizontalAlignment="Right"
-                hc:InfoElement.Necessary="True"
-                hc:InfoElement.Placeholder="请输入2到4位汉字"
                 hc:InfoElement.Title="联系人："
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
+                IsReadOnly="True"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding Contacts}" />
             <hc:TextBox
                 Height="33"
                 Margin="0,15,0,0"
                 hc:InfoElement.HorizontalAlignment="Right"
-                hc:InfoElement.Necessary="True"
-                hc:InfoElement.Placeholder="请输入手机号码"
                 hc:InfoElement.Title="手机号码："
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
+                IsReadOnly="True"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding Phone}" />
             <hc:TextBox
                 Height="33"
                 Margin="0,15,0,0"
                 hc:InfoElement.HorizontalAlignment="Right"
-                hc:InfoElement.Necessary="True"
-                hc:InfoElement.Placeholder="可用于找回密码"
                 hc:InfoElement.Title="QQ号码："
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
+                IsReadOnly="True"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding QQ}" />
+            <StackPanel
+                Height="33"
+                Margin="34,15,0,0"
+                Orientation="Horizontal">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    Text="用户角色：" />
+                <RadioButton
+                    Margin="5,0,0,0"
+                    Content="免费用户"
+                    IsChecked="True" />
+                <RadioButton Margin="20,0" Content="普通用户" />
+                <RadioButton Content="VIP" />
+            </StackPanel>
+            <DatePicker
+                Height="33"
+                Margin="34,15,0,0"
+                hc:InfoElement.Title="过期时间："
+                hc:InfoElement.TitlePlacement="Left"
+                FontSize="14"
+                Style="{StaticResource DatePickerExtend}" />
         </StackPanel>
         <Border
             Grid.Row="2"
@@ -136,14 +145,14 @@
                 Height="35"
                 Margin="5"
                 Padding="0,3"
-                hc:BackgroundSwitchElement.MouseDownBackground="#808085"
-                hc:BackgroundSwitchElement.MouseHoverBackground="#808085"
+                hc:BackgroundSwitchElement.MouseDownBackground="#ccc"
+                hc:BackgroundSwitchElement.MouseHoverBackground="#ccc"
                 hc:BorderElement.CornerRadius="4"
-                Background="#808080"
+                Background="#DDD"
                 Content="取消"
                 Cursor="Hand"
                 FontSize="14"
-                Foreground="White"
+                Foreground="#666"
                 Style="{StaticResource ButtonCustom}" />
 
         </UniformGrid>
