@@ -52,6 +52,40 @@ namespace StockReview.Api.ApiService
 
         public bool Register(RegisterRequestDto registerRequest)
         {
+            RegisterValidate(registerRequest);
+            string GetErrorMessage(string propertyName, string errorTemplate)
+            {
+                var errorName = GetDocSummary(typeof(RegisterRequestDto), propertyName);
+                return string.Concat(SystemConstant.ErrorIcon, string.Format(errorTemplate, errorName));
+            }
+            var userEntity = _dbContext.UserEntities.FirstOrDefault(t => t.UserName == registerRequest.UserName
+                                                                         || t.Phone == registerRequest.Phone
+                                                                         || t.QQ == registerRequest.QQ);
+            if (userEntity != null)
+            {
+                if (userEntity.UserName == registerRequest.UserName)
+                {
+                    throw new Exception(GetErrorMessage(nameof(registerRequest.UserName), SystemConstant.ErrorExistMessage));
+                }
+                if (userEntity.Phone == registerRequest.Phone)
+                {
+                    throw new Exception(GetErrorMessage(nameof(registerRequest.Phone), SystemConstant.ErrorExistMessage));
+                }
+                if (userEntity.QQ == registerRequest.QQ)
+                {
+                    throw new Exception(GetErrorMessage(nameof(registerRequest.QQ), SystemConstant.ErrorExistMessage));
+                }
+            }
+            var addUserEntity = registerRequest.ToEntity();
+
+            _dbContext.UserEntities.Add(addUserEntity);
+            var result = _dbContext.SaveChanges();
+
+            return result > SystemConstant.Zero;
+        }
+
+        private void RegisterValidate(RegisterRequestDto registerRequest)
+        {
             string GetErrorMessage(string propertyName, string errorTemplate)
             {
                 var errorName = GetDocSummary(typeof(RegisterRequestDto), propertyName);
@@ -90,33 +124,7 @@ namespace StockReview.Api.ApiService
             {
                 throw new Exception(SystemConstant.ErrorQQRuleMessage);
             }
-
-            var userEntity = _dbContext.UserEntities.FirstOrDefault(t => t.UserName == registerRequest.UserName
-                                                                         || t.Phone == registerRequest.Phone
-                                                                         || t.QQ == registerRequest.QQ);
-            if (userEntity != null)
-            {
-                if (userEntity.UserName == registerRequest.UserName)
-                {
-                    throw new Exception(GetErrorMessage(nameof(registerRequest.UserName), SystemConstant.ErrorExistMessage));
-                }
-                if (userEntity.Phone == registerRequest.Phone)
-                {
-                    throw new Exception(GetErrorMessage(nameof(registerRequest.Phone), SystemConstant.ErrorExistMessage));
-                }
-                if (userEntity.QQ == registerRequest.QQ)
-                {
-                    throw new Exception(GetErrorMessage(nameof(registerRequest.QQ), SystemConstant.ErrorExistMessage));
-                }
-            }
-            var addUserEntity = registerRequest.ToEntity();
-
-            _dbContext.UserEntities.Add(addUserEntity);
-            var result = _dbContext.SaveChanges();
-
-            return result > SystemConstant.Zero;
         }
-
 
         public List<MenuDto> GetMenus(string role)
         {
@@ -253,6 +261,71 @@ namespace StockReview.Api.ApiService
         private string GetDocSummary(Type type, string propertyName)
         {
             return type.GetProperty(propertyName).GetXmlDocsSummary();
+        }
+
+        public bool UpdateUserRole(UpdateUserRoleRequestDto request)
+        {
+            var userEntity = _dbContext.UserEntities.FirstOrDefault(t => t.UserName == request.UserName);
+            if (userEntity == null)
+            {
+                throw new Exception(SystemConstant.ErrorNotExistUserNameMessage);
+            }
+
+            userEntity.Role = request.Role;
+            userEntity.Expires = request.Expires;
+            var result = _dbContext.SaveChanges();
+
+            return result > 0;
+        }
+
+        public bool AddUser(UserRequestDto request)
+        {
+            RegisterValidate(request);
+
+            string GetErrorMessage(string propertyName, string errorTemplate)
+            {
+                var errorName = GetDocSummary(typeof(UserRequestDto), propertyName);
+                return string.Concat(SystemConstant.ErrorIcon, string.Format(errorTemplate, errorName));
+            }
+            var userEntity = _dbContext.UserEntities.FirstOrDefault(t => t.UserName == request.UserName
+                                                                         || t.Phone == request.Phone
+                                                                         || t.QQ == request.QQ);
+            if (userEntity != null)
+            {
+                if (userEntity.UserName == request.UserName)
+                {
+                    throw new Exception(GetErrorMessage(nameof(request.UserName), SystemConstant.ErrorExistMessage));
+                }
+                if (userEntity.Phone == request.Phone)
+                {
+                    throw new Exception(GetErrorMessage(nameof(request.Phone), SystemConstant.ErrorExistMessage));
+                }
+                if (userEntity.QQ == request.QQ)
+                {
+                    throw new Exception(GetErrorMessage(nameof(request.QQ), SystemConstant.ErrorExistMessage));
+                }
+            }
+            var addUserEntity = request.ToEntity();
+            addUserEntity.Role = request.Role;
+            addUserEntity.Expires = request.Expires;
+
+            _dbContext.UserEntities.Add(addUserEntity);
+            var result = _dbContext.SaveChanges();
+
+            return result > SystemConstant.Zero;
+        }
+
+        public bool DeleteUser(string userName)
+        {
+            var userEntity = _dbContext.UserEntities.FirstOrDefault(t => t.UserName == userName);
+            if (userEntity == null)
+            {
+                return false;
+            }
+            _dbContext.UserEntities.Remove(userEntity);
+            var result = _dbContext.SaveChanges();
+
+            return result > SystemConstant.Zero;
         }
     }
 }

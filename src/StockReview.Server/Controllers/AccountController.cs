@@ -1,6 +1,4 @@
-﻿using IdentityModel;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
@@ -107,6 +105,36 @@ namespace StockReview.Server.Controllers
         [Route(SystemConstant.UsersRoute)]
         [Authorize(Roles = nameof(RoleEnum.Admin))]
         public List<UserDto> GetUsers([FromQuery] string keyword) => _loginServerApiService.GetUsers(keyword);
+
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(SystemConstant.AddUserRoute)]
+        [Authorize(Roles = nameof(RoleEnum.Admin))]
+        public bool AddUser([FromBody] UserRequestDto request) => _loginServerApiService.AddUser(request);
+
+        /// <summary>
+        /// 更新角色
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(SystemConstant.UpdateUserRoleRoute)]
+        [Authorize(Roles = nameof(RoleEnum.Admin))]
+        public bool UpdateUserRole(UpdateUserRoleRequestDto request) => _loginServerApiService.UpdateUserRole(request);
+
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(SystemConstant.DeleteUserRoute)]
+        [Authorize(Roles = nameof(RoleEnum.Admin))]
+        public bool DeleteUser(string userName) => _loginServerApiService.DeleteUser(userName);
 
     }
 }

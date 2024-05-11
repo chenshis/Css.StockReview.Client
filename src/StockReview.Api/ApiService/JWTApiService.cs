@@ -33,14 +33,20 @@ namespace StockReview.Api.ApiService
         /// <returns></returns>
         public string GetToken(UserEntity userEntity)
         {
-            var claims = new Claim[]
+            var claims = new Claim[5];
+            claims[0] = new Claim(JwtClaimTypes.JwtId, userEntity.Jti);
+            claims[1] = new Claim(ClaimTypes.Actor, SystemConstant.JwtActor);
+            claims[2] = new Claim(ClaimTypes.Name, userEntity.Contacts);
+            claims[3] = new Claim(ClaimTypes.PrimarySid, userEntity.Id.ToString());
+            if (userEntity.Expires != null && userEntity.Expires < DateTime.Now)
             {
-                 new Claim(JwtClaimTypes.JwtId,userEntity.Jti),
-                 new Claim(ClaimTypes.Actor,SystemConstant.JwtActor),
-                 new Claim(ClaimTypes.Name,userEntity.Contacts),
-                 new Claim(ClaimTypes.PrimarySid,userEntity.Id.ToString()),
-                 new Claim(ClaimTypes.Role,userEntity.Role.ToString())
-            };
+                claims[4] = new Claim(ClaimTypes.Role, RoleEnum.Free.ToString());
+            }
+            else
+            {
+                claims[4] = new Claim(ClaimTypes.Role, userEntity.Role.ToString());
+            }
+
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SystemConstant.JwtSecurityKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(SystemConstant.JwtIssuer, SystemConstant.JwtAudience, claims, null, DateTime.Now.AddHours(8).AddMinutes(1), credentials);

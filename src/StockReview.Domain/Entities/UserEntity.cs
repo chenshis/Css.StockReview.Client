@@ -43,6 +43,11 @@ namespace StockReview.Domain.Entities
         /// </summary>
         public string Jti { get; set; } = Guid.NewGuid().ToString("N");
 
+        /// <summary>
+        /// 过期时间
+        /// </summary>
+        public DateTime? Expires { get; set; }
+
     }
 
     /// <summary>

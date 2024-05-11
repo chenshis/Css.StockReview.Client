@@ -67,6 +67,11 @@ namespace StockReview.Infrastructure.Config
         public const string ErrorEmptyUserNameMessage = "用户名不能为空！";
 
         /// <summary>
+        /// 错误用户提示消息
+        /// </summary>
+        public const string ErrorNotExistUserNameMessage = "用户信息不存在！";
+
+        /// <summary>
         /// 出错密码提示消息
         /// </summary>
         public const string ErrorEmptyPasswordMessage = "密码不能为空！";
@@ -193,6 +198,9 @@ namespace StockReview.Infrastructure.Config
         /// 用户列表集合
         /// </summary>
         public const string UsersRoute = "v1/stockreview/user/list";
+        public const string AddUserRoute = "v1/stockreview/user/add";
+        public const string UpdateUserRoleRoute = "v1/stockreview/user/update-role";
+        public const string DeleteUserRoute = "v1/stockreview/user/delete";
         public const string UsersRouteQuery = "v1/stockreview/user/list?keyword={0}";
     }
 }

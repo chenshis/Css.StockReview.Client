@@ -1,7 +1,6 @@
 ﻿using StockReview.Api.Dtos;
 using StockReview.Domain.Entities;
 using System.Collections.Generic;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace StockReview.Api.IApiService
 {
@@ -51,5 +50,27 @@ namespace StockReview.Api.IApiService
         /// <param name="keyword">关键字</param>
         /// <returns></returns>
         List<UserDto> GetUsers(string keyword);
+
+
+        /// <summary>
+        /// 修改角色
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        bool UpdateUserRole(UpdateUserRoleRequestDto request);
+
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        bool AddUser(UserRequestDto request);
+
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        bool DeleteUser(string userName);
     }
 }
