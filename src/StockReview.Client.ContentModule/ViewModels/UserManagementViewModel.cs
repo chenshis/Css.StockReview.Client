@@ -116,7 +116,22 @@ namespace StockReview.Client.ContentModule.ViewModels
         private void SetAddActive()
         {
             IsEnable = false;
-            _dialogService.ShowDialog(SystemConstant.ModifyUserDialogView);
+            _dialogService.ShowDialog(
+                SystemConstant.AddUserDialogView,
+                result =>
+                {
+                    if (result.Result == ButtonResult.OK)
+                    {
+                        HandyControl.Controls.Growl.Success(new HandyControl.Data.GrowlInfo
+                        {
+                            Message = SystemConstant.SuccessDataSumbit,
+                            Token = SystemConstant.headerGrowl,
+                            WaitTime = 0
+                        });
+                        this.Refresh();
+                    }
+                });
+
             IsEnable = true;
         }
     }

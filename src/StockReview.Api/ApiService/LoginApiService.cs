@@ -77,7 +77,7 @@ namespace StockReview.Api.ApiService
 
         public ApiResponse<bool?> AddUser(UserRequestDto request)
         {
-            return _stockHttpClient.Post<UserRequestDto, bool?>(SystemConstant.UpdateUserRoleRoute, request);
+            return _stockHttpClient.Post<UserRequestDto, bool?>(SystemConstant.AddUserRoute, request);
         }
 
         public ApiResponse<bool?> DeleteUser(string userName)

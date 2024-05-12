@@ -17,6 +17,7 @@ var connectionString = builder.Configuration.GetConnectionString(SystemConstant.
 // Add services to the container.
 builder.Services.AddScoped<IJWTApiService, JWTApiService>();
 builder.Services.AddScoped<ILoginServerApiService, LoginServerApiService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters

@@ -48,6 +48,7 @@ namespace StockReview.Infrastructure.Config
         /// 修改用户对话框窗口
         /// </summary>
         public const string ModifyUserDialogView = nameof(ModifyUserDialogView);
+        public const string AddUserDialogView = nameof(AddUserDialogView);
         /// <summary>
         /// 股票看盘头部视图
         /// </summary>

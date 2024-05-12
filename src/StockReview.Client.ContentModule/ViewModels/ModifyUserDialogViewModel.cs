@@ -34,6 +34,17 @@ namespace StockReview.Client.ContentModule.ViewModels
             set { SetProperty(ref _userModel, value); }
         }
 
+        private string _expires;
+        /// <summary>
+        /// 过期日期
+        /// </summary>
+        public string Expires
+        {
+            get { return _expires; }
+            set { SetProperty(ref _expires, value); }
+        }
+
+
         private string _errorMessage;
         /// <summary>
         /// 错误消息
@@ -48,16 +59,31 @@ namespace StockReview.Client.ContentModule.ViewModels
         public override void OnDialogOpened(IDialogParameters parameters)
         {
             UserModel = parameters.GetValue<UserDto>(nameof(UserDto));
-            if (UserModel != null && UserModel.Role == 0)
+            if (UserModel != null)
             {
-                UserModel.Role = Domain.Entities.RoleEnum.Ordinary;
+                if (UserModel.Role == 0)
+                {
+                    UserModel.Role = Domain.Entities.RoleEnum.Ordinary;
+                }
+                if (UserModel.Expires != null)
+                {
+                    Expires = UserModel.Expires.Value.ToString("yyyy-MM-dd");
+                }
             }
+
         }
 
         public ICommand ConfirmCommand { get => new DelegateCommand(SetRoleEditActive); }
 
         private void SetRoleEditActive()
         {
+            if (!string.IsNullOrWhiteSpace(Expires))
+            {
+                if (DateTime.TryParse(Expires, out DateTime dateTime))
+                {
+                    UserModel.Expires = dateTime;
+                }
+            }
             var apiResponse = _loginApiService.UpdateUserRole(new UpdateUserRoleRequestDto
             {
                 UserName = UserModel.UserName,

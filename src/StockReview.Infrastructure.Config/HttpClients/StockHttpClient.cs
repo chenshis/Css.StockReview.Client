@@ -39,12 +39,14 @@ namespace StockReview.Infrastructure.Config.HttpClients
                     var refreshResponse = RefreshToken();
                     if (refreshResponse.Code != 0)
                     {
+                        _logger.LogError($"Get请求异常：{refreshResponse.Msg}");
                         return responseResult;
                     }
                     responseMessage = _httpClient.GetAsync(route).Result;
                     responseResult = GetResponseCodeResult<TData>(responseMessage);
                     if (responseResult.Code != 0)
                     {
+                        _logger.LogError($"Get请求异常：{refreshResponse.Msg}");
                         responseResult.Code = 1;
                     }
                 }
@@ -85,12 +87,14 @@ namespace StockReview.Infrastructure.Config.HttpClients
                     var refreshResponse = RefreshToken();
                     if (refreshResponse.Code != 0)
                     {
+                        _logger.LogError($"Post请求异常：{refreshResponse.Msg}");
                         return responseResult;
                     }
                     responseMessage = _httpClient.PostAsync(route, stringContent).Result;
                     responseResult = GetResponseCodeResult<TData>(responseMessage);
                     if (responseResult.Code != 0)
                     {
+                        _logger.LogError($"Post请求异常：{responseResult.Msg}");
                         responseResult.Code = 1;
                     }
                 }

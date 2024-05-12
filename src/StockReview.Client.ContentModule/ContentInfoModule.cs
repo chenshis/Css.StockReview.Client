@@ -1,12 +1,6 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
 using StockReview.Client.ContentModule.Views;
-using StockReview.Infrastructure.Config;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockReview.Client.ContentModule
 {
@@ -21,6 +15,7 @@ namespace StockReview.Client.ContentModule
         {
             containerRegistry.RegisterForNavigation<UserManagementView>();
             containerRegistry.RegisterDialog<ModifyUserDialogView>();
+            containerRegistry.RegisterDialog<AddUserDialogView>();
             containerRegistry.RegisterForNavigation<StockOutlookView>();
             containerRegistry.RegisterForNavigation<DragonTigerView>();
 

@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="StockReview.Client.ContentModule.Views.ModifyUserDialogView"
+    x:Class="StockReview.Client.ContentModule.Views.AddUserDialogView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,7 +9,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:rdtConvert="clr-namespace:StockReview.Client.ContentModule.Common"
     xmlns:roleEn="clr-namespace:StockReview.Domain.Entities;assembly=StockReview.Domain"
-    d:DesignHeight="428"
+    d:DesignHeight="478"
     d:DesignWidth="428"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Background="Transparent"
@@ -20,7 +20,7 @@
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter Property="Width" Value="428" />
-            <Setter Property="Height" Value="428" />
+            <Setter Property="Height" Value="478" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
@@ -56,67 +56,84 @@
                 Height="33"
                 Margin="0,5,0,0"
                 hc:InfoElement.HorizontalAlignment="Right"
+                hc:InfoElement.Necessary="True"
+                hc:InfoElement.Placeholder="请输入5到20位"
                 hc:InfoElement.Title="登录名："
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
-                IsEnabled="False"
                 Style="{StaticResource TextBoxExtend}"
-                Text="{Binding UserModel.UserName}" />
+                Text="{Binding UserName}" />
+            <hc:PasswordBox
+                x:Name="userPwd"
+                Height="33"
+                Margin="0,15,0,0"
+                hc:InfoElement.HorizontalAlignment="Right"
+                hc:InfoElement.Necessary="True"
+                hc:InfoElement.Placeholder="请输入6到20位"
+                hc:InfoElement.Title="用户密码："
+                hc:InfoElement.TitlePlacement="Left"
+                hc:InfoElement.TitleWidth="110"
+                hc:ShowPassword="False"
+                FontSize="14"
+                ShowEyeButton="True" />
             <hc:TextBox
                 Height="33"
                 Margin="0,15,0,0"
                 hc:InfoElement.HorizontalAlignment="Right"
+                hc:InfoElement.Necessary="True"
+                hc:InfoElement.Placeholder="请输入2到4位汉字"
                 hc:InfoElement.Title="联系人："
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
-                IsEnabled="False"
                 Style="{StaticResource TextBoxExtend}"
-                Text="{Binding UserModel.Contacts}" />
+                Text="{Binding Contacts}" />
             <hc:TextBox
                 Height="33"
                 Margin="0,15,0,0"
                 hc:InfoElement.HorizontalAlignment="Right"
+                hc:InfoElement.Necessary="True"
+                hc:InfoElement.Placeholder="请输入手机号码"
                 hc:InfoElement.Title="手机号码："
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
-                IsEnabled="False"
                 Style="{StaticResource TextBoxExtend}"
-                Text="{Binding UserModel.Phone}" />
+                Text="{Binding Phone}" />
             <hc:TextBox
                 Height="33"
                 Margin="0,15,0,0"
                 hc:InfoElement.HorizontalAlignment="Right"
+                hc:InfoElement.Necessary="True"
+                hc:InfoElement.Placeholder="可用于找回密码"
                 hc:InfoElement.Title="QQ号码："
                 hc:InfoElement.TitlePlacement="Left"
                 hc:InfoElement.TitleWidth="110"
                 FontSize="14"
-                IsEnabled="False"
                 Style="{StaticResource TextBoxExtend}"
-                Text="{Binding UserModel.QQ}" />
+                Text="{Binding QQ}" />
             <StackPanel
                 Height="33"
-                Margin="34,15,0,0"
+                Margin="20,15,0,0"
                 Orientation="Horizontal">
                 <TextBlock
                     VerticalAlignment="Center"
                     FontSize="14"
                     Text="用户角色：" />
                 <RadioButton
-                    Margin="5,0,0,0"
+                    Margin="20,0,0,0"
                     Content="免费用户"
-                    IsChecked="{Binding UserModel.Role, Converter={StaticResource rdtnConvert}, ConverterParameter={x:Static roleEn:RoleEnum.Free}}" />
+                    IsChecked="{Binding Role, Converter={StaticResource rdtnConvert}, ConverterParameter={x:Static roleEn:RoleEnum.Free}}" />
                 <RadioButton
-                    Margin="15,0"
+                    Margin="10,0"
                     Content="普通用户"
-                    IsChecked="{Binding UserModel.Role, Converter={StaticResource rdtnConvert}, ConverterParameter={x:Static roleEn:RoleEnum.Ordinary}}" />
+                    IsChecked="{Binding Role, Converter={StaticResource rdtnConvert}, ConverterParameter={x:Static roleEn:RoleEnum.Ordinary}}" />
                 <RadioButton
                     Margin="0,0,15,0"
                     Content="VIP"
-                    IsChecked="{Binding UserModel.Role, Converter={StaticResource rdtnConvert}, ConverterParameter={x:Static roleEn:RoleEnum.VIP}}" />
-                <RadioButton Content="管理员" IsChecked="{Binding UserModel.Role, Converter={StaticResource rdtnConvert}, ConverterParameter={x:Static roleEn:RoleEnum.Admin}}" />
+                    IsChecked="{Binding Role, Converter={StaticResource rdtnConvert}, ConverterParameter={x:Static roleEn:RoleEnum.VIP}}" />
+                <RadioButton Content="管理员" IsChecked="{Binding Role, Converter={StaticResource rdtnConvert}, ConverterParameter={x:Static roleEn:RoleEnum.Admin}}" />
             </StackPanel>
             <DatePicker
                 Height="33"
@@ -148,6 +165,7 @@
                 HorizontalAlignment="Right"
                 hc:BorderElement.CornerRadius="4"
                 Command="{Binding ConfirmCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
                 Content="确定"
                 Cursor="Hand"
                 FontSize="14"

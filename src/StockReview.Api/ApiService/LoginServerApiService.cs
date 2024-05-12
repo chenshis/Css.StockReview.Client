@@ -1,4 +1,5 @@
-﻿using Namotion.Reflection;
+﻿using Microsoft.AspNetCore.Http;
+using Namotion.Reflection;
 using Newtonsoft.Json;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
@@ -20,14 +21,17 @@ namespace StockReview.Api.ApiService
     public class LoginServerApiService : ILoginServerApiService
     {
         private readonly StockReviewDbContext _dbContext;
+        private readonly HttpContext _httpContext;
 
         /// <summary>
         /// 构造
         /// </summary>
         /// <param name="dbContext"></param>
-        public LoginServerApiService(StockReviewDbContext dbContext)
+        /// <param name="httpContextAccessor"></param>
+        public LoginServerApiService(StockReviewDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             this._dbContext = dbContext;
+            this._httpContext = httpContextAccessor.HttpContext;
         }
 
         public UserEntity Login(AccountRequestDto accountRequest)
@@ -306,7 +310,7 @@ namespace StockReview.Api.ApiService
                 }
             }
             var addUserEntity = request.ToEntity();
-            addUserEntity.Role = request.Role;
+            addUserEntity.Role = request.Role == SystemConstant.Zero ? RoleEnum.Free : request.Role;
             addUserEntity.Expires = request.Expires;
 
             _dbContext.UserEntities.Add(addUserEntity);
