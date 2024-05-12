@@ -35,8 +35,8 @@ namespace StockReview.Api.ApiService
         {
             var claims = new Claim[5];
             claims[0] = new Claim(JwtClaimTypes.JwtId, userEntity.Jti);
-            claims[1] = new Claim(ClaimTypes.Actor, SystemConstant.JwtActor);
-            claims[2] = new Claim(ClaimTypes.Name, userEntity.Contacts);
+            claims[1] = new Claim(ClaimTypes.Actor, userEntity.Contacts);
+            claims[2] = new Claim(ClaimTypes.Name, userEntity.UserName);
             claims[3] = new Claim(ClaimTypes.PrimarySid, userEntity.Id.ToString());
             if (userEntity.Expires != null && userEntity.Expires < DateTime.Now)
             {

@@ -77,6 +77,7 @@ namespace StockReview.Api.ApiService
 
         public ApiResponse<bool?> AddUser(UserRequestDto request)
         {
+            request.Password = request.Password.GetMd5();
             return _stockHttpClient.Post<UserRequestDto, bool?>(SystemConstant.AddUserRoute, request);
         }
 

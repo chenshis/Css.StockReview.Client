@@ -41,6 +41,11 @@ namespace StockReview.Infrastructure.Config
         /// </summary>
         public const string TreeMenuView = nameof(TreeMenuView);
         /// <summary>
+        /// 全局用户信息
+        /// </summary>
+        public const string GlobalUserName = nameof(GlobalUserName);
+
+        /// <summary>
         /// 菜单树区域
         /// </summary>
         public const string TreeMenuViewRegion = nameof(TreeMenuViewRegion);
@@ -95,7 +100,7 @@ namespace StockReview.Infrastructure.Config
         /// <summary>
         /// 标记
         /// </summary>
-        public const string headerGrowl =nameof(headerGrowl);
+        public const string headerGrowl = nameof(headerGrowl);
 
         /// <summary>
         /// 异常空消息

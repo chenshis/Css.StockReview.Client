@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 namespace StockReview.Api.ApiService
@@ -277,7 +278,7 @@ namespace StockReview.Api.ApiService
 
             userEntity.Role = request.Role;
             userEntity.Expires = request.Expires;
-
+            userEntity.UpdateUser = GetUserName();
             _dbContext.SaveChanges();
             return true;
         }
@@ -310,6 +311,7 @@ namespace StockReview.Api.ApiService
                 }
             }
             var addUserEntity = request.ToEntity();
+            addUserEntity.CreateUser = addUserEntity.UpdateUser = GetUserName();
             addUserEntity.Role = request.Role == SystemConstant.Zero ? RoleEnum.Free : request.Role;
             addUserEntity.Expires = request.Expires;
 
@@ -327,9 +329,15 @@ namespace StockReview.Api.ApiService
                 return false;
             }
             userEntity.Status = 1;
+            userEntity.UpdateUser = GetUserName();
             var result = _dbContext.SaveChanges();
 
             return result > SystemConstant.Zero;
+        }
+
+        private string GetUserName()
+        {
+            return _httpContext?.User.Claims.FirstOrDefault(t => t.Type == ClaimTypes.Name)?.Value;
         }
     }
 }
