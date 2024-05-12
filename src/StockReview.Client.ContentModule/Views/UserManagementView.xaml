@@ -25,6 +25,8 @@
                 VerticalAlignment="Center"
                 hc:InfoElement.Necessary="True"
                 hc:InfoElement.Placeholder="输入关键词查找"
+                Command="{Binding SearchCommand}"
+                CommandParameter="{Binding Text, RelativeSource={RelativeSource Mode=Self}}"
                 Style="{StaticResource SearchBarExtend}" />
             <StackPanel
                 HorizontalAlignment="Right"

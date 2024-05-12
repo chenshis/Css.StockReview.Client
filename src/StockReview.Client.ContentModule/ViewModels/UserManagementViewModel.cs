@@ -7,6 +7,7 @@ using StockReview.Infrastructure.Config;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Unity;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace StockReview.Client.ContentModule.ViewModels
 {
@@ -32,6 +33,11 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// 用户列表
         /// </summary>
         public ObservableCollection<UserDto> users { get; set; } = new ObservableCollection<UserDto>();
+
+        /// <summary>
+        /// 关键字
+        /// </summary>
+        private string _keyword;
 
         private string _errorMessage;
         /// <summary>
@@ -66,6 +72,20 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// </summary>
         public ICommand EditCommand => new DelegateCommand<UserDto>((u) => SetEditActive(u)).ObservesCanExecute(() => IsEnable);
 
+        /// <summary>
+        /// 删除命令
+        /// </summary>
+        public ICommand DeleteCommand => new DelegateCommand<UserDto>((u) => SetDeleteActive(u));
+
+        /// <summary>
+        /// 查询命令
+        /// </summary>
+        public ICommand SearchCommand => new DelegateCommand<string>((k) =>
+        {
+            _keyword = k;
+            Refresh();
+        });
+
         private void SetEditActive(UserDto user)
         {
             DialogParameters param = new DialogParameters();
@@ -91,7 +111,7 @@ namespace StockReview.Client.ContentModule.ViewModels
         public override void Refresh()
         {
             users.Clear();
-            var apiReponse = _loginApiService.GetUsers(null);
+            var apiReponse = _loginApiService.GetUsers(_keyword);
             if (apiReponse.Code != 0)
             {
                 HandyControl.Controls.Growl.Error(apiReponse.Msg);
@@ -133,6 +153,37 @@ namespace StockReview.Client.ContentModule.ViewModels
                 });
 
             IsEnable = true;
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="user"></param>
+        private void SetDeleteActive(UserDto user)
+        {
+            var messageResult = HandyControl.Controls.MessageBox.Show("是否确定删除此用户信息？",
+                                                                      "提示",
+                                                                      System.Windows.MessageBoxButton.YesNo,
+                                                                      System.Windows.MessageBoxImage.Question);
+
+            if (messageResult == System.Windows.MessageBoxResult.Yes)
+            {
+                var apiResponse = _loginApiService.DeleteUser(user.UserName);
+                if (apiResponse.Code != 0)
+                {
+                    HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
+                    {
+                        Message = SystemConstant.ErrorDeleteData,
+                        Token = SystemConstant.headerGrowl,
+                        IsCustom = true,
+                        WaitTime = 0
+                    });
+                }
+                else
+                {
+                    this.Refresh();
+                }
+            }
         }
     }
 }

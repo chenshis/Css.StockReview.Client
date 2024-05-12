@@ -82,7 +82,7 @@ namespace StockReview.Api.ApiService
 
         public ApiResponse<bool?> DeleteUser(string userName)
         {
-            return _stockHttpClient.Post<string, bool?>(SystemConstant.UpdateUserRoleRoute, userName);
+            return _stockHttpClient.Post<string, bool?>(SystemConstant.DeleteUserRoute, userName);
         }
     }
 }

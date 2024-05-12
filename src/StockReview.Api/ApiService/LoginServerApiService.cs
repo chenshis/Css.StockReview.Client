@@ -326,7 +326,7 @@ namespace StockReview.Api.ApiService
             {
                 return false;
             }
-            _dbContext.UserEntities.Remove(userEntity);
+            userEntity.Status = 1;
             var result = _dbContext.SaveChanges();
 
             return result > SystemConstant.Zero;

@@ -144,6 +144,7 @@ namespace StockReview.Infrastructure.Config
         public const string ErrorDataSumbit = "数据提交失败！";
 
         public const string SuccessDataSumbit = "数据保存成功!";
+        public const string ErrorDeleteData = "数据删除失败!";
         /// <summary>
         /// 401 说明
         /// </summary>
