@@ -16,8 +16,10 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-
+        <ScrollViewer
+            Height="760"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
