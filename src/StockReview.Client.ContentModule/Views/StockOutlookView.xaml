@@ -25,7 +25,6 @@
                         <Setter Property="Foreground" Value="Black" />
                     </Style>
                     <Style x:Key="bdrFrame" TargetType="Border">
-                        <Setter Property="MaxWidth" Value="240" />
                         <Setter Property="Margin" Value="5" />
                         <Setter Property="Background" Value="White" />
                         <Setter Property="BorderThickness" Value="0" />
@@ -37,7 +36,7 @@
                     <StackPanel>
                         <TextBlock
                             Margin="5,10"
-                            HorizontalAlignment="Center"
+                            HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Text="今昨涨跌停" />
                         <Border
