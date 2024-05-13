@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StockReview.Api.Dtos
 {
-    public class LeadingDateHeaderDao
+    public class LeadingDateHeaderDto
     {
         /// <summary>
         /// 行

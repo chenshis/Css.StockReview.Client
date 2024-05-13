@@ -16,6 +16,12 @@ namespace StockReview.Api.IApiService
         /// 获取龙头晋级数据
         /// </summary>
         /// <param name="date"></param>
-        List<LeadingDateHeaderDao> GetLeadingGroupPromotion(DateTime date);
+        List<LeadingDateHeaderDto> GetLeadingGroupPromotion(DateTime date);
+
+        /// <summary>
+        /// 获取市场天梯数据
+        /// </summary>
+        /// <param name="date"></param>
+        MarketLadderDto GetMarketLadder(DateTime date);
     }
 }

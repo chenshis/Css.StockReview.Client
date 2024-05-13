@@ -14,7 +14,7 @@ namespace StockReview.Client.ContentModule.ViewModels
 {
     public class LeadingGroupPromotionViewModel : NavigationAwareViewModelBase
     {
-        public ObservableCollection<LeadingDateHeaderDao> LeadingDateHeaderLists { get; set; } = new ObservableCollection<LeadingDateHeaderDao>();
+        public ObservableCollection<LeadingDateHeaderDto> LeadingDateHeaderLists { get; set; } = new ObservableCollection<LeadingDateHeaderDto>();
 
         private readonly IReplayService _replayService;
 

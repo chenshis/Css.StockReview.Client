@@ -22,12 +22,21 @@ namespace StockReview.Server.Controllers
         /// </summary>
         /// <param name="data">日期（yyyyMMdd）</param>
         [HttpPost]
-        [Route(SystemConstant.LeadingGroupPromotionRoute)]
-        public List<LeadingDateHeaderDao> GetLeadingGroupPromotion(DateTime data)
+        [Route(SystemConstantTwo.LeadingGroupPromotionRoute)]
+        public List<LeadingDateHeaderDto> GetLeadingGroupPromotion(DateTime data)
         {
-            var leadingList = _replayService.GetLeadingGroupPromotion(data);
+            return _replayService.GetLeadingGroupPromotion(data);
+        }
 
-            return leadingList;
+        /// <summary>
+        /// 获取市场天梯数据
+        /// </summary>
+        /// <param name="data">日期（yyyyMMdd）</param>
+        [HttpPost]
+        [Route(SystemConstantTwo.MarketLadderRoute)]
+        public MarketLadderDto GetMarketLadder(DateTime data)
+        {
+            return _replayService.GetMarketLadder(data);
         }
     }
 }
