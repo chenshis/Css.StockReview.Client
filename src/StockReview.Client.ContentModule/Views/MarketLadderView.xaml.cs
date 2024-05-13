@@ -1,4 +1,5 @@
-﻿using StockReview.Client.ContentModule.ViewModels;
+﻿using StockReview.Api.Dtos;
+using StockReview.Client.ContentModule.ViewModels;
 using System.Reflection.Emit;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,30 +26,29 @@ namespace StockReview.Client.ContentModule.Views
         {
             var marketNewsList = MarketLadderViewModel.MarketLadderNewsLists.ToList();
 
+            var newsNumber = 0;
+
             for (int i = 0; i < marketNewsList.Count; i++)
             {
-                RowDefinition newRow = new RowDefinition();
-                this.MarketNewsGrid.RowDefinitions.Add(newRow);
-
-                System.Windows.Controls.Label label = new System.Windows.Controls.Label();
-                label.HorizontalAlignment = HorizontalAlignment.Left;
-                label.Background = Brushes.Transparent;
-                label.BorderBrush = Brushes.Transparent;
-                label.FontSize = 12;
-                if (marketNewsList[i].MarketNewsType == 1)
+                for (int j = 0; j < 2; j++)
                 {
-                    label.Foreground = new SolidColorBrush(Color.FromRgb(240, 102, 50));
-                }
-                else
-                {
-                    label.Foreground = Brushes.Black;
-                }
+                    RowDefinition newRow = new RowDefinition();
+                    this.MarketNewsGrid.RowDefinitions.Add(newRow);
 
-                label.Content = marketNewsList[i].MarketNewsTitle;
-                this.MarketNewsGrid.Children.Add(label);
+                    System.Windows.Controls.Label label = new System.Windows.Controls.Label();
+                    label.HorizontalAlignment = HorizontalAlignment.Left;
+                    label.Background = Brushes.Transparent;
+                    label.BorderBrush = Brushes.Transparent;
+                    label.FontSize = 12;
+                    label.Foreground = j == 0 ? new SolidColorBrush(Color.FromRgb(240, 102, 50)) : Brushes.Black;
 
-                Grid.SetRow(label, i); // 设置在Grid的第一行
-                Grid.SetColumn(label, 0); // 设置在Grid的第一列
+                    label.Content = j == 0 ? marketNewsList[i].MarketNewsTitle : marketNewsList[i].MarketNewsType;
+                    this.MarketNewsGrid.Children.Add(label);
+
+                    newsNumber += i == 0 &&j==0? i : 1;
+                    Grid.SetRow(label, newsNumber); // 设置在Grid的第一行
+                    Grid.SetColumn(label, 0); // 设置在Grid的第一列
+                }
             }
 
 

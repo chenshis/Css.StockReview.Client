@@ -18,6 +18,7 @@ var connectionString = builder.Configuration.GetConnectionString(SystemConstant.
 builder.Services.AddScoped<IJWTApiService, JWTApiService>();
 builder.Services.AddScoped<ILoginServerApiService, LoginServerApiService>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IReplayService, ReplayService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -46,6 +47,7 @@ builder.Services.AddDbContext<StockReviewDbContext>((options) =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

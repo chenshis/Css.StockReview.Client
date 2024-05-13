@@ -215,5 +215,7 @@ namespace StockReview.Infrastructure.Config
         public const string UpdateUserRoleRoute = "v1/stockreview/user/update-role";
         public const string DeleteUserRoute = "v1/stockreview/user/delete";
         public const string UsersRouteQuery = "v1/stockreview/user/list?keyword={0}";
+
+    
     }
 }
