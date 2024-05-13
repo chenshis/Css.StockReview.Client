@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <!--  DataGrid  -->
+
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
