@@ -69,8 +69,11 @@
                 Style="{StaticResource IconButtonStyle}" />
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom">
-            <Image Source="/Assets/Images/login.png" />
+            <Grid>
+                <Image Source="/Assets/Images/login.png" />
+            </Grid>
         </StackPanel>
+
         <StackPanel
             Grid.Row="1"
             Width="240"

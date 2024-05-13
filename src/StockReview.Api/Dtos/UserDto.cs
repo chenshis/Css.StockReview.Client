@@ -46,5 +46,10 @@ namespace StockReview.Api.Dtos
         /// 创建时间
         /// </summary>
         public DateTime CreateTime { get; set; }
+
+        /// <summary>
+        /// 过期时间
+        /// </summary>
+        public DateTime? Expires { get; set; }
     }
 }

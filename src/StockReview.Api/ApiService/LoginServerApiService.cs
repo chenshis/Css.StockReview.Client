@@ -1,4 +1,5 @@
-﻿using Namotion.Reflection;
+﻿using Microsoft.AspNetCore.Http;
+using Namotion.Reflection;
 using Newtonsoft.Json;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 namespace StockReview.Api.ApiService
@@ -20,14 +22,17 @@ namespace StockReview.Api.ApiService
     public class LoginServerApiService : ILoginServerApiService
     {
         private readonly StockReviewDbContext _dbContext;
+        private readonly HttpContext _httpContext;
 
         /// <summary>
         /// 构造
         /// </summary>
         /// <param name="dbContext"></param>
-        public LoginServerApiService(StockReviewDbContext dbContext)
+        /// <param name="httpContextAccessor"></param>
+        public LoginServerApiService(StockReviewDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             this._dbContext = dbContext;
+            this._httpContext = httpContextAccessor.HttpContext;
         }
 
         public UserEntity Login(AccountRequestDto accountRequest)
@@ -273,9 +278,9 @@ namespace StockReview.Api.ApiService
 
             userEntity.Role = request.Role;
             userEntity.Expires = request.Expires;
-            var result = _dbContext.SaveChanges();
-
-            return result > 0;
+            userEntity.UpdateUser = GetUserName();
+            _dbContext.SaveChanges();
+            return true;
         }
 
         public bool AddUser(UserRequestDto request)
@@ -306,7 +311,8 @@ namespace StockReview.Api.ApiService
                 }
             }
             var addUserEntity = request.ToEntity();
-            addUserEntity.Role = request.Role;
+            addUserEntity.CreateUser = addUserEntity.UpdateUser = GetUserName();
+            addUserEntity.Role = request.Role == SystemConstant.Zero ? RoleEnum.Free : request.Role;
             addUserEntity.Expires = request.Expires;
 
             _dbContext.UserEntities.Add(addUserEntity);
@@ -322,10 +328,16 @@ namespace StockReview.Api.ApiService
             {
                 return false;
             }
-            _dbContext.UserEntities.Remove(userEntity);
+            userEntity.Status = 1;
+            userEntity.UpdateUser = GetUserName();
             var result = _dbContext.SaveChanges();
 
             return result > SystemConstant.Zero;
+        }
+
+        private string GetUserName()
+        {
+            return _httpContext?.User.Claims.FirstOrDefault(t => t.Type == ClaimTypes.Name)?.Value;
         }
     }
 }

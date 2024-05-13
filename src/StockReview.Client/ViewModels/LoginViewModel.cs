@@ -112,7 +112,7 @@ namespace StockReview.Client.ViewModels
         /// </summary>
         public ICommand UpdatePasswordCommand
         {
-            get => new DelegateCommand<Window>((w)=>UpdateForgotPassword(w)).ObservesCanExecute(() => IsEnable);
+            get => new DelegateCommand<Window>((w) => UpdateForgotPassword(w)).ObservesCanExecute(() => IsEnable);
         }
 
         private void UpdateForgotPassword(Window window)
@@ -180,6 +180,7 @@ namespace StockReview.Client.ViewModels
                 return;
             }
             _memoryCache.Set(SystemConstant.TreeMenuView, responseMenus.Data);
+            _memoryCache.Set(SystemConstant.GlobalUserName, UserName);
 
             // 设置弹窗结果
             window.DialogResult = true;

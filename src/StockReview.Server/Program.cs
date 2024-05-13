@@ -7,9 +7,7 @@ using StockReview.Api.IApiService;
 using StockReview.Domain;
 using StockReview.Domain.Entities;
 using StockReview.Infrastructure.Config;
-using StockReview.Infrastructure.Config.HttpClients;
 using StockReview.Server;
-using StockReview.Server.Controllers;
 using StockReview.Server.Exceptions;
 using System.Text;
 
@@ -17,10 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Á¬½Ó×Ö·û´®
 var connectionString = builder.Configuration.GetConnectionString(SystemConstant.DefaultConnection);
 // Add services to the container.
-builder.Services.AddHttpClient(connectionString);
 builder.Services.AddScoped<IJWTApiService, JWTApiService>();
 builder.Services.AddScoped<ILoginServerApiService, LoginServerApiService>();
-builder.Services.AddScoped<IReplayService, ReplayService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -46,7 +43,7 @@ builder.Services.AddDbContext<StockReviewDbContext>((options) =>
 {
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36)));
 });
-builder.Services.AddControllers(); 
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();

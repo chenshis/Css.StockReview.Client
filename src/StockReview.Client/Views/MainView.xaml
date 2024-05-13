@@ -89,6 +89,12 @@
                     <RowDefinition Height="60" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
+                <StackPanel
+                    Grid.RowSpan="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Panel.ZIndex="10"
+                    hc:Growl.Token="headerGrowl" />
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />

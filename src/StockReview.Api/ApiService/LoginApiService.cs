@@ -69,5 +69,21 @@ namespace StockReview.Api.ApiService
         {
             return _stockHttpClient.Get<List<UserDto>>(string.Format(SystemConstant.UsersRouteQuery, keyword));
         }
+
+        public ApiResponse<bool?> UpdateUserRole(UpdateUserRoleRequestDto request)
+        {
+            return _stockHttpClient.Post<UpdateUserRoleRequestDto, bool?>(SystemConstant.UpdateUserRoleRoute, request);
+        }
+
+        public ApiResponse<bool?> AddUser(UserRequestDto request)
+        {
+            request.Password = request.Password.GetMd5();
+            return _stockHttpClient.Post<UserRequestDto, bool?>(SystemConstant.AddUserRoute, request);
+        }
+
+        public ApiResponse<bool?> DeleteUser(string userName)
+        {
+            return _stockHttpClient.Post<string, bool?>(SystemConstant.DeleteUserRoute, userName);
+        }
     }
 }

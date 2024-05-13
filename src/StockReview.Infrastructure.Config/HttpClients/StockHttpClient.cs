@@ -36,15 +36,17 @@ namespace StockReview.Infrastructure.Config.HttpClients
                 // 未授权 但是有token 则刷新token
                 if (responseResult.Code == (int)System.Net.HttpStatusCode.Unauthorized)
                 {
-                    responseResult = RefreshToken<TData>();
-                    if (responseResult.Code != 0)
+                    var refreshResponse = RefreshToken();
+                    if (refreshResponse.Code != 0)
                     {
+                        _logger.LogError($"Get请求异常：{refreshResponse.Msg}");
                         return responseResult;
                     }
                     responseMessage = _httpClient.GetAsync(route).Result;
                     responseResult = GetResponseCodeResult<TData>(responseMessage);
                     if (responseResult.Code != 0)
                     {
+                        _logger.LogError($"Get请求异常：{refreshResponse.Msg}");
                         responseResult.Code = 1;
                     }
                 }
@@ -82,15 +84,17 @@ namespace StockReview.Infrastructure.Config.HttpClients
                 // 未授权 但是有token 则刷新token
                 if (responseResult.Code == (int)System.Net.HttpStatusCode.Unauthorized)
                 {
-                    responseResult = RefreshToken<TData>();
-                    if (responseResult.Code != 0)
+                    var refreshResponse = RefreshToken();
+                    if (refreshResponse.Code != 0)
                     {
+                        _logger.LogError($"Post请求异常：{refreshResponse.Msg}");
                         return responseResult;
                     }
                     responseMessage = _httpClient.PostAsync(route, stringContent).Result;
                     responseResult = GetResponseCodeResult<TData>(responseMessage);
                     if (responseResult.Code != 0)
                     {
+                        _logger.LogError($"Post请求异常：{responseResult.Msg}");
                         responseResult.Code = 1;
                     }
                 }
@@ -113,16 +117,16 @@ namespace StockReview.Infrastructure.Config.HttpClients
         /// 刷新token
         /// </summary>
         /// <returns></returns>
-        private ApiResponse<TData> RefreshToken<TData>()
+        private ApiResponse<string> RefreshToken()
         {
-            ApiResponse<TData> apiResponse = null;
+            ApiResponse<string> apiResponse = null;
             var token = _httpClient.DefaultRequestHeaders.Authorization?.Parameter;
             if (string.IsNullOrWhiteSpace(token))
             {
-                apiResponse = new ApiResponse<TData>();
+                apiResponse = new ApiResponse<string>();
                 apiResponse.Code = 1;
                 apiResponse.Msg = SystemConstant.Unauthorized;
-                apiResponse.Data = default(TData);
+                apiResponse.Data = default(string);
                 apiResponse.ServerTime = DateTime.Now.Ticks;
             }
             else
@@ -131,7 +135,7 @@ namespace StockReview.Infrastructure.Config.HttpClients
                 try
                 {
                     HttpResponseMessage responseMessage = _httpClient.PostAsync(SystemConstant.RefreshTokenRoute, stringContent).Result;
-                    apiResponse = GetResponseCodeResult<TData>(responseMessage);
+                    apiResponse = GetResponseCodeResult<string>(responseMessage);
                     if (apiResponse.Code == 0)
                     {
                         SetToken(apiResponse.Data.ToString());
@@ -145,10 +149,10 @@ namespace StockReview.Infrastructure.Config.HttpClients
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, $"Post请求异常：{ex.Message}");
-                    apiResponse = new ApiResponse<TData>();
+                    apiResponse = new ApiResponse<string>();
                     apiResponse.Code = 1;
                     apiResponse.Msg = ex.Message;
-                    apiResponse.Data = default(TData);
+                    apiResponse.Data = default(string);
                     apiResponse.ServerTime = DateTime.Now.Ticks;
                 }
 

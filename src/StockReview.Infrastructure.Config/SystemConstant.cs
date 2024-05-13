@@ -41,6 +41,11 @@ namespace StockReview.Infrastructure.Config
         /// </summary>
         public const string TreeMenuView = nameof(TreeMenuView);
         /// <summary>
+        /// 全局用户信息
+        /// </summary>
+        public const string GlobalUserName = nameof(GlobalUserName);
+
+        /// <summary>
         /// 菜单树区域
         /// </summary>
         public const string TreeMenuViewRegion = nameof(TreeMenuViewRegion);
@@ -48,6 +53,7 @@ namespace StockReview.Infrastructure.Config
         /// 修改用户对话框窗口
         /// </summary>
         public const string ModifyUserDialogView = nameof(ModifyUserDialogView);
+        public const string AddUserDialogView = nameof(AddUserDialogView);
         /// <summary>
         /// 股票看盘头部视图
         /// </summary>
@@ -90,6 +96,11 @@ namespace StockReview.Infrastructure.Config
         /// 刷新token异常
         /// </summary>
         public const string ErrorRefreshTokenFailMessage = "token刷新失败，请重新登录！";
+
+        /// <summary>
+        /// 标记
+        /// </summary>
+        public const string headerGrowl = nameof(headerGrowl);
 
         /// <summary>
         /// 异常空消息
@@ -137,6 +148,8 @@ namespace StockReview.Infrastructure.Config
 
         public const string ErrorDataSumbit = "数据提交失败！";
 
+        public const string SuccessDataSumbit = "数据保存成功!";
+        public const string ErrorDeleteData = "数据删除失败!";
         /// <summary>
         /// 401 说明
         /// </summary>
