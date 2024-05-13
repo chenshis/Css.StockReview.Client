@@ -18,6 +18,7 @@ var connectionString = builder.Configuration.GetConnectionString(SystemConstant.
 builder.Services.AddScoped<IJWTApiService, JWTApiService>();
 builder.Services.AddScoped<ILoginServerApiService, LoginServerApiService>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IReplayService, ReplayService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
