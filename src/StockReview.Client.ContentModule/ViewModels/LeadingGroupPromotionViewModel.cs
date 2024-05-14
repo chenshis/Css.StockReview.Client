@@ -38,25 +38,4 @@ namespace StockReview.Client.ContentModule.ViewModels
             }
         }
     }
-
-
-
-    public class LeadingDateHeaderList
-    {
-        /// <summary>
-        /// 行
-        /// </summary>
-        public int HeadRow { get; set; }
-
-        /// <summary>
-        /// 列
-        /// </summary>
-        public int HeadColumn { get; set; }
-
-        /// <summary>
-        /// 头部名称
-        /// </summary>
-        public string HeadName { get; set; }
-
-    }
 }
