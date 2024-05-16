@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Á¬½Ó×Ö·û´®
 var connectionString = builder.Configuration.GetConnectionString(SystemConstant.DefaultConnection);
 // Add services to the container.
+builder.Services.AddScoped<IStockOutlookServerApiService, StockOutlookServerApiService>();
 builder.Services.AddScoped<IJWTApiService, JWTApiService>();
 builder.Services.AddScoped<ILoginServerApiService, LoginServerApiService>();
 builder.Services.AddHttpContextAccessor();
