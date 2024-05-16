@@ -1,14 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Newtonsoft.Json;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
 using StockReview.Infrastructure.Config;
+using StockReview.Infrastructure.Config.HttpClients.HeepHelper;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Reflection.Metadata;
+using System.Security.Cryptography;
 using System.Text;
-using static StockReview.Api.Dtos.SharesBasicDataDto;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace StockReview.Api.ApiService
 {
@@ -650,10 +655,489 @@ namespace StockReview.Api.ApiService
             return marketLadderList;
         }
 
+        public PlateRotationDto GetPlateRotation(DateTime date)
+        {
+
+            var deviceId = "578e15c3-154e-f830-7a17-00c2d6b03140";
+            var plateRotationDtoResult = new PlateRotationDto()
+            {
+                PlateRotationHeaderTitle = new PlateRotationHeaderTitle(),
+                PlateRotationInfosOne = new List<PlateRotationInfo>(),
+                PlateRotationInfosTwo = new List<PlateRotationInfo>(),
+                PlateRotationInfosThree = new List<PlateRotationInfo>(),
+                PlateRotationInfosFour = new List<PlateRotationInfo>(),
+                PlateRotationInfosFive = new List<PlateRotationInfo>(),
+                PlateRotationInfosSix = new List<PlateRotationInfo>(),
+                PlateSharesLimitUpInfosOne = new List<PlateSharesLimitUpInfo>(),
+                PlateSharesLimitUpInfosTwo = new List<PlateSharesLimitUpInfo>(),
+                PlateSharesLimitUpInfosThree = new List<PlateSharesLimitUpInfo>(),
+                PlateSharesLimitUpInfosFour = new List<PlateSharesLimitUpInfo>(),
+                PlateSharesLimitUpInfosFive = new List<PlateSharesLimitUpInfo>(),
+                PlateSharesLimitUpInfosSix = new List<PlateSharesLimitUpInfo>()
+            };
+            uage();
+
+            int workDayToAdd = 6;
+            int workDaysCount = 1;
+
+            while (workDaysCount <= workDayToAdd)
+            {
+                var postDta = DateTime.Compare(date, DateTime.Now.Date) != 0 ?
+                    "Order=1&a=RealRankingInfo&st=30&apiv=w28&Type=1&c=ZhiShuRanking&PhoneOSNew=1&Index=0&ZSType=7&Date=" + date.ToString("yyyy-MM-dd") :
+                    "Order=1&a=RealRankingInfo&st=30&apiv=w28&Type=1&c=ZhiShuRanking&PhoneOSNew=1&Index=0&ZSType=7&";
+                HttpHelper httpHelper = new HttpHelper();
+                HttpItem item = new HttpItem
+                {
+                    URL = DateTime.Compare(date, DateTime.Now.Date) != 0 ? SystemConstantTwo.PlateRotationPostDataUrl : SystemConstantTwo.PlateRotationPostDayDataUrl,
+                    Method = "POST",
+                    Timeout = 100000,
+                    ReadWriteTimeout = 30000,
+                    IsToLower = false,
+                    Cookie = "",
+                    UserAgent = SusAgent,
+                    Accept = "text/html, application/xhtml+xml, */*",
+                    ContentType = "application/x-www-form-urlencoded",
+                    Referer = "",
+                    Postdata = postDta,
+                    ResultType = ResultType.String,
+                    ProtocolVersion = HttpVersion.Version11
+                };
+                string context = httpHelper.GetHtml(item).Html;
+
+                if (context.Length > 460)
+                {
+                    PlateBasicDataDto.Root root = JsonConvert.DeserializeObject<PlateBasicDataDto.Root>(context);
+
+                    switch (workDaysCount)
+                    {
+                        case 1:
+                            for (int j = 0; j < root.list.Count; j++)
+                            {
+                                plateRotationDtoResult.PlateRotationInfosOne.Add(new PlateRotationInfo
+                                {
+                                    Number = j.ToString(),
+                                    PlateCode = root.list[j][0],
+                                    PlateName = root.list[j][1],
+                                    PlateStrength = root.list[j][2],
+                                    PlateMainForce = root.list[j][3],
+                                    PlateMainBuy = root.list[j][4],
+                                    PlateMainSell = root.list[j][5]
+                                });
+                            }
+
+                            string postDtaOne = DateTime.Compare(date, DateTime.Now.Date) != 0 ? "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&old=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Index=0&Date=" + date + "&apiv=w35&Type=6&PlateID=" + root.list[0][0] + "&" :
+    "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Token=&Index=0&apiv=w35&Type=6&IsKZZType=0&PlateID=" + root.list[0][0] + "&";
+                            HttpHelper httpHelperOne = new HttpHelper();
+                            HttpItem itemOne = new HttpItem
+                            {
+                                URL = DateTime.Compare(date, DateTime.Now.Date) != 0 ? SystemConstantTwo.PlateRotationPostDataUrl : SystemConstantTwo.PlateRotationPostDayDataUrl,
+                                Method = "POST",
+                                Timeout = 100000,
+                                ReadWriteTimeout = 30000,
+                                IsToLower = false,
+                                Cookie = "",
+                                UserAgent = SusAgent,
+                                Accept = "text/html, application/xhtml+xml, */*",
+                                ContentType = "application/x-www-form-urlencoded",
+                                Referer = "",
+                                Postdata = postDtaOne,
+                                ResultType = ResultType.String,
+                                ProtocolVersion = HttpVersion.Version11
+                            };
+                            string contextOne = httpHelperOne.GetHtml(itemOne).Html;
+
+                            if (!string.IsNullOrWhiteSpace(contextOne))
+                            {
+                                PlateBasicDataDto.Root rootOne= JsonConvert.DeserializeObject<PlateBasicDataDto.Root>(contextOne);
+
+                                for (int k = 0; k < rootOne.list.Count; k++)
+                                {
+                                    plateRotationDtoResult.PlateSharesLimitUpInfosOne.Add(new PlateSharesLimitUpInfo
+                                    {
+                                        Number = k.ToString(),
+                                        PlateSharesCode = rootOne.list[k][0],
+                                        PlateSharesName = rootOne.list[k][1],
+                                        PlateSharesPrice = rootOne.list[k][5],
+                                        PlateSharesIncrease = rootOne.list[k][6],
+                                        PlateSharesStatus = rootOne.list[k][24],
+                                        PlateSharesNumberBoards = rootOne.list[k][23],
+                                        PlateSharesMainForce = rootOne.list[k][2],
+                                        PlateSharesToName = rootOne.list[k][4],
+                                        PlateSharesTranVoume = rootOne.list[k][7],
+                                        PlateSharesCirculationValue = rootOne.list[k][38],
+                                        PlateSharesTest = rootOne.list[k][24]
+                                    });
+                                }
+                            }
+                            plateRotationDtoResult.PlateRotationHeaderTitle.PlateDateOne = date.ToString("yyyy-MM-dd");
+                            workDaysCount++;
+                            break;
+                        case 2:
+                            for (int j = 0; j < root.list.Count; j++)
+                            {
+                                plateRotationDtoResult.PlateRotationInfosTwo.Add(new PlateRotationInfo
+                                {
+                                    Number = j + 1.ToString(),
+                                    PlateCode = root.list[j][0],
+                                    PlateName = root.list[j][1],
+                                    PlateStrength = root.list[j][2],
+                                    PlateMainForce = root.list[j][3],
+                                    PlateMainBuy = root.list[j][4],
+                                    PlateMainSell = root.list[j][5]
+                                });
+                            }
+
+                            string postDtaTwo = DateTime.Compare(date, DateTime.Now.Date) != 0 ? "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&old=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Index=0&Date=" + date + "&apiv=w35&Type=6&PlateID=" + root.list[0][0] + "&" :
+"Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Token=&Index=0&apiv=w35&Type=6&IsKZZType=0&PlateID=" + root.list[0][0] + "&";
+                            HttpHelper httpHelperTwo = new HttpHelper();
+                            HttpItem itemTwo = new HttpItem
+                            {
+                                URL = DateTime.Compare(date, DateTime.Now.Date) != 0 ? SystemConstantTwo.PlateRotationPostDataUrl : SystemConstantTwo.PlateRotationPostDayDataUrl,
+                                Method = "POST",
+                                Timeout = 100000,
+                                ReadWriteTimeout = 30000,
+                                IsToLower = false,
+                                Cookie = "",
+                                UserAgent = SusAgent,
+                                Accept = "text/html, application/xhtml+xml, */*",
+                                ContentType = "application/x-www-form-urlencoded",
+                                Referer = "",
+                                Postdata = postDtaTwo,
+                                ResultType = ResultType.String,
+                                ProtocolVersion = HttpVersion.Version11
+                            };
+                            string contextTwo = httpHelperTwo.GetHtml(itemTwo).Html;
+
+                            if (!string.IsNullOrWhiteSpace(contextTwo))
+                            {
+                                PlateBasicDataDto.Root rootTwo = JsonConvert.DeserializeObject<PlateBasicDataDto.Root>(contextTwo);
+
+                                for (int k = 0; k < rootTwo.list.Count; k++)
+                                {
+                                    plateRotationDtoResult.PlateSharesLimitUpInfosTwo.Add(new PlateSharesLimitUpInfo
+                                    {
+                                        Number = k.ToString(),
+                                        PlateSharesCode = rootTwo.list[k][0],
+                                        PlateSharesName = rootTwo.list[k][1],
+                                        PlateSharesPrice = rootTwo.list[k][5],
+                                        PlateSharesIncrease = rootTwo.list[k][6],
+                                        PlateSharesStatus = rootTwo.list[k][24],
+                                        PlateSharesNumberBoards = rootTwo.list[k][23],
+                                        PlateSharesMainForce = rootTwo.list[k][2],
+                                        PlateSharesToName = rootTwo.list[k][4],
+                                        PlateSharesTranVoume = rootTwo.list[k][7],
+                                        PlateSharesCirculationValue = rootTwo.list[k][38],
+                                        PlateSharesTest = rootTwo.list[k][24]
+                                    });
+                                }
+                            }
+                            plateRotationDtoResult.PlateRotationHeaderTitle.PlateDateTwo = date.ToString("yyyy-MM-dd");
+                            workDaysCount++;
+                            break;
+                        case 3:
+                            for (int j = 0; j < root.list.Count; j++)
+                            {
+                                plateRotationDtoResult.PlateRotationInfosThree.Add(new PlateRotationInfo
+                                {
+                                    Number = j + 1.ToString(),
+                                    PlateCode = root.list[j][0],
+                                    PlateName = root.list[j][1],
+                                    PlateStrength = root.list[j][2],
+                                    PlateMainForce = root.list[j][3],
+                                    PlateMainBuy = root.list[j][4],
+                                    PlateMainSell = root.list[j][5]
+                                });
+                            }
+
+                            string postDtaThree = DateTime.Compare(date, DateTime.Now.Date) != 0 ? "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&old=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Index=0&Date=" + date + "&apiv=w35&Type=6&PlateID=" + root.list[0][0] + "&" :
+                                "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Token=&Index=0&apiv=w35&Type=6&IsKZZType=0&PlateID=" + root.list[0][0] + "&";
+                            HttpHelper httpHelperThree = new HttpHelper();
+                            HttpItem itemThree = new HttpItem
+                            {
+                                URL = DateTime.Compare(date, DateTime.Now.Date) != 0 ? SystemConstantTwo.PlateRotationPostDataUrl : SystemConstantTwo.PlateRotationPostDayDataUrl,
+                                Method = "POST",
+                                Timeout = 100000,
+                                ReadWriteTimeout = 30000,
+                                IsToLower = false,
+                                Cookie = "",
+                                UserAgent = SusAgent,
+                                Accept = "text/html, application/xhtml+xml, */*",
+                                ContentType = "application/x-www-form-urlencoded",
+                                Referer = "",
+                                Postdata = postDtaThree,
+                                ResultType = ResultType.String,
+                                ProtocolVersion = HttpVersion.Version11
+                            };
+                            string contextThree = httpHelperThree.GetHtml(itemThree).Html;
+
+                            if (!string.IsNullOrWhiteSpace(contextThree))
+                            {
+                                PlateBasicDataDto.Root rootThree = JsonConvert.DeserializeObject<PlateBasicDataDto.Root>(contextThree);
+
+                                for (int k = 0; k < rootThree.list.Count; k++)
+                                {
+                                    plateRotationDtoResult.PlateSharesLimitUpInfosThree.Add(new PlateSharesLimitUpInfo
+                                    {
+                                        Number = k.ToString(),
+                                        PlateSharesCode = rootThree.list[k][0],
+                                        PlateSharesName = rootThree.list[k][1],
+                                        PlateSharesPrice = rootThree.list[k][5],
+                                        PlateSharesIncrease = rootThree.list[k][6],
+                                        PlateSharesStatus = rootThree.list[k][24],
+                                        PlateSharesNumberBoards = rootThree.list[k][23],
+                                        PlateSharesMainForce = rootThree.list[k][2],
+                                        PlateSharesToName = rootThree.list[k][4],
+                                        PlateSharesTranVoume = rootThree.list[k][7],
+                                        PlateSharesCirculationValue = rootThree.list[k][38],
+                                        PlateSharesTest = rootThree.list[k][24]
+                                    });
+                                }
+                            }
+                            plateRotationDtoResult.PlateRotationHeaderTitle.PlateDateThree = date.ToString("yyyy-MM-dd");
+                            workDaysCount++;
+                            break;
+                        case 4:
+                            for (int j = 0; j < root.list.Count; j++)
+                            {
+                                plateRotationDtoResult.PlateRotationInfosFour.Add(new PlateRotationInfo
+                                {
+                                    Number = j + 1.ToString(),
+                                    PlateCode = root.list[j][0],
+                                    PlateName = root.list[j][1],
+                                    PlateStrength = root.list[j][2],
+                                    PlateMainForce = root.list[j][3],
+                                    PlateMainBuy = root.list[j][4],
+                                    PlateMainSell = root.list[j][5]
+                                });
+                            }
+
+                            string postDtaFour = DateTime.Compare(date, DateTime.Now.Date) != 0 ? "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&old=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Index=0&Date=" + date + "&apiv=w35&Type=6&PlateID=" + root.list[0][0] + "&" :
+"Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Token=&Index=0&apiv=w35&Type=6&IsKZZType=0&PlateID=" + root.list[0][0] + "&";
+                            HttpHelper httpHelperFour = new HttpHelper();
+                            HttpItem itemFour = new HttpItem
+                            {
+                                URL = DateTime.Compare(date, DateTime.Now.Date) != 0 ? SystemConstantTwo.PlateRotationPostDataUrl : SystemConstantTwo.PlateRotationPostDayDataUrl,
+                                Method = "POST",
+                                Timeout = 100000,
+                                ReadWriteTimeout = 30000,
+                                IsToLower = false,
+                                Cookie = "",
+                                UserAgent = SusAgent,
+                                Accept = "text/html, application/xhtml+xml, */*",
+                                ContentType = "application/x-www-form-urlencoded",
+                                Referer = "",
+                                Postdata = postDtaFour,
+                                ResultType = ResultType.String,
+                                ProtocolVersion = HttpVersion.Version11
+                            };
+                            string contextFour = httpHelperFour.GetHtml(itemFour).Html;
+
+                            if (!string.IsNullOrWhiteSpace(contextFour))
+                            {
+                                PlateBasicDataDto.Root rootFour = JsonConvert.DeserializeObject<PlateBasicDataDto.Root>(contextFour);
+
+                                for (int k = 0; k < rootFour.list.Count; k++)
+                                {
+                                    plateRotationDtoResult.PlateSharesLimitUpInfosFour.Add(new PlateSharesLimitUpInfo
+                                    {
+                                        Number = k.ToString(),
+                                        PlateSharesCode = rootFour.list[k][0],
+                                        PlateSharesName = rootFour.list[k][1],
+                                        PlateSharesPrice = rootFour.list[k][5],
+                                        PlateSharesIncrease = rootFour.list[k][6],
+                                        PlateSharesStatus = rootFour.list[k][24],
+                                        PlateSharesNumberBoards = rootFour.list[k][23],
+                                        PlateSharesMainForce = rootFour.list[k][2],
+                                        PlateSharesToName = rootFour.list[k][4],
+                                        PlateSharesTranVoume = rootFour.list[k][7],
+                                        PlateSharesCirculationValue = rootFour.list[k][38],
+                                        PlateSharesTest = rootFour.list[k][24]
+                                    });
+                                }
+                            }
+
+                            plateRotationDtoResult.PlateRotationHeaderTitle.PlateDateFour = date.ToString("yyyy-MM-dd");
+                            workDaysCount++;
+                            break;
+                        case 5:
+                            for (int j = 0; j < root.list.Count; j++)
+                            {
+                                plateRotationDtoResult.PlateRotationInfosFive.Add(new PlateRotationInfo
+                                {
+                                    Number = j + 1.ToString(),
+                                    PlateCode = root.list[j][0],
+                                    PlateName = root.list[j][1],
+                                    PlateStrength = root.list[j][2],
+                                    PlateMainForce = root.list[j][3],
+                                    PlateMainBuy = root.list[j][4],
+                                    PlateMainSell = root.list[j][5]
+                                });
+                            }
+
+                                string postDtaFive = DateTime.Compare(date, DateTime.Now.Date) != 0 ? "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&old=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Index=0&Date=" + date + "&apiv=w35&Type=6&PlateID=" + root.list[0][0] + "&" :
+   "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Token=&Index=0&apiv=w35&Type=6&IsKZZType=0&PlateID=" + root.list[0][0] + "&";
+                                HttpHelper httpHelperFive = new HttpHelper();
+                                HttpItem itemFive = new HttpItem
+                                {
+                                    URL = DateTime.Compare(date, DateTime.Now.Date) != 0 ? SystemConstantTwo.PlateRotationPostDataUrl : SystemConstantTwo.PlateRotationPostDayDataUrl,
+                                    Method = "POST",
+                                    Timeout = 100000,
+                                    ReadWriteTimeout = 30000,
+                                    IsToLower = false,
+                                    Cookie = "",
+                                    UserAgent = SusAgent,
+                                    Accept = "text/html, application/xhtml+xml, */*",
+                                    ContentType = "application/x-www-form-urlencoded",
+                                    Referer = "",
+                                    Postdata = postDtaFive,
+                                    ResultType = ResultType.String,
+                                    ProtocolVersion = HttpVersion.Version11
+                                };
+                                string contextFive = httpHelperFive.GetHtml(itemFive).Html;
+
+                            if (!string.IsNullOrWhiteSpace(contextFive))
+                            {
+                                PlateBasicDataDto.Root rootFive = JsonConvert.DeserializeObject<PlateBasicDataDto.Root>(contextFive);
+
+                                for (int k = 0; k < rootFive.list.Count; k++)
+                                {
+                                    plateRotationDtoResult.PlateSharesLimitUpInfosFive.Add(new PlateSharesLimitUpInfo
+                                    {
+                                        Number = k.ToString(),
+                                        PlateSharesCode = rootFive.list[k][0],
+                                        PlateSharesName = rootFive.list[k][1],
+                                        PlateSharesPrice = rootFive.list[k][5],
+                                        PlateSharesIncrease = rootFive.list[k][6],
+                                        PlateSharesStatus = rootFive.list[k][24],
+                                        PlateSharesNumberBoards = rootFive.list[k][23],
+                                        PlateSharesMainForce = rootFive.list[k][2],
+                                        PlateSharesToName = rootFive.list[k][4],
+                                        PlateSharesTranVoume = rootFive.list[k][7],
+                                        PlateSharesCirculationValue = rootFive.list[k][38],
+                                        PlateSharesTest = rootFive.list[k][24]
+                                    });
+                                }
+                            }
+                            plateRotationDtoResult.PlateRotationHeaderTitle.PlateDateFive = date.ToString("yyyy-MM-dd");
+                            workDaysCount++;
+                            break;
+                        case 6:
+                            for (int j = 0; j < root.list.Count; j++)
+                            {
+                                plateRotationDtoResult.PlateRotationInfosSix.Add(new PlateRotationInfo
+                                {
+                                    Number = j + 1.ToString(),
+                                    PlateCode = root.list[j][0],
+                                    PlateName = root.list[j][1],
+                                    PlateStrength = root.list[j][2],
+                                    PlateMainForce = root.list[j][3],
+                                    PlateMainBuy = root.list[j][4],
+                                    PlateMainSell = root.list[j][5]
+                                });
+                            }
+
+                                string postDtaSix = DateTime.Compare(date, DateTime.Now.Date) != 0 ? "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&old=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Index=0&Date=" + date + "&apiv=w35&Type=6&PlateID=" + root.list[0][0] + "&" :
+   "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Token=&Index=0&apiv=w35&Type=6&IsKZZType=0&PlateID=" + root.list[0][0] + "&";
+                                HttpHelper httpHelperSix = new HttpHelper();
+                                HttpItem itemSix = new HttpItem
+                                {
+                                    URL = DateTime.Compare(date, DateTime.Now.Date) != 0 ? SystemConstantTwo.PlateRotationPostDataUrl : SystemConstantTwo.PlateRotationPostDayDataUrl,
+                                    Method = "POST",
+                                    Timeout = 100000,
+                                    ReadWriteTimeout = 30000,
+                                    IsToLower = false,
+                                    Cookie = "",
+                                    UserAgent = SusAgent,
+                                    Accept = "text/html, application/xhtml+xml, */*",
+                                    ContentType = "application/x-www-form-urlencoded",
+                                    Referer = "",
+                                    Postdata = postDtaSix,
+                                    ResultType = ResultType.String,
+                                    ProtocolVersion = HttpVersion.Version11
+                                };
+                                string contextSix = httpHelperSix.GetHtml(itemSix).Html;
+
+                            if (!string.IsNullOrWhiteSpace(contextSix))
+                            {
+                                PlateBasicDataDto.Root rootSix = JsonConvert.DeserializeObject<PlateBasicDataDto.Root>(contextSix);
+
+                                for (int k = 0; k < rootSix.list.Count; k++)
+                                {
+                                    plateRotationDtoResult.PlateSharesLimitUpInfosSix.Add(new PlateSharesLimitUpInfo
+                                    {
+                                        Number = k.ToString(),
+                                        PlateSharesCode = rootSix.list[k][0],
+                                        PlateSharesName = rootSix.list[k][1],
+                                        PlateSharesPrice = rootSix.list[k][5],
+                                        PlateSharesIncrease = rootSix.list[k][6],
+                                        PlateSharesStatus = rootSix.list[k][24],
+                                        PlateSharesNumberBoards = rootSix.list[k][23],
+                                        PlateSharesMainForce = rootSix.list[k][2],
+                                        PlateSharesToName = rootSix.list[k][4],
+                                        PlateSharesTranVoume = rootSix.list[k][7],
+                                        PlateSharesCirculationValue = rootSix.list[k][38],
+                                        PlateSharesTest = rootSix.list[k][24]
+                                    });
+                                }
+                            }
+                            plateRotationDtoResult.PlateRotationHeaderTitle.PlateDateSix = date.ToString("yyyy-MM-dd");
+                            workDaysCount++;
+
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                date = date.AddDays(-1);
+            }
+            return plateRotationDtoResult;
+        }
+
+        #region 私有方法
+        public string SusAgent;
+
+        private string GetRandUag(int length)
+        {
+            char[] array = new char[3] { '1', '2', '3' };
+            string text = string.Empty;
+            Random random = new Random(GetNewSeed());
+            for (int i = 0; i < length; i++)
+            {
+                text += array[random.Next(array.Length)];
+            }
+            return text;
+        }
+
+        private static int GetNewSeed()
+        {
+            byte[] array = new byte[4];
+            new RNGCryptoServiceProvider().GetBytes(array);
+            return BitConverter.ToInt32(array, 0);
+        }
+
+        private void uage()
+        {
+            int userAgent = Convert.ToInt32(GetRandUag(1));
+            SusAgent = SetUserAgent(userAgent);
+        }
+
         private int GetTimeStamp(DateTime dt)
         {
             DateTime dateTime = new DateTime(1970, 1, 1, 8, 0, 0);
             return Convert.ToInt32((dt - dateTime).TotalSeconds);
         }
+
+        private string SetUserAgent(int x)
+        {
+            string text = "";
+            return x switch
+            {
+                1 => "Opera/9.27 (Linux; U; Android 8.1.0; zh-cn; BLA-AL00 Build/HUAWEIBLA-AL00) Chrome/57.0.2987.132 Mobile Safari/437.26",
+                2 => "Opera/8.36 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/337.3",
+                3 => "Opera/7.63 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/517.6",
+                _ => "Opera/6.85 (Macintosh; Intel Mac OS X 10.11; rv:47.0) Gecko/20100101 Firefox/47.0",
+            };
+        }
+        #endregion
     }
 }

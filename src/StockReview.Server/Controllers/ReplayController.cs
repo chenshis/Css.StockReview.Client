@@ -34,9 +34,21 @@ namespace StockReview.Server.Controllers
         /// <param name="data">日期（yyyyMMdd）</param>
         [HttpPost]
         [Route(SystemConstantTwo.MarketLadderRoute)]
-        public MarketLadderDto GetMarketLadder(DateTime data)
+        public MarketLadderDto GetMarketLadder(DateTime date)
         {
-            return _replayService.GetMarketLadder(data);
+            return _replayService.GetMarketLadder(date);
+        }
+
+        /// <summary>
+        /// 获取板块轮动数据
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(SystemConstantTwo.PlateRotationRoute)]
+        public PlateRotationDto GetPlateRotation(DateTime date) 
+        {
+            return _replayService.GetPlateRotation(date);
         }
     }
 }

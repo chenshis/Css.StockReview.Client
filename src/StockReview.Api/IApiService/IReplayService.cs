@@ -23,5 +23,11 @@ namespace StockReview.Api.IApiService
         /// </summary>
         /// <param name="date"></param>
         MarketLadderDto GetMarketLadder(DateTime date);
+
+        /// <summary>
+        /// 获取市场天梯数据
+        /// </summary>
+        /// <param name="date"></param>
+        PlateRotationDto GetPlateRotation(DateTime date);
     }
 }
