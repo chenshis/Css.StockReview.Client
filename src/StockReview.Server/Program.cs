@@ -8,6 +8,7 @@ using StockReview.Domain;
 using StockReview.Domain.Entities;
 using StockReview.Infrastructure.Config;
 using StockReview.Server;
+using StockReview.Server.BackgroundServices;
 using StockReview.Server.Exceptions;
 using System.Text;
 
@@ -59,6 +60,9 @@ builder.Services.AddHttpClient(SystemConstant.HistoryLonghuVipUrl, configClient 
     configClient.BaseAddress = new Uri(SystemConstant.HistoryLonghuVipUrl);
     configClient.DefaultRequestHeaders.UserAgent.ParseAdd(SystemConstant.UserAgent);
 });
+// 后台服务
+builder.Services.AddHostedService<BulletinBoardBackgroundService>();
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

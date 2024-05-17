@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using StockReview.Infrastructure.Config;
-using System.Net.Http;
-using static System.Net.Mime.MediaTypeNames;
 using StockReview.Api.Dtos;
-using System.Drawing;
 
 namespace StockReview.Server.BackgroundServices
 {
@@ -103,6 +100,15 @@ namespace StockReview.Server.BackgroundServices
                 jobject = (JObject)JsonConvert.DeserializeObject(hisZhangTingExpStrResult);
                 jobjectInfo = (JObject)jobject["info"];
                 bulletinBoard.YesterdayFryingRate = Math.Round(Convert.ToDouble(jobjectInfo[7].ToString())).ToString() + "%";
+
+
+                formUrlContent = GetFormUrlEncodedContent("MarketCapacity");
+                responseMessage = httpClientToday.PostAsync(default(string), formUrlContent).Result;
+                var marketCapacityStrResult = responseMessage.Content.ReadAsStringAsync().Result;
+                jobject = (JObject)JsonConvert.DeserializeObject(marketCapacityStrResult);
+                jobjectInfo = (JObject)jobject["info"];
+                bulletinBoard.CityPower = jobjectInfo["yclnstr"].ToString();
+
             }
             catch (Exception ex)
             {
