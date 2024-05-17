@@ -11,21 +11,47 @@ namespace StockReview.Api.Dtos
     /// </summary>
     public class BulletinBoardDto
     {
-        public double TodayLimitUp { get; set; }
-
-        public double YesterdayLimitUp { get; set; }
-
-        public double TodayLimitDown { get; set; }
-
-        public double YesterdayLimitDown { get; set; }
-
-        public double TodayRise { get; set; }
-
-        public double YesterdayRise { get; set; }
-
-        public double TodayFall { get; set; }
-
-        public double YesterdayFall { get; set; }
-
+        /// <summary>
+        /// 涨停
+        /// </summary>
+        public string TodayLimitUp { get; set; }
+        public string YesterdayLimitUp { get; set; }
+        /// <summary>
+        /// 下跌
+        /// </summary>
+        public string TodayLimitDown { get; set; }
+        public string YesterdayLimitDown { get; set; }
+        /// <summary>
+        /// 上涨
+        /// </summary>
+        public string TodayRise { get; set; }
+        public string YesterdayRise { get; set; }
+        /// <summary>
+        /// 下跌
+        /// </summary>
+        public string TodayFall { get; set; }
+        public string YesterdayFall { get; set; }
+        /// <summary>
+        /// 今日量能
+        /// </summary>
+        public string TodayCalorimeter { get; set; }
+        /// <summary>
+        /// 昨日量能
+        /// </summary>
+        public string YesterdayCalorimeter { get; set; }
+        /// <summary>
+        /// 北向资金
+        /// </summary>
+        public string NorthboundFunds { get; set; }
+        public string SecondBoardPercent { get; set; }
+        public string ThirdBoardPercent { get; set; }
+        public string HighBoardPercent { get; set; }
+        /// <summary>
+        /// 情绪
+        /// </summary>
+        public string EmotionPercent { get; set; }
+        public string TodayFryingRate { get; set; }
+        public string YesterdayFryingRate { get; set; }
+        public string CityPower { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StockReview.Api.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,6 @@ namespace StockReview.Api.IApiService
         /// <summary>
         /// 获取看板信息
         /// </summary>
-        void GetBulletinBoard();
+        BulletinBoardDto GetBulletinBoard();
     }
 }

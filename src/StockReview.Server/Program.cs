@@ -49,6 +49,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
+builder.Services.AddHttpClient(SystemConstant.TodayLonghuVipUrl, configClient =>
+{
+    configClient.BaseAddress = new Uri(SystemConstant.TodayLonghuVipUrl);
+    configClient.DefaultRequestHeaders.UserAgent.ParseAdd(SystemConstant.UserAgent);
+});
+builder.Services.AddHttpClient(SystemConstant.HistoryLonghuVipUrl, configClient =>
+{
+    configClient.BaseAddress = new Uri(SystemConstant.HistoryLonghuVipUrl);
+    configClient.DefaultRequestHeaders.UserAgent.ParseAdd(SystemConstant.UserAgent);
+});
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

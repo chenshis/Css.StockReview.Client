@@ -215,7 +215,18 @@ namespace StockReview.Infrastructure.Config
         public const string UpdateUserRoleRoute = "v1/stockreview/user/update-role";
         public const string DeleteUserRoute = "v1/stockreview/user/delete";
         public const string UsersRouteQuery = "v1/stockreview/user/list?keyword={0}";
+        public const string BulletinBoardRoute = "v1/stockreview/stockOutlook/bulletin-board";
 
-    
+        public const string TodayLonghuVipUrl = "https://apphq.longhuvip.com/w1/api/index.php";
+        public const string HistoryLonghuVipUrl = "https://apphis.longhuvip.com/w1/api/index.php";
+        public const string SpecialLonghuVipUrl = "https://apphwhq.longhuvip.com/w1/api/index.php";
+        public const string DeviceID = "929417d2-bbbb-3418-b83a-827effe0b778";
+        public const string apivW36 = "w36";
+        public const string apivW31 = "w31";
+        public const string HomeDingPan = nameof(HomeDingPan);
+        public const string VerSion51404 = "5.14.0.4";
+        public const string VerSion57012 = "5.7.0.12";
+        public const string PhoneOSNew = "1";
+        public const string UserAgent = "Opera/9.27 (Linux; U; Android 8.1.0; zh-cn; BLA-AL00 Build/HUAWEIBLA-AL00) Chrome/57.0.2987.132 Mobile Safari/437.26";
     }
 }

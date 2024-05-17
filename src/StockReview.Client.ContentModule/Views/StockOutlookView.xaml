@@ -157,12 +157,12 @@
                                 <TextBlock
                                     Margin="0,5,0,0"
                                     HorizontalAlignment="Left"
-                                    Foreground="Green"
+                                    Foreground="Black"
                                     Text="昨日能量：" />
                                 <TextBlock
                                     Grid.Column="1"
                                     HorizontalAlignment="Left"
-                                    Foreground="Green" />
+                                    Foreground="Black" />
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -178,6 +178,21 @@
                                     Grid.Column="1"
                                     HorizontalAlignment="Left"
                                     Foreground="Green" />
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="0,5,0,0"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Black"
+                                    Text="能量预测：" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Red" />
                             </Grid>
                         </StackPanel>
                     </StackPanel>
@@ -759,16 +774,6 @@
                             <Run>,</Run>
                             <Run>到期:</Run>
                             <Run>2099-12-30</Run>
-                        </TextBlock>
-                        <Border />
-                    </StackPanel>
-                    <StackPanel
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <TextBlock Foreground="Black">
-                            <Run>量能预测:</Run>
-                            <Run Foreground="Green">9420亿(-5.53%，缩量551亿)</Run>
                         </TextBlock>
                         <Border />
                     </StackPanel>
