@@ -21,11 +21,11 @@ namespace StockReview.Server.Controllers
             this._stockOutlookServerApiService = stockOutlookServerApiService;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route(SystemConstant.BulletinBoardRoute)]
-        public BulletinBoardDto GetBulletinBoard()
+        public BulletinBoardDto GetBulletinBoard([FromBody] string day)
         {
-            return _stockOutlookServerApiService.GetBulletinBoard();
+            return _stockOutlookServerApiService.GetBulletinBoard(day);
         }
     }
 }

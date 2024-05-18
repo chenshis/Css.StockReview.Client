@@ -15,6 +15,24 @@ namespace StockReview.Api.IApiService
         /// <summary>
         /// 获取看板信息
         /// </summary>
-        BulletinBoardDto GetBulletinBoard();
+        BulletinBoardDto GetBulletinBoard(string day);
+
+        /// <summary>
+        /// 获取历史看板数据
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        BulletinBoardDto GetHisBulletinBoard(string day);
+
+        /// <summary>
+        /// 获取当天
+        /// </summary>
+        /// <returns></returns>
+        string GetCurrentDay();
+
+        /// <summary>
+        /// 日期初始化
+        /// </summary>
+        void FilterDates();
     }
 }
