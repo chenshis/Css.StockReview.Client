@@ -314,11 +314,24 @@
                             BorderBrush="#88000000"
                             BorderThickness="0,0,0,1"
                             Opacity="0.2" />
-                        <lvc:PieChart
-                            MinHeight="100"
-                            MaxValue="100"
-                            MinValue="0"
-                            Series="{Binding EmotionSeries}" />
+                        <Grid>
+                            <lvc:PieChart
+                                MinHeight="100"
+                                InitialRotation="-225"
+                                MaxAngle="270"
+                                MaxValue="100"
+                                MinValue="0"
+                                Series="{Binding EmotionSeries}"
+                                VisualElements="{Binding VisualElements}" />
+                            <TextBlock
+                                Margin="0,0,0,10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Foreground="Red"
+                                Text="{Binding BulletinBoard.EmotionPercent}" />
+                        </Grid>
                     </StackPanel>
                 </Border>
 

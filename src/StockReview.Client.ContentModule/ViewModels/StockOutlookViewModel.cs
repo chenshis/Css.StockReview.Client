@@ -147,6 +147,16 @@ namespace StockReview.Client.ContentModule.ViewModels
         }
 
         /// <summary>
+        /// 视觉元素
+        /// </summary>
+        public IEnumerable<VisualElement<SkiaSharpDrawingContext>> VisualElements { get; set; }
+
+        /// <summary>
+        /// 指针指向
+        /// </summary>
+        public NeedleVisual Needle { get; set; }
+
+        /// <summary>
         /// 看盘初始化
         /// </summary>
         private void Init()
@@ -166,12 +176,33 @@ namespace StockReview.Client.ContentModule.ViewModels
             BulletinBoard = apiResponse.Data;
 
             double.TryParse(BulletinBoard.EmotionPercent, out var emotionValue);
-            EmotionSeries = GaugeGenerator.BuildSolidGauge(
-                new GaugeItem(emotionValue, series =>
+            Needle = new NeedleVisual { Value = emotionValue };
+            EmotionSeries = GaugeGenerator.BuildAngularGaugeSections(
+                new GaugeItem(50, s => SetStyle(s, SKColors.Green)),
+                new GaugeItem(50, s => SetStyle(s, SKColors.Red)));
+            VisualElements = new VisualElement<SkiaSharpDrawingContext>[]
+            {
+                new AngularTicksVisual
                 {
-                    series.MaxRadialColumnWidth = 15;
-                    series.DataLabelsSize = 15;
-                }));
+                    LabelsSize = 10,
+                    LabelsOuterOffset = 5,
+                    OuterOffset = 30,
+                    TicksLength = 5
+                },
+                Needle
+            };
+        }
+
+        /// <summary>
+        /// 设定转盘样式
+        /// </summary>
+        /// <param name="pieSeries"></param>
+        /// <param name="color"></param>
+        private void SetStyle(PieSeries<ObservableValue> pieSeries, SKColor color)
+        {
+            pieSeries.Fill = new SolidColorPaint(color);
+            pieSeries.OuterRadiusOffset = 45;
+            pieSeries.MaxRadialColumnWidth = 10;
         }
     }
 
