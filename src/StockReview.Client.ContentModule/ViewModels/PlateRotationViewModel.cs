@@ -45,56 +45,19 @@ namespace StockReview.Client.ContentModule.ViewModels
 
             this.PlateRotationHeaderTitle = plateList.PlateRotationHeaderTitle;
 
-            foreach (var item in plateList.PlateRotationInfosOne)
-            {
-                this.PlateRotationInfosOne.Add(item);
-            }
-            foreach (var item in plateList.PlateRotationInfosTwo)
-            {
-                this.PlateRotationInfosTwo.Add(item);
-            }
-            foreach (var item in plateList.PlateRotationInfosThree)
-            {
-                this.PlateRotationInfosThree.Add(item);
-            }
-            foreach (var item in plateList.PlateRotationInfosFour)
-            {
-                this.PlateRotationInfosFour.Add(item);
-            }
-            foreach (var item in plateList.PlateRotationInfosFive)
-            {
-                this.PlateRotationInfosFive.Add(item);
-            }
-            foreach (var item in plateList.PlateRotationInfosSix)
-            {
-                this.PlateRotationInfosSix.Add(item);
-            }
+            this.PlateRotationInfosOne.AddRange(plateList.PlateRotationInfosOne);
+            this.PlateRotationInfosTwo.AddRange(plateList.PlateRotationInfosTwo);
+            this.PlateRotationInfosThree.AddRange(plateList.PlateRotationInfosThree);
+            this.PlateRotationInfosFour.AddRange(plateList.PlateRotationInfosFour);
+            this.PlateRotationInfosFive.AddRange(plateList.PlateRotationInfosFive);
+            this.PlateRotationInfosSix.AddRange(plateList.PlateRotationInfosSix);
 
-
-            foreach (var item in plateList.PlateSharesLimitUpInfosOne)
-            {
-                this.PlateSharesLimitUpInfosOne.Add(item);
-            }
-            foreach (var item in plateList.PlateSharesLimitUpInfosTwo)
-            {
-                this.PlateSharesLimitUpInfosTwo.Add(item);
-            }
-            foreach (var item in plateList.PlateSharesLimitUpInfosThree)
-            {
-                this.PlateSharesLimitUpInfosThree.Add(item);
-            }
-            foreach (var item in plateList.PlateSharesLimitUpInfosFour)
-            {
-                this.PlateSharesLimitUpInfosFour.Add(item);
-            }
-            foreach (var item in plateList.PlateSharesLimitUpInfosFive)
-            {
-                this.PlateSharesLimitUpInfosFive.Add(item);
-            }
-            foreach (var item in plateList.PlateSharesLimitUpInfosSix)
-            {
-                this.PlateSharesLimitUpInfosSix.Add(item);
-            }
+            this.PlateSharesLimitUpInfosOne.AddRange(plateList.PlateSharesLimitUpInfosOne);
+            this.PlateSharesLimitUpInfosTwo.AddRange(plateList.PlateSharesLimitUpInfosTwo);
+            this.PlateSharesLimitUpInfosThree.AddRange(plateList.PlateSharesLimitUpInfosThree);
+            this.PlateSharesLimitUpInfosFour.AddRange(plateList.PlateSharesLimitUpInfosFour);
+            this.PlateSharesLimitUpInfosFive.AddRange(plateList.PlateSharesLimitUpInfosFive);
+            this.PlateSharesLimitUpInfosSix.AddRange(plateList.PlateSharesLimitUpInfosSix);
         }
     }
 

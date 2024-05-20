@@ -50,5 +50,17 @@ namespace StockReview.Server.Controllers
         {
             return _replayService.GetPlateRotation(date);
         }
+
+        /// <summary>
+        /// 获取炸板与跌停板数据
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(SystemConstantTwo.ExplosiveBoardLImitDownRoute)]
+        public ExplosiveBoardLImitDownDto GetExplosiveBoardLImitDown(DateTime date)
+        {
+            return _replayService.GetExplosiveBoardLImitDown(date);
+        }
     }
 }

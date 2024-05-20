@@ -24,6 +24,7 @@ namespace StockReview.Server.BackgroundServices
             BulletinBoardDto bulletinBoard = new();
             try
             {
+                return Task.CompletedTask;
                 var yesterday = DateTime.Now.AddDays(-1).ToShortDateString();
                 var formUrlContent = GetFormUrlEncodedContent("ZhangFuDetail");
                 var responseMessage = httpClientToday.PostAsync(default(string), formUrlContent).Result;

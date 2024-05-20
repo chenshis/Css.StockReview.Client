@@ -29,5 +29,12 @@ namespace StockReview.Api.IApiService
         /// </summary>
         /// <param name="date"></param>
         PlateRotationDto GetPlateRotation(DateTime date);
+
+        /// <summary>
+        /// 获取炸板与跌停板数据
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        ExplosiveBoardLImitDownDto GetExplosiveBoardLImitDown(DateTime date);
     }
 }
