@@ -206,7 +206,7 @@ namespace StockReview.Client.ContentModule.ViewModels
             HistogramXAxes = new Axis[1];
             HistogramXAxes[0] = new Axis();
             HistogramXAxes[0].Labels = new List<string>();
-            HistogramXAxes[0].TextSize = 8;
+            HistogramXAxes[0].LabelsRotation = -15;
             HistogramSeries = new ISeries[3];
             // 正
             var positiveSeries = new ColumnSeries<ObservablePoint>();

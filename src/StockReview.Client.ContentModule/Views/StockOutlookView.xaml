@@ -13,25 +13,31 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition MinHeight="420" MaxHeight="420" />
             <RowDefinition />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
         <StackPanel Grid.Row="0">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Style>
+                <Style x:Key="bdrFrame" TargetType="Border">
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="Background" Value="White" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="CornerRadius" Value="4" />
+                    <Setter Property="Effect" Value="{DynamicResource EffectShadow2}" />
+                </Style>
+            </StackPanel.Resources>
             <UniformGrid Rows="1">
-                <UniformGrid.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="FontSize" Value="14" />
-                        <Setter Property="Foreground" Value="Black" />
-                    </Style>
-                    <Style x:Key="bdrFrame" TargetType="Border">
-                        <Setter Property="Margin" Value="5" />
-                        <Setter Property="Background" Value="White" />
-                        <Setter Property="BorderThickness" Value="0" />
-                        <Setter Property="CornerRadius" Value="4" />
-                        <Setter Property="Effect" Value="{DynamicResource EffectShadow2}" />
-                    </Style>
-                </UniformGrid.Resources>
                 <Border Style="{StaticResource bdrFrame}">
                     <StackPanel>
                         <TextBlock
@@ -236,7 +242,8 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
-
+            </UniformGrid>
+            <UniformGrid Rows="1">
                 <Border Style="{StaticResource bdrFrame}">
                     <StackPanel>
                         <TextBlock
@@ -361,26 +368,9 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <Grid.Resources>
-                    <Style x:Key="bdrFrame" TargetType="Border">
-                        <Setter Property="Margin" Value="5" />
-                        <Setter Property="Background" Value="White" />
-                        <Setter Property="BorderThickness" Value="0" />
-                        <Setter Property="CornerRadius" Value="4" />
-                        <Setter Property="Effect" Value="{DynamicResource EffectShadow2}" />
-                    </Style>
-                </Grid.Resources>
-                <Border Style="{StaticResource bdrFrame}">
-                    <lvc:CartesianChart
-                        MinHeight="250"
-                        Series="{Binding HistogramSeries}"
-                        XAxes="{Binding HistogramXAxes}"
-                        ZoomMode="X" />
-                </Border>
-                <Border Grid.Column="1" Style="{StaticResource bdrFrame}">
+                <Border Grid.Column="0" Style="{StaticResource bdrFrame}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30" />
@@ -493,7 +483,7 @@
                         </ItemsControl>
                     </Grid>
                 </Border>
-                <Border Grid.Column="2" Style="{StaticResource bdrFrame}">
+                <Border Grid.Column="1" Style="{StaticResource bdrFrame}">
                     <Grid
                         Margin="5"
                         HorizontalAlignment="Right"
@@ -534,26 +524,26 @@
                             Margin="10,10,0,10"
                             Content="同花情绪"
                             Style="{StaticResource ButtonPrimary}" />
-                        <UniformGrid
-                            Grid.Row="2"
-                            Grid.ColumnSpan="2"
-                            HorizontalAlignment="Right"
-                            Rows="1">
-                            <ToggleButton
-                                HorizontalAlignment="Stretch"
-                                Content="连板股晋级区"
-                                IsChecked="{Binding IsOpen, ElementName=DrawerBottom}"
-                                Style="{StaticResource ToggleButtonSuccess}" />
-                            <ToggleButton
-                                Margin="10,0,0,0"
-                                HorizontalAlignment="Stretch"
-                                Content="财联社电报"
-                                IsChecked="{Binding IsOpen, ElementName=DrawerRight}"
-                                Style="{StaticResource ToggleButtonSuccess}" />
-                        </UniformGrid>
+
                     </Grid>
                 </Border>
             </Grid>
+        </StackPanel>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.Resources>
+                <Style x:Key="bdrFrame" TargetType="Border">
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="Background" Value="White" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="CornerRadius" Value="4" />
+                    <Setter Property="Effect" Value="{DynamicResource EffectShadow2}" />
+                </Style>
+            </Grid.Resources>
+            <lvc:CartesianChart Series="{Binding HistogramSeries}" XAxes="{Binding HistogramXAxes}" />
+        </Grid>
+
+        <Grid Grid.Row="1">
             <Grid>
                 <Grid.Resources>
                     <Style x:Key="bdrFrame" TargetType="Border">
@@ -574,7 +564,6 @@
                         <Border Background="#EEE" />
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40" />
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                                 <ColumnDefinition />
@@ -596,73 +585,69 @@
                                 </Style>
                             </Grid.Resources>
                             <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="序号" />
-                            <TextBlock
-                                Grid.Column="1"
+                                Grid.Column="0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="代码" />
                             <TextBlock
-                                Grid.Column="2"
+                                Grid.Column="1"
                                 VerticalAlignment="Center"
                                 Text="股票名称" />
                             <TextBlock
-                                Grid.Column="3"
+                                Grid.Column="2"
                                 VerticalAlignment="Center"
                                 Text="涨幅" />
                             <TextBlock
-                                Grid.Column="4"
+                                Grid.Column="3"
                                 VerticalAlignment="Center"
                                 Text="最新" />
                             <TextBlock
-                                Grid.Column="5"
+                                Grid.Column="4"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="涨停原因" />
                             <TextBlock
-                                Grid.Column="6"
+                                Grid.Column="5"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="首封时间" />
                             <TextBlock
-                                Grid.Column="7"
+                                Grid.Column="6"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="最后封板" />
                             <TextBlock
-                                Grid.Column="8"
+                                Grid.Column="7"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="涨停形态" />
                             <TextBlock
-                                Grid.Column="9"
+                                Grid.Column="8"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="开板" />
                             <TextBlock
-                                Grid.Column="10"
+                                Grid.Column="9"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="几天几板" />
                             <TextBlock
-                                Grid.Column="11"
+                                Grid.Column="10"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="封单额（万）" />
                             <TextBlock
-                                Grid.Column="12"
+                                Grid.Column="11"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="换手率" />
                             <TextBlock
-                                Grid.Column="13"
+                                Grid.Column="12"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="流通值（亿）" />
                             <TextBlock
-                                Grid.Column="14"
+                                Grid.Column="13"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="连板" />
@@ -672,7 +657,6 @@
                                 <DataTemplate>
                                     <Grid Name="root">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="40" />
                                             <ColumnDefinition />
                                             <ColumnDefinition />
                                             <ColumnDefinition />
@@ -762,11 +746,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="14"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -774,8 +753,9 @@
                     </Grid>
                 </Border>
             </Grid>
-        </StackPanel>
-        <Grid Grid.Row="1">
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
             <Grid.Resources>
                 <Style x:Key="bdrFrame" TargetType="Border">
                     <Setter Property="Margin" Value="5" />
@@ -793,7 +773,7 @@
                     XAxes="{Binding XAxes}" />-->
             </Border>
         </Grid>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
             <Grid.Resources>
                 <Style x:Key="bdrFrame" TargetType="Border">
                     <Setter Property="Margin" Value="5" />
@@ -892,6 +872,7 @@
 
             </Border>
         </Grid>
+
 
         <!--  连扳  -->
         <Grid Grid.RowSpan="3">
