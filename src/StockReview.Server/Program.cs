@@ -60,9 +60,15 @@ builder.Services.AddHttpClient(SystemConstant.HistoryLonghuVipUrl, configClient 
     configClient.BaseAddress = new Uri(SystemConstant.HistoryLonghuVipUrl);
     configClient.DefaultRequestHeaders.UserAgent.ParseAdd(SystemConstant.UserAgent);
 });
+builder.Services.AddHttpClient(SystemConstant.SpecialLonghuVipUrl, configClient =>
+{
+    configClient.BaseAddress = new Uri(SystemConstant.SpecialLonghuVipUrl);
+    configClient.DefaultRequestHeaders.UserAgent.ParseAdd(SystemConstant.UserAgent);
+});
+builder.Services.AddMemoryCache();
 // 后台服务
 builder.Services.AddHostedService<BulletinBoardBackgroundService>();
-
+builder.Services.AddHostedService<StockFilterDatesBackgroundService>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

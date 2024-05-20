@@ -97,7 +97,7 @@ namespace StockReview.Client
             // 注册业务逻辑
             containerRegistry.RegisterScoped<ILoginApiService, LoginApiService>();
             containerRegistry.RegisterScoped<IReplayService, ReplayService>();
-
+            containerRegistry.RegisterScoped<IStockOutlookApiService, StockOutlookApiService>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

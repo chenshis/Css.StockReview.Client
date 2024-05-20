@@ -175,6 +175,18 @@ namespace StockReview.Infrastructure.Config
         /// </summary>
         public const string MenuJson = "Menu.json";
         /// <summary>
+        /// 看板key
+        /// </summary>
+        public const string BulletinBoardKey = nameof(BulletinBoardKey);
+        /// <summary>
+        /// 选中日期
+        /// </summary>
+        public const string StockSelectedDayKey = nameof(StockSelectedDayKey);
+        /// <summary>
+        /// 过滤日期
+        /// </summary>
+        public const string StockFilterDaysKey = nameof(StockFilterDaysKey);
+        /// <summary>
         /// 没有菜单
         /// </summary>
         public const string ErrorMenuNotExist = "菜单信息不存在！";

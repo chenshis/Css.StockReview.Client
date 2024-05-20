@@ -16,6 +16,8 @@ using LiveChartsCore.SkiaSharpView.Drawing;
 using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveChartsCore.VisualElements;
 using LiveChartsCore.SkiaSharpView.VisualElements;
+using StockReview.Api.Dtos;
+using StockReview.Api.IApiService;
 
 namespace StockReview.Client.ContentModule.ViewModels
 {
@@ -24,8 +26,10 @@ namespace StockReview.Client.ContentModule.ViewModels
     /// </summary>
     public class StockOutlookViewModel : NavigationAwareViewModelBase
     {
+        private readonly IStockOutlookApiService _stockOutlookApiService;
         public StockOutlookViewModel(IUnityContainer unityContainer,
-                                     IRegionManager regionManager)
+                                     IRegionManager regionManager,
+                                     IStockOutlookApiService stockOutlookApiService)
             : base(unityContainer, regionManager)
         {
             this.PageTitle = "股市看盘";
@@ -57,7 +61,7 @@ namespace StockReview.Client.ContentModule.ViewModels
 
             CandleSeries = new ISeries[]
             {
-            new CandlesticksSeries<FinancialPointI>
+                new CandlesticksSeries<FinancialPointI>
             {
                 Values = data
                     .Select(x => new FinancialPointI(x.High, x.Open, x.Close, x.Low))
@@ -75,18 +79,9 @@ namespace StockReview.Client.ContentModule.ViewModels
                     .ToArray()
             }
         };
+            this._stockOutlookApiService = stockOutlookApiService;
+            Init();
         }
-
-
-        public IEnumerable<ISeries> Series { get; set; } =
-         GaugeGenerator.BuildSolidGauge(
-             new GaugeItem(
-                 30,          // the gauge value
-                 series =>    // the series style
-                 {
-                     series.MaxRadialColumnWidth = 15;
-                     series.DataLabelsSize = 15;
-                 }));
 
         public ISeries[] LineSeries { get; set; } =
    {
@@ -108,7 +103,7 @@ namespace StockReview.Client.ContentModule.ViewModels
 
         public ISeries[] CandleSeries { get; set; }
 
-        public ISeries[] CurveSeries { get; set; }= 
+        public ISeries[] CurveSeries { get; set; } =
     {
         new LineSeries<double>
         {
@@ -130,7 +125,85 @@ namespace StockReview.Client.ContentModule.ViewModels
     };
 
 
+        private BulletinBoardDto _bulletinBoard;
 
+        /// <summary>
+        /// 看板
+        /// </summary>
+        public BulletinBoardDto BulletinBoard
+        {
+            get { return _bulletinBoard; }
+            set { SetProperty(ref _bulletinBoard, value); }
+        }
+
+        private IEnumerable<ISeries> _emotionSeries;
+        /// <summary>
+        /// 情绪序列
+        /// </summary>
+        public IEnumerable<ISeries> EmotionSeries
+        {
+            get { return _emotionSeries; }
+            set { SetProperty(ref _emotionSeries, value); }
+        }
+
+        /// <summary>
+        /// 视觉元素
+        /// </summary>
+        public IEnumerable<VisualElement<SkiaSharpDrawingContext>> VisualElements { get; set; }
+
+        /// <summary>
+        /// 指针指向
+        /// </summary>
+        public NeedleVisual Needle { get; set; }
+
+        /// <summary>
+        /// 看盘初始化
+        /// </summary>
+        private void Init()
+        {
+            var apiResponse = _stockOutlookApiService.GetBulletinBoard("2024-05-17");
+            if (apiResponse.Code != 0)
+            {
+                HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
+                {
+                    Message = apiResponse.Msg,
+                    Token = SystemConstant.headerGrowl,
+                    IsCustom = true,
+                    WaitTime = 0
+                });
+                return;
+            }
+            BulletinBoard = apiResponse.Data;
+
+            double.TryParse(BulletinBoard.EmotionPercent, out var emotionValue);
+            Needle = new NeedleVisual { Value = emotionValue };
+            EmotionSeries = GaugeGenerator.BuildAngularGaugeSections(
+                new GaugeItem(50, s => SetStyle(s, SKColors.Green)),
+                new GaugeItem(50, s => SetStyle(s, SKColors.Red)));
+            VisualElements = new VisualElement<SkiaSharpDrawingContext>[]
+            {
+                new AngularTicksVisual
+                {
+                    LabelsSize = 10,
+                    LabelsOuterOffset = 5,
+                    OuterOffset = 30,
+                    TicksLength = 5
+                },
+                Needle
+            };
+        }
+
+        /// <summary>
+        /// 设定转盘样式
+        /// </summary>
+        /// <param name="pieSeries"></param>
+        /// <param name="color"></param>
+        private void SetStyle(PieSeries<ObservableValue> pieSeries, SKColor color)
+        {
+            pieSeries.Fill = new SolidColorPaint(color);
+            pieSeries.OuterRadiusOffset = 45;
+            pieSeries.MaxRadialColumnWidth = 10;
+        }
     }
 
     public class FinancialData
