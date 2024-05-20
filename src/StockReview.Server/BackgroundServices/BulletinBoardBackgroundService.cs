@@ -28,12 +28,16 @@ namespace StockReview.Server.BackgroundServices
                     day = stockReviewApiService.GetCurrentDay();
                 }
                 var bulletinBoard = stockReviewApiService.GetHisBulletinBoard(day);
-                if (bulletinBoard == null)
+                if (bulletinBoard != null)
                 {
-                    return Task.CompletedTask;
+                    memoryCache.Set(SystemConstant.BulletinBoardKey, bulletinBoard);
                 }
 
-                memoryCache.Set(SystemConstant.BulletinBoardKey, bulletinBoard);
+                var emotionDetail = stockReviewApiService.GetHisEmotionDetail(day);
+                if (emotionDetail != null)
+                {
+                    memoryCache.Set(SystemConstant.EmotionDetailKey, emotionDetail);
+                }
             }
             catch (Exception ex)
             {
@@ -41,34 +45,6 @@ namespace StockReview.Server.BackgroundServices
             }
             return Task.CompletedTask;
         }
-
-        private FormUrlEncodedContent GetFormUrlEncodedContent(string a,
-                                                             string c = SystemConstant.HomeDingPan,
-                                                             string apiv = SystemConstant.apivW31,
-                                                             string phoneOSNew = SystemConstant.PhoneOSNew,
-                                                             string deviceID = SystemConstant.DeviceID,
-                                                             string verSion = SystemConstant.VerSion57012,
-                                                             string Day = null)
-        {
-            Dictionary<string, string> parameters = new()
-            {
-                [nameof(a)] = a,
-                [nameof(c)] = c,
-                [nameof(apiv)] = apiv,
-                [nameof(phoneOSNew)] = phoneOSNew,
-                [nameof(deviceID)] = deviceID,
-                [nameof(verSion)] = verSion
-            };
-
-            if (!string.IsNullOrWhiteSpace(Day))
-            {
-                parameters[nameof(Day)] = Day;
-            }
-
-            var content = new FormUrlEncodedContent(parameters);
-            return content;
-        }
-
 
     }
 }

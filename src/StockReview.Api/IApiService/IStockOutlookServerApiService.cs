@@ -1,9 +1,4 @@
 ﻿using StockReview.Api.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockReview.Api.IApiService
 {
@@ -23,6 +18,20 @@ namespace StockReview.Api.IApiService
         /// <param name="day"></param>
         /// <returns></returns>
         BulletinBoardDto GetHisBulletinBoard(string day);
+
+        /// <summary>
+        /// 获取当天实时数据
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        EmotionDetailDto GetEmotionDetail(string day);
+
+        /// <summary>
+        /// 获取历史数据
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        EmotionDetailDto GetHisEmotionDetail(string day);
 
         /// <summary>
         /// 获取当天

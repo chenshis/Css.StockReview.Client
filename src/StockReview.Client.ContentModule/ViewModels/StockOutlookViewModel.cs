@@ -80,19 +80,20 @@ namespace StockReview.Client.ContentModule.ViewModels
             }
         };
             this._stockOutlookApiService = stockOutlookApiService;
-            Init();
+            Refresh();
         }
 
         public ISeries[] LineSeries { get; set; } =
    {
-        new ColumnSeries<double>
+        new ColumnSeries<string>
         {
-            Values = new ObservableCollection<double> { 2, 5, 4, 3 ,7,1,10},
+            Values = new ObservableCollection<string> {  "涨停", "≥7%", "5～7%", "3～5%", "0～3%", "0", "-0～3%", "-3～5%", "-5～7%", "≥-7%",
+                "跌停"},
             IsVisible = true
         },
         new ColumnSeries<double>
         {
-            Values = new ObservableCollection<double> { 6, 3, 10, 8,5,4,7 },
+            Values = new ObservableCollection<double> { 6, 3, 10, 8,5,4,7,8,6,4,10 },
             IsVisible = true
         }
     };
@@ -157,11 +158,11 @@ namespace StockReview.Client.ContentModule.ViewModels
         public NeedleVisual Needle { get; set; }
 
         /// <summary>
-        /// 看盘初始化
+        /// 刷新
         /// </summary>
-        private void Init()
+        public override void Refresh()
         {
-            var apiResponse = _stockOutlookApiService.GetBulletinBoard("2024-05-17");
+            var apiResponse = _stockOutlookApiService.GetBulletinBoard("2024-05-20");
             if (apiResponse.Code != 0)
             {
                 HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo

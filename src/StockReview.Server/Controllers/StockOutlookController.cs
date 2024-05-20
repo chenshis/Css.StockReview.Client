@@ -26,5 +26,13 @@ namespace StockReview.Server.Controllers
         {
             return _stockOutlookServerApiService.GetBulletinBoard(day);
         }
+
+        [HttpPost]
+        [Authorize(Roles = $"{nameof(RoleEnum.Ordinary)},{nameof(RoleEnum.VIP)},{nameof(RoleEnum.Admin)}")]
+        [Route(SystemConstant.EmotionDetailRoute)]
+        public EmotionDetailDto GetEmotionDetail([FromBody] string day)
+        {
+            return _stockOutlookServerApiService.GetEmotionDetail(day);
+        }
     }
 }

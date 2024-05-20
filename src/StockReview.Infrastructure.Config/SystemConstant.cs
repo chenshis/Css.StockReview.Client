@@ -179,6 +179,10 @@ namespace StockReview.Infrastructure.Config
         /// </summary>
         public const string BulletinBoardKey = nameof(BulletinBoardKey);
         /// <summary>
+        /// 情绪明细key
+        /// </summary>
+        public const string EmotionDetailKey = nameof(EmotionDetailKey);
+        /// <summary>
         /// 选中日期
         /// </summary>
         public const string StockSelectedDayKey = nameof(StockSelectedDayKey);
@@ -228,6 +232,7 @@ namespace StockReview.Infrastructure.Config
         public const string DeleteUserRoute = "v1/stockreview/user/delete";
         public const string UsersRouteQuery = "v1/stockreview/user/list?keyword={0}";
         public const string BulletinBoardRoute = "v1/stockreview/stockOutlook/bulletin-board";
+        public const string EmotionDetailRoute = "v1/stockreview/stockOutlook/emotion";
 
         public const string TodayLonghuVipUrl = "https://apphq.longhuvip.com/w1/api/index.php";
         public const string HistoryLonghuVipUrl = "https://apphis.longhuvip.com/w1/api/index.php";
@@ -240,5 +245,7 @@ namespace StockReview.Infrastructure.Config
         public const string VerSion57012 = "5.7.0.12";
         public const string PhoneOSNew = "1";
         public const string UserAgent = "Opera/9.27 (Linux; U; Android 8.1.0; zh-cn; BLA-AL00 Build/HUAWEIBLA-AL00) Chrome/57.0.2987.132 Mobile Safari/437.26";
+        public const string HqstatsJqkaUrl = "http://hqstats.10jqka.com.cn";
+        public const string TongHuaXValue = "涨停,≥7%,5～7%,3～5%,0～3%,0,-0～3%,-3～5%,-5～7%,≥-7%,跌停";
     }
 }

@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Linq;
+using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace StockReview.Api.ApiService
 {
@@ -285,9 +287,83 @@ namespace StockReview.Api.ApiService
             return bulletinBoard;
         }
 
+        public EmotionDetailDto GetEmotionDetail(string day)
+        {
+            GetDateByDay(day);
+            var today = _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
+            if (today != null && today == day)
+            {
+                return _memoryCache.Get<EmotionDetailDto>(SystemConstant.BulletinBoardKey);
+            }
+            return GetHisEmotionDetail(day);
+        }
+
+        public EmotionDetailDto GetHisEmotionDetail(string day)
+        {
+            EmotionDetailDto emotionDetail = new EmotionDetailDto();
+            var httpClient = _httpClientFactory.CreateClient();
+            var date = GetDateByDay(day, "yyyyMMdd");
+            string text = date.today;
+            string webUrl = "https://data.10jqka.com.cn/dataapi/limit_up/limit_up_pool?page=1&limit=15&field=199112,10,9001,330323,330324,330325,9002,330329,133971,133970,1968584,3475914,9003,9004&filter=HS,GEM2STAR&order_field=330324&order_type=0&date=" + text;
+            var webDataResponse = httpClient.GetAsync(webUrl).Result;
+            var webData = webDataResponse.Content.ReadAsStringAsync().Result;
+            if (webData.Length < 650)
+            {
+                throw new Exception("不是开盘时间，无法获取数据！");
+            }
+            emotionDetail.root = JsonConvert.DeserializeObject<Root>(webData);
 
 
-        public (string today, string yesterday) GetDateByDay(string day)
+            webUrl = "http://hqstats.10jqka.com.cn/?market=USHA_USZA&datatype=zhangfustats_detail&date=" + text + "&callback=zhangfustats";
+            webDataResponse = httpClient.GetAsync(webUrl).Result;
+            webData = webDataResponse.Content.ReadAsStringAsync().Result;
+            if (webData.Length >= 60)
+            {
+                List<string> yValues = ZZStr(webData);
+                List<string> xValues = SystemConstant.TongHuaXValue.Split(",").ToList();
+
+                emotionDetail.histogram = new List<HistogramDto>();
+
+                for (int i = 0; i < xValues.Count; i++)
+                {
+                    emotionDetail.histogram.Add(new HistogramDto
+                    {
+                        xvalue = xValues[i],
+                        yvalue = yValues[i]
+                    });
+                }
+            }
+            return emotionDetail;
+        }
+
+        private List<string> ZZStr(string str)
+        {
+            string[] array = Regex.Replace(str, "[^\\d.\\d]", ",").Split(new string[1] { "," }, StringSplitOptions.None);
+            List<string> list = new List<string>();
+            List<string> list2 = new List<string>();
+            string[] array2 = array;
+            foreach (string text in array2)
+            {
+                if (text != "")
+                {
+                    list.Add(text);
+                }
+            }
+            list2.Add(list[0]);
+            list2.Add((Convert.ToInt32(list[1]) + Convert.ToInt32(list[1])).ToString());
+            list2.Add((Convert.ToInt32(list[3]) + Convert.ToInt32(list[4])).ToString());
+            list2.Add((Convert.ToInt32(list[5]) + Convert.ToInt32(list[6])).ToString());
+            list2.Add((Convert.ToInt32(list[7]) + Convert.ToInt32(list[8]) + Convert.ToInt32(list[9])).ToString());
+            list2.Add(list[10]);
+            list2.Add((Convert.ToInt32(list[11]) + Convert.ToInt32(list[12]) + Convert.ToInt32(list[13])).ToString());
+            list2.Add((Convert.ToInt32(list[14]) + Convert.ToInt32(list[15])).ToString());
+            list2.Add((Convert.ToInt32(list[16]) + Convert.ToInt32(list[17])).ToString());
+            list2.Add((Convert.ToInt32(list[18]) + Convert.ToInt32(list[19])).ToString());
+            list2.Add(list[20]);
+            return list2;
+        }
+
+        public (string today, string yesterday) GetDateByDay(string day, string format = "yyyy-MM-dd")
         {
             if (!DateTime.TryParse(day, out var date))
             {
@@ -332,7 +408,7 @@ namespace StockReview.Api.ApiService
                 }
                 break;
             }
-            return (date.ToString("yyyy-MM-dd"), yesterdayDate.ToString("yyyy-MM-dd"));
+            return (date.ToString(format), yesterdayDate.ToString(format));
         }
 
 
@@ -367,6 +443,5 @@ namespace StockReview.Api.ApiService
             var content = new FormUrlEncodedContent(parameters);
             return content;
         }
-
     }
 }
