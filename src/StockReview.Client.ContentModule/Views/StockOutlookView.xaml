@@ -375,9 +375,10 @@
                 </Grid.Resources>
                 <Border Style="{StaticResource bdrFrame}">
                     <lvc:CartesianChart
-                        MinHeight="110"
-                        Series="{Binding LineSeries}"
-                        YAxes="{Binding LineYAxes}" />
+                        MinHeight="250"
+                        Series="{Binding HistogramSeries}"
+                        XAxes="{Binding HistogramXAxes}"
+                        ZoomMode="X" />
                 </Border>
                 <Border Grid.Column="1" Style="{StaticResource bdrFrame}">
                     <Grid>

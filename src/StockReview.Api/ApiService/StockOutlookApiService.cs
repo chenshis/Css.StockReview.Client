@@ -17,5 +17,10 @@ namespace StockReview.Api.ApiService
         {
             return _stockHttpClient.Post<string, BulletinBoardDto>(SystemConstant.BulletinBoardRoute, day);
         }
+
+        public ApiResponse<EmotionDetailDto> GetEmotionDetail(string day)
+        {
+            return _stockHttpClient.Post<string, EmotionDetailDto>(SystemConstant.EmotionDetailRoute, day);
+        }
     }
 }

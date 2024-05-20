@@ -83,21 +83,6 @@ namespace StockReview.Client.ContentModule.ViewModels
             Refresh();
         }
 
-        public ISeries[] LineSeries { get; set; } =
-   {
-        new ColumnSeries<string>
-        {
-            Values = new ObservableCollection<string> {  "涨停", "≥7%", "5～7%", "3～5%", "0～3%", "0", "-0～3%", "-3～5%", "-5～7%", "≥-7%",
-                "跌停"},
-            IsVisible = true
-        },
-        new ColumnSeries<double>
-        {
-            Values = new ObservableCollection<double> { 6, 3, 10, 8,5,4,7,8,6,4,10 },
-            IsVisible = true
-        }
-    };
-
         public Axis[] XAxes { get; set; }
 
         public Axis[] YAxes { get; set; } = null;
@@ -158,11 +143,21 @@ namespace StockReview.Client.ContentModule.ViewModels
         public NeedleVisual Needle { get; set; }
 
         /// <summary>
+        /// 柱状图序列
+        /// </summary>
+        public ISeries[] HistogramSeries { get; set; }
+        /// <summary>
+        /// X坐标轴显示内容
+        /// </summary>
+        public Axis[] HistogramXAxes { get; set; }
+
+        /// <summary>
         /// 刷新
         /// </summary>
         public override void Refresh()
         {
-            var apiResponse = _stockOutlookApiService.GetBulletinBoard("2024-05-20");
+            var day = "2024-05-20";
+            var apiResponse = _stockOutlookApiService.GetBulletinBoard(day);
             if (apiResponse.Code != 0)
             {
                 HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
@@ -192,6 +187,68 @@ namespace StockReview.Client.ContentModule.ViewModels
                 },
                 Needle
             };
+
+            //情绪明细
+            var apiEmotionDetail = _stockOutlookApiService.GetEmotionDetail(day);
+            if (apiEmotionDetail.Code != 0)
+            {
+                HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
+                {
+                    Message = apiEmotionDetail.Msg,
+                    Token = SystemConstant.headerGrowl,
+                    IsCustom = true,
+                    WaitTime = 0
+                });
+                return;
+            }
+            var emotionDetail = apiEmotionDetail.Data;
+
+            HistogramXAxes = new Axis[1];
+            HistogramXAxes[0] = new Axis();
+            HistogramXAxes[0].Labels = new List<string>();
+            HistogramXAxes[0].TextSize = 8;
+            HistogramSeries = new ISeries[3];
+            // 正
+            var positiveSeries = new ColumnSeries<ObservablePoint>();
+            positiveSeries.Fill = new SolidColorPaint(SKColors.Red);
+            var positiveSeriesValues = new List<ObservablePoint>();
+            // 零
+            var zeroSeries = new ColumnSeries<ObservablePoint>();
+            zeroSeries.Fill = new SolidColorPaint(SKColors.Gray);
+            var zeroSeriesValues = new List<ObservablePoint>();
+            // 负
+            var negativeSeries = new ColumnSeries<ObservablePoint>();
+            negativeSeries.Fill = new SolidColorPaint(SKColors.Green);
+            var negativeSeriesValues = new List<ObservablePoint>();
+
+            for (int i = 0; i < emotionDetail.histogram.Count; i++)
+            {
+                double.TryParse(emotionDetail.histogram[i].yvalue, out var yValue);
+                if (i < 5)
+                {
+                    positiveSeriesValues.Add(new ObservablePoint(i, yValue));
+                }
+                else if (i == 5)
+                {
+                    zeroSeriesValues.Add(new ObservablePoint(i, yValue));
+                }
+                else
+                {
+                    negativeSeriesValues.Add(new ObservablePoint(i, yValue));
+                }
+
+                HistogramXAxes[0].Labels.Add(emotionDetail.histogram[i].xvalue);
+            }
+
+            // 正值
+            positiveSeries.Values = positiveSeriesValues;
+            HistogramSeries[0] = positiveSeries;
+            // 零值
+            zeroSeries.Values = zeroSeriesValues;
+            HistogramSeries[1] = zeroSeries;
+            // 负值
+            negativeSeries.Values = negativeSeriesValues;
+            HistogramSeries[2] = negativeSeries;
         }
 
         /// <summary>

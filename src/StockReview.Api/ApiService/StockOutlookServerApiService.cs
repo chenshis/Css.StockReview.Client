@@ -293,7 +293,7 @@ namespace StockReview.Api.ApiService
             var today = _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
             if (today != null && today == day)
             {
-                return _memoryCache.Get<EmotionDetailDto>(SystemConstant.BulletinBoardKey);
+                return _memoryCache.Get<EmotionDetailDto>(SystemConstant.EmotionDetailKey);
             }
             return GetHisEmotionDetail(day);
         }

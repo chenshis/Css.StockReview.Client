@@ -1,4 +1,5 @@
 ﻿using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,7 @@ using NLog.Extensions.Logging;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
+using SkiaSharp;
 using StockReview.Api.ApiService;
 using StockReview.Api.IApiService;
 using StockReview.Client.ContentModule;
@@ -32,6 +34,7 @@ namespace StockReview.Client
     {
         protected override Window CreateShell()
         {
+            LiveCharts.Configure(config => config.HasGlobalSKTypeface(SKFontManager.Default.MatchCharacter('汉')));
             // 通过容器创造主界面实例
             return Container.Resolve<MainView>();
         }
