@@ -26,15 +26,23 @@ namespace StockReview.Infrastructure.Config
         /// trade_date  日期
         /// </summary>                              
         public const string PlateRotationPostDataUrl = "https://apphis.longhuvip.com/w1/api/index.php";
-
         /// <summary>
         /// 板块轮动数据地址
         /// trade_date  日期
         /// </summary>                              
         public const string PlateRotationPostDayDataUrl = " https://apphq.longhuvip.com/w1/api/index.php";
-
-
-       
+        /// <summary>
+        /// 炸板与跌停板数据地址
+        /// trade_date  日期
+        /// </summary>                              
+        public const string ExplosivePostDataUrl = "https://flash-api.xuangubao.cn/api/pool/detail";
+        /// <summary>
+        /// 炸板与跌停板数据地址
+        /// trade_date  日期
+        /// </summary>                              
+        public const string ExplosivePostDayDataUrl = "https://flash-api.xuangubao.cn/api/pool/detail";
+                                                  
+        
         /// <summary>
         /// 龙头晋级数据路由
         /// </summary>
@@ -47,5 +55,9 @@ namespace StockReview.Infrastructure.Config
         /// 板块轮动数据路由
         /// </summary>
         public const string PlateRotationRoute = "v1/stockreview/plate/list";
+        /// <summary>
+        /// 炸板与跌停板数据路由
+        /// </summary>
+        public const string ExplosiveBoardLImitDownRoute = "v1/stockreview/explosive/list";
     }
 }

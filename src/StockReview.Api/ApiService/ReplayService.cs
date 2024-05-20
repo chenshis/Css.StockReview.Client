@@ -7,10 +7,13 @@ using StockReview.Infrastructure.Config;
 using StockReview.Infrastructure.Config.HttpClients.HeepHelper;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
@@ -1093,9 +1096,124 @@ namespace StockReview.Api.ApiService
             return plateRotationDtoResult;
         }
 
-        #region 私有方法
-        public string SusAgent;
+        public ExplosiveBoardLImitDownDto GetExplosiveBoardLImitDown(DateTime date)
+        {
+            var result = new ExplosiveBoardLImitDownDto()
+            {
+                ExplosiveFriedIndividualInfos = new List<ExplosiveFriedIndividualInfo>(),
+                ExplosiveLimitDownStaticsInfos = new List<ExplosiveLimitDownStaticsInfo>(),
+                ExplosiveLimitUpStaticsInfos = new List<ExplosiveLimitUpStaticsInfo>(),
+                ExplosiveYeasterdayLimitUpStaticsInfos = new List<ExplosiveYeasterdayLimitUpStaticsInfo>()
+            };
+            var url = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_up_broken" + date.ToString("yyyyMMdd");
+            var response = _stockHttpClient.GetAsync(url).Result;
+            var content = response.Content.ReadAsStringAsync().Result;
+            if (!string.IsNullOrEmpty(content))
+            {
+                if (content != null && !(content.Substring(0, 1) != "{") && content.Length >= 120)
+                {
+                    ZaBanBasicDataDto.Root root = JsonConvert.DeserializeObject<ZaBanBasicDataDto.Root>(content);
 
+                    for (int i = 0; i < root.data.Count; i++)
+                    {
+                        var explosiveFriedIndividualInfo = new ExplosiveFriedIndividualInfo();
+                        explosiveFriedIndividualInfo.Number = i + 1;
+                        explosiveFriedIndividualInfo.ExpSharesCode = root.data[i].symbol.ToString().Substring(0, 6);
+                        explosiveFriedIndividualInfo.ExpSharesName = root.data[i].stock_chi_name;
+                        explosiveFriedIndividualInfo.ExpSharesStartConnectedBoard = root.data[i].yesterday_limit_up_days;
+                        explosiveFriedIndividualInfo.ExpSharesFirstSealingTime = GetDateTime(root.data[i].first_limit_up.ToString());
+                        explosiveFriedIndividualInfo.ExpSharesTailSealingTime = GetDateTime(root.data[i].last_limit_up.ToString());
+                        explosiveFriedIndividualInfo.ExpSharesStartDoingBusiness = root.data[i].break_limit_up_times;
+                        explosiveFriedIndividualInfo.ExpSharesCirculatingMarketValue = zEy(root.data[i].non_restricted_capital);
+                        explosiveFriedIndividualInfo.ExpSharesLastFryingTime = GetDateTime(root.data[i].last_break_limit_up.ToString());
+                        explosiveFriedIndividualInfo.ExpSharesConcept = root.data[i].surge_reason.related_plates[0].plate_name;
+                        result.ExplosiveFriedIndividualInfos.Add(explosiveFriedIndividualInfo);
+                    }
+
+                }
+            }
+            var urlLimitUp = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=yesterday_limit_up" + date.AddDays(-1).ToString("yyyyMMdd");
+            var responseLimitUp = _stockHttpClient.GetAsync(urlLimitUp).Result;
+            var contentLimitUp = responseLimitUp.Content.ReadAsStringAsync().Result;
+            if (!string.IsNullOrEmpty(contentLimitUp))
+            {
+                ExplosiveBasicDataDto.Root root = JsonConvert.DeserializeObject<ExplosiveBasicDataDto.Root>(contentLimitUp);
+                for (int i = 0; i < root.data.Count; i++)
+                {
+                    var dataInfo = new ExplosiveYeasterdayLimitUpStaticsInfo();
+                    dataInfo.Number = i + 1;
+                    dataInfo.ExpYeaCode = root.data[i].symbol.ToString().Substring(0, 6);
+                    dataInfo.ExpYeaName = root.data[i].stock_chi_name;
+                    dataInfo.ExpYeaIncrease = GetPercentage(root.data[i].change_percent);
+                    dataInfo.ExpYeaConsecutiveBoard = root.data[i].yesterday_limit_up_days;
+                    if (root.data[i].surge_reason != null)
+                    {
+                        dataInfo.ExpYeaModule = root.data[i].surge_reason.related_plates[0].plate_name;
+                    }
+                    dataInfo.ExpYeaChange = "1";
+                    result.ExplosiveYeasterdayLimitUpStaticsInfos.Add(dataInfo);
+                }
+
+                if (result.ExplosiveYeasterdayLimitUpStaticsInfos.Count > 0)
+                {
+                    var numberCount = 1;
+                    result.ExplosiveLimitUpStaticsInfos = result.ExplosiveYeasterdayLimitUpStaticsInfos.GroupBy(x => x.ExpYeaModule).Select(x => new ExplosiveLimitUpStaticsInfo
+                    {
+                        Number = numberCount++,
+                        ExpLimitName = x.Key,
+                        ExpLimitTotal = x.Count(),
+                        ExpLimitUp = x.Where(x => x.ExpYeaIncrease > 0).Count(),
+                        ExpLimitDown = x.Where(x => x.ExpYeaIncrease < 0).Count(),
+                    }).ToList();
+                }
+
+            }
+
+
+            var urlLimitDown = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_down" + date.ToString("yyyyMMdd");
+            var responseLimitDown = _stockHttpClient.GetAsync(urlLimitDown).Result;
+            var contentLimitDown = responseLimitDown.Content.ReadAsStringAsync().Result;
+            if (!string.IsNullOrEmpty(contentLimitDown))
+            {
+                ExplosiveBasicDataDto.Root root = JsonConvert.DeserializeObject<ExplosiveBasicDataDto.Root>(contentLimitDown);
+                for (int i = 0; i < root.data.Count; i++)
+                {
+                    var dataInfo = new ExplosiveLimitDownStaticsInfo();
+                    dataInfo.Number = i + 1;
+                    dataInfo.ExpDownCode = root.data[i].symbol.ToString().Substring(0, 6);
+                    dataInfo.ExpDownName = root.data[i].stock_chi_name;
+                    dataInfo.ExpDownFirstSealingTime= GetDateTime(root.data[i].first_limit_up.ToString());
+                    dataInfo.ExpDownTailSealingTime= GetDateTime(root.data[i].last_limit_up.ToString());
+                    dataInfo.ExpDownStartConnectedBoard = root.data[i].break_limit_up_times;
+                    dataInfo.ExpDownStartDoingBusiness = root.data[i].limit_down_days;
+
+                    result.ExplosiveLimitDownStaticsInfos.Add(dataInfo);
+
+                }
+
+            }
+            return result;
+        }
+
+        #region 私有方法
+        public double GetPercentage(double strlongdou)
+        {
+            new NumberFormatInfo().PercentDecimalDigits = 2;
+            return Math.Round(Convert.ToDouble(strlongdou) * 100.0, 2);
+        }
+
+        public string SusAgent;
+        public double zEy(double e)
+        {
+            return Math.Round(e * 1E-08, 2);
+        }
+
+        public DateTime GetDateTime(string strLongTime)
+        {
+            long num = Convert.ToInt64(strLongTime) * 10000000L;
+            long ticks = new DateTime(1970, 1, 1, 8, 0, 0).Ticks + num;
+            return new DateTime(ticks);
+        }
         private string GetRandUag(int length)
         {
             char[] array = new char[3] { '1', '2', '3' };

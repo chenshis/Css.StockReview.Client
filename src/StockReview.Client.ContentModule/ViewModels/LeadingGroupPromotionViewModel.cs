@@ -32,10 +32,8 @@ namespace StockReview.Client.ContentModule.ViewModels
         {
             var leadingList = this._replayService.GetLeadingGroupPromotion(DateTime.Now);
 
-            foreach (var leading in leadingList)
-            {
-                LeadingDateHeaderLists.Add(leading);
-            }
+            LeadingDateHeaderLists.AddRange(leadingList);
+          
         }
     }
 }

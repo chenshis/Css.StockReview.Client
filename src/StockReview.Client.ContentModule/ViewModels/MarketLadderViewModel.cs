@@ -37,15 +37,9 @@ namespace StockReview.Client.ContentModule.ViewModels
                 this.MarketTitle = markList.MarketTitle;
             }
 
-            foreach (var item in markList.MarketLadderLists)
-            {
-                MarketLadderLists.Add(item);
-            }
 
-            foreach (var item in markList.MarketLadderNewsLists)
-            {
-                MarketLadderNewsLists.Add(item);
-            }
+            MarketLadderLists.AddRange(markList.MarketLadderLists);
+            MarketLadderNewsLists.AddRange(markList.MarketLadderNewsLists);
 
         }
     }
