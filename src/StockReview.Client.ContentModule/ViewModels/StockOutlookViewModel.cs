@@ -241,6 +241,18 @@ namespace StockReview.Client.ContentModule.ViewModels
                 return;
             }
             var emotionDetail = apiEmotionDetail.Data;
+            if(emotionDetail==null)
+            {
+                HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
+                {
+                    Message = "情绪详情数据不存在！",
+                    Token = SystemConstant.headerGrowl,
+                    IsCustom = true,
+                    WaitTime = 0
+                });
+                return;
+            }
+
 
             HistogramXAxes = new Axis[1];
             HistogramXAxes[0] = new Axis();
