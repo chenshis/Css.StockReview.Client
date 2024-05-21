@@ -36,28 +36,31 @@ namespace StockReview.Api.ApiService
 
         public string GetCurrentDay()
         {
-            // 选中天
-            var client = _httpClientFactory.CreateClient(SystemConstant.SpecialLonghuVipUrl);
-            var content = GetFormUrlEncodedContent(a: "UpdateState", c: "UserSelectStock");
-            var httpResponseMessage = client.PostAsync(default(string), content).Result;
-            var strResult = httpResponseMessage.Content.ReadAsStringAsync().Result;
-            var jobject = (JObject)JsonConvert.DeserializeObject(strResult);
-            var day = jobject["Day"]?.ToString();
-            return day;
+            if (string.IsNullOrWhiteSpace(_memoryCache.Get<string>(SystemConstant.StockSelectedDayKey)))
+            {
+                FilterDates();
+            }
+            return _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
         }
 
         public void FilterDates()
         {
             try
             {
-                var day = GetCurrentDay();
-                // 节假日
-                List<string> filterDays = new List<string>();
-                var client = _httpClientFactory.CreateClient(SystemConstant.HistoryLonghuVipUrl);
-                var content = GetFormUrlEncodedContent(a: "GetHoliday", c: "YiDongKanPan");
+                // 选中天
+                var client = _httpClientFactory.CreateClient(SystemConstant.SpecialLonghuVipUrl);
+                var content = GetFormUrlEncodedContent(a: "UpdateState", c: "UserSelectStock");
                 var httpResponseMessage = client.PostAsync(default(string), content).Result;
                 var strResult = httpResponseMessage.Content.ReadAsStringAsync().Result;
                 var jobject = (JObject)JsonConvert.DeserializeObject(strResult);
+                var day = jobject["Day"]?.ToString();
+                // 节假日
+                List<string> filterDays = new List<string>();
+                client = _httpClientFactory.CreateClient(SystemConstant.HistoryLonghuVipUrl);
+                content = GetFormUrlEncodedContent(a: "GetHoliday", c: "YiDongKanPan");
+                httpResponseMessage = client.PostAsync(default(string), content).Result;
+                strResult = httpResponseMessage.Content.ReadAsStringAsync().Result;
+                jobject = (JObject)JsonConvert.DeserializeObject(strResult);
                 var jarrayList = (JArray)jobject["List"];
                 foreach (JToken item in jarrayList)
                 {
@@ -91,10 +94,8 @@ namespace StockReview.Api.ApiService
             var cacheSelectedDay = _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
             if (cacheSelectedDay == null)
             {
-                FilterDates();
+                throw new Exception("当前日期未获取到，请稍后重试！");
             }
-            cacheSelectedDay = _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
-
             var date = GetDateByDay(day);
             var today = date.today;
             var yesterday = date.yesterday;

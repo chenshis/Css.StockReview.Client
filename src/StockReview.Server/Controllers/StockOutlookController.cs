@@ -34,5 +34,13 @@ namespace StockReview.Server.Controllers
         {
             return _stockOutlookServerApiService.GetEmotionDetail(day);
         }
+
+        [HttpPost]
+        [Authorize(Roles = $"{nameof(RoleEnum.Ordinary)},{nameof(RoleEnum.VIP)},{nameof(RoleEnum.Admin)}")]
+        [Route(SystemConstant.TodayRoute)]
+        public string GetSelectedDate()
+        {
+            return _stockOutlookServerApiService.GetCurrentDay();
+        }
     }
 }

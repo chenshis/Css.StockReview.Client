@@ -8,5 +8,7 @@ namespace StockReview.Api.IApiService
         ApiResponse<BulletinBoardDto> GetBulletinBoard(string day);
 
         ApiResponse<EmotionDetailDto> GetEmotionDetail(string day);
+
+        ApiResponse<string> GetToday();
     }
 }

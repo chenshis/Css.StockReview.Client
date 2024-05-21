@@ -4,12 +4,6 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore;
 using Prism.Regions;
 using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity;
 using StockReview.Infrastructure.Config;
 using LiveChartsCore.SkiaSharpView.Drawing;
@@ -111,6 +105,16 @@ namespace StockReview.Client.ContentModule.ViewModels
     };
 
 
+        private DateTime? _currentDate;
+        /// <summary>
+        /// 选中日期
+        /// </summary>
+        public DateTime? CurrentDate
+        {
+            get { return _currentDate; }
+            set { SetProperty(ref _currentDate, value); }
+        }
+
         private BulletinBoardDto _bulletinBoard;
 
         /// <summary>
@@ -156,7 +160,30 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// </summary>
         public override void Refresh()
         {
-            var day = "2024-05-20";
+            var apiToday = _stockOutlookApiService.GetToday();
+            if (apiToday.Code != 0)
+            {
+                HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
+                {
+                    Message = apiToday.Msg,
+                    Token = SystemConstant.headerGrowl,
+                    IsCustom = true,
+                    WaitTime = 0
+                });
+                return;
+            }
+            string day;
+            if (string.IsNullOrWhiteSpace(apiToday.Data))
+            {
+                day = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                day = apiToday.Data;
+            }
+
+            CurrentDate = DateTime.Parse(day);
+
             var apiResponse = _stockOutlookApiService.GetBulletinBoard(day);
             if (apiResponse.Code != 0)
             {
@@ -206,19 +233,22 @@ namespace StockReview.Client.ContentModule.ViewModels
             HistogramXAxes = new Axis[1];
             HistogramXAxes[0] = new Axis();
             HistogramXAxes[0].Labels = new List<string>();
-            HistogramXAxes[0].LabelsRotation = -15;
+            HistogramXAxes[0].LabelsRotation = -30;
             HistogramSeries = new ISeries[3];
             // 正
             var positiveSeries = new ColumnSeries<ObservablePoint>();
             positiveSeries.Fill = new SolidColorPaint(SKColors.Red);
+            positiveSeries.DataLabelsPaint = new SolidColorPaint(SKColors.Gray);
             var positiveSeriesValues = new List<ObservablePoint>();
             // 零
             var zeroSeries = new ColumnSeries<ObservablePoint>();
             zeroSeries.Fill = new SolidColorPaint(SKColors.Gray);
+            zeroSeries.DataLabelsPaint = new SolidColorPaint(SKColors.Gray);
             var zeroSeriesValues = new List<ObservablePoint>();
             // 负
             var negativeSeries = new ColumnSeries<ObservablePoint>();
             negativeSeries.Fill = new SolidColorPaint(SKColors.Green);
+            negativeSeries.DataLabelsPaint = new SolidColorPaint(SKColors.Gray);
             var negativeSeriesValues = new List<ObservablePoint>();
 
             for (int i = 0; i < emotionDetail.histogram.Count; i++)
