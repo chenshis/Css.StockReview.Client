@@ -628,7 +628,30 @@
                                             BorderBrush="#EEE"
                                             BorderThickness="0,0,0,1"
                                             SnapsToDevicePixels="True" />
-                                        <TextBlock VerticalAlignment="Center" Text="{Binding Code}" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Foreground="Black"
+                                            Text="{Binding Code}">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="FontWeight" Value="Bold" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+
+                                            </TextBlock.Style>
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip Placement="Top" Style="{StaticResource ToolTipBaseStyle}">
+                                                    <Image
+                                                        Width="500"
+                                                        Height="300"
+                                                        Source="{Binding ImageUrl}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </TextBlock>
                                         <TextBlock Grid.Column="1" Text="{Binding Name}" />
                                         <TextBlock Grid.Column="2" Text="{Binding ZF}" />
                                         <TextBlock Grid.Column="3" Text="{Binding Latest}" />

@@ -83,7 +83,11 @@ namespace StockReview.Api.ApiService
             var today = _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
             if (today != null && today == day)
             {
-                return _memoryCache.Get<BulletinBoardDto>(SystemConstant.BulletinBoardKey);
+                var board = _memoryCache.Get<BulletinBoardDto>(SystemConstant.BulletinBoardKey);
+                if (board != null)
+                {
+                    return board;
+                }
             }
             return GetHisBulletinBoard(day);
         }
@@ -340,7 +344,7 @@ namespace StockReview.Api.ApiService
 
                 break;
             }
-          
+
             // 获取连扳
             webUrl = "https://data.10jqka.com.cn/dataapi/limit_up/continuous_limit_up?filter=HS,GEM2STAR&date=" + text;
             webDataResponse = httpClient.GetAsync(webUrl).Result;

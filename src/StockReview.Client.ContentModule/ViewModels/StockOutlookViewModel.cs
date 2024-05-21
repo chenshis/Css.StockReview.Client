@@ -14,6 +14,8 @@ using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
 
 namespace StockReview.Client.ContentModule.ViewModels
 {
@@ -209,7 +211,17 @@ namespace StockReview.Client.ContentModule.ViewModels
                 return;
             }
             BulletinBoard = apiResponse.Data;
-
+            if (BulletinBoard == null)
+            {
+                HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
+                {
+                    Message = "看板数据等待加载中！",
+                    Token = SystemConstant.headerGrowl,
+                    IsCustom = true,
+                    WaitTime = 0
+                });
+                return;
+            }
             double.TryParse(BulletinBoard.EmotionPercent, out var emotionValue);
             Needle = new NeedleVisual { Value = emotionValue };
             EmotionSeries = GaugeGenerator.BuildAngularGaugeSections(
@@ -241,7 +253,7 @@ namespace StockReview.Client.ContentModule.ViewModels
                 return;
             }
             var emotionDetail = apiEmotionDetail.Data;
-            if(emotionDetail==null)
+            if (emotionDetail == null)
             {
                 HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
                 {
@@ -344,6 +356,8 @@ namespace StockReview.Client.ContentModule.ViewModels
                 {
                     LimitUpStockDetailModel stockDetail = new();
                     stockDetail.Code = item.code;
+                    var imageValue = !(item.code.Substring(0, 1) == "6") ? "sz" + item.code : "sh" + item.code;
+                    stockDetail.ImageUrl = "http://image.sinajs.cn/newchart/min/n/" + imageValue + ".gif";
                     stockDetail.Name = item.name;
                     stockDetail.ZF = Convert.ToDouble(item.change_rate).ToString("0.00");
                     stockDetail.Latest = item.latest;
@@ -467,6 +481,10 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// 代码
         /// </summary>
         public string Code { get; set; }
+        /// <summary>
+        /// 图片地址
+        /// </summary>
+        public string ImageUrl { get; set; }
         public string Name { get; set; }
         /// <summary>
         /// 涨幅
