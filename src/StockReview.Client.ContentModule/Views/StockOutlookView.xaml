@@ -40,7 +40,7 @@
                     <StackPanel>
                         <TextBlock
                             Margin="5,10"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Text="今昨涨跌停" />
                         <Border
@@ -375,7 +375,7 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30" />
-                            <RowDefinition Height="80" />
+                            <RowDefinition Height="70" />
                         </Grid.RowDefinitions>
                         <!--  Table Header  -->
                         <Border Background="#EEE" />
@@ -397,16 +397,16 @@
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Text="序号" />
+                                Text="时间" />
                             <TextBlock
                                 Grid.Column="1"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Text="时间" />
+                                Text="涨停板" />
                             <TextBlock
                                 Grid.Column="2"
                                 VerticalAlignment="Center"
-                                Text="涨停板" />
+                                Text="封板率" />
                             <TextBlock
                                 Grid.Column="3"
                                 VerticalAlignment="Center"
@@ -426,7 +426,7 @@
                                 VerticalAlignment="Center"
                                 Text="翘板" />
                         </Grid>
-                        <ItemsControl ItemsSource="{Binding UserList}">
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding LimitUpDetails}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Name="root">
@@ -439,45 +439,26 @@
                                             <ColumnDefinition />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
+                                        <Grid.Resources>
+                                            <Style BasedOn="{StaticResource TextBlockDefaultInfo}" TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                                <Setter Property="Foreground" Value="Black" />
+                                            </Style>
+                                        </Grid.Resources>
                                         <Border
                                             Grid.ColumnSpan="10"
+                                            Height="40"
                                             BorderBrush="#EEE"
                                             BorderThickness="0,0,0,1"
                                             SnapsToDevicePixels="True" />
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="2"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="3"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="4"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="5"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="6"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
+                                        <TextBlock Text="{Binding Time}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding ZTBan}" />
+                                        <TextBlock Grid.Column="2" Text="{Binding FBRate}" />
+                                        <TextBlock Grid.Column="3" Text="{Binding ZBan}" />
+                                        <TextBlock Grid.Column="4" Text="{Binding DTBan}" />
+                                        <TextBlock Grid.Column="5" Text="{Binding DFRate}" />
+                                        <TextBlock Grid.Column="6" Text="{Binding QBan}" />
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -560,16 +541,16 @@
                         <Border Background="#EEE" />
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="40" />
                                 <ColumnDefinition Width="auto" />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="60" />
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                                 <ColumnDefinition />

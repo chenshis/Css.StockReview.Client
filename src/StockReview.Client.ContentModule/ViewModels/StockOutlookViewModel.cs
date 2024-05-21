@@ -12,6 +12,8 @@ using LiveChartsCore.VisualElements;
 using LiveChartsCore.SkiaSharpView.VisualElements;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
+using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace StockReview.Client.ContentModule.ViewModels
 {
@@ -156,6 +158,11 @@ namespace StockReview.Client.ContentModule.ViewModels
         public Axis[] HistogramXAxes { get; set; }
 
         /// <summary>
+        /// 涨停明细
+        /// </summary>
+        public ObservableCollection<LimitUpDetailModel> LimitUpDetails { get; set; } = new ObservableCollection<LimitUpDetailModel>();
+
+        /// <summary>
         /// 刷新
         /// </summary>
         public override void Refresh()
@@ -279,6 +286,37 @@ namespace StockReview.Client.ContentModule.ViewModels
             // 负值
             negativeSeries.Values = negativeSeriesValues;
             HistogramSeries[2] = negativeSeries;
+
+            // 清空明细
+            LimitUpDetails.Clear();
+            var todayLimitUpDetail = new LimitUpDetailModel();
+            todayLimitUpDetail.Time = "今日";
+            todayLimitUpDetail.ZTBan = emotionDetail.root.data.limit_up_count.today.num.ToString();
+            todayLimitUpDetail.FBRate = GetPercentage(Convert.ToDouble(emotionDetail.root.data.limit_up_count.today.rate)).ToString("F0") + "%";
+            todayLimitUpDetail.ZBan = emotionDetail.root.data.limit_up_count.today.open_num.ToString();
+            todayLimitUpDetail.DTBan = emotionDetail.root.data.limit_down_count.today.num.ToString();
+            var dFRate = emotionDetail.root.data.limit_down_count.today.rate;
+            if (!string.IsNullOrWhiteSpace(dFRate))
+            {
+                todayLimitUpDetail.DFRate = GetPercentage(Convert.ToDouble(dFRate)) + "%";
+            }
+            todayLimitUpDetail.QBan = emotionDetail.root.data.limit_down_count.today.open_num.ToString();
+
+            var yesterdayLimitUpDetail = new LimitUpDetailModel();
+            yesterdayLimitUpDetail.Time = "昨日";
+            yesterdayLimitUpDetail.ZTBan = emotionDetail.root.data.limit_up_count.yesterday.num.ToString();
+            yesterdayLimitUpDetail.FBRate = GetPercentage(Convert.ToDouble(emotionDetail.root.data.limit_up_count.yesterday.rate)).ToString("F0") + "%";
+            yesterdayLimitUpDetail.ZBan = emotionDetail.root.data.limit_up_count.yesterday.open_num.ToString();
+            yesterdayLimitUpDetail.DTBan = emotionDetail.root.data.limit_down_count.yesterday.num.ToString();
+            var yesterdayDfRate = emotionDetail.root.data.limit_down_count.yesterday.rate;
+            if (!string.IsNullOrWhiteSpace(yesterdayDfRate))
+            {
+                yesterdayLimitUpDetail.DFRate = GetPercentage(Convert.ToDouble(yesterdayDfRate)) + "%";
+            }
+            yesterdayLimitUpDetail.QBan = emotionDetail.root.data.limit_down_count.yesterday.open_num.ToString();
+
+            LimitUpDetails.Add(todayLimitUpDetail);
+            LimitUpDetails.Add(yesterdayLimitUpDetail);
         }
 
         /// <summary>
@@ -291,6 +329,12 @@ namespace StockReview.Client.ContentModule.ViewModels
             pieSeries.Fill = new SolidColorPaint(color);
             pieSeries.OuterRadiusOffset = 45;
             pieSeries.MaxRadialColumnWidth = 10;
+        }
+
+        private double GetPercentage(double strlongdou)
+        {
+            new NumberFormatInfo().PercentDecimalDigits = 2;
+            return Math.Round(Convert.ToDouble(strlongdou) * 100.0, 2);
         }
     }
 
@@ -310,5 +354,48 @@ namespace StockReview.Client.ContentModule.ViewModels
         public double Open { get; set; }
         public double Close { get; set; }
         public double Low { get; set; }
+    }
+
+
+
+    /// <summary>
+    /// 涨停明细
+    /// </summary>
+    public class LimitUpDetailModel
+    {
+        /// <summary>
+        /// 时间
+        /// </summary>
+        public string Time { get; set; }
+
+        /// <summary>
+        /// 涨停板
+        /// </summary>
+        public string ZTBan { get; set; }
+
+        /// <summary>
+        /// 封板率
+        /// </summary>
+        public string FBRate { get; set; }
+
+        /// <summary>
+        /// 炸板
+        /// </summary>
+        public string ZBan { get; set; }
+
+        /// <summary>
+        /// 跌停板
+        /// </summary>
+        public string DTBan { get; set; }
+
+        /// <summary>
+        /// 跌封率
+        /// </summary>
+        public string DFRate { get; set; }
+
+        /// <summary>
+        /// 翘班
+        /// </summary>
+        public string QBan { get; set; }
     }
 }
