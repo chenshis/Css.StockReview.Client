@@ -305,16 +305,66 @@ namespace StockReview.Api.ApiService
             var httpClient = _httpClientFactory.CreateClient();
             var date = GetDateByDay(day, "yyyyMMdd");
             string text = date.today;
-            string webUrl = "https://data.10jqka.com.cn/dataapi/limit_up/limit_up_pool?page=1&limit=15&field=199112,10,9001,330323,330324,330325,9002,330329,133971,133970,1968584,3475914,9003,9004&filter=HS,GEM2STAR&order_field=330324&order_type=0&date=" + text;
-            var webDataResponse = httpClient.GetAsync(webUrl).Result;
-            var webData = webDataResponse.Content.ReadAsStringAsync().Result;
-            if (webData.Length < 650)
+
+            int page = 1;
+            List<Info> infoList = new List<Info>();
+            HttpResponseMessage webDataResponse;
+            string webData;
+            string webUrl;
+            while (true)
             {
-                throw new Exception("不是开盘时间，无法获取数据！");
+                webUrl = $"https://data.10jqka.com.cn/dataapi/limit_up/limit_up_pool?page={page}&limit=200&field=199112,10,9001,330323,330324,330325,9002,330329,133971,133970,1968584,3475914,9003,9004&filter=HS,GEM2STAR&order_field=330324&order_type=0&date=" + text;
+                webDataResponse = httpClient.GetAsync(webUrl).Result;
+                webData = webDataResponse.Content.ReadAsStringAsync().Result;
+                if (webData.Length < 650)
+                {
+                    break;
+                }
+                var tempRoot = JsonConvert.DeserializeObject<Root>(webData);
+                if (emotionDetail.root == null)
+                {
+                    emotionDetail.root = tempRoot;
+                }
+                // 信息集合
+                var infos = tempRoot.data.info;
+                if (infos != null && infos.Count > 0)
+                {
+                    infoList.AddRange(infos);
+                }
+                int count = tempRoot.data.page.count;
+                if (page < count)
+                {
+                    page++;
+                    continue;
+                }
+
+                break;
             }
-            emotionDetail.root = JsonConvert.DeserializeObject<Root>(webData);
+          
+            // 获取连扳
+            webUrl = "https://data.10jqka.com.cn/dataapi/limit_up/continuous_limit_up?filter=HS,GEM2STAR&date=" + text;
+            webDataResponse = httpClient.GetAsync(webUrl).Result;
+            webData = webDataResponse.Content.ReadAsStringAsync().Result;
+            if (!string.IsNullOrWhiteSpace(webData))
+            {
+                var lBanData = JsonConvert.DeserializeObject<EmotionDetailLBanDto.Root>(webData);
+                var codes = lBanData.data.SelectMany(t => t.code_list).ToList();
+                foreach (var item in codes)
+                {
+                    foreach (var info in infoList)
+                    {
+                        if (info.code == item.code)
+                        {
+                            info.LBanNum = item.continue_num.ToString();
+                        }
+                    }
+                }
+            }
 
+            // 一般信息赋值
+            emotionDetail.root.data.info = infoList;
 
+            // 柱状图
             webUrl = "http://hqstats.10jqka.com.cn/?market=USHA_USZA&datatype=zhangfustats_detail&date=" + text + "&callback=zhangfustats";
             webDataResponse = httpClient.GetAsync(webUrl).Result;
             webData = webDataResponse.Content.ReadAsStringAsync().Result;

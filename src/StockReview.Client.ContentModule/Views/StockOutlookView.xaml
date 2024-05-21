@@ -535,198 +535,120 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="150" />
                         </Grid.RowDefinitions>
                         <!--  Table Header  -->
                         <Border Background="#EEE" />
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40" />
                                 <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="70" />
                                 <ColumnDefinition Width="40" />
                                 <ColumnDefinition Width="40" />
-                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="60" />
                                 <ColumnDefinition Width="60" />
                                 <ColumnDefinition Width="60" />
                                 <ColumnDefinition Width="30" />
                                 <ColumnDefinition Width="60" />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="40" />
                             </Grid.ColumnDefinitions>
                             <Grid.Resources>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
                                 </Style>
                             </Grid.Resources>
-                            <TextBlock
-                                Grid.Column="0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="代码" />
-                            <TextBlock
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                Text="股票名称" />
-                            <TextBlock
-                                Grid.Column="2"
-                                VerticalAlignment="Center"
-                                Text="涨幅" />
-                            <TextBlock
-                                Grid.Column="3"
-                                VerticalAlignment="Center"
-                                Text="最新" />
-                            <TextBlock
-                                Grid.Column="4"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="涨停原因" />
-                            <TextBlock
-                                Grid.Column="5"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="首封时间" />
-                            <TextBlock
-                                Grid.Column="6"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="最后封板" />
-                            <TextBlock
-                                Grid.Column="7"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="涨停形态" />
-                            <TextBlock
-                                Grid.Column="8"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="开板" />
-                            <TextBlock
-                                Grid.Column="9"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="几天几板" />
-                            <TextBlock
-                                Grid.Column="10"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="封单额（万）" />
-                            <TextBlock
-                                Grid.Column="11"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="换手率" />
-                            <TextBlock
-                                Grid.Column="12"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="流通值（亿）" />
-                            <TextBlock
-                                Grid.Column="13"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="连板" />
+                            <TextBlock Grid.Column="0" Text="代码" />
+                            <TextBlock Grid.Column="1" Text="股票名称" />
+                            <TextBlock Grid.Column="2" Text="涨幅" />
+                            <TextBlock Grid.Column="3" Text="最新" />
+                            <TextBlock Grid.Column="4" Text="涨停原因" />
+                            <TextBlock Grid.Column="5" Text="首封时间" />
+                            <TextBlock Grid.Column="6" Text="最后封板" />
+                            <TextBlock Grid.Column="7" Text="涨停形态" />
+                            <TextBlock Grid.Column="8" Text="开板" />
+                            <TextBlock Grid.Column="9" Text="几天几板" />
+                            <TextBlock Grid.Column="10" Text="封单额（万）" />
+                            <TextBlock Grid.Column="11" Text="换手率" />
+                            <TextBlock Grid.Column="12" Text="流通值（亿）" />
+                            <TextBlock Grid.Column="13" Text="连板" />
                         </Grid>
-                        <ItemsControl ItemsSource="{Binding UserList}">
+
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding LimitUpStockDetails}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.Template>
+                                <ControlTemplate TargetType="ItemsControl">
+                                    <hc:ScrollViewer IsInertiaEnabled="True">
+                                        <ItemsPresenter />
+                                    </hc:ScrollViewer>
+                                </ControlTemplate>
+                            </ItemsControl.Template>
+
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Name="root">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="auto" />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="60" />
+                                            <ColumnDefinition Width="70" />
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="60" />
+                                            <ColumnDefinition Width="60" />
+                                            <ColumnDefinition Width="60" />
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="60" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="40" />
                                         </Grid.ColumnDefinitions>
+                                        <Grid.Resources>
+                                            <Style BasedOn="{StaticResource TextBlockDefaultInfo}" TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="Black" />
+                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                            </Style>
+                                        </Grid.Resources>
                                         <Border
                                             Grid.ColumnSpan="10"
+                                            Height="40"
                                             BorderBrush="#EEE"
                                             BorderThickness="0,0,0,1"
                                             SnapsToDevicePixels="True" />
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="2"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="3"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding Code}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Name}" />
+                                        <TextBlock Grid.Column="2" Text="{Binding ZF}" />
+                                        <TextBlock Grid.Column="3" Text="{Binding Latest}" />
                                         <TextBlock
                                             Grid.Column="4"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="5"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="6"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="7"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="8"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="9"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="10"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="11"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="12"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
-                                        <TextBlock
-                                            Grid.Column="13"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Index}" />
+                                            hc:TextBlockAttach.AutoTooltip="True"
+                                            Text="{Binding Reason}"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap" />
+                                        <TextBlock Grid.Column="5" Text="{Binding FirstLetterTime}" />
+                                        <TextBlock Grid.Column="6" Text="{Binding LastFBan}" />
+                                        <TextBlock Grid.Column="7" Text="{Binding LimitUpType}" />
+                                        <TextBlock Grid.Column="8" Text="{Binding OpenNum}" />
+                                        <TextBlock Grid.Column="9" Text="{Binding SeveralDaysBan}" />
+                                        <TextBlock Grid.Column="10" Text="{Binding FDanMoney}" />
+                                        <TextBlock Grid.Column="11" Text="{Binding TurnoverRate}" />
+                                        <TextBlock Grid.Column="12" Text="{Binding CurrencyMoney}" />
+                                        <TextBlock Grid.Column="13" Text="{Binding LBanNum}" />
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+
                     </Grid>
                 </Border>
             </Grid>

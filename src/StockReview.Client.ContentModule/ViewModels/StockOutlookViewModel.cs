@@ -163,6 +163,11 @@ namespace StockReview.Client.ContentModule.ViewModels
         public ObservableCollection<LimitUpDetailModel> LimitUpDetails { get; set; } = new ObservableCollection<LimitUpDetailModel>();
 
         /// <summary>
+        /// 涨停股票明细
+        /// </summary>
+        public ObservableCollection<LimitUpStockDetailModel> LimitUpStockDetails { get; set; } = new ObservableCollection<LimitUpStockDetailModel>();
+
+        /// <summary>
         /// 刷新
         /// </summary>
         public override void Refresh()
@@ -317,6 +322,33 @@ namespace StockReview.Client.ContentModule.ViewModels
 
             LimitUpDetails.Add(todayLimitUpDetail);
             LimitUpDetails.Add(yesterdayLimitUpDetail);
+
+            // 股票明细
+            LimitUpStockDetails.Clear();
+            var infos = emotionDetail.root.data.info;
+            if (infos != null)
+            {
+                foreach (var item in infos)
+                {
+                    LimitUpStockDetailModel stockDetail = new();
+                    stockDetail.Code = item.code;
+                    stockDetail.Name = item.name;
+                    stockDetail.ZF = Convert.ToDouble(item.change_rate).ToString("0.00");
+                    stockDetail.Latest = item.latest;
+                    stockDetail.Reason = item.reason_type;
+                    stockDetail.FirstLetterTime = GetDateTime(item.first_limit_up_time).ToString("HH:mm:ss");
+                    stockDetail.LastFBan = GetDateTime(item.last_limit_up_time).ToString("HH:mm:ss");
+                    stockDetail.LimitUpType = item.limit_up_type;
+                    stockDetail.OpenNum = item.open_num?.ToString();
+                    stockDetail.SeveralDaysBan = item.high_days;
+                    stockDetail.FDanMoney = zWy(Convert.ToDouble(item.order_amount)).ToString();
+                    stockDetail.TurnoverRate = Convert.ToDouble(item.turnover_rate).ToString("F2") + "%";
+                    stockDetail.CurrencyMoney = item.currency_value != null ? zEy(Convert.ToDouble(item.currency_value)).ToString() : null;
+                    stockDetail.LBanNum = item.LBanNum;
+                    LimitUpStockDetails.Add(stockDetail);
+                }
+            }
+
         }
 
         /// <summary>
@@ -336,6 +368,21 @@ namespace StockReview.Client.ContentModule.ViewModels
             new NumberFormatInfo().PercentDecimalDigits = 2;
             return Math.Round(Convert.ToDouble(strlongdou) * 100.0, 2);
         }
+        private DateTime GetDateTime(string strLongTime)
+        {
+            long num = Convert.ToInt64(strLongTime) * 10000000L;
+            long ticks = new DateTime(1970, 1, 1, 8, 0, 0).Ticks + num;
+            return new DateTime(ticks);
+        }
+        private double zWy(double e)
+        {
+            return Math.Round(e * 0.0001, 0);
+        }
+        private double zEy(double e)
+        {
+            return Math.Round(e * 1E-08, 2);
+        }
+
     }
 
     public class FinancialData
@@ -397,5 +444,65 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// 翘班
         /// </summary>
         public string QBan { get; set; }
+    }
+
+    /// <summary>
+    /// 涨停股票
+    /// </summary>
+    public class LimitUpStockDetailModel
+    {
+        /// <summary>
+        /// 代码
+        /// </summary>
+        public string Code { get; set; }
+        public string Name { get; set; }
+        /// <summary>
+        /// 涨幅
+        /// </summary>
+        public string ZF { get; set; }
+        /// <summary>
+        /// 最新
+        /// </summary>
+        public string Latest { get; set; }
+        /// <summary>
+        /// 原因
+        /// </summary>
+        public string Reason { get; set; }
+        /// <summary>
+        /// 首封时间
+        /// </summary>
+        public string FirstLetterTime { get; set; }
+        /// <summary>
+        /// 最后封板
+        /// </summary>
+        public string LastFBan { get; set; }
+        /// <summary>
+        /// 涨停形态
+        /// </summary>
+        public string LimitUpType { get; set; }
+        /// <summary>
+        /// 开板
+        /// </summary>
+        public string OpenNum { get; set; }
+        /// <summary>
+        /// 几天几板
+        /// </summary>
+        public string SeveralDaysBan { get; set; }
+        /// <summary>
+        /// 封单额
+        /// </summary>
+        public string FDanMoney { get; set; }
+        /// <summary>
+        /// 换手率
+        /// </summary>
+        public string TurnoverRate { get; set; }
+        /// <summary>
+        /// 流通值亿
+        /// </summary>
+        public string CurrencyMoney { get; set; }
+        /// <summary>
+        /// 连板
+        /// </summary>
+        public string LBanNum { get; set; }
     }
 }

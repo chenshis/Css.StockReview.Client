@@ -134,6 +134,8 @@ namespace StockReview.Api.Dtos
         public string name { get; set; }
 
         public string latest { get; set; }
+
+        public string LBanNum { get; set; }
     }
 
     public class Page
