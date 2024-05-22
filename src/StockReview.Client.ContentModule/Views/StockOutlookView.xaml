@@ -515,6 +515,7 @@
                             Grid.Column="1"
                             Width="100"
                             Margin="10,10,0,10"
+                            Command="{Binding RefreshCommand}"
                             Content="同花情绪"
                             Style="{StaticResource ButtonPrimary}" />
                         <UniformGrid
