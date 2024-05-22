@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,23 @@ namespace StockReview.Api.Dtos
         public List<DragonTigerGetInfo> DragonTigerGetInfosTwo { get; set; } = new List<DragonTigerGetInfo>();
         public List<DragonTigerGetInfo> DragonTigerGetInfosThree { get; set; } = new List<DragonTigerGetInfo>();
         public List<DragonTigerGetInfo> DragonTigerGetInfosFous { get; set; } = new List<DragonTigerGetInfo>();
+        public List<SpeculatvieGroupsInfo> SpeculatvieGroups { get; set; } = new List<SpeculatvieGroupsInfo>();
+        public DateInfo DateInfo { get; set; } = new DateInfo();
+    }
+
+    public class DateInfo
+    {
+        public string DateOne { get; set; }
+        public string DateTwo { get; set; }
+        public string DateThree { get; set; }
+        public string DateFour { get; set; }
+    }
+
+    public class SpeculatvieGroupsInfo
+    {
+        public string Name { get; set; }
+
+        public bool IsChecked { get; set; } = false;
     }
 
     public class DragonTigerGetInfo

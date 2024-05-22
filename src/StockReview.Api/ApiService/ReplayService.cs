@@ -7,6 +7,7 @@ using StockReview.Api.IApiService;
 using StockReview.Infrastructure.Config;
 using StockReview.Infrastructure.Config.HttpClients.HeepHelper;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -1206,7 +1207,8 @@ namespace StockReview.Api.ApiService
                 DragonTigerGetInfosOne = new List<DragonTigerGetInfo>(),
                 DragonTigerGetInfosTwo = new List<DragonTigerGetInfo>(),
                 DragonTigerGetInfosFous = new List<DragonTigerGetInfo>(),
-                DragonTigerGetInfosThree = new List<DragonTigerGetInfo>()
+                DragonTigerGetInfosThree = new List<DragonTigerGetInfo>(),
+                SpeculatvieGroups = new List<SpeculatvieGroupsInfo>()
             };
 
             int workDayToAdd = 5;
@@ -1236,6 +1238,24 @@ namespace StockReview.Api.ApiService
 
                 if (!string.IsNullOrEmpty(context)&& context.Length>170)
                 {
+                    switch (workDaysCount)
+                    {
+                        case 2:
+                            result.DateInfo.DateOne = date.ToString("yyyy-MM-dd");
+                            break;
+                        case 3:
+                            result.DateInfo.DateTwo = date.ToString("yyyy-MM-dd");
+                            break;
+                        case 4:
+                            result.DateInfo.DateThree = date.ToString("yyyy-MM-dd");
+                            break;
+                        case 5:
+                            result.DateInfo.DateFour = date.ToString("yyyy-MM-dd");
+                            break;
+                        default:
+                            break;
+                    }
+                    string text = "";
                     DragonTigerBasicDataDto.Root root = JsonConvert.DeserializeObject<DragonTigerBasicDataDto.Root>(context);
                     for (int i = 0; i < root.ResultSets[0].Content.Count; i++)
                     {
@@ -1304,8 +1324,28 @@ namespace StockReview.Api.ApiService
                             default:
                                 break;
                         }
-                       
+
+                        if (!string.IsNullOrEmpty(dragonSpeculative))
+                        {
+                            string[] array = dragonSpeculative.Split(new string[1] { "," }, StringSplitOptions.None);
+                            for (int j = 0; j < array.Length; j++)
+                            {
+                                if (!text.Contains(array[j]))
+                                {
+                                    text = text + array[j] + "\r\n";
+                                }
+                            }
+                        }
                     }
+                    string[] array2 = text.Split(new string[1] { "\r\n" }, StringSplitOptions.None);
+                    for (int k = 0; k < array2.Length - 1; k++)
+                    {
+                        result.SpeculatvieGroups.Add(new SpeculatvieGroupsInfo
+                        {
+                            Name = array2[k]
+                        });
+                    }
+
                     if (workDaysCount == 1 && result.DragonTigerGetInfos.Count > 0)
                     {
                         var urlLimitUp = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_up&date=" + date.ToString("yyyy-MM-dd");

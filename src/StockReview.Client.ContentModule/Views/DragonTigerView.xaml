@@ -10,9 +10,10 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="20" />
             <RowDefinition />
+            <RowDefinition Height="20" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -21,12 +22,25 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <StackPanel>
-            <TextBlock Text="测试" />
-        </StackPanel>
+        <DatePicker
+            Width="Auto"
+            Height="Auto"
+            Margin="0,10"
+            HorizontalContentAlignment="Center"
+            FontSize="14"
+            SelectedDate="{Binding CurrentDate}"
+            Style="{StaticResource DatePickerExtend}" />
+        <Button
+            Grid.Column="1"
+            Width="70"
+            Margin="5,0"
+            HorizontalAlignment="Left"
+            Command="{Binding RefreshCommand}"
+            Content="刷新"
+            Style="{StaticResource ButtonSuccess}" />
         <ScrollViewer
             Grid.Row="1"
-            Grid.RowSpan="3"
+            Grid.RowSpan="4"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
             VerticalScrollBarVisibility="Auto">
@@ -38,13 +52,13 @@
                 LoadingRow="DataGrid_LoadingRow"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="序号">
+                    <!--<DataGridTemplateColumn Header="序号">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn
                         Width="150"
@@ -80,32 +94,56 @@
             Grid.Column="1"
             Background="Transparent"
             BorderBrush="Transparent"
-            FontSize="12"
-            Foreground="Black">
-            游资名称
+            FontSize="13"
+            Foreground="Red">
+            机构游资名称
         </Label>
-
         <StackPanel
             Grid.Row="2"
-            Grid.RowSpan="2"
+            Grid.RowSpan="4"
             Grid.Column="1">
-            <ListBox ItemsSource="{Binding SpeculatvieGroups}" SelectionMode="Multiple" />
+            <ScrollViewer
+                Height="500"
+                CanContentScroll="True"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto">
+                <ListBox ItemsSource="{Binding SpeculatvieGroups}" SelectionMode="Multiple">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+                                <TextBlock Text="{Binding Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
             <Button
                 Width="70"
                 Margin="5,0"
-                Command="{Binding RefreshCommand}"
+                Command="{Binding SelectCommand}"
                 Content="筛选"
                 Style="{StaticResource ButtonSuccess}" />
             <Button
                 Width="70"
+                Margin="10"
                 Command="{Binding ExportCommand}"
                 Content="恢复"
                 Style="{StaticResource ButtonPrimary}" />
         </StackPanel>
 
-        <ScrollViewer
+        <Label
             Grid.Row="1"
-            Grid.RowSpan="2"
+            Grid.Column="2"
+            HorizontalAlignment="Left"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            Content="{Binding DateInfo.DateOne}"
+            FontSize="13"
+            Foreground="Black" />
+
+        <ScrollViewer
+            Grid.Row="2"
             Grid.Column="2"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
@@ -118,13 +156,13 @@
                 LoadingRow="DataGrid_LoadingRowOne"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="序号">
+                    <!--<DataGridTemplateColumn Header="序号">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
                     <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅" />
@@ -147,8 +185,18 @@
             </DataGrid>
         </ScrollViewer>
 
+        <Label
+            Grid.Row="1"
+            Grid.Column="3"
+            HorizontalAlignment="Left"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            Content="{Binding DateInfo.DateTwo}"
+            FontSize="13"
+            Foreground="Black" />
+
         <ScrollViewer
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="3"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
@@ -161,13 +209,13 @@
                 LoadingRow="DataGrid_LoadingRowTwo"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="序号">
+                    <!--<DataGridTemplateColumn Header="序号">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
                     <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅">
@@ -189,6 +237,16 @@
             </DataGrid>
         </ScrollViewer>
 
+        <Label
+            Grid.Row="3"
+            Grid.Column="2"
+            HorizontalAlignment="Left"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            Content="{Binding DateInfo.DateThree}"
+            FontSize="13"
+            Foreground="Black" />
+
         <ScrollViewer
             Grid.Row="4"
             Grid.Column="2"
@@ -203,13 +261,13 @@
                 LoadingRow="DataGrid_LoadingRowThree"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="序号">
+                    <!--<DataGridTemplateColumn Header="序号">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
                     <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅">
@@ -234,9 +292,18 @@
             </DataGrid>
         </ScrollViewer>
 
+        <Label
+            Grid.Row="3"
+            Grid.Column="3"
+            HorizontalAlignment="Left"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            Content="{Binding DateInfo.DateFour}"
+            FontSize="13"
+            Foreground="Black" />
+
         <ScrollViewer
-            Grid.Row="1"
-            Grid.RowSpan="2"
+            Grid.Row="4"
             Grid.Column="3"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
@@ -249,13 +316,13 @@
                 LoadingRow="DataGrid_LoadingRowFous"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="序号">
+                    <!--<DataGridTemplateColumn Header="序号">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
                     <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅">
