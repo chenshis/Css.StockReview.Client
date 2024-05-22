@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Linq;
+using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace StockReview.Api.ApiService
 {
@@ -34,28 +36,31 @@ namespace StockReview.Api.ApiService
 
         public string GetCurrentDay()
         {
-            // 选中天
-            var client = _httpClientFactory.CreateClient(SystemConstant.SpecialLonghuVipUrl);
-            var content = GetFormUrlEncodedContent(a: "UpdateState", c: "UserSelectStock");
-            var httpResponseMessage = client.PostAsync(default(string), content).Result;
-            var strResult = httpResponseMessage.Content.ReadAsStringAsync().Result;
-            var jobject = (JObject)JsonConvert.DeserializeObject(strResult);
-            var day = jobject["Day"]?.ToString();
-            return day;
+            if (string.IsNullOrWhiteSpace(_memoryCache.Get<string>(SystemConstant.StockSelectedDayKey)))
+            {
+                FilterDates();
+            }
+            return _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
         }
 
         public void FilterDates()
         {
             try
             {
-                var day = GetCurrentDay();
-                // 节假日
-                List<string> filterDays = new List<string>();
-                var client = _httpClientFactory.CreateClient(SystemConstant.HistoryLonghuVipUrl);
-                var content = GetFormUrlEncodedContent(a: "GetHoliday", c: "YiDongKanPan");
+                // 选中天
+                var client = _httpClientFactory.CreateClient(SystemConstant.SpecialLonghuVipUrl);
+                var content = GetFormUrlEncodedContent(a: "UpdateState", c: "UserSelectStock");
                 var httpResponseMessage = client.PostAsync(default(string), content).Result;
                 var strResult = httpResponseMessage.Content.ReadAsStringAsync().Result;
                 var jobject = (JObject)JsonConvert.DeserializeObject(strResult);
+                var day = jobject["Day"]?.ToString();
+                // 节假日
+                List<string> filterDays = new List<string>();
+                client = _httpClientFactory.CreateClient(SystemConstant.HistoryLonghuVipUrl);
+                content = GetFormUrlEncodedContent(a: "GetHoliday", c: "YiDongKanPan");
+                httpResponseMessage = client.PostAsync(default(string), content).Result;
+                strResult = httpResponseMessage.Content.ReadAsStringAsync().Result;
+                jobject = (JObject)JsonConvert.DeserializeObject(strResult);
                 var jarrayList = (JArray)jobject["List"];
                 foreach (JToken item in jarrayList)
                 {
@@ -78,7 +83,11 @@ namespace StockReview.Api.ApiService
             var today = _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
             if (today != null && today == day)
             {
-                return _memoryCache.Get<BulletinBoardDto>(SystemConstant.BulletinBoardKey);
+                var board = _memoryCache.Get<BulletinBoardDto>(SystemConstant.BulletinBoardKey);
+                if (board != null)
+                {
+                    return board;
+                }
             }
             return GetHisBulletinBoard(day);
         }
@@ -89,10 +98,8 @@ namespace StockReview.Api.ApiService
             var cacheSelectedDay = _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
             if (cacheSelectedDay == null)
             {
-                FilterDates();
+                throw new Exception("当前日期未获取到，请稍后重试！");
             }
-            cacheSelectedDay = _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
-
             var date = GetDateByDay(day);
             var today = date.today;
             var yesterday = date.yesterday;
@@ -285,9 +292,133 @@ namespace StockReview.Api.ApiService
             return bulletinBoard;
         }
 
+        public EmotionDetailDto GetEmotionDetail(string day)
+        {
+            GetDateByDay(day);
+            var today = _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
+            if (today != null && today == day)
+            {
+                return _memoryCache.Get<EmotionDetailDto>(SystemConstant.EmotionDetailKey);
+            }
+            return GetHisEmotionDetail(day);
+        }
 
+        public EmotionDetailDto GetHisEmotionDetail(string day)
+        {
+            EmotionDetailDto emotionDetail = new EmotionDetailDto();
+            var httpClient = _httpClientFactory.CreateClient();
+            var date = GetDateByDay(day, "yyyyMMdd");
+            string text = date.today;
 
-        public (string today, string yesterday) GetDateByDay(string day)
+            int page = 1;
+            List<Info> infoList = new List<Info>();
+            HttpResponseMessage webDataResponse;
+            string webData;
+            string webUrl;
+            while (true)
+            {
+                webUrl = $"https://data.10jqka.com.cn/dataapi/limit_up/limit_up_pool?page={page}&limit=200&field=199112,10,9001,330323,330324,330325,9002,330329,133971,133970,1968584,3475914,9003,9004&filter=HS,GEM2STAR&order_field=330324&order_type=0&date=" + text;
+                webDataResponse = httpClient.GetAsync(webUrl).Result;
+                webData = webDataResponse.Content.ReadAsStringAsync().Result;
+                if (webData.Length < 650)
+                {
+                    break;
+                }
+                var tempRoot = JsonConvert.DeserializeObject<Root>(webData);
+                if (emotionDetail.root == null)
+                {
+                    emotionDetail.root = tempRoot;
+                }
+                // 信息集合
+                var infos = tempRoot.data.info;
+                if (infos != null && infos.Count > 0)
+                {
+                    infoList.AddRange(infos);
+                }
+                int count = tempRoot.data.page.count;
+                if (page < count)
+                {
+                    page++;
+                    continue;
+                }
+
+                break;
+            }
+
+            // 获取连扳
+            webUrl = "https://data.10jqka.com.cn/dataapi/limit_up/continuous_limit_up?filter=HS,GEM2STAR&date=" + text;
+            webDataResponse = httpClient.GetAsync(webUrl).Result;
+            webData = webDataResponse.Content.ReadAsStringAsync().Result;
+            if (!string.IsNullOrWhiteSpace(webData))
+            {
+                var lBanData = JsonConvert.DeserializeObject<EmotionDetailLBanDto.Root>(webData);
+                var codes = lBanData.data.SelectMany(t => t.code_list).ToList();
+                foreach (var item in codes)
+                {
+                    foreach (var info in infoList)
+                    {
+                        if (info.code == item.code)
+                        {
+                            info.LBanNum = item.continue_num.ToString();
+                        }
+                    }
+                }
+            }
+
+            // 一般信息赋值
+            emotionDetail.root.data.info = infoList;
+
+            // 柱状图
+            webUrl = "http://hqstats.10jqka.com.cn/?market=USHA_USZA&datatype=zhangfustats_detail&date=" + text + "&callback=zhangfustats";
+            webDataResponse = httpClient.GetAsync(webUrl).Result;
+            webData = webDataResponse.Content.ReadAsStringAsync().Result;
+            if (webData.Length >= 60)
+            {
+                List<string> yValues = ZZStr(webData);
+                List<string> xValues = SystemConstant.TongHuaXValue.Split(",").ToList();
+
+                emotionDetail.histogram = new List<HistogramDto>();
+
+                for (int i = 0; i < xValues.Count; i++)
+                {
+                    emotionDetail.histogram.Add(new HistogramDto
+                    {
+                        xvalue = xValues[i],
+                        yvalue = yValues[i]
+                    });
+                }
+            }
+            return emotionDetail;
+        }
+
+        private List<string> ZZStr(string str)
+        {
+            string[] array = Regex.Replace(str, "[^\\d.\\d]", ",").Split(new string[1] { "," }, StringSplitOptions.None);
+            List<string> list = new List<string>();
+            List<string> list2 = new List<string>();
+            string[] array2 = array;
+            foreach (string text in array2)
+            {
+                if (text != "")
+                {
+                    list.Add(text);
+                }
+            }
+            list2.Add(list[0]);
+            list2.Add((Convert.ToInt32(list[1]) + Convert.ToInt32(list[1])).ToString());
+            list2.Add((Convert.ToInt32(list[3]) + Convert.ToInt32(list[4])).ToString());
+            list2.Add((Convert.ToInt32(list[5]) + Convert.ToInt32(list[6])).ToString());
+            list2.Add((Convert.ToInt32(list[7]) + Convert.ToInt32(list[8]) + Convert.ToInt32(list[9])).ToString());
+            list2.Add(list[10]);
+            list2.Add((Convert.ToInt32(list[11]) + Convert.ToInt32(list[12]) + Convert.ToInt32(list[13])).ToString());
+            list2.Add((Convert.ToInt32(list[14]) + Convert.ToInt32(list[15])).ToString());
+            list2.Add((Convert.ToInt32(list[16]) + Convert.ToInt32(list[17])).ToString());
+            list2.Add((Convert.ToInt32(list[18]) + Convert.ToInt32(list[19])).ToString());
+            list2.Add(list[20]);
+            return list2;
+        }
+
+        public (string today, string yesterday) GetDateByDay(string day, string format = "yyyy-MM-dd")
         {
             if (!DateTime.TryParse(day, out var date))
             {
@@ -332,7 +463,7 @@ namespace StockReview.Api.ApiService
                 }
                 break;
             }
-            return (date.ToString("yyyy-MM-dd"), yesterdayDate.ToString("yyyy-MM-dd"));
+            return (date.ToString(format), yesterdayDate.ToString(format));
         }
 
 
@@ -367,6 +498,5 @@ namespace StockReview.Api.ApiService
             var content = new FormUrlEncodedContent(parameters);
             return content;
         }
-
     }
 }

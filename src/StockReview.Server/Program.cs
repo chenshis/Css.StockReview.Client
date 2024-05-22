@@ -65,6 +65,7 @@ builder.Services.AddHttpClient(SystemConstant.SpecialLonghuVipUrl, configClient 
     configClient.BaseAddress = new Uri(SystemConstant.SpecialLonghuVipUrl);
     configClient.DefaultRequestHeaders.UserAgent.ParseAdd(SystemConstant.UserAgent);
 });
+
 builder.Services.AddMemoryCache();
 // 后台服务
 builder.Services.AddHostedService<BulletinBoardBackgroundService>();
