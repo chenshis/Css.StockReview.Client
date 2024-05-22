@@ -59,5 +59,9 @@ namespace StockReview.Infrastructure.Config
         /// 炸板与跌停板数据路由
         /// </summary>
         public const string ExplosiveBoardLImitDownRoute = "v1/stockreview/explosive/list";
+        /// <summary>
+        /// 龙虎榜数据路由
+        /// </summary>
+        public const string DragonTigerRoute = "v1/stockreview/dragon/list";
     }
 }

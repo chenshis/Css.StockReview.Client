@@ -1,4 +1,6 @@
-﻿using StockReview.Api.Dtos;
+﻿using Microsoft.AspNetCore.Mvc;
+using StockReview.Api.Dtos;
+using StockReview.Infrastructure.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,5 +38,13 @@ namespace StockReview.Api.IApiService
         /// <param name="date"></param>
         /// <returns></returns>
         ExplosiveBoardLImitDownDto GetExplosiveBoardLImitDown(DateTime date);
+
+        /// <summary>
+        /// 获取炸板与跌停板数据
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+
+        DragonTigerDto GetDragonTiger(DateTime date);
     }
 }

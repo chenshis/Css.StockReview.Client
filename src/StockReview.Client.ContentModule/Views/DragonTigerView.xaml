@@ -11,6 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
+            <RowDefinition Height="20" />
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -20,7 +21,11 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <StackPanel>
+            <TextBlock Text="测试" />
+        </StackPanel>
         <ScrollViewer
+            Grid.Row="1"
             Grid.RowSpan="3"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
@@ -30,18 +35,48 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding DragonTigerGetInfos}"
+                LoadingRow="DataGrid_LoadingRow"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Number}" Header="序号" />
+                    <DataGridTemplateColumn Header="序号">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
-                    <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
-                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅" />
-                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买" />
+                    <DataGridTextColumn
+                        Width="150"
+                        Binding="{Binding DragonSpeculative}"
+                        Header="游资 ">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{Binding DragonIncreaseColor}" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{Binding DragonPurchaseColor}" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding DragonPlate}" Header="板" />
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
         <Label
+            Grid.Row="1"
             Grid.Column="1"
             Background="Transparent"
             BorderBrush="Transparent"
@@ -51,18 +86,10 @@
         </Label>
 
         <StackPanel
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.RowSpan="2"
             Grid.Column="1">
-            <ListBox ItemsSource="{Binding SpeculatvieGroups}" SelectionMode="Multiple">
-                <CheckBox Content="测试1" />
-                <CheckBox Content="测试1" />
-                <CheckBox Content="测试1" />
-                <CheckBox Content="测试1" />
-                <CheckBox Content="测试1" />
-                <CheckBox Content="测试1" />
-                <CheckBox Content="测试1" />
-            </ListBox>
+            <ListBox ItemsSource="{Binding SpeculatvieGroups}" SelectionMode="Multiple" />
             <Button
                 Width="70"
                 Margin="5,0"
@@ -77,6 +104,7 @@
         </StackPanel>
 
         <ScrollViewer
+            Grid.Row="1"
             Grid.RowSpan="2"
             Grid.Column="2"
             CanContentScroll="True"
@@ -87,19 +115,40 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding DragonTigerGetInfosOne}"
+                LoadingRow="DataGrid_LoadingRowOne"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Number}" Header="序号1" />
+                    <DataGridTemplateColumn Header="序号">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
                     <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅" />
-                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买" />
+                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{Binding DragonIncreaseColor}" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{Binding DragonPurchaseColor}" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
 
         <ScrollViewer
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="3"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
@@ -109,19 +158,39 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding DragonTigerGetInfosTwo}"
+                LoadingRow="DataGrid_LoadingRowTwo"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Number}" Header="序号2" />
+                    <DataGridTemplateColumn Header="序号">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
-                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅" />
-                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买" />
+                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{Binding DragonIncreaseColor}" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{Binding DragonPurchaseColor}" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
 
         <ScrollViewer
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="2"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
@@ -131,18 +200,42 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding DragonTigerGetInfosThree}"
+                LoadingRow="DataGrid_LoadingRowThree"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Number}" Header="序号3" />
+                    <DataGridTemplateColumn Header="序号">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
-                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅" />
-                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买" />
+                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{Binding DragonIncreaseColor}" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn
+                        Binding="{Binding DragonPurchase}"
+                        Foreground="{Binding DragonPurchaseColor}"
+                        Header="净买">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{Binding DragonPurchaseColor}" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
 
         <ScrollViewer
+            Grid.Row="1"
             Grid.RowSpan="2"
             Grid.Column="3"
             CanContentScroll="True"
@@ -153,16 +246,35 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding DragonTigerGetInfosFous}"
+                LoadingRow="DataGrid_LoadingRowFous"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Number}" Header="序号4" />
+                    <DataGridTemplateColumn Header="序号">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
-                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅" />
-                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买" />
+                    <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{Binding DragonIncreaseColor}" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding DragonPurchase}" Header="净买">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{Binding DragonPurchaseColor}" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
-
     </Grid>
 </UserControl>

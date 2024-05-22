@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
 using StockReview.Api.Dtos;
@@ -8,6 +9,7 @@ using StockReview.Infrastructure.Config.HttpClients.HeepHelper;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -16,6 +18,7 @@ using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace StockReview.Api.ApiService
@@ -1192,6 +1195,151 @@ namespace StockReview.Api.ApiService
                 }
 
             }
+            return result;
+        }
+
+        public DragonTigerDto GetDragonTiger(DateTime date)
+        {
+            var result = new DragonTigerDto()
+            {
+                DragonTigerGetInfos = new List<DragonTigerGetInfo>(),
+                DragonTigerGetInfosOne = new List<DragonTigerGetInfo>(),
+                DragonTigerGetInfosTwo = new List<DragonTigerGetInfo>(),
+                DragonTigerGetInfosFous = new List<DragonTigerGetInfo>(),
+                DragonTigerGetInfosThree = new List<DragonTigerGetInfo>()
+            };
+
+            int workDayToAdd = 5;
+            int workDaysCount = 1;
+
+            while (workDaysCount <= workDayToAdd)
+            {
+                var postDta = "{\"Params\":[\"jm\"," + date.ToString("yyyy-MM-dd") + ",\"jmr\",1]}";
+                HttpHelper httpHelper = new HttpHelper();
+                HttpItem item = new HttpItem
+                {
+                    URL = "http://page.tdx.com.cn:7615/TQLEX?Entry=CWServ.cfg_fx_yzlhb_lhb",
+                    Method = "POST",
+                    Timeout = 100000,
+                    ReadWriteTimeout = 30000,
+                    IsToLower = false,
+                    Cookie = "",
+                    UserAgent = "Mozilla/5.0 (Linux; Android 7.1.2; SM-G973N Build/PPR1.190810.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/92.0.4515.131 Mobile Safari/537.36;kaipanla 5.0.0.2",
+                    Accept = "application/json, text/javascript, */*; q=0.01",
+                    ContentType = "application/x-www-form-urlencoded",
+                    Referer = "http://page.tdx.com.cn:7615/site/kggx/tk_yzlhb_yz.html",
+                    Postdata = postDta,
+                    ResultType = ResultType.String,
+                    ProtocolVersion = HttpVersion.Version11
+                };
+                string context = httpHelper.GetHtml(item).Html;
+
+                if (!string.IsNullOrEmpty(context)&& context.Length>170)
+                {
+                    DragonTigerBasicDataDto.Root root = JsonConvert.DeserializeObject<DragonTigerBasicDataDto.Root>(context);
+                    for (int i = 0; i < root.ResultSets[0].Content.Count; i++)
+                    {
+                        var dragonTigerInfos = new DragonTigerGetInfo();
+
+                        dragonTigerInfos.DragonName = root.ResultSets[0].Content[i][1].ToString() + Environment.NewLine + root.ResultSets[0].Content[i][2].ToString();
+                        string dragonSpeculative = root.ResultSets[0].Content[i][5];
+                        if (root.ResultSets[0].Content[i][3].Contains("3r"))
+                        {
+                            dragonTigerInfos.DragonSpeculative = "3日榜," + dragonSpeculative;
+                        }
+                        else
+                        {
+                            dragonTigerInfos.DragonSpeculative = dragonSpeculative;
+                        }
+
+                        string dragonIncrease = root.ResultSets[0].Content[i][6];
+                        if (dragonIncrease != null)
+                        {
+                            if (!(dragonIncrease.Substring(0, 1) != "-"))
+                            {
+
+                                dragonTigerInfos.DragonIncreaseColor = "Green";
+                            }
+                            else
+                            {
+                                dragonTigerInfos.DragonIncreaseColor = "Red";
+                            }
+                            dragonTigerInfos.DragonIncrease = dragonIncrease;
+                        }
+
+                        double num = Convert.ToDouble(root.ResultSets[0].Content[i][4]);
+                        if (Math.Abs(num) < 100000000.0)
+                        {
+                           
+                            if (num > 0.0)
+                            {
+                                dragonTigerInfos.DragonPurchaseColor = "Green";
+                            }
+                            else
+                            {
+                                dragonTigerInfos.DragonPurchaseColor = "Red";
+                            }
+                            dragonTigerInfos.DragonPurchase = Math.Round(num * 0.0001, 0) + "万";
+                        }
+                        else
+                        {
+                         
+                            if (num <= 0.0)
+                            {
+                                dragonTigerInfos.DragonPurchaseColor = "Green";
+                            }
+                            else
+                            {
+                                dragonTigerInfos.DragonPurchaseColor = "Red";
+                            }
+                            dragonTigerInfos.DragonPurchase = Math.Round(num * 1E-08, 2) + "亿";
+                        }
+                        switch (workDaysCount)
+                        {
+                            case 1: result.DragonTigerGetInfos.Add(dragonTigerInfos); break;
+                            case 2: result.DragonTigerGetInfosOne.Add(dragonTigerInfos); break;
+                            case 3: result.DragonTigerGetInfosTwo.Add(dragonTigerInfos); break;
+                            case 4: result.DragonTigerGetInfosFous.Add(dragonTigerInfos); break;
+                            case 5: result.DragonTigerGetInfosThree.Add(dragonTigerInfos); break;
+                            default:
+                                break;
+                        }
+                       
+                    }
+                    if (workDaysCount == 1 && result.DragonTigerGetInfos.Count > 0)
+                    {
+                        var urlLimitUp = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_up&date=" + date.ToString("yyyy-MM-dd");
+                        var responseLimitUp = _stockHttpClient.GetAsync(urlLimitUp).Result;
+                        var contentLimitUp = responseLimitUp.Content.ReadAsStringAsync().Result;
+                        if (!string.IsNullOrEmpty(contentLimitUp))
+                        {
+                            JsClassBasicDataDto.Root rootOne = JsonConvert.DeserializeObject<JsClassBasicDataDto.Root>(contentLimitUp);
+                            string text2 = "";
+                            for (int i = 0; i < result.DragonTigerGetInfos.Count; i++)
+                            {
+                                if (!(double.Parse(result.DragonTigerGetInfos[i].DragonIncrease.ToString()) > 9.5))
+                                {
+                                    continue;
+                                }
+                                string text3 = result.DragonTigerGetInfos[i].DragonName.ToString();
+                                for (int j = 0; j < rootOne.data.Count; j++)
+                                {
+                                    text2 = rootOne.data[j].symbol.Substring(0, 6);
+                                    if (text3.Contains(text2))
+                                    {
+                                        int limit_up_days = rootOne.data[j].limit_up_days;
+                                        result.DragonTigerGetInfos[i].DragonPlate = limit_up_days>0? limit_up_days.ToString():"";
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    workDaysCount++;
+                }
+                date = date.AddDays(-1);
+            }
+
             return result;
         }
 
