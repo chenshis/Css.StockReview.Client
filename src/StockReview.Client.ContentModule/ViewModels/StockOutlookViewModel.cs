@@ -14,8 +14,8 @@ using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml.Linq;
+using System.Windows.Threading;
+using System.Windows.Input;
 
 namespace StockReview.Client.ContentModule.ViewModels
 {
@@ -25,6 +25,7 @@ namespace StockReview.Client.ContentModule.ViewModels
     public class StockOutlookViewModel : NavigationAwareViewModelBase
     {
         private readonly IStockOutlookApiService _stockOutlookApiService;
+        private DispatcherTimer _timer;
         public StockOutlookViewModel(IUnityContainer unityContainer,
                                      IRegionManager regionManager,
                                      IStockOutlookApiService stockOutlookApiService)
@@ -78,7 +79,17 @@ namespace StockReview.Client.ContentModule.ViewModels
             }
         };
             this._stockOutlookApiService = stockOutlookApiService;
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += Timer_Tick;
+            _timer.Start();
+            // 数据刷新
             Refresh();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            RealTimeBulletinBoard();
         }
 
         public Axis[] XAxes { get; set; }
@@ -174,71 +185,39 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// </summary>
         public override void Refresh()
         {
-            var apiToday = _stockOutlookApiService.GetToday();
-            if (apiToday.Code != 0)
-            {
-                HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
-                {
-                    Message = apiToday.Msg,
-                    Token = SystemConstant.headerGrowl,
-                    IsCustom = true,
-                    WaitTime = 0
-                });
-                return;
-            }
             string day;
-            if (string.IsNullOrWhiteSpace(apiToday.Data))
+            if (!CurrentDate.HasValue)
             {
-                day = DateTime.Now.ToString("yyyy-MM-dd");
+                var apiToday = _stockOutlookApiService.GetToday();
+                if (apiToday.Code != 0)
+                {
+                    HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
+                    {
+                        Message = apiToday.Msg,
+                        Token = SystemConstant.headerGrowl,
+                        IsCustom = true,
+                        WaitTime = 0
+                    });
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(apiToday.Data))
+                {
+                    day = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    day = apiToday.Data;
+                }
+                CurrentDate = DateTime.Parse(day);
             }
             else
             {
-                day = apiToday.Data;
+                day = CurrentDate.Value.ToString("yyyy-MM-dd");
             }
 
-            CurrentDate = DateTime.Parse(day);
-
-            var apiResponse = _stockOutlookApiService.GetBulletinBoard(day);
-            if (apiResponse.Code != 0)
-            {
-                HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
-                {
-                    Message = apiResponse.Msg,
-                    Token = SystemConstant.headerGrowl,
-                    IsCustom = true,
-                    WaitTime = 0
-                });
-                return;
-            }
-            BulletinBoard = apiResponse.Data;
-            if (BulletinBoard == null)
-            {
-                HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
-                {
-                    Message = "看板数据等待加载中！",
-                    Token = SystemConstant.headerGrowl,
-                    IsCustom = true,
-                    WaitTime = 0
-                });
-                return;
-            }
-            double.TryParse(BulletinBoard.EmotionPercent, out var emotionValue);
-            Needle = new NeedleVisual { Value = emotionValue };
-            EmotionSeries = GaugeGenerator.BuildAngularGaugeSections(
-                new GaugeItem(50, s => SetStyle(s, SKColors.Green)),
-                new GaugeItem(50, s => SetStyle(s, SKColors.Red)));
-            VisualElements = new VisualElement<SkiaSharpDrawingContext>[]
-            {
-                new AngularTicksVisual
-                {
-                    LabelsSize = 10,
-                    LabelsOuterOffset = 5,
-                    OuterOffset = 30,
-                    TicksLength = 5
-                },
-                Needle
-            };
-
+            // 看板数据
+            RealTimeBulletinBoard();
             //情绪明细
             var apiEmotionDetail = _stockOutlookApiService.GetEmotionDetail(day);
             if (apiEmotionDetail.Code != 0)
@@ -255,16 +234,15 @@ namespace StockReview.Client.ContentModule.ViewModels
             var emotionDetail = apiEmotionDetail.Data;
             if (emotionDetail == null)
             {
-                HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
+                HandyControl.Controls.Growl.Info(new HandyControl.Data.GrowlInfo
                 {
-                    Message = "情绪详情数据不存在！",
+                    Message = "情绪详情数据等待加载中……",
                     Token = SystemConstant.headerGrowl,
                     IsCustom = true,
                     WaitTime = 0
                 });
                 return;
             }
-
 
             HistogramXAxes = new Axis[1];
             HistogramXAxes[0] = new Axis();
@@ -316,8 +294,6 @@ namespace StockReview.Client.ContentModule.ViewModels
             negativeSeries.Values = negativeSeriesValues;
             HistogramSeries[2] = negativeSeries;
 
-            // 清空明细
-            LimitUpDetails.Clear();
             var todayLimitUpDetail = new LimitUpDetailModel();
             todayLimitUpDetail.Time = "今日";
             todayLimitUpDetail.ZTBan = emotionDetail.root.data.limit_up_count.today.num.ToString();
@@ -344,6 +320,7 @@ namespace StockReview.Client.ContentModule.ViewModels
             }
             yesterdayLimitUpDetail.QBan = emotionDetail.root.data.limit_down_count.yesterday.open_num.ToString();
 
+            LimitUpDetails.Clear();
             LimitUpDetails.Add(todayLimitUpDetail);
             LimitUpDetails.Add(yesterdayLimitUpDetail);
 
@@ -375,6 +352,58 @@ namespace StockReview.Client.ContentModule.ViewModels
                 }
             }
 
+        }
+
+        /// <summary>
+        /// 看板实时数据
+        /// </summary>
+        private void RealTimeBulletinBoard()
+        {
+            if (CurrentDate == null)
+            {
+                return;
+            }
+            string day = CurrentDate.Value.ToString("yyyy-MM-dd");
+            var apiResponse = _stockOutlookApiService.GetBulletinBoard(day);
+            if (apiResponse.Code != 0)
+            {
+                HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
+                {
+                    Message = apiResponse.Msg,
+                    Token = SystemConstant.headerGrowl,
+                    IsCustom = true,
+                    WaitTime = 0
+                });
+                return;
+            }
+            BulletinBoard = apiResponse.Data;
+            if (BulletinBoard == null)
+            {
+                HandyControl.Controls.Growl.Info(new HandyControl.Data.GrowlInfo
+                {
+                    Message = "看板数据等待加载中……",
+                    Token = SystemConstant.headerGrowl,
+                    IsCustom = true,
+                    WaitTime = 0
+                });
+                return;
+            }
+            double.TryParse(BulletinBoard.EmotionPercent, out var emotionValue);
+            Needle = new NeedleVisual { Value = emotionValue };
+            EmotionSeries = GaugeGenerator.BuildAngularGaugeSections(
+                new GaugeItem(50, s => SetStyle(s, SKColors.Green)),
+                new GaugeItem(50, s => SetStyle(s, SKColors.Red)));
+            VisualElements = new VisualElement<SkiaSharpDrawingContext>[]
+            {
+                new AngularTicksVisual
+                {
+                    LabelsSize = 10,
+                    LabelsOuterOffset = 5,
+                    OuterOffset = 30,
+                    TicksLength = 5
+                },
+                Needle
+            };
         }
 
         /// <summary>
