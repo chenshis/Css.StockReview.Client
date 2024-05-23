@@ -1213,6 +1213,7 @@ namespace StockReview.Api.ApiService
 
             int workDayToAdd = 5;
             int workDaysCount = 1;
+            string text = "";
 
             while (workDaysCount <= workDayToAdd)
             {
@@ -1255,7 +1256,6 @@ namespace StockReview.Api.ApiService
                         default:
                             break;
                     }
-                    string text = "";
                     DragonTigerBasicDataDto.Root root = JsonConvert.DeserializeObject<DragonTigerBasicDataDto.Root>(context);
                     for (int i = 0; i < root.ResultSets[0].Content.Count; i++)
                     {
@@ -1342,7 +1342,8 @@ namespace StockReview.Api.ApiService
                     {
                         result.SpeculatvieGroups.Add(new SpeculatvieGroupsInfo
                         {
-                            Name = array2[k]
+                            Name = array2[k],
+                            IsChecked = false
                         });
                     }
 

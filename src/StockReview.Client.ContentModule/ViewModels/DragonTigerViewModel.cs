@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Input;
 using Unity;
 
@@ -15,6 +16,7 @@ namespace StockReview.Client.ContentModule.ViewModels
 {
     public class DragonTigerViewModel : NavigationAwareViewModelBase
     {
+        public List<DragonTigerGetInfo> DragonTigerAllGetInfos { get; set; } = new List<DragonTigerGetInfo>();
         public ObservableCollection<DragonTigerGetInfo> DragonTigerGetInfos { get; set; } = new ObservableCollection<DragonTigerGetInfo>();
         public ObservableCollection<DragonTigerGetInfo> DragonTigerGetInfosOne { get; set; } = new ObservableCollection<DragonTigerGetInfo>();
         public ObservableCollection<DragonTigerGetInfo> DragonTigerGetInfosTwo { get; set; } = new ObservableCollection<DragonTigerGetInfo>();
@@ -22,7 +24,7 @@ namespace StockReview.Client.ContentModule.ViewModels
         public ObservableCollection<DragonTigerGetInfo> DragonTigerGetInfosFous { get; set; } = new ObservableCollection<DragonTigerGetInfo>();
         public ObservableCollection<SpeculatvieGroupsInfo> SpeculatvieGroups { get; set; } = new ObservableCollection<SpeculatvieGroupsInfo>();
         public DateInfo DateInfo { get; set; } = new DateInfo();
-        
+
         private readonly IReplayService _replayService;
 
         private DateTime? _currentDate;
@@ -40,9 +42,13 @@ namespace StockReview.Client.ContentModule.ViewModels
         {
             Refresh();
         });
-        public ICommand SelectCommand => new DelegateCommand<string>((k) => 
+        public ICommand SelectCommand => new DelegateCommand<string>((k) =>
         {
             Select();
+        });
+        public ICommand RecoveryCommand => new DelegateCommand<string>((k) =>
+        {
+            Recovery();
         });
         #endregion
         public DragonTigerViewModel(IUnityContainer unityContainer, IRegionManager regionManager, IReplayService replayService) : base(unityContainer, regionManager)
@@ -59,6 +65,7 @@ namespace StockReview.Client.ContentModule.ViewModels
             var dragonTigerList = this._replayService.GetDragonTiger(date);
 
             this.DragonTigerGetInfos.AddRange(dragonTigerList.DragonTigerGetInfos);
+            this.DragonTigerAllGetInfos.AddRange(dragonTigerList.DragonTigerGetInfos);
             this.DragonTigerGetInfosOne.AddRange(dragonTigerList.DragonTigerGetInfosOne);
             this.DragonTigerGetInfosTwo.AddRange(dragonTigerList.DragonTigerGetInfosTwo);
             this.DragonTigerGetInfosThree.AddRange(dragonTigerList.DragonTigerGetInfosThree);
@@ -67,14 +74,31 @@ namespace StockReview.Client.ContentModule.ViewModels
             this.DateInfo = dragonTigerList.DateInfo;
         }
 
-        public void Refresh()
+        private void Refresh()
         {
             InitTableHeader(this.CurrentDate ?? DateTime.Now);
         }
 
-        public void Select() 
+        private void Select()
         {
-            var speculatvieGroupsInfo = this.SpeculatvieGroups.Where(x => x.IsChecked = true).ToList();
+            var speculatvieGroupsInfo = this.SpeculatvieGroups.Where(x => x.IsChecked == true).ToList();
+            if (speculatvieGroupsInfo.Count > 0)
+            {
+                DragonTigerGetInfos.Clear();
+                for (int i = 0; i < speculatvieGroupsInfo.Count; i++)
+                {
+                    var dragInfo = DragonTigerAllGetInfos.Where(x => !string.IsNullOrEmpty(x.DragonSpeculative)
+                    && x.DragonSpeculative.Contains(speculatvieGroupsInfo[i].Name)).ToList();
+
+                    DragonTigerGetInfos.AddRange(dragInfo);
+                }
+            }
+        }
+
+        private void Recovery() 
+        {
+            DragonTigerGetInfos.Clear();
+            DragonTigerGetInfos.AddRange(DragonTigerAllGetInfos);
         }
     }
 }

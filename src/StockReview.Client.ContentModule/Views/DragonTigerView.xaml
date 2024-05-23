@@ -61,12 +61,15 @@
                     </DataGridTemplateColumn>-->
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn
-                        Width="150"
+                        Width="180"
                         Binding="{Binding DragonSpeculative}"
                         Header="游资 ">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="TextWrapping" Value="Wrap" />
+                                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                                <Setter Property="ToolTip" Value="{Binding DragonSpeculative}" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
@@ -111,7 +114,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+                                <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Text="{Binding Name}" />
                             </StackPanel>
                         </DataTemplate>
@@ -127,7 +130,7 @@
             <Button
                 Width="70"
                 Margin="10"
-                Command="{Binding ExportCommand}"
+                Command="{Binding RecoveryCommand}"
                 Content="恢复"
                 Style="{StaticResource ButtonPrimary}" />
         </StackPanel>
@@ -164,7 +167,19 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>-->
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
-                    <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
+                    <DataGridTextColumn
+                        Width="180"
+                        Binding="{Binding DragonSpeculative}"
+                        Header="游资 ">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                                <Setter Property="ToolTip" Value="{Binding DragonSpeculative}" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅" />
                     <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅">
                         <DataGridTextColumn.ElementStyle>
@@ -217,7 +232,19 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>-->
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
-                    <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
+                    <DataGridTextColumn
+                        Width="180"
+                        Binding="{Binding DragonSpeculative}"
+                        Header="游资 ">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                                <Setter Property="ToolTip" Value="{Binding DragonSpeculative}" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
@@ -269,7 +296,19 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>-->
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
-                    <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
+                    <DataGridTextColumn
+                        Width="180"
+                        Binding="{Binding DragonSpeculative}"
+                        Header="游资 ">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                                <Setter Property="ToolTip" Value="{Binding DragonSpeculative}" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
@@ -324,7 +363,19 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>-->
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
-                    <DataGridTextColumn Binding="{Binding DragonSpeculative}" Header="游资 " />
+                    <DataGridTextColumn
+                        Width="180"
+                        Binding="{Binding DragonSpeculative}"
+                        Header="游资 ">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                                <Setter Property="ToolTip" Value="{Binding DragonSpeculative}" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding DragonIncrease}" Header="涨幅">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
