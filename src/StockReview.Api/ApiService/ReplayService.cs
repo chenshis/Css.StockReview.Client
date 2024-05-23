@@ -48,86 +48,129 @@ namespace StockReview.Api.ApiService
             {
                 HeadRow = 0,
                 HeadColumn = 0,
-                HeadName = "版数"
+                HeadName = "版数",
+                HeadColor="Turquoise",
+                HeadFontColor="Green"
             });
-
+            leadingList.Add(new LeadingDateHeaderDto
+            {
+                HeadRow = 1,
+                HeadColumn = 0,
+                HeadName = "",
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
+            });
+            leadingList.Add(new LeadingDateHeaderDto
+            {
+                HeadRow = 2,
+                HeadColumn = 0,
+                HeadName = "",
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
+            });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 3,
                 HeadColumn = 0,
                 HeadName = string.Format("13板太"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 4,
                 HeadColumn = 0,
                 HeadName = string.Format("12板月"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 5,
                 HeadColumn = 0,
                 HeadName = string.Format("11板量"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 6,
                 HeadColumn = 0,
                 HeadName = string.Format("10板天"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 7,
                 HeadColumn = 0,
                 HeadName = string.Format("9板飞"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 8,
                 HeadColumn = 0,
                 HeadName = string.Format("8板仙"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 9,
                 HeadColumn = 0,
                 HeadName = string.Format("7板神"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 10,
                 HeadColumn = 0,
                 HeadName = string.Format("6板鬼"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 11,
                 HeadColumn = 0,
                 HeadName = string.Format("5板魔"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 12,
                 HeadColumn = 0,
                 HeadName = string.Format("4板怪"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 13,
                 HeadColumn = 0,
                 HeadName = string.Format("3板妖"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 14,
                 HeadColumn = 0,
                 HeadName = string.Format("2板龙"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 15,
                 HeadColumn = 0,
                 HeadName = string.Format("首板"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             #endregion
 
@@ -158,7 +201,9 @@ namespace StockReview.Api.ApiService
                         {
                             HeadRow = 0,
                             HeadColumn = workDaysCount,
-                            HeadName = string.Format("{0}\n{1}\n{2}", date.Month + "月" + date.Day + "日", days[(int)dayOfWeek], workDaysCount)
+                            HeadName = string.Format("{0}\n{1}\n{2}", date.Month + "月" + date.Day + "日", days[(int)dayOfWeek], workDaysCount),
+                            HeadColor = "Turquoise",
+                            HeadFontColor = "Green"
                         });
 
                         if (root.data.more.limit_up_list.Count > 0)
@@ -200,7 +245,9 @@ namespace StockReview.Api.ApiService
                                         {
                                             HeadRow = 10,
                                             HeadColumn = workDaysCount,
-                                            HeadName = stringBuilder.ToString()
+                                            HeadName = stringBuilder.ToString(),
+                                            HeadColor = "",
+                                            HeadFontColor = ""
                                         });
                                         headRow6 = ++headRow6;
                                     }
@@ -220,7 +267,9 @@ namespace StockReview.Api.ApiService
                                         {
                                             HeadRow = 9,
                                             HeadColumn = workDaysCount,
-                                            HeadName = stringBuilder.ToString()
+                                            HeadName = stringBuilder.ToString(),
+                                            HeadColor = "",
+                                            HeadFontColor = ""
                                         });
                                         headRow7 = ++headRow7;
                                     }
@@ -240,7 +289,9 @@ namespace StockReview.Api.ApiService
                                         {
                                             HeadRow = 8,
                                             HeadColumn = workDaysCount,
-                                            HeadName = stringBuilder.ToString()
+                                            HeadName = stringBuilder.ToString(),
+                                            HeadColor = "",
+                                            HeadFontColor = ""
                                         });
                                         headRow8 = ++headRow8;
                                     }
@@ -260,7 +311,9 @@ namespace StockReview.Api.ApiService
                                         {
                                             HeadRow = 7,
                                             HeadColumn = workDaysCount,
-                                            HeadName = stringBuilder.ToString()
+                                            HeadName = stringBuilder.ToString(),
+                                            HeadColor = "",
+                                            HeadFontColor = ""
                                         });
                                         headRow9 = ++headRow9;
                                     }
@@ -280,7 +333,9 @@ namespace StockReview.Api.ApiService
                                         {
                                             HeadRow = 6,
                                             HeadColumn = workDaysCount,
-                                            HeadName = stringBuilder.ToString()
+                                            HeadName = stringBuilder.ToString(),
+                                            HeadColor = "",
+                                            HeadFontColor = ""
                                         });
                                         headRow10 = ++headRow10;
                                     }
@@ -319,7 +374,9 @@ namespace StockReview.Api.ApiService
                                                 {
                                                     HeadRow = 5,
                                                     HeadColumn = workDaysCount,
-                                                    HeadName = stringBuilder.ToString()
+                                                    HeadName = stringBuilder.ToString(),
+                                                    HeadColor = "",
+                                                    HeadFontColor = ""
                                                 });
                                                 headRow11 = ++headRow11;
                                             }
@@ -339,7 +396,9 @@ namespace StockReview.Api.ApiService
                                                 {
                                                     HeadRow = 4,
                                                     HeadColumn = workDaysCount,
-                                                    HeadName = stringBuilder.ToString()
+                                                    HeadName = stringBuilder.ToString(),
+                                                    HeadColor = "",
+                                                    HeadFontColor = ""
                                                 });
                                                 headRow12 = ++headRow12;
                                             }
@@ -359,7 +418,9 @@ namespace StockReview.Api.ApiService
                                                 {
                                                     HeadRow = 3,
                                                     HeadColumn = workDaysCount,
-                                                    HeadName = stringBuilder.ToString()
+                                                    HeadName = stringBuilder.ToString(),
+                                                    HeadColor = "",
+                                                    HeadFontColor = ""
                                                 });
                                                 headRow13 = ++headRow13;
                                             }
@@ -374,7 +435,9 @@ namespace StockReview.Api.ApiService
                             {
                                 HeadRow = 1,
                                 HeadColumn = workDaysCount,
-                                HeadName = moreStringBuilder.ToString()
+                                HeadName = moreStringBuilder.ToString(),
+                                HeadColor = "",
+                                HeadFontColor = ""
                             });
                         }
 
@@ -390,7 +453,9 @@ namespace StockReview.Api.ApiService
                             {
                                 HeadRow = 15,
                                 HeadColumn = workDaysCount,
-                                HeadName = firstStringBuilder.ToString()
+                                HeadName = firstStringBuilder.ToString(),
+                                HeadColor = "",
+                                HeadFontColor = ""
                             });
                         }
 
@@ -406,7 +471,9 @@ namespace StockReview.Api.ApiService
                             {
                                 HeadRow = 14,
                                 HeadColumn = workDaysCount,
-                                HeadName = secondStringBuilder.ToString()
+                                HeadName = secondStringBuilder.ToString(),
+                                HeadColor = "",
+                                HeadFontColor = ""
                             });
                         }
 
@@ -422,7 +489,9 @@ namespace StockReview.Api.ApiService
                             {
                                 HeadRow = 13,
                                 HeadColumn = workDaysCount,
-                                HeadName = thirdStringBuilder.ToString()
+                                HeadName = thirdStringBuilder.ToString(),
+                                HeadColor = "",
+                                HeadFontColor = ""
                             });
                         }
 
@@ -438,7 +507,9 @@ namespace StockReview.Api.ApiService
                             {
                                 HeadRow = 12,
                                 HeadColumn = workDaysCount,
-                                HeadName = fourthStringBuilder.ToString()
+                                HeadName = fourthStringBuilder.ToString(),
+                                HeadColor = "",
+                                HeadFontColor = ""
                             });
                         }
 
@@ -455,13 +526,14 @@ namespace StockReview.Api.ApiService
                             {
                                 HeadRow = 11,
                                 HeadColumn = workDaysCount,
-                                HeadName = fifthStringBuilder.ToString()
+                                HeadName = fifthStringBuilder.ToString(),
+                                HeadColor = "",
+                                HeadFontColor = ""
                             });
                         }
 
                         workDaysCount++;
                     }
-
                 }
                 date = date.AddDays(-1);
             }
