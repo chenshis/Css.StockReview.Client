@@ -22,18 +22,27 @@
         <Border BorderBrush="#DDD" BorderThickness="0,0,0,1" />
         <StackPanel HorizontalAlignment="Left">
             <Label
+                Height="40"
                 Background="Transparent"
                 BorderBrush="Transparent"
                 Content="{Binding MarketTitle}"
                 FontSize="15"
                 Foreground="#F06632" />
         </StackPanel>
+
         <StackPanel
             Grid.Row="0"
-            Grid.Column="1"
-            HorizontalAlignment="Right"
+            Grid.Column="2"
+            HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Orientation="Horizontal">
+            <DatePicker
+                Width="Auto"
+                Height="Auto"
+                HorizontalContentAlignment="Center"
+                FontSize="14"
+                SelectedDate="{Binding CurrentDate}"
+                Style="{StaticResource DatePickerExtend}" />
             <Button
                 Width="70"
                 Margin="5,0"
@@ -50,8 +59,9 @@
         <ScrollViewer
             Grid.Row="1"
             Grid.Column="0"
-            Width="500"
+            Width="600"
             Height="700"
+            Margin="0"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
             VerticalScrollBarVisibility="Auto">
