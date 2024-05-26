@@ -12,7 +12,6 @@ namespace StockReview.Client.ContentModule.Views
     /// </summary>
     public partial class MarketLadderView : UserControl
     {
-
         private MarketLadderViewModel MarketLadderViewModel { get; set; }
 
         public MarketLadderView(MarketLadderViewModel marketLadderViewModel)
@@ -103,7 +102,7 @@ namespace StockReview.Client.ContentModule.Views
                 Grid.SetRow(labelThree, rowTemp);
                 Grid.SetColumn(labelThree, 2);
 
-                if (marketList[i].MarketLadderInfos.Count()>0)
+                if (marketList[i].MarketLadderInfos.Count() > 0)
                 {
                     rowTemp++;
 
@@ -136,12 +135,12 @@ namespace StockReview.Client.ContentModule.Views
                     dataGrid.Columns.Add(marketLadderReasonLimitUpColumn);
 
                     MarketLadderInfo[] data = marketList[i].MarketLadderInfos.ToArray();
-                   
+
                     dataGrid.ItemsSource = data;
                     this.MarketGrid.Children.Add(dataGrid);
 
-                    Grid.SetRow(dataGrid, rowTemp); 
-                    Grid.SetColumn(dataGrid, 0); 
+                    Grid.SetRow(dataGrid, rowTemp);
+                    Grid.SetColumn(dataGrid, 0);
                     Grid.SetColumnSpan(dataGrid, 3);
                 }
 

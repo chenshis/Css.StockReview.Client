@@ -64,6 +64,15 @@ namespace StockReview.Client.ContentModule.ViewModels
         {
             var dragonTigerList = this._replayService.GetDragonTiger(date);
 
+
+            this.DragonTigerGetInfos.Clear();
+            this.DragonTigerAllGetInfos.Clear();
+            this.DragonTigerGetInfosOne.Clear();
+            this.DragonTigerGetInfosTwo.Clear();
+            this.DragonTigerGetInfosThree.Clear();
+            this.DragonTigerGetInfosFous.Clear();
+            this.SpeculatvieGroups.Clear();
+
             this.DragonTigerGetInfos.AddRange(dragonTigerList.DragonTigerGetInfos);
             this.DragonTigerAllGetInfos.AddRange(dragonTigerList.DragonTigerGetInfos);
             this.DragonTigerGetInfosOne.AddRange(dragonTigerList.DragonTigerGetInfosOne);

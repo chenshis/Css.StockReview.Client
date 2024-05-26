@@ -29,11 +29,6 @@ namespace StockReview.Api.Dtos
     public class PlateSharesLimitUpInfo
     {
         /// <summary>
-        /// 序号
-        /// </summary>
-        public string Number { get; set; }
-
-        /// <summary>
         /// 股票代码
         /// </summary>
         public string PlateSharesCode { get; set; }
@@ -89,10 +84,6 @@ namespace StockReview.Api.Dtos
 
     public class PlateRotationInfo
     {
-        /// <summary>
-        /// 序号
-        /// </summary>
-        public string Number { get; set; }
 
         /// <summary>
         /// 板块代码

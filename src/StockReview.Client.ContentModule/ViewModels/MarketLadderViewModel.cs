@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using HandyControl.Tools.Extension;
+using Microsoft.Win32;
 using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -7,6 +8,7 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
+using StockReview.Client.ContentModule.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,6 +45,8 @@ namespace StockReview.Client.ContentModule.ViewModels
 
         private readonly IReplayService _replayService;
 
+        private  MarketLadderView MarketLadderView;
+
         #region 命令
         public ICommand RefreshCommand => new DelegateCommand<string>((k) =>
         {
@@ -53,7 +57,8 @@ namespace StockReview.Client.ContentModule.ViewModels
             Export();
         });
         #endregion
-        public MarketLadderViewModel(IUnityContainer unityContainer, IRegionManager regionManager, IReplayService replayService) : base(unityContainer, regionManager)
+        public MarketLadderViewModel(IUnityContainer unityContainer, IRegionManager regionManager
+            , IReplayService replayService) : base(unityContainer, regionManager)
         {
             this.PageTitle = "市场天梯";
             this._replayService = replayService;
@@ -70,10 +75,16 @@ namespace StockReview.Client.ContentModule.ViewModels
             {
                 this.MarketTitle = markList.MarketTitle;
             }
+
+            this.MarketLadderLists.Clear();
+            this.MarketLadderNewsLists.Clear();
             MarketLadderLists.AddRange(markList.MarketLadderLists);
             MarketLadderNewsLists.AddRange(markList.MarketLadderNewsLists);
+
+            MarketLadderView = new MarketLadderView(this);
+            MarketLadderView.Show();
         }
-        
+
         private void Refresh() 
         {
             InitTableHeader(this.CurrentDate ?? DateTime.Now);

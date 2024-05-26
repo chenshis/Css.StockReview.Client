@@ -553,7 +553,7 @@ namespace StockReview.Api.ApiService
             var url = SystemConstantTwo.LeadingGroupPromotionDataUrl + date.ToString("yyyyMMdd");
             var response = _stockHttpClient.GetAsync(url).Result;
             var content = response.Content.ReadAsStringAsync().Result;
-            if (!string.IsNullOrEmpty(content))
+            if (!string.IsNullOrEmpty(content)&&content.Length>= 3000)
             {
                 SharesBasicDataDto.Root root = JsonConvert.DeserializeObject<SharesBasicDataDto.Root>(content);
                 marketLadderList.MarketTitle = root.data.trade_date + "  涨停" + root.data.total.limit_up_num + "只    晋级率:" + root.data.total.promotion_rate + "%   炸板率:" + root.data.total.plate_frying_rate + "%    竞价涨幅:" + root.data.total.call_auction_rise + "%";
@@ -718,7 +718,7 @@ namespace StockReview.Api.ApiService
             var urlNews = SystemConstantTwo.MarketLadderDataUrl + GetTimeStamp(date);
             var responseNews = _stockHttpClient.GetAsync(urlNews).Result;
             var contentNews = responseNews.Content.ReadAsStringAsync().Result;
-            if (!string.IsNullOrEmpty(contentNews))
+            if (!string.IsNullOrEmpty(contentNews)&&contentNews.Length>= 200)
             {
                 NewsBasicDataDto.Root root = JsonConvert.DeserializeObject<NewsBasicDataDto.Root>(contentNews);
 
@@ -731,6 +731,7 @@ namespace StockReview.Api.ApiService
                     });
                 }
             }
+           
             return marketLadderList;
         }
 
@@ -794,7 +795,6 @@ namespace StockReview.Api.ApiService
                             {
                                 plateRotationDtoResult.PlateRotationInfosOne.Add(new PlateRotationInfo
                                 {
-                                    Number = j.ToString(),
                                     PlateCode = root.list[j][0],
                                     PlateName = root.list[j][1],
                                     PlateStrength = root.list[j][2],
@@ -833,7 +833,6 @@ namespace StockReview.Api.ApiService
                                 {
                                     plateRotationDtoResult.PlateSharesLimitUpInfosOne.Add(new PlateSharesLimitUpInfo
                                     {
-                                        Number = k.ToString(),
                                         PlateSharesCode = rootOne.list[k][0],
                                         PlateSharesName = rootOne.list[k][1],
                                         PlateSharesPrice = rootOne.list[k][5],
@@ -856,7 +855,6 @@ namespace StockReview.Api.ApiService
                             {
                                 plateRotationDtoResult.PlateRotationInfosTwo.Add(new PlateRotationInfo
                                 {
-                                    Number = j + 1.ToString(),
                                     PlateCode = root.list[j][0],
                                     PlateName = root.list[j][1],
                                     PlateStrength = root.list[j][2],
@@ -895,7 +893,6 @@ namespace StockReview.Api.ApiService
                                 {
                                     plateRotationDtoResult.PlateSharesLimitUpInfosTwo.Add(new PlateSharesLimitUpInfo
                                     {
-                                        Number = k.ToString(),
                                         PlateSharesCode = rootTwo.list[k][0],
                                         PlateSharesName = rootTwo.list[k][1],
                                         PlateSharesPrice = rootTwo.list[k][5],
@@ -918,7 +915,6 @@ namespace StockReview.Api.ApiService
                             {
                                 plateRotationDtoResult.PlateRotationInfosThree.Add(new PlateRotationInfo
                                 {
-                                    Number = j + 1.ToString(),
                                     PlateCode = root.list[j][0],
                                     PlateName = root.list[j][1],
                                     PlateStrength = root.list[j][2],
@@ -957,7 +953,6 @@ namespace StockReview.Api.ApiService
                                 {
                                     plateRotationDtoResult.PlateSharesLimitUpInfosThree.Add(new PlateSharesLimitUpInfo
                                     {
-                                        Number = k.ToString(),
                                         PlateSharesCode = rootThree.list[k][0],
                                         PlateSharesName = rootThree.list[k][1],
                                         PlateSharesPrice = rootThree.list[k][5],
@@ -980,7 +975,6 @@ namespace StockReview.Api.ApiService
                             {
                                 plateRotationDtoResult.PlateRotationInfosFour.Add(new PlateRotationInfo
                                 {
-                                    Number = j + 1.ToString(),
                                     PlateCode = root.list[j][0],
                                     PlateName = root.list[j][1],
                                     PlateStrength = root.list[j][2],
@@ -1019,7 +1013,6 @@ namespace StockReview.Api.ApiService
                                 {
                                     plateRotationDtoResult.PlateSharesLimitUpInfosFour.Add(new PlateSharesLimitUpInfo
                                     {
-                                        Number = k.ToString(),
                                         PlateSharesCode = rootFour.list[k][0],
                                         PlateSharesName = rootFour.list[k][1],
                                         PlateSharesPrice = rootFour.list[k][5],
@@ -1043,7 +1036,6 @@ namespace StockReview.Api.ApiService
                             {
                                 plateRotationDtoResult.PlateRotationInfosFive.Add(new PlateRotationInfo
                                 {
-                                    Number = j + 1.ToString(),
                                     PlateCode = root.list[j][0],
                                     PlateName = root.list[j][1],
                                     PlateStrength = root.list[j][2],
@@ -1082,7 +1074,6 @@ namespace StockReview.Api.ApiService
                                 {
                                     plateRotationDtoResult.PlateSharesLimitUpInfosFive.Add(new PlateSharesLimitUpInfo
                                     {
-                                        Number = k.ToString(),
                                         PlateSharesCode = rootFive.list[k][0],
                                         PlateSharesName = rootFive.list[k][1],
                                         PlateSharesPrice = rootFive.list[k][5],
@@ -1105,7 +1096,6 @@ namespace StockReview.Api.ApiService
                             {
                                 plateRotationDtoResult.PlateRotationInfosSix.Add(new PlateRotationInfo
                                 {
-                                    Number = j + 1.ToString(),
                                     PlateCode = root.list[j][0],
                                     PlateName = root.list[j][1],
                                     PlateStrength = root.list[j][2],
@@ -1144,7 +1134,6 @@ namespace StockReview.Api.ApiService
                                 {
                                     plateRotationDtoResult.PlateSharesLimitUpInfosSix.Add(new PlateSharesLimitUpInfo
                                     {
-                                        Number = k.ToString(),
                                         PlateSharesCode = rootSix.list[k][0],
                                         PlateSharesName = rootSix.list[k][1],
                                         PlateSharesPrice = rootSix.list[k][5],
@@ -1193,7 +1182,6 @@ namespace StockReview.Api.ApiService
                     for (int i = 0; i < root.data.Count; i++)
                     {
                         var explosiveFriedIndividualInfo = new ExplosiveFriedIndividualInfo();
-                        explosiveFriedIndividualInfo.Number = i + 1;
                         explosiveFriedIndividualInfo.ExpSharesCode = root.data[i].symbol.ToString().Substring(0, 6);
                         explosiveFriedIndividualInfo.ExpSharesName = root.data[i].stock_chi_name;
                         explosiveFriedIndividualInfo.ExpSharesStartConnectedBoard = root.data[i].yesterday_limit_up_days;
@@ -1217,7 +1205,6 @@ namespace StockReview.Api.ApiService
                 for (int i = 0; i < root.data.Count; i++)
                 {
                     var dataInfo = new ExplosiveYeasterdayLimitUpStaticsInfo();
-                    dataInfo.Number = i + 1;
                     dataInfo.ExpYeaCode = root.data[i].symbol.ToString().Substring(0, 6);
                     dataInfo.ExpYeaName = root.data[i].stock_chi_name;
                     dataInfo.ExpYeaIncrease = GetPercentage(root.data[i].change_percent);
@@ -1255,7 +1242,6 @@ namespace StockReview.Api.ApiService
                 for (int i = 0; i < root.data.Count; i++)
                 {
                     var dataInfo = new ExplosiveLimitDownStaticsInfo();
-                    dataInfo.Number = i + 1;
                     dataInfo.ExpDownCode = root.data[i].symbol.ToString().Substring(0, 6);
                     dataInfo.ExpDownName = root.data[i].stock_chi_name;
                     dataInfo.ExpDownFirstSealingTime= GetDateTime(root.data[i].first_limit_up.ToString());

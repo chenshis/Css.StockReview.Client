@@ -49,16 +49,9 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding DragonTigerGetInfos}"
-                LoadingRow="DataGrid_LoadingRow"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <!--<DataGridTemplateColumn Header="序号">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
+
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn
                         Width="180"
@@ -156,16 +149,9 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding DragonTigerGetInfosOne}"
-                LoadingRow="DataGrid_LoadingRowOne"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <!--<DataGridTemplateColumn Header="序号">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
+
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn
                         Width="180"
@@ -221,16 +207,9 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding DragonTigerGetInfosTwo}"
-                LoadingRow="DataGrid_LoadingRowTwo"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <!--<DataGridTemplateColumn Header="序号">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
+
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn
                         Width="180"
@@ -285,16 +264,9 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding DragonTigerGetInfosThree}"
-                LoadingRow="DataGrid_LoadingRowThree"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <!--<DataGridTemplateColumn Header="序号">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
+
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn
                         Width="180"
@@ -352,16 +324,9 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding DragonTigerGetInfosFous}"
-                LoadingRow="DataGrid_LoadingRowFous"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <!--<DataGridTemplateColumn Header="序号">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
+
                     <DataGridTextColumn Binding="{Binding DragonName}" Header="股票名称" />
                     <DataGridTextColumn
                         Width="180"

@@ -35,5 +35,6 @@ namespace StockReview.Client.ContentModule.ViewModels
             LeadingDateHeaderLists.AddRange(leadingList);
           
         }
+
     }
 }
