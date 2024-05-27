@@ -38,7 +38,7 @@ namespace StockReview.Api.Dtos
 
         public class DataItem
         {
-            public int break_limit_down_times { get; set; }
+            public string break_limit_down_times { get; set; }
 
             public int break_limit_up_times { get; set; }
 
@@ -46,11 +46,11 @@ namespace StockReview.Api.Dtos
 
             public double change_percent { get; set; }
 
-            public int first_break_limit_down { get; set; }
+            public string first_break_limit_down { get; set; }
 
-            public int first_break_limit_up { get; set; }
+            public string first_break_limit_up { get; set; }
 
-            public int first_limit_down { get; set; }
+            public string first_limit_down { get; set; }
 
             public int first_limit_up { get; set; }
 
@@ -58,39 +58,39 @@ namespace StockReview.Api.Dtos
 
             public double issue_price { get; set; }
 
-            public int last_break_limit_down { get; set; }
+            public string last_break_limit_down { get; set; }
 
             public int last_break_limit_up { get; set; }
 
-            public int last_limit_down { get; set; }
+            public string last_limit_down { get; set; }
 
             public int last_limit_up { get; set; }
 
-            public int limit_down_days { get; set; }
+            public string limit_down_days { get; set; }
 
             public Limit_timeline limit_timeline { get; set; }
 
-            public int limit_up_days { get; set; }
+            public string limit_up_days { get; set; }
 
-            public int listed_date { get; set; }
+            public string listed_date { get; set; }
 
-            public int m_days_n_boards_boards { get; set; }
+            public string m_days_n_boards_boards { get; set; }
 
-            public int m_days_n_boards_days { get; set; }
+            public string m_days_n_boards_days { get; set; }
 
             public double mtm { get; set; }
 
-            public int nearly_new_acc_pcp { get; set; }
+            public string nearly_new_acc_pcp { get; set; }
 
-            public int nearly_new_break_days { get; set; }
+            public string nearly_new_break_days { get; set; }
 
             public double new_stock_acc_pcp { get; set; }
 
-            public int new_stock_break_limit_up { get; set; }
+            public string new_stock_break_limit_up { get; set; }
 
-            public int new_stock_limit_up_days { get; set; }
+            public string new_stock_limit_up_days { get; set; }
 
-            public int new_stock_limit_up_price_before_broken { get; set; }
+            public string new_stock_limit_up_price_before_broken { get; set; }
 
             public double non_restricted_capital { get; set; }
 
@@ -110,19 +110,20 @@ namespace StockReview.Api.Dtos
 
             public double volume_bias_ratio { get; set; }
 
-            public int yesterday_break_limit_up_times { get; set; }
+            public string yesterday_break_limit_up_times { get; set; }
 
-            public int yesterday_first_limit_up { get; set; }
+            public string yesterday_first_limit_up { get; set; }
 
-            public int yesterday_last_limit_up { get; set; }
+            public string yesterday_last_limit_up { get; set; }
 
-            public int yesterday_limit_down_days { get; set; }
+            public string yesterday_limit_down_days { get; set; }
 
             public int yesterday_limit_up_days { get; set; }
         }
 
         public class Root
         {
+
             public int code { get; set; }
 
             public string message { get; set; }

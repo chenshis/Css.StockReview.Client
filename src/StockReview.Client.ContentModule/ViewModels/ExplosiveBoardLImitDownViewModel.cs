@@ -39,9 +39,9 @@ namespace StockReview.Client.ContentModule.ViewModels
         {
             this.PageTitle = "炸板与跌停板";
             this._replayService = replayService;
-            CurrentDate = DateTime.Parse(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"));
+            CurrentDate = DateTime.Parse(DateTime.Now.AddDays(-3).ToString("yyyy-MM-dd"));
             this.CurrentDate = CurrentDate;
-            InitTableHeader(this.CurrentDate ?? DateTime.Now); //组织头部
+            InitTableHeader(this.CurrentDate ?? DateTime.Now.AddDays(-1)); //组织头部
         }
 
         private void InitTableHeader(DateTime date)

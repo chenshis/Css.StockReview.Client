@@ -1170,7 +1170,9 @@ namespace StockReview.Api.ApiService
                 ExplosiveLimitUpStaticsInfos = new List<ExplosiveLimitUpStaticsInfo>(),
                 ExplosiveYeasterdayLimitUpStaticsInfos = new List<ExplosiveYeasterdayLimitUpStaticsInfo>()
             };
-            var url = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_up_broken" + date.ToString("yyyyMMdd");
+            var url = date.ToString("yyyy-MM-dd") != DateTime.Now.ToString("yyyy-MM-dd")
+                ? SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_up_broken&date=" + date.ToString("yyyy-MM-dd")
+                : SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_up_broken";
             var response = _stockHttpClient.GetAsync(url).Result;
             var content = response.Content.ReadAsStringAsync().Result;
             if (!string.IsNullOrEmpty(content))
@@ -1196,10 +1198,10 @@ namespace StockReview.Api.ApiService
 
                 }
             }
-            var urlLimitUp = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=yesterday_limit_up" + date.AddDays(-1).ToString("yyyyMMdd");
+            var urlLimitUp = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=yesterday_limit_up&date=" + date.AddDays(-1).ToString("yyyy-MM-dd");
             var responseLimitUp = _stockHttpClient.GetAsync(urlLimitUp).Result;
             var contentLimitUp = responseLimitUp.Content.ReadAsStringAsync().Result;
-            if (!string.IsNullOrEmpty(contentLimitUp))
+            if (!string.IsNullOrEmpty(contentLimitUp) && contentLimitUp.Length > 120)
             {
                 ExplosiveBasicDataDto.Root root = JsonConvert.DeserializeObject<ExplosiveBasicDataDto.Root>(contentLimitUp);
                 for (int i = 0; i < root.data.Count; i++)
@@ -1233,10 +1235,10 @@ namespace StockReview.Api.ApiService
             }
 
 
-            var urlLimitDown = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_down" + date.ToString("yyyyMMdd");
+            var urlLimitDown = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_down&date=" + date.ToString("yyyy-MM-dd");
             var responseLimitDown = _stockHttpClient.GetAsync(urlLimitDown).Result;
             var contentLimitDown = responseLimitDown.Content.ReadAsStringAsync().Result;
-            if (!string.IsNullOrEmpty(contentLimitDown))
+            if (!string.IsNullOrEmpty(contentLimitDown)&& contentLimitDown.Length > 120)
             {
                 ExplosiveBasicDataDto.Root root = JsonConvert.DeserializeObject<ExplosiveBasicDataDto.Root>(contentLimitDown);
                 for (int i = 0; i < root.data.Count; i++)

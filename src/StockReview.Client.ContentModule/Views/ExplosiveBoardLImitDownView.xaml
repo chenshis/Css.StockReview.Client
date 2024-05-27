@@ -12,15 +12,16 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition />
             <RowDefinition Height="50" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+
         <DatePicker
             Grid.Column="1"
             Width="Auto"
@@ -47,10 +48,37 @@
             Foreground="Black">
             炸板个股
         </Label>
+        <Label
+            Grid.Row="1"
+            Grid.Column="1"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            FontSize="12"
+            Foreground="Black">
+            涨停板
+        </Label>
+        <Label
+            Grid.Row="1"
+            Grid.Column="2"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            FontSize="12"
+            Foreground="Black">
+            昨日涨停
+        </Label>
+        <Label
+            Grid.Row="3"
+            Grid.Column="1"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            FontSize="12"
+            Foreground="Black">
+            跌停板
+        </Label>
 
         <ScrollViewer
             Grid.Row="2"
-            Grid.RowSpan="3"
+            Grid.RowSpan="4"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
             VerticalScrollBarVisibility="Auto">
@@ -81,23 +109,8 @@
             </DataGrid>
         </ScrollViewer>
 
-        <Label
-            Grid.Row="1"
-            Grid.Column="1"
-            Background="Transparent"
-            BorderBrush="Transparent"
-            FontSize="12"
-            Foreground="Black">
-            涨停板
-        </Label>
 
-        <ScrollViewer
-            Grid.Row="2"
-            Grid.Column="1"
-            Height="300"
-            CanContentScroll="True"
-            HorizontalScrollBarVisibility="Auto"
-            VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="2" Grid.Column="1">
             <DataGrid
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
@@ -120,18 +133,6 @@
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
-
-
-        <Label
-            Grid.Row="3"
-            Grid.Column="1"
-            Background="Transparent"
-            BorderBrush="Transparent"
-            FontSize="12"
-            Foreground="Black">
-            跌停板
-        </Label>
-
 
         <ScrollViewer
             Grid.Row="4"
@@ -163,29 +164,10 @@
             </DataGrid>
         </ScrollViewer>
 
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="2"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Orientation="Horizontal">
-            <!--<CheckBox
-                Margin="0,0,0,0"
-                Content="自动刷新"
-                IsEnabled="False" />-->
-            <Label
-                Background="Transparent"
-                BorderBrush="Transparent"
-                FontSize="12"
-                Foreground="Black">
-                昨日涨停
-            </Label>
-
-        </StackPanel>
         <ScrollViewer
             Grid.Row="2"
             Grid.RowSpan="3"
-            Grid.Column="2"
+            Grid.Column="3"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
             VerticalScrollBarVisibility="Auto">
@@ -212,5 +194,9 @@
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
+
+
+
+
     </Grid>
 </UserControl>
