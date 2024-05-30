@@ -42,5 +42,13 @@ namespace StockReview.Server.Controllers
         {
             return _stockOutlookServerApiService.GetCurrentDay();
         }
+
+        [HttpPost]
+        //[Authorize(Roles = $"{nameof(RoleEnum.Ordinary)},{nameof(RoleEnum.VIP)},{nameof(RoleEnum.Admin)}")]
+        [Route(SystemConstant.StockDataRoute)]
+        public List<StockDataDto> PostStocks([FromBody] string stockId)
+        {
+            return _stockOutlookServerApiService.GetStocks(stockId);
+        }
     }
 }
