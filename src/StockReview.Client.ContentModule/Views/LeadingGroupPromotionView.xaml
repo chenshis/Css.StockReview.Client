@@ -80,25 +80,34 @@
                                         <ColumnDefinition Width="80" />
                                         <ColumnDefinition Width="80" />
                                     </Grid.ColumnDefinitions>
+
                                 </Grid>
+
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock
+
+                                <Border
                                     Grid.Row="{Binding Path=HeadRow}"
                                     Grid.Column="{Binding Path=HeadColumn}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding HeadName}"
-                                    TextAlignment="Center"
-                                    TextWrapping="Wrap" />
+                                    Background="{Binding HeadColor}">
+                                    <TextBlock
+                                        Grid.Row="{Binding Path=HeadRow}"
+                                        Grid.Column="{Binding Path=HeadColumn}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="{Binding HeadFontColor}"
+                                        Text="{Binding HeadName}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap" />
+                                </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Border>
-
             </Grid>
         </ScrollViewer>
     </Grid>

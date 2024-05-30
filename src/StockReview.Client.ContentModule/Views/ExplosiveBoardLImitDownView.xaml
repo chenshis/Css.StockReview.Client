@@ -11,9 +11,10 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="50" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="50" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -21,17 +22,63 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
+        <DatePicker
+            Grid.Column="1"
+            Width="Auto"
+            Height="Auto"
+            Margin="0,10"
+            HorizontalContentAlignment="Center"
+            FontSize="14"
+            SelectedDate="{Binding CurrentDate}"
+            Style="{StaticResource DatePickerExtend}" />
+        <Button
+            Grid.Column="2"
+            Width="70"
+            Margin="5,0"
+            HorizontalAlignment="Right"
+            Command="{Binding RefreshCommand}"
+            Content="刷新"
+            Style="{StaticResource ButtonSuccess}" />
+
         <Label
+            Grid.Row="1"
             Background="Transparent"
             BorderBrush="Transparent"
             FontSize="12"
             Foreground="Black">
             炸板个股
         </Label>
+        <Label
+            Grid.Row="1"
+            Grid.Column="1"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            FontSize="12"
+            Foreground="Black">
+            涨停板
+        </Label>
+        <Label
+            Grid.Row="1"
+            Grid.Column="2"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            FontSize="12"
+            Foreground="Black">
+            昨日涨停
+        </Label>
+        <Label
+            Grid.Row="3"
+            Grid.Column="1"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            FontSize="12"
+            Foreground="Black">
+            跌停板
+        </Label>
 
         <ScrollViewer
-            Grid.Row="1"
-            Grid.RowSpan="3"
+            Grid.Row="2"
+            Grid.RowSpan="4"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
             VerticalScrollBarVisibility="Auto">
@@ -40,9 +87,16 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding ExplosiveFriedIndividualInfos}"
+                LoadingRow="DataGrid_LoadingRow"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Number}" Header="序号" />
+                    <DataGridTemplateColumn Header="序号">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding ExpSharesName}" Header="股票名称" />
                     <DataGridTextColumn Binding="{Binding NuExpSharesConceptmber}" Header="板块概念 " />
                     <DataGridTextColumn Binding="{Binding ExpSharesFirstSealingTime}" Header="首封时间" />
@@ -55,30 +109,23 @@
             </DataGrid>
         </ScrollViewer>
 
-        <Label
-            Grid.Column="1"
-            Background="Transparent"
-            BorderBrush="Transparent"
-            FontSize="12"
-            Foreground="Black">
-            涨停板
-        </Label>
 
-        <ScrollViewer
-            Grid.Row="1"
-            Grid.Column="1"
-            Height="300"
-            CanContentScroll="True"
-            HorizontalScrollBarVisibility="Auto"
-            VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="2" Grid.Column="1">
             <DataGrid
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding ExplosiveLimitUpStaticsInfos}"
+                LoadingRow="DataGrid_LoadingRowOne"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Number}" Header="序号" />
+                    <DataGridTemplateColumn Header="序号">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding ExpLimitName}" Header="板块名称" />
                     <DataGridTextColumn Binding="{Binding ExpLimitTotal}" Header="总数量 " />
                     <DataGridTextColumn Binding="{Binding ExpLimitUp}" Header="上涨" />
@@ -87,20 +134,8 @@
             </DataGrid>
         </ScrollViewer>
 
-
-        <Label
-            Grid.Row="2"
-            Grid.Column="1"
-            Background="Transparent"
-            BorderBrush="Transparent"
-            FontSize="12"
-            Foreground="Black">
-            跌停板
-        </Label>
-
-
         <ScrollViewer
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="1"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
@@ -110,9 +145,16 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding ExplosiveLimitDownStaticsInfos}"
+                LoadingRow="DataGrid_LoadingRowTwo"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Number}" Header="序号" />
+                    <DataGridTemplateColumn Header="序号">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding ExpDownName}" Header="股票名称" />
                     <DataGridTextColumn Binding="{Binding ExpDownFirstSealingTime}" Header="首封时间" />
                     <DataGridTextColumn Binding="{Binding ExpDownTailSealingTime}" Header="尾封时间" />
@@ -122,33 +164,10 @@
             </DataGrid>
         </ScrollViewer>
 
-        <StackPanel
-            Grid.Column="2"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Orientation="Horizontal">
-            <CheckBox
-                Margin="0,0,0,0"
-                Content="自动刷新"
-                IsEnabled="False" />
-            <Label
-                Background="Transparent"
-                BorderBrush="Transparent"
-                FontSize="12"
-                Foreground="Black">
-                昨日涨停
-            </Label>
-            <Button
-                Width="70"
-                Margin="5,0"
-                Command="{Binding RefreshCommand}"
-                Content="刷新"
-                Style="{StaticResource ButtonSuccess}" />
-        </StackPanel>
         <ScrollViewer
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.RowSpan="3"
-            Grid.Column="2"
+            Grid.Column="3"
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
             VerticalScrollBarVisibility="Auto">
@@ -157,9 +176,16 @@
                 CanUserAddRows="False"
                 FontFamily="Microsoft YaHei"
                 ItemsSource="{Binding ExplosiveYeasterdayLimitUpStaticsInfos}"
+                LoadingRow="DataGrid_LoadingRowThree"
                 RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Number}" Header="序号" />
+                    <DataGridTemplateColumn Header="序号">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding ExpYeaName}" Header="股票名称" />
                     <DataGridTextColumn Binding="{Binding ExpYeaIncrease}" Header="涨幅" />
                     <DataGridTextColumn Binding="{Binding ExpYeaConsecutiveBoard}" Header="昨连板" />
@@ -168,5 +194,9 @@
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
+
+
+
+
     </Grid>
 </UserControl>

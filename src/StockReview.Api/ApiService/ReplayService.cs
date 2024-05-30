@@ -7,6 +7,7 @@ using StockReview.Api.IApiService;
 using StockReview.Infrastructure.Config;
 using StockReview.Infrastructure.Config.HttpClients.HeepHelper;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -47,86 +48,129 @@ namespace StockReview.Api.ApiService
             {
                 HeadRow = 0,
                 HeadColumn = 0,
-                HeadName = "版数"
+                HeadName = "版数",
+                HeadColor="Turquoise",
+                HeadFontColor="Green"
             });
-
+            leadingList.Add(new LeadingDateHeaderDto
+            {
+                HeadRow = 1,
+                HeadColumn = 0,
+                HeadName = "",
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
+            });
+            leadingList.Add(new LeadingDateHeaderDto
+            {
+                HeadRow = 2,
+                HeadColumn = 0,
+                HeadName = "",
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
+            });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 3,
                 HeadColumn = 0,
                 HeadName = string.Format("13板太"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 4,
                 HeadColumn = 0,
                 HeadName = string.Format("12板月"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 5,
                 HeadColumn = 0,
                 HeadName = string.Format("11板量"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 6,
                 HeadColumn = 0,
                 HeadName = string.Format("10板天"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 7,
                 HeadColumn = 0,
                 HeadName = string.Format("9板飞"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 8,
                 HeadColumn = 0,
                 HeadName = string.Format("8板仙"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 9,
                 HeadColumn = 0,
                 HeadName = string.Format("7板神"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 10,
                 HeadColumn = 0,
                 HeadName = string.Format("6板鬼"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 11,
                 HeadColumn = 0,
                 HeadName = string.Format("5板魔"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 12,
                 HeadColumn = 0,
                 HeadName = string.Format("4板怪"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 13,
                 HeadColumn = 0,
                 HeadName = string.Format("3板妖"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 14,
                 HeadColumn = 0,
                 HeadName = string.Format("2板龙"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
                 HeadRow = 15,
                 HeadColumn = 0,
                 HeadName = string.Format("首板"),
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             #endregion
 
@@ -157,7 +201,9 @@ namespace StockReview.Api.ApiService
                         {
                             HeadRow = 0,
                             HeadColumn = workDaysCount,
-                            HeadName = string.Format("{0}\n{1}\n{2}", date.Month + "月" + date.Day + "日", days[(int)dayOfWeek], workDaysCount)
+                            HeadName = string.Format("{0}\n{1}\n{2}", date.Month + "月" + date.Day + "日", days[(int)dayOfWeek], workDaysCount),
+                            HeadColor = "Turquoise",
+                            HeadFontColor = "Green"
                         });
 
                         if (root.data.more.limit_up_list.Count > 0)
@@ -199,7 +245,9 @@ namespace StockReview.Api.ApiService
                                         {
                                             HeadRow = 10,
                                             HeadColumn = workDaysCount,
-                                            HeadName = stringBuilder.ToString()
+                                            HeadName = stringBuilder.ToString(),
+                                            HeadColor = "",
+                                            HeadFontColor = ""
                                         });
                                         headRow6 = ++headRow6;
                                     }
@@ -219,7 +267,9 @@ namespace StockReview.Api.ApiService
                                         {
                                             HeadRow = 9,
                                             HeadColumn = workDaysCount,
-                                            HeadName = stringBuilder.ToString()
+                                            HeadName = stringBuilder.ToString(),
+                                            HeadColor = "",
+                                            HeadFontColor = ""
                                         });
                                         headRow7 = ++headRow7;
                                     }
@@ -239,7 +289,9 @@ namespace StockReview.Api.ApiService
                                         {
                                             HeadRow = 8,
                                             HeadColumn = workDaysCount,
-                                            HeadName = stringBuilder.ToString()
+                                            HeadName = stringBuilder.ToString(),
+                                            HeadColor = "",
+                                            HeadFontColor = ""
                                         });
                                         headRow8 = ++headRow8;
                                     }
@@ -259,7 +311,9 @@ namespace StockReview.Api.ApiService
                                         {
                                             HeadRow = 7,
                                             HeadColumn = workDaysCount,
-                                            HeadName = stringBuilder.ToString()
+                                            HeadName = stringBuilder.ToString(),
+                                            HeadColor = "",
+                                            HeadFontColor = ""
                                         });
                                         headRow9 = ++headRow9;
                                     }
@@ -279,7 +333,9 @@ namespace StockReview.Api.ApiService
                                         {
                                             HeadRow = 6,
                                             HeadColumn = workDaysCount,
-                                            HeadName = stringBuilder.ToString()
+                                            HeadName = stringBuilder.ToString(),
+                                            HeadColor = "",
+                                            HeadFontColor = ""
                                         });
                                         headRow10 = ++headRow10;
                                     }
@@ -318,7 +374,9 @@ namespace StockReview.Api.ApiService
                                                 {
                                                     HeadRow = 5,
                                                     HeadColumn = workDaysCount,
-                                                    HeadName = stringBuilder.ToString()
+                                                    HeadName = stringBuilder.ToString(),
+                                                    HeadColor = "",
+                                                    HeadFontColor = ""
                                                 });
                                                 headRow11 = ++headRow11;
                                             }
@@ -338,7 +396,9 @@ namespace StockReview.Api.ApiService
                                                 {
                                                     HeadRow = 4,
                                                     HeadColumn = workDaysCount,
-                                                    HeadName = stringBuilder.ToString()
+                                                    HeadName = stringBuilder.ToString(),
+                                                    HeadColor = "",
+                                                    HeadFontColor = ""
                                                 });
                                                 headRow12 = ++headRow12;
                                             }
@@ -358,7 +418,9 @@ namespace StockReview.Api.ApiService
                                                 {
                                                     HeadRow = 3,
                                                     HeadColumn = workDaysCount,
-                                                    HeadName = stringBuilder.ToString()
+                                                    HeadName = stringBuilder.ToString(),
+                                                    HeadColor = "",
+                                                    HeadFontColor = ""
                                                 });
                                                 headRow13 = ++headRow13;
                                             }
@@ -373,7 +435,9 @@ namespace StockReview.Api.ApiService
                             {
                                 HeadRow = 1,
                                 HeadColumn = workDaysCount,
-                                HeadName = moreStringBuilder.ToString()
+                                HeadName = moreStringBuilder.ToString(),
+                                HeadColor = "",
+                                HeadFontColor = ""
                             });
                         }
 
@@ -389,7 +453,9 @@ namespace StockReview.Api.ApiService
                             {
                                 HeadRow = 15,
                                 HeadColumn = workDaysCount,
-                                HeadName = firstStringBuilder.ToString()
+                                HeadName = firstStringBuilder.ToString(),
+                                HeadColor = "",
+                                HeadFontColor = ""
                             });
                         }
 
@@ -405,7 +471,9 @@ namespace StockReview.Api.ApiService
                             {
                                 HeadRow = 14,
                                 HeadColumn = workDaysCount,
-                                HeadName = secondStringBuilder.ToString()
+                                HeadName = secondStringBuilder.ToString(),
+                                HeadColor = "",
+                                HeadFontColor = ""
                             });
                         }
 
@@ -421,7 +489,9 @@ namespace StockReview.Api.ApiService
                             {
                                 HeadRow = 13,
                                 HeadColumn = workDaysCount,
-                                HeadName = thirdStringBuilder.ToString()
+                                HeadName = thirdStringBuilder.ToString(),
+                                HeadColor = "",
+                                HeadFontColor = ""
                             });
                         }
 
@@ -437,7 +507,9 @@ namespace StockReview.Api.ApiService
                             {
                                 HeadRow = 12,
                                 HeadColumn = workDaysCount,
-                                HeadName = fourthStringBuilder.ToString()
+                                HeadName = fourthStringBuilder.ToString(),
+                                HeadColor = "",
+                                HeadFontColor = ""
                             });
                         }
 
@@ -454,13 +526,14 @@ namespace StockReview.Api.ApiService
                             {
                                 HeadRow = 11,
                                 HeadColumn = workDaysCount,
-                                HeadName = fifthStringBuilder.ToString()
+                                HeadName = fifthStringBuilder.ToString(),
+                                HeadColor = "",
+                                HeadFontColor = ""
                             });
                         }
 
                         workDaysCount++;
                     }
-
                 }
                 date = date.AddDays(-1);
             }
@@ -480,7 +553,7 @@ namespace StockReview.Api.ApiService
             var url = SystemConstantTwo.LeadingGroupPromotionDataUrl + date.ToString("yyyyMMdd");
             var response = _stockHttpClient.GetAsync(url).Result;
             var content = response.Content.ReadAsStringAsync().Result;
-            if (!string.IsNullOrEmpty(content))
+            if (!string.IsNullOrEmpty(content)&&content.Length>= 3000)
             {
                 SharesBasicDataDto.Root root = JsonConvert.DeserializeObject<SharesBasicDataDto.Root>(content);
                 marketLadderList.MarketTitle = root.data.trade_date + "  涨停" + root.data.total.limit_up_num + "只    晋级率:" + root.data.total.promotion_rate + "%   炸板率:" + root.data.total.plate_frying_rate + "%    竞价涨幅:" + root.data.total.call_auction_rise + "%";
@@ -645,7 +718,7 @@ namespace StockReview.Api.ApiService
             var urlNews = SystemConstantTwo.MarketLadderDataUrl + GetTimeStamp(date);
             var responseNews = _stockHttpClient.GetAsync(urlNews).Result;
             var contentNews = responseNews.Content.ReadAsStringAsync().Result;
-            if (!string.IsNullOrEmpty(contentNews))
+            if (!string.IsNullOrEmpty(contentNews)&&contentNews.Length>= 200)
             {
                 NewsBasicDataDto.Root root = JsonConvert.DeserializeObject<NewsBasicDataDto.Root>(contentNews);
 
@@ -658,6 +731,7 @@ namespace StockReview.Api.ApiService
                     });
                 }
             }
+           
             return marketLadderList;
         }
 
@@ -721,7 +795,6 @@ namespace StockReview.Api.ApiService
                             {
                                 plateRotationDtoResult.PlateRotationInfosOne.Add(new PlateRotationInfo
                                 {
-                                    Number = j.ToString(),
                                     PlateCode = root.list[j][0],
                                     PlateName = root.list[j][1],
                                     PlateStrength = root.list[j][2],
@@ -760,7 +833,6 @@ namespace StockReview.Api.ApiService
                                 {
                                     plateRotationDtoResult.PlateSharesLimitUpInfosOne.Add(new PlateSharesLimitUpInfo
                                     {
-                                        Number = k.ToString(),
                                         PlateSharesCode = rootOne.list[k][0],
                                         PlateSharesName = rootOne.list[k][1],
                                         PlateSharesPrice = rootOne.list[k][5],
@@ -783,7 +855,6 @@ namespace StockReview.Api.ApiService
                             {
                                 plateRotationDtoResult.PlateRotationInfosTwo.Add(new PlateRotationInfo
                                 {
-                                    Number = j + 1.ToString(),
                                     PlateCode = root.list[j][0],
                                     PlateName = root.list[j][1],
                                     PlateStrength = root.list[j][2],
@@ -822,7 +893,6 @@ namespace StockReview.Api.ApiService
                                 {
                                     plateRotationDtoResult.PlateSharesLimitUpInfosTwo.Add(new PlateSharesLimitUpInfo
                                     {
-                                        Number = k.ToString(),
                                         PlateSharesCode = rootTwo.list[k][0],
                                         PlateSharesName = rootTwo.list[k][1],
                                         PlateSharesPrice = rootTwo.list[k][5],
@@ -845,7 +915,6 @@ namespace StockReview.Api.ApiService
                             {
                                 plateRotationDtoResult.PlateRotationInfosThree.Add(new PlateRotationInfo
                                 {
-                                    Number = j + 1.ToString(),
                                     PlateCode = root.list[j][0],
                                     PlateName = root.list[j][1],
                                     PlateStrength = root.list[j][2],
@@ -884,7 +953,6 @@ namespace StockReview.Api.ApiService
                                 {
                                     plateRotationDtoResult.PlateSharesLimitUpInfosThree.Add(new PlateSharesLimitUpInfo
                                     {
-                                        Number = k.ToString(),
                                         PlateSharesCode = rootThree.list[k][0],
                                         PlateSharesName = rootThree.list[k][1],
                                         PlateSharesPrice = rootThree.list[k][5],
@@ -907,7 +975,6 @@ namespace StockReview.Api.ApiService
                             {
                                 plateRotationDtoResult.PlateRotationInfosFour.Add(new PlateRotationInfo
                                 {
-                                    Number = j + 1.ToString(),
                                     PlateCode = root.list[j][0],
                                     PlateName = root.list[j][1],
                                     PlateStrength = root.list[j][2],
@@ -946,7 +1013,6 @@ namespace StockReview.Api.ApiService
                                 {
                                     plateRotationDtoResult.PlateSharesLimitUpInfosFour.Add(new PlateSharesLimitUpInfo
                                     {
-                                        Number = k.ToString(),
                                         PlateSharesCode = rootFour.list[k][0],
                                         PlateSharesName = rootFour.list[k][1],
                                         PlateSharesPrice = rootFour.list[k][5],
@@ -970,7 +1036,6 @@ namespace StockReview.Api.ApiService
                             {
                                 plateRotationDtoResult.PlateRotationInfosFive.Add(new PlateRotationInfo
                                 {
-                                    Number = j + 1.ToString(),
                                     PlateCode = root.list[j][0],
                                     PlateName = root.list[j][1],
                                     PlateStrength = root.list[j][2],
@@ -1009,7 +1074,6 @@ namespace StockReview.Api.ApiService
                                 {
                                     plateRotationDtoResult.PlateSharesLimitUpInfosFive.Add(new PlateSharesLimitUpInfo
                                     {
-                                        Number = k.ToString(),
                                         PlateSharesCode = rootFive.list[k][0],
                                         PlateSharesName = rootFive.list[k][1],
                                         PlateSharesPrice = rootFive.list[k][5],
@@ -1032,7 +1096,6 @@ namespace StockReview.Api.ApiService
                             {
                                 plateRotationDtoResult.PlateRotationInfosSix.Add(new PlateRotationInfo
                                 {
-                                    Number = j + 1.ToString(),
                                     PlateCode = root.list[j][0],
                                     PlateName = root.list[j][1],
                                     PlateStrength = root.list[j][2],
@@ -1071,7 +1134,6 @@ namespace StockReview.Api.ApiService
                                 {
                                     plateRotationDtoResult.PlateSharesLimitUpInfosSix.Add(new PlateSharesLimitUpInfo
                                     {
-                                        Number = k.ToString(),
                                         PlateSharesCode = rootSix.list[k][0],
                                         PlateSharesName = rootSix.list[k][1],
                                         PlateSharesPrice = rootSix.list[k][5],
@@ -1108,7 +1170,9 @@ namespace StockReview.Api.ApiService
                 ExplosiveLimitUpStaticsInfos = new List<ExplosiveLimitUpStaticsInfo>(),
                 ExplosiveYeasterdayLimitUpStaticsInfos = new List<ExplosiveYeasterdayLimitUpStaticsInfo>()
             };
-            var url = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_up_broken" + date.ToString("yyyyMMdd");
+            var url = date.ToString("yyyy-MM-dd") != DateTime.Now.ToString("yyyy-MM-dd")
+                ? SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_up_broken&date=" + date.ToString("yyyy-MM-dd")
+                : SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_up_broken";
             var response = _stockHttpClient.GetAsync(url).Result;
             var content = response.Content.ReadAsStringAsync().Result;
             if (!string.IsNullOrEmpty(content))
@@ -1120,7 +1184,6 @@ namespace StockReview.Api.ApiService
                     for (int i = 0; i < root.data.Count; i++)
                     {
                         var explosiveFriedIndividualInfo = new ExplosiveFriedIndividualInfo();
-                        explosiveFriedIndividualInfo.Number = i + 1;
                         explosiveFriedIndividualInfo.ExpSharesCode = root.data[i].symbol.ToString().Substring(0, 6);
                         explosiveFriedIndividualInfo.ExpSharesName = root.data[i].stock_chi_name;
                         explosiveFriedIndividualInfo.ExpSharesStartConnectedBoard = root.data[i].yesterday_limit_up_days;
@@ -1135,16 +1198,15 @@ namespace StockReview.Api.ApiService
 
                 }
             }
-            var urlLimitUp = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=yesterday_limit_up" + date.AddDays(-1).ToString("yyyyMMdd");
+            var urlLimitUp = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=yesterday_limit_up&date=" + date.AddDays(-1).ToString("yyyy-MM-dd");
             var responseLimitUp = _stockHttpClient.GetAsync(urlLimitUp).Result;
             var contentLimitUp = responseLimitUp.Content.ReadAsStringAsync().Result;
-            if (!string.IsNullOrEmpty(contentLimitUp))
+            if (!string.IsNullOrEmpty(contentLimitUp) && contentLimitUp.Length > 120)
             {
                 ExplosiveBasicDataDto.Root root = JsonConvert.DeserializeObject<ExplosiveBasicDataDto.Root>(contentLimitUp);
                 for (int i = 0; i < root.data.Count; i++)
                 {
                     var dataInfo = new ExplosiveYeasterdayLimitUpStaticsInfo();
-                    dataInfo.Number = i + 1;
                     dataInfo.ExpYeaCode = root.data[i].symbol.ToString().Substring(0, 6);
                     dataInfo.ExpYeaName = root.data[i].stock_chi_name;
                     dataInfo.ExpYeaIncrease = GetPercentage(root.data[i].change_percent);
@@ -1173,16 +1235,15 @@ namespace StockReview.Api.ApiService
             }
 
 
-            var urlLimitDown = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_down" + date.ToString("yyyyMMdd");
+            var urlLimitDown = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_down&date=" + date.ToString("yyyy-MM-dd");
             var responseLimitDown = _stockHttpClient.GetAsync(urlLimitDown).Result;
             var contentLimitDown = responseLimitDown.Content.ReadAsStringAsync().Result;
-            if (!string.IsNullOrEmpty(contentLimitDown))
+            if (!string.IsNullOrEmpty(contentLimitDown)&& contentLimitDown.Length > 120)
             {
                 ExplosiveBasicDataDto.Root root = JsonConvert.DeserializeObject<ExplosiveBasicDataDto.Root>(contentLimitDown);
                 for (int i = 0; i < root.data.Count; i++)
                 {
                     var dataInfo = new ExplosiveLimitDownStaticsInfo();
-                    dataInfo.Number = i + 1;
                     dataInfo.ExpDownCode = root.data[i].symbol.ToString().Substring(0, 6);
                     dataInfo.ExpDownName = root.data[i].stock_chi_name;
                     dataInfo.ExpDownFirstSealingTime= GetDateTime(root.data[i].first_limit_up.ToString());
@@ -1206,11 +1267,13 @@ namespace StockReview.Api.ApiService
                 DragonTigerGetInfosOne = new List<DragonTigerGetInfo>(),
                 DragonTigerGetInfosTwo = new List<DragonTigerGetInfo>(),
                 DragonTigerGetInfosFous = new List<DragonTigerGetInfo>(),
-                DragonTigerGetInfosThree = new List<DragonTigerGetInfo>()
+                DragonTigerGetInfosThree = new List<DragonTigerGetInfo>(),
+                SpeculatvieGroups = new List<SpeculatvieGroupsInfo>()
             };
 
             int workDayToAdd = 5;
             int workDaysCount = 1;
+            string text = "";
 
             while (workDaysCount <= workDayToAdd)
             {
@@ -1236,6 +1299,23 @@ namespace StockReview.Api.ApiService
 
                 if (!string.IsNullOrEmpty(context)&& context.Length>170)
                 {
+                    switch (workDaysCount)
+                    {
+                        case 2:
+                            result.DateInfo.DateOne = date.ToString("yyyy-MM-dd");
+                            break;
+                        case 3:
+                            result.DateInfo.DateTwo = date.ToString("yyyy-MM-dd");
+                            break;
+                        case 4:
+                            result.DateInfo.DateThree = date.ToString("yyyy-MM-dd");
+                            break;
+                        case 5:
+                            result.DateInfo.DateFour = date.ToString("yyyy-MM-dd");
+                            break;
+                        default:
+                            break;
+                    }
                     DragonTigerBasicDataDto.Root root = JsonConvert.DeserializeObject<DragonTigerBasicDataDto.Root>(context);
                     for (int i = 0; i < root.ResultSets[0].Content.Count; i++)
                     {
@@ -1304,8 +1384,29 @@ namespace StockReview.Api.ApiService
                             default:
                                 break;
                         }
-                       
+
+                        if (!string.IsNullOrEmpty(dragonSpeculative))
+                        {
+                            string[] array = dragonSpeculative.Split(new string[1] { "," }, StringSplitOptions.None);
+                            for (int j = 0; j < array.Length; j++)
+                            {
+                                if (!text.Contains(array[j]))
+                                {
+                                    text = text + array[j] + "\r\n";
+                                }
+                            }
+                        }
                     }
+                    string[] array2 = text.Split(new string[1] { "\r\n" }, StringSplitOptions.None);
+                    for (int k = 0; k < array2.Length - 1; k++)
+                    {
+                        result.SpeculatvieGroups.Add(new SpeculatvieGroupsInfo
+                        {
+                            Name = array2[k],
+                            IsChecked = false
+                        });
+                    }
+
                     if (workDaysCount == 1 && result.DragonTigerGetInfos.Count > 0)
                     {
                         var urlLimitUp = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_up&date=" + date.ToString("yyyy-MM-dd");

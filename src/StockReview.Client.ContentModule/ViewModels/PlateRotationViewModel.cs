@@ -1,4 +1,5 @@
-﻿using Prism.Regions;
+﻿using Prism.Commands;
+using Prism.Regions;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Unity;
 
 namespace StockReview.Client.ContentModule.ViewModels
@@ -14,7 +16,7 @@ namespace StockReview.Client.ContentModule.ViewModels
     public class PlateRotationViewModel : NavigationAwareViewModelBase
     {
 
-        public PlateRotationHeaderTitle  PlateRotationHeaderTitle { get; set; }= new PlateRotationHeaderTitle();
+        public PlateRotationHeaderTitle PlateRotationHeaderTitle { get; set; }= new PlateRotationHeaderTitle();
 
         public ObservableCollection<PlateRotationInfo> PlateRotationInfosOne { get; set; } =new ObservableCollection<PlateRotationInfo>();
         public ObservableCollection<PlateRotationInfo> PlateRotationInfosTwo { get; set; } = new ObservableCollection<PlateRotationInfo>();
@@ -32,18 +34,54 @@ namespace StockReview.Client.ContentModule.ViewModels
 
         private readonly IReplayService _replayService;
 
+        #region 命令
+        public ICommand RefreshCommand => new DelegateCommand<string>((k) =>
+        {
+            Refresh();
+        });
+      
+        #endregion
+        private DateTime? _currentDate;
+        /// <summary>
+        /// 选中日期
+        /// </summary>
+        public DateTime? CurrentDate
+        {
+            get { return _currentDate; }
+            set { SetProperty(ref _currentDate, value); }
+        }
+
+
+
         public PlateRotationViewModel(IUnityContainer unityContainer, IRegionManager regionManager, IReplayService replayService) : base(unityContainer, regionManager)
         {
             this.PageTitle = "板块轮动";
             this._replayService = replayService;
-            InitPlateRotation();
+            CurrentDate = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
+            this.CurrentDate = CurrentDate;
+            InitTableHeader(this.CurrentDate ?? DateTime.Now); //组织头部
         }
 
-        public void InitPlateRotation() 
+        private void InitTableHeader(DateTime date)
         {
-            var plateList = this._replayService.GetPlateRotation(DateTime.Now);
+            var plateList = this._replayService.GetPlateRotation(date);
 
-            this.PlateRotationHeaderTitle = plateList.PlateRotationHeaderTitle;
+            this.PlateRotationHeaderTitle = new PlateRotationHeaderTitle();
+            this.PlateRotationInfosOne.Clear();
+            this.PlateRotationInfosTwo.Clear();
+            this.PlateRotationInfosThree.Clear();
+            this.PlateRotationInfosFour.Clear();
+            this.PlateRotationInfosFive.Clear();
+            this.PlateRotationInfosSix.Clear();
+
+            this.PlateSharesLimitUpInfosOne.Clear();
+            this.PlateSharesLimitUpInfosTwo.Clear();
+            this.PlateSharesLimitUpInfosThree.Clear();
+            this.PlateSharesLimitUpInfosFour.Clear();
+            this.PlateSharesLimitUpInfosFive.Clear();
+            this.PlateSharesLimitUpInfosSix.Clear();
+
+            this.PlateRotationHeaderTitle= plateList.PlateRotationHeaderTitle;
 
             this.PlateRotationInfosOne.AddRange(plateList.PlateRotationInfosOne);
             this.PlateRotationInfosTwo.AddRange(plateList.PlateRotationInfosTwo);
@@ -58,6 +96,10 @@ namespace StockReview.Client.ContentModule.ViewModels
             this.PlateSharesLimitUpInfosFour.AddRange(plateList.PlateSharesLimitUpInfosFour);
             this.PlateSharesLimitUpInfosFive.AddRange(plateList.PlateSharesLimitUpInfosFive);
             this.PlateSharesLimitUpInfosSix.AddRange(plateList.PlateSharesLimitUpInfosSix);
+        }
+        private void Refresh()
+        {
+            InitTableHeader(this.CurrentDate ?? DateTime.Now);
         }
     }
 

@@ -84,7 +84,10 @@ namespace StockReview.Client.ContentModule
         /// 刷新命令
         /// </summary>
         public DelegateCommand RefreshCommand => new DelegateCommand(Refresh);
-        public virtual void Refresh() { }
+        public virtual void Refresh() 
+        {
+        
+        }
     }
 }
 

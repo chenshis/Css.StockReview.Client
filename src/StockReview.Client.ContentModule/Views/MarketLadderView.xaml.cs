@@ -12,7 +12,6 @@ namespace StockReview.Client.ContentModule.Views
     /// </summary>
     public partial class MarketLadderView : UserControl
     {
-
         private MarketLadderViewModel MarketLadderViewModel { get; set; }
 
         public MarketLadderView(MarketLadderViewModel marketLadderViewModel)
@@ -75,8 +74,9 @@ namespace StockReview.Client.ContentModule.Views
                 label.Background = Brushes.Transparent;
                 label.BorderBrush = Brushes.Transparent;
                 label.FontSize = 12;
-                label.Foreground = Brushes.White;
+                label.Foreground = new SolidColorBrush(Color.FromRgb(240, 102, 50));
                 label.Content = marketList[i].MarketLadderBoard;
+                this.MarketGrid.Children.Add(label);
                 Grid.SetRow(label, rowTemp);
                 Grid.SetColumn(label, 0);
 
@@ -85,9 +85,9 @@ namespace StockReview.Client.ContentModule.Views
                 labelTwo.Background = Brushes.Transparent;
                 labelTwo.BorderBrush = Brushes.Transparent;
                 labelTwo.FontSize = 12;
-                labelTwo.Foreground = Brushes.White;
+                labelTwo.Foreground = new SolidColorBrush(Color.FromRgb(240, 102, 50));
                 labelTwo.Content = marketList[i].MarketLadderNumber;
-
+                this.MarketGrid.Children.Add(labelTwo);
                 Grid.SetRow(labelTwo, rowTemp);
                 Grid.SetColumn(labelTwo, 1);
 
@@ -96,12 +96,13 @@ namespace StockReview.Client.ContentModule.Views
                 labelThree.Background = Brushes.Transparent;
                 labelThree.BorderBrush = Brushes.Transparent;
                 labelThree.FontSize = 12;
-                labelThree.Foreground = Brushes.White;
+                labelThree.Foreground = new SolidColorBrush(Color.FromRgb(240, 102, 50));
                 labelThree.Content = marketList[i].MarketLadderDescibe;
+                this.MarketGrid.Children.Add(labelThree);
                 Grid.SetRow(labelThree, rowTemp);
                 Grid.SetColumn(labelThree, 2);
 
-                if (marketList[i].MarketLadderInfos.Count()>0)
+                if (marketList[i].MarketLadderInfos.Count() > 0)
                 {
                     rowTemp++;
 
@@ -134,12 +135,12 @@ namespace StockReview.Client.ContentModule.Views
                     dataGrid.Columns.Add(marketLadderReasonLimitUpColumn);
 
                     MarketLadderInfo[] data = marketList[i].MarketLadderInfos.ToArray();
-                   
+
                     dataGrid.ItemsSource = data;
                     this.MarketGrid.Children.Add(dataGrid);
 
-                    Grid.SetRow(dataGrid, rowTemp); 
-                    Grid.SetColumn(dataGrid, 0); 
+                    Grid.SetRow(dataGrid, rowTemp);
+                    Grid.SetColumn(dataGrid, 0);
                     Grid.SetColumnSpan(dataGrid, 3);
                 }
 

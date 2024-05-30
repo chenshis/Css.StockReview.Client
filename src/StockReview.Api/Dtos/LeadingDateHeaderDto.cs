@@ -23,5 +23,7 @@ namespace StockReview.Api.Dtos
         /// </summary>
         public string HeadName { get; set; }
 
+        public string HeadColor { get; set; }
+        public string HeadFontColor { get; set; }
     }
 }

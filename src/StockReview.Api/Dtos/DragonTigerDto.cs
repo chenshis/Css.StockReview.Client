@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +16,55 @@ namespace StockReview.Api.Dtos
         public List<DragonTigerGetInfo> DragonTigerGetInfosTwo { get; set; } = new List<DragonTigerGetInfo>();
         public List<DragonTigerGetInfo> DragonTigerGetInfosThree { get; set; } = new List<DragonTigerGetInfo>();
         public List<DragonTigerGetInfo> DragonTigerGetInfosFous { get; set; } = new List<DragonTigerGetInfo>();
+        public List<SpeculatvieGroupsInfo> SpeculatvieGroups { get; set; } = new List<SpeculatvieGroupsInfo>();
+        public DateInfo DateInfo { get; set; } = new DateInfo();
+    }
+
+    public class DateInfo
+    {
+        public string DateOne { get; set; }
+        public string DateTwo { get; set; }
+        public string DateThree { get; set; }
+        public string DateFour { get; set; }
+    }
+
+    public class SpeculatvieGroupsInfo 
+    {
+        private string _name;
+        private bool _isChecked;
+
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnPropertyChanged(nameof(Name));
+                }
+            }
+        }
+
+        public bool IsChecked
+        {
+            get { return _isChecked; }
+            set
+            {
+                if (_isChecked != value)
+                {
+                    _isChecked = value;
+                    OnPropertyChanged(nameof(IsChecked));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
     public class DragonTigerGetInfo
