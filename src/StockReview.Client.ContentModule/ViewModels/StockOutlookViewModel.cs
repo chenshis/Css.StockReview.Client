@@ -89,7 +89,7 @@ namespace StockReview.Client.ContentModule.ViewModels
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            RealTimeBulletinBoard();
+            //RealTimeBulletinBoard();
         }
 
         public Axis[] XAxes { get; set; }
@@ -161,14 +161,27 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// </summary>
         public NeedleVisual Needle { get; set; }
 
+
+        private ISeries[] _histogramSeries;
         /// <summary>
         /// 柱状图序列
         /// </summary>
-        public ISeries[] HistogramSeries { get; set; }
+        public ISeries[] HistogramSeries
+        {
+            get { return _histogramSeries; }
+            set { SetProperty(ref _histogramSeries, value); }
+        }
+
+        private Axis[] _histogramXAxes;
         /// <summary>
         /// X坐标轴显示内容
         /// </summary>
-        public Axis[] HistogramXAxes { get; set; }
+        public Axis[] HistogramXAxes
+        {
+            get { return _histogramXAxes; }
+            set { SetProperty(ref _histogramXAxes, value); }
+        }
+
 
         /// <summary>
         /// 涨停明细

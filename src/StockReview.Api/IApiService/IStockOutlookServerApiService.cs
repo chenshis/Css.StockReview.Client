@@ -1,4 +1,5 @@
 ﻿using StockReview.Api.Dtos;
+using System.Collections.Generic;
 
 namespace StockReview.Api.IApiService
 {
@@ -43,5 +44,20 @@ namespace StockReview.Api.IApiService
         /// 日期初始化
         /// </summary>
         void FilterDates();
+
+        /// <summary>
+        /// 获取股票数据
+        /// </summary>
+        /// <param name="stockId"></param>
+        /// <returns></returns>
+        List<StockDataDto> GetStocks(string stockId);
+
+        /// <summary>
+        /// 获取股票明细数据
+        /// </summary>
+        /// <param name="stockId"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        List<StockDetailDataDto> GetStockDetails(string stockId, string day);
     }
 }

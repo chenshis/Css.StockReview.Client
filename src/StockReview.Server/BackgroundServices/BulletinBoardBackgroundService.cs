@@ -18,7 +18,6 @@ namespace StockReview.Server.BackgroundServices
 
         protected override Task Process(IServiceProvider serviceProvider)
         {
-            return Task.CompletedTask;
             var memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
             var stockReviewApiService = serviceProvider.GetRequiredService<IStockOutlookServerApiService>();
             try

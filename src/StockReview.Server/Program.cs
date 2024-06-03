@@ -77,6 +77,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 app.UseAuthentication();
 app.UseAuthorization();
 //异常中间件

@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Linq;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace StockReview.Api.ApiService
 {
@@ -498,5 +499,195 @@ namespace StockReview.Api.ApiService
             var content = new FormUrlEncodedContent(parameters);
             return content;
         }
+
+        public List<StockDataDto> GetStocks(string stockId)
+        {
+            string url = $"https://hq.stock.sohu.com/mkline/cn/{stockId.Substring(3)}/cn_{stockId}-10_2.html?_={GetTimespan()}";
+            var httpClient = _httpClientFactory.CreateClient();
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(SystemConstant.StockUserAgent);
+            var responseMessage = httpClient.GetAsync(url).Result;
+            responseMessage.EnsureSuccessStatusCode();
+            var content = responseMessage.Content.ReadAsStringAsync().Result.Replace("quote_d_dividend(", "").Replace("]]})", "]]}");
+            JObject jObject = JsonConvert.DeserializeObject(content) as JObject;
+            var jArray = jObject["dataDiv"] as JArray;
+            List<StockDataDto> stocks = new();
+            for (int i = 0; i < jArray.Count; i++)
+            {
+                JArray stockJarray = (JArray)jArray[i];
+                string strDate = stockJarray[0].ToString();
+                DateTime dateTime = Convert.ToDateTime(new DateTime(int.Parse(strDate.Substring(0, 4)),
+                                                       int.Parse(strDate.Substring(4, 2).TrimStart(new char[]
+                {'0'})), int.Parse(strDate.Substring(6, 2).TrimStart(new char[] { '0' }))));
+                double openNum = double.Parse(stockJarray[1].ToString());
+                double closeNum = double.Parse(stockJarray[2].ToString());
+                double highPrice = double.Parse(stockJarray[3].ToString());
+                double lowPrice = double.Parse(stockJarray[4].ToString());
+                double volTurnover = Convert.ToDouble(stockJarray[5].ToString());
+                double upDown = Convert.ToDouble(stockJarray[9].ToString().Replace("%", ""));
+                stocks.Add(new StockDataDto
+                {
+                    Date = dateTime,
+                    Open = openNum,
+                    High = highPrice,
+                    Low = lowPrice,
+                    Close = closeNum,
+                    Volume = volTurnover,
+                    UpDown = upDown
+                });
+            }
+
+            if (stocks.Count > 0)
+            {
+                var today = GetCurrentDay().Replace("-", "");
+                var lastDay = jArray[0][0].ToString();
+                if (today != lastDay)
+                {
+                    var stockData = GetTodayStockData(stockId);
+                    if (stockData.Date.ToString("yyyyMMdd") != lastDay)
+                    {
+                        stocks.Insert(0, stockData);
+                    }
+                }
+                GetAverageDays(stocks);
+            }
+
+            return stocks;
+        }
+
+        public List<StockDetailDataDto> GetStockDetails(string stockId, string day)
+        {
+            var today = GetCurrentDay();
+            if (today == day)
+            {
+                var url = $"https://hq.stock.sohu.com/cn/{stockId.Substring(3)}/cn_{stockId}-4.html?openinwebview_finance=false&t={GetTimespan()}";
+                var httpClient = _httpClientFactory.CreateClient();
+                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(SystemConstant.StockUserAgent);
+                var responseMessage = httpClient.GetAsync(url).Result;
+                responseMessage.EnsureSuccessStatusCode();
+                var content = GetUrlFormat(responseMessage.Content.ReadAsStringAsync().Result);
+
+            }
+            return null;
+        }
+
+
+        #region 私有方法
+
+        /// <summary>
+        /// 获取时间戳
+        /// </summary>
+        /// <returns></returns>
+        public static string GetTimespan()
+        {
+            DateTime d = new DateTime(1970, 1, 1);
+            return (DateTime.Now.AddHours(-8.0) - d).TotalMilliseconds.ToString("f0");
+        }
+
+        /// <summary>
+        /// 获取当天
+        /// </summary>
+        /// <returns></returns>
+        private StockDataDto GetTodayStockData(string stockId)
+        {
+            string url = "https://hqm.stock.sohu.com/getqjson?code=cn_" + stockId;
+            var httpClient = _httpClientFactory.CreateClient();
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(SystemConstant.StockUserAgent);
+            var responseMessage = httpClient.GetAsync(url).Result;
+            responseMessage.EnsureSuccessStatusCode();
+            var content = responseMessage.Content.ReadAsStringAsync().Result;
+            JObject jobject = (JObject)JsonConvert.DeserializeObject(content);
+            JArray jarray = (JArray)jobject["cn_" + stockId];
+            StockDataDto stockDataDto = new();
+            stockDataDto.Open = Convert.ToDouble(jarray[14].ToString());
+            stockDataDto.Close = Convert.ToDouble(jarray[2].ToString());
+            stockDataDto.UpDown = Convert.ToDouble(jarray[3].ToString().Replace("%", ""));
+            stockDataDto.Low = Convert.ToDouble(jarray[11].ToString());
+            stockDataDto.High = Convert.ToDouble(jarray[10].ToString());
+            stockDataDto.Volume = Convert.ToDouble(jarray[5].ToString());
+            stockDataDto.Date = Convert.ToDateTime(jarray[17].ToString());
+
+            return stockDataDto;
+        }
+
+        private void GetAverageDays(List<StockDataDto> stockDatas)
+        {
+            if (stockDatas == null || stockDatas.Count <= 0)
+            {
+                return;
+            }
+            for (int i = 0; i < stockDatas.Count; i++)
+            {
+                var stockData = stockDatas[i];
+                double m5 = this.GetAverageDaysDetail(stockDatas, i, 5);
+                double m10 = this.GetAverageDaysDetail(stockDatas, i, 10);
+                double m20 = this.GetAverageDaysDetail(stockDatas, i, 20);
+                double m30 = this.GetAverageDaysDetail(stockDatas, i, 30);
+                stockData.M5 = m5;
+                stockData.M10 = m10;
+                stockData.M20 = m20;
+                stockData.M30 = m30;
+            }
+        }
+
+        /// <summary>
+        /// 获取平均天数详情
+        /// </summary>
+        /// <param name="stockDatas"></param>
+        /// <param name="index"></param>
+        /// <param name="mNum"></param>
+        /// <returns></returns>
+        private double GetAverageDaysDetail(List<StockDataDto> stockDatas, int index, int mNum)
+        {
+            double result;
+            if (index + mNum > stockDatas.Count)
+            {
+                result = 0d;
+            }
+            else
+            {
+                double d = 0d;
+                for (int i = index; i < index + mNum; i++)
+                {
+                    d += stockDatas[i].Close;
+                }
+                result = Math.Round(d / mNum, 2);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// url格式处理
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        private string GetUrlFormat(string content)
+        {
+            string result;
+            try
+            {
+                string pattern = string.Concat(new string[]
+                {
+                "(",
+                Convert.ToChar(8).ToString(),
+                "|",
+                Convert.ToChar(9).ToString(),
+                "|",
+                Convert.ToChar(10).ToString(),
+                "|",
+                Convert.ToChar(13).ToString(),
+                ")"
+                });
+                Regex regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                content = regex.Replace(content, "");
+                result = content;
+            }
+            catch
+            {
+                result = "";
+            }
+            return result;
+        }
+
+        #endregion
     }
 }
