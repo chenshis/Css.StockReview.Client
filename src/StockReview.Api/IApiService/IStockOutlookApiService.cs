@@ -10,5 +10,7 @@ namespace StockReview.Api.IApiService
         ApiResponse<EmotionDetailDto> GetEmotionDetail(string day);
 
         ApiResponse<string> GetToday();
+
+        ApiResponse<StockDto> GetStock(StockRequestDto request);
     }
 }

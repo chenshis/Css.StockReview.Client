@@ -44,7 +44,7 @@ namespace StockReview.Server.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = $"{nameof(RoleEnum.Ordinary)},{nameof(RoleEnum.VIP)},{nameof(RoleEnum.Admin)}")]
+        [Authorize(Roles = $"{nameof(RoleEnum.Ordinary)},{nameof(RoleEnum.VIP)},{nameof(RoleEnum.Admin)}")]
         [Route(SystemConstant.StockDataRoute)]
         public StockDto PostStocks([FromBody] StockRequestDto request)
         {
