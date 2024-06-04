@@ -172,6 +172,28 @@ namespace StockReview.Client.ContentModule.ViewModels
         }
 
 
+        private Axis[] _timeXAxes;
+        /// <summary>
+        /// 折线x坐标
+        /// </summary>
+        public Axis[] TimeXAxes
+        {
+            get { return _timeXAxes; }
+            set { SetProperty(ref _timeXAxes, value); }
+        }
+
+        private ISeries[] _timeSeries;
+        /// <summary>
+        /// 折线图序列
+        /// </summary>
+        public ISeries[] TimeSeries
+        {
+            get { return _timeSeries; }
+            set { SetProperty(ref _timeSeries, value); }
+        }
+
+
+
         /// <summary>
         /// 涨停明细
         /// </summary>
@@ -490,6 +512,37 @@ namespace StockReview.Client.ContentModule.ViewModels
                     CrosshairSnapEnabled = true
                 };
                 CandleYAxes = new[] { yAxis };
+
+                //折线
+                var lineLatestSeries = new LineSeries<double>
+                {
+                    Values = apiResponse.Data.StockDetailData.Latests.ToArray(),
+                    Name = "最新",
+                    GeometryFill = null,
+                    GeometryStroke = null,
+                    LineSmoothness = 0.8,
+                    Fill = null,
+                    Stroke = new SolidColorPaint(SKColors.Blue) { StrokeThickness = 1f }
+                };
+                var lineAvgSeries = new LineSeries<double>
+                {
+                    Values = apiResponse.Data.StockDetailData.Avgs.ToArray(),
+                    Name = "均价",
+                    GeometryFill = null,
+                    GeometryStroke = null,
+                    LineSmoothness = 0.8,
+                    Fill = null,
+                    Stroke = new SolidColorPaint(SKColors.Orange) { StrokeThickness = 1f }
+                };
+                TimeSeries = new ISeries[] { lineLatestSeries, lineAvgSeries };
+                // x轴
+                var timeAxis = new Axis
+                {
+                    MinLimit = 0,
+                    MaxLimit = 10,
+                    Labels = apiResponse.Data.StockDetailData.Times.ToArray()
+                };
+                TimeXAxes = new[] { timeAxis };
             }
         }
 

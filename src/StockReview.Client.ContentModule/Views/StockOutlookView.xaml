@@ -552,6 +552,18 @@
                                     <Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
                                     <Setter Property="TextElement.Foreground" Value="{DynamicResource TextIconBrush}" />
                                 </DataTrigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="ToolTipService.ToolTip">
+                                        <Setter.Value>
+                                            <ToolTip Placement="Top" Style="{StaticResource ToolTipBaseStyle}">
+                                                <Image
+                                                    Width="500"
+                                                    Height="300"
+                                                    Source="{Binding ImageUrl}" />
+                                            </ToolTip>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
                             </Style.Triggers>
                         </Style>
                     </ListView.ItemContainerStyle>
@@ -603,11 +615,25 @@
                 </Style>
             </Grid.Resources>
             <Border Style="{StaticResource bdrFrame}">
-                <lvc:CartesianChart
-                    Series="{Binding CandleSeries}"
-                    XAxes="{Binding CandleXAxes}"
-                    YAxes="{Binding CandleYAxes}"
-                    ZoomMode="X" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <lvc:CartesianChart
+                        Series="{Binding CandleSeries}"
+                        XAxes="{Binding CandleXAxes}"
+                        YAxes="{Binding CandleYAxes}"
+                        ZoomMode="X" />
+
+                    <lvc:CartesianChart
+                        Grid.Row="1"
+                        Series="{Binding TimeSeries}"
+                        XAxes="{Binding TimeXAxes}"
+                        YAxes="{Binding CandleYAxes}"
+                        ZoomMode="X" />
+                </Grid>
             </Border>
         </Grid>
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
