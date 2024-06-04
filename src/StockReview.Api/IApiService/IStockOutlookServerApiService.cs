@@ -50,7 +50,7 @@ namespace StockReview.Api.IApiService
         /// </summary>
         /// <param name="stockId"></param>
         /// <returns></returns>
-        List<StockDataDto> GetStocks(string stockId);
+        List<StockDataDto> GetStockDatas(string stockId);
 
         /// <summary>
         /// 获取股票明细数据
@@ -58,6 +58,13 @@ namespace StockReview.Api.IApiService
         /// <param name="stockId"></param>
         /// <param name="day"></param>
         /// <returns></returns>
-        List<StockDetailDataDto> GetStockDetails(string stockId, string day);
+        StockDetailDataDto GetStockDetails(string stockId, string day);
+
+        /// <summary>
+        /// stock
+        /// </summary>
+        /// <param name="request">请求</param>
+        /// <returns></returns>
+        StockDto GetStock(StockRequestDto request);
     }
 }

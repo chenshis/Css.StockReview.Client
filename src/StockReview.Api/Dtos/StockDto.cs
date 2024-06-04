@@ -1,27 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockReview.Api.Dtos
 {
+    /// <summary>
+    /// dto
+    /// </summary>
     public class StockDto
     {
         /// <summary>
-        /// 
+        /// id
         /// </summary>
         public string StockId { get; set; }
 
         /// <summary>
-        /// 
+        /// current date
+        /// </summary>
+        public string Date { get; set; }
+
+        /// <summary>
+        /// data
         /// </summary>
         public List<StockDataDto> StockDatas { get; set; }
 
         /// <summary>
-        /// 明细
+        /// detail
         /// </summary>
-        public List<StockDetailDataDto> StockDetailDatas { get; set; }
+        public StockDetailDataDto StockDetailData { get; set; }
     }
 
     public class StockDataDto
@@ -51,10 +56,63 @@ namespace StockReview.Api.Dtos
 
     public class StockDetailDataDto
     {
-        public string Time { get; set; }
-        public double Latest { get; set; }
-        public double Avg { get; set; }
-        public double Volume { get; set; }
+        /// <summary>
+        /// 成交总量
+        /// </summary>
+        public long TotalTurnover { get; set; }
+
+        /// <summary>
+        /// 卡盘
+        /// </summary>
+        public double OpenPrice { get; set; }
+        /// <summary>
+        /// 收盘
+        /// </summary>
+        public double ClosePrice { get; set; }
+        /// <summary>
+        /// 高位
+        /// </summary>
+        public double HighPrice { get; set; }
+
+        /// <summary>
+        /// 低位
+        /// </summary>
+        public double LowPrice { get; set; }
+
+        /// <summary>
+        /// 成交量
+        /// </summary>
+        public List<double> Volumes { get; set; } = new List<double>();
+
+        public List<string> Times { get; set; } = new List<string>();
+
+        public List<StockDetailColorDto> Colors { get; set; } = new List<StockDetailColorDto>();
+
+        public List<double> Latests { get; set; } = new List<double>();
+
+        public List<double> Avgs { get; set; } = new List<double>();
+
+        public List<double> Turnovers { get; set; } = new List<double>();
+    }
+
+
+    public class StockDetailColorDto
+    {
+        public StockDetailColorDto(double turnover, ColorEnum color)
+        {
+            Turnover = turnover;
+            Color = color;
+        }
+        public double Turnover { get; set; }
+
+        public ColorEnum Color { get; set; }
+    }
+
+    public enum ColorEnum
+    {
+        Red,
+        Green,
+        Gray
     }
 
 }
