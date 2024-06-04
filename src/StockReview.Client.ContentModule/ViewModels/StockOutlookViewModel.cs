@@ -17,6 +17,7 @@ using System.Globalization;
 using System.Windows.Threading;
 using System.Windows.Input;
 using Prism.Commands;
+using LiveChartsCore.ConditionalDraw;
 
 namespace StockReview.Client.ContentModule.ViewModels
 {
@@ -190,6 +191,16 @@ namespace StockReview.Client.ContentModule.ViewModels
         {
             get { return _timeSeries; }
             set { SetProperty(ref _timeSeries, value); }
+        }
+
+        private ISeries[] _timeVolumeSeries;
+        /// <summary>
+        /// 分时图成交量
+        /// </summary>
+        public ISeries[] TimeVolumeSeries
+        {
+            get { return _timeVolumeSeries; }
+            set { SetProperty(ref _timeVolumeSeries, value); }
         }
 
 
@@ -543,6 +554,40 @@ namespace StockReview.Client.ContentModule.ViewModels
                     Labels = apiResponse.Data.StockDetailData.Times.ToArray()
                 };
                 TimeXAxes = new[] { timeAxis };
+                // 分时图成交量
+                var volumeColumnSeries = new ColumnSeries<double>
+                {
+                    Values = apiResponse.Data.StockDetailData.Volumes.ToArray(),
+                    Name = "成交量"
+                };
+                //volumeColumnSeries.OnPointMeasured(point =>
+                //{
+                //    if (point.Visual is null) return;
+                //    var color = apiResponse.Data
+                //                           .StockDetailData
+                //                           .Colors
+                //                           .Where(t => t.Turnover.ToString() == point.AsDataLabel)
+                //                           .Select(t => t.Color)
+                //                           .FirstOrDefault();
+                //    switch (color)
+                //    {
+                //        case ColorEnum.Red:
+                //            point.Visual.Fill = new SolidColorPaint(SKColors.Red);
+                //            break;
+                //        case ColorEnum.Green:
+                //            point.Visual.Fill = new SolidColorPaint(SKColors.Green);
+                //            break;
+                //        case ColorEnum.Gray:
+                //            point.Visual.Fill = new SolidColorPaint(SKColors.Gray);
+                //            break;
+                //        default:
+                //            break;
+                //    }
+                //});
+                TimeVolumeSeries = new ISeries[]
+                {
+                    volumeColumnSeries
+                };
             }
         }
 

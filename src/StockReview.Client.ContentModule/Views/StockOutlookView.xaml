@@ -619,6 +619,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <lvc:CartesianChart
@@ -631,8 +632,12 @@
                         Grid.Row="1"
                         Series="{Binding TimeSeries}"
                         XAxes="{Binding TimeXAxes}"
-                        YAxes="{Binding CandleYAxes}"
                         ZoomMode="X" />
+                    <lvc:CartesianChart
+                        Grid.Row="2"
+                        LegendPosition="Top"
+                        Series="{Binding TimeVolumeSeries}"
+                        XAxes="{Binding TimeXAxes}" />
                 </Grid>
             </Border>
         </Grid>
