@@ -619,9 +619,9 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
+                        <RowDefinition Height="150" />
                         <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="150" />
                     </Grid.RowDefinitions>
 
                     <lvc:CartesianChart
@@ -632,7 +632,6 @@
                         ZoomMode="X" />
                     <lvc:CartesianChart
                         Grid.Row="1"
-                        LegendPosition="Top"
                         Series="{Binding CandleVolumeSeries}"
                         XAxes="{Binding CandleXAxes}" />
                     <lvc:CartesianChart
@@ -643,7 +642,6 @@
                         ZoomMode="X" />
                     <lvc:CartesianChart
                         Grid.Row="3"
-                        LegendPosition="Top"
                         Series="{Binding TimeVolumeSeries}"
                         XAxes="{Binding TimeXAxes}" />
                 </Grid>

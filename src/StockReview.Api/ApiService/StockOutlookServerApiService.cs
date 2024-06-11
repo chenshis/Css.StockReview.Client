@@ -647,11 +647,11 @@ namespace StockReview.Api.ApiService
                 httpResponseMessage.EnsureSuccessStatusCode();
                 var content = httpResponseMessage.Content.ReadAsStringAsync().Result;
                 JObject jobject = (JObject)JsonConvert.DeserializeObject(content);
-                stockDetail.OpenPrice = double.Parse(jobject["begin_px"].ToString());
-                stockDetail.HighPrice = double.Parse(jobject["hprice"].ToString());
-                stockDetail.LowPrice = double.Parse(jobject["lprice"].ToString());
-                stockDetail.ClosePrice = double.Parse(jobject["preclose_px"].ToString());
-                stockDetail.TotalTurnover = long.Parse(jobject["total_turnover"].ToString());
+                stockDetail.OpenPrice = double.Parse(jobject["begin_px"]?.ToString() ?? "0.0");
+                stockDetail.HighPrice = double.Parse(jobject["hprice"]?.ToString() ?? "0.0");
+                stockDetail.LowPrice = double.Parse(jobject["lprice"]?.ToString() ?? "0.0");
+                stockDetail.ClosePrice = double.Parse(jobject["preclose_px"]?.ToString() ?? "0.0");
+                stockDetail.TotalTurnover = long.Parse(jobject["total_turnover"]?.ToString() ?? "0.0");
 
                 JArray jarray = (JArray)jobject["trend"];
                 for (int i = 0; i < jarray.Count; i++)

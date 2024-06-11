@@ -32,7 +32,6 @@ namespace StockReview.Client.ContentModule.ViewModels
         private readonly IStockOutlookApiService _stockOutlookApiService;
         private readonly IEventAggregator _eventAggregator;
         private DispatcherTimer _timer;
-        private bool _isInit = true;
         /// <summary>
         /// 构造
         /// </summary>
@@ -46,8 +45,6 @@ namespace StockReview.Client.ContentModule.ViewModels
                                      IEventAggregator eventAggregator)
             : base(unityContainer, regionManager)
         {
-            // 开始初始化
-            _isInit = true;
             this.PageTitle = "股市看盘";
             this._stockOutlookApiService = stockOutlookApiService;
             this._eventAggregator = eventAggregator;
@@ -57,8 +54,6 @@ namespace StockReview.Client.ContentModule.ViewModels
             _timer.Start();
             // 数据刷新
             Refresh();
-            // 初始化结束
-            _isInit = false;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -240,7 +235,6 @@ namespace StockReview.Client.ContentModule.ViewModels
             _eventAggregator.GetEvent<LoadingEvent>().Publish(true);
             Task.Run(() =>
             {
-
                 string day;
                 if (!CurrentDate.HasValue)
                 {
@@ -358,6 +352,7 @@ namespace StockReview.Client.ContentModule.ViewModels
                 }
                 yesterdayLimitUpDetail.QBan = emotionDetail.root.data.limit_down_count.yesterday.open_num.ToString();
 
+                LimitUpStockDetailModel selectedStockDetailModel = null;
                 // 列表保证在ui队列中
                 System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
@@ -365,6 +360,7 @@ namespace StockReview.Client.ContentModule.ViewModels
                     LimitUpDetails.Add(todayLimitUpDetail);
                     LimitUpDetails.Add(yesterdayLimitUpDetail);
                     // 股票明细
+                    selectedStockDetailModel = LimitUpStockDetails.Where(t => t.IsSelected).FirstOrDefault();
                     LimitUpStockDetails.Clear();
                 }));
 
@@ -372,7 +368,6 @@ namespace StockReview.Client.ContentModule.ViewModels
                 var infos = emotionDetail.root.data.info;
                 if (infos != null)
                 {
-                    int k = 0;
                     foreach (var item in infos)
                     {
                         LimitUpStockDetailModel stockDetail = new();
@@ -397,15 +392,21 @@ namespace StockReview.Client.ContentModule.ViewModels
                         {
                             LimitUpStockDetails.Add(stockDetail);
                         }));
+                    }
 
-                        if (k == 0 && _isInit)
+                    // 分时图数据更新
+                    if (LimitUpStockDetails.Count > 0)
+                    {
+                        if (selectedStockDetailModel != null && LimitUpStockDetails.Where(t => t.Code == selectedStockDetailModel.Code).Count() > 0)
                         {
-                            RealTimeSeries(stockDetail);
+                            RealTimeSeries(selectedStockDetailModel);
                         }
-                        k++;
+                        else
+                        {
+                            RealTimeSeries(LimitUpStockDetails.First());
+                        }
                     }
                 }
-
 
                 // 关闭loading
                 _eventAggregator.GetEvent<LoadingEvent>().Publish(false);
@@ -460,6 +461,10 @@ namespace StockReview.Client.ContentModule.ViewModels
         public ICommand SelectionChangedCommand => new DelegateCommand<object>(p =>
         {
             _eventAggregator.GetEvent<LoadingEvent>().Publish(true);
+            foreach (var item in LimitUpStockDetails)
+            {
+                item.IsSelected = false;
+            }
             Task.Run(() =>
             {
                 RealTimeSeries(p);
@@ -480,6 +485,7 @@ namespace StockReview.Client.ContentModule.ViewModels
             }
             if (parameter is LimitUpStockDetailModel model)
             {
+                model.IsSelected = true;
                 var apiResponse = _stockOutlookApiService.GetStock(new StockRequestDto
                 {
                     Day = CurrentDate.Value.ToString("yyyy-MM-dd"),
@@ -771,5 +777,10 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// 连板
         /// </summary>
         public string LBanNum { get; set; }
+
+        /// <summary>
+        /// 是否选中
+        /// </summary>
+        public bool IsSelected { get; set; } = false;
     }
 }
