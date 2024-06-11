@@ -23,6 +23,11 @@ namespace StockReview.Api.ApiService
             return _stockHttpClient.Post<string, EmotionDetailDto>(SystemConstant.EmotionDetailRoute, day);
         }
 
+        public ApiResponse<StockDto> GetStock(StockRequestDto request)
+        {
+            return _stockHttpClient.Post<StockRequestDto, StockDto>(SystemConstant.StockDataRoute, request);
+        }
+
         public ApiResponse<string> GetToday()
         {
             return _stockHttpClient.Post<string>(SystemConstant.TodayRoute);

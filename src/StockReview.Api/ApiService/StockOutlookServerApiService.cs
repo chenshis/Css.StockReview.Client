@@ -11,9 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Linq;
-using System.Drawing;
 using System.Text.RegularExpressions;
-using System.Text;
+using System.Collections;
 
 namespace StockReview.Api.ApiService
 {
@@ -500,7 +499,7 @@ namespace StockReview.Api.ApiService
             return content;
         }
 
-        public List<StockDataDto> GetStocks(string stockId)
+        public List<StockDataDto> GetStockDatas(string stockId)
         {
             string url = $"https://hq.stock.sohu.com/mkline/cn/{stockId.Substring(3)}/cn_{stockId}-10_2.html?_={GetTimespan()}";
             var httpClient = _httpClientFactory.CreateClient();
@@ -515,9 +514,10 @@ namespace StockReview.Api.ApiService
             {
                 JArray stockJarray = (JArray)jArray[i];
                 string strDate = stockJarray[0].ToString();
-                DateTime dateTime = Convert.ToDateTime(new DateTime(int.Parse(strDate.Substring(0, 4)),
-                                                       int.Parse(strDate.Substring(4, 2).TrimStart(new char[]
-                {'0'})), int.Parse(strDate.Substring(6, 2).TrimStart(new char[] { '0' }))));
+                DateTime dateTime = Convert.ToDateTime(
+                    new DateTime(int.Parse(strDate.Substring(0, 4)),
+                                 int.Parse(strDate.Substring(4, 2).TrimStart(new char[] { '0' })),
+                                 int.Parse(strDate.Substring(6, 2).TrimStart(new char[] { '0' }))));
                 double openNum = double.Parse(stockJarray[1].ToString());
                 double closeNum = double.Parse(stockJarray[2].ToString());
                 double highPrice = double.Parse(stockJarray[3].ToString());
@@ -554,8 +554,9 @@ namespace StockReview.Api.ApiService
             return stocks;
         }
 
-        public List<StockDetailDataDto> GetStockDetails(string stockId, string day)
+        public StockDetailDataDto GetStockDetails(string stockId, string day)
         {
+            StockDetailDataDto stockDetail = new();
             var today = GetCurrentDay();
             if (today == day)
             {
@@ -565,9 +566,156 @@ namespace StockReview.Api.ApiService
                 var responseMessage = httpClient.GetAsync(url).Result;
                 responseMessage.EnsureSuccessStatusCode();
                 var content = GetUrlFormat(responseMessage.Content.ReadAsStringAsync().Result);
-
+                // 数组
+                var array = GetUrlFormat3(GetUrlFormat2(content, "'quote_m',\"", "\"]"), "<|||>");
+                if (array.Length != 2 || !array[0].StartsWith("['init_") || !array[1].StartsWith("['end_"))
+                {
+                    content = content.Replace("time_data(", "").Replace(")", "");
+                    JArray jarray = (JArray)JsonConvert.DeserializeObject(content);
+                    for (int i = 0; i < jarray.Count; i++)
+                    {
+                        JArray jarray2 = (JArray)jarray[i];
+                        if (i == 0)
+                        {
+                            stockDetail.ClosePrice = double.Parse(jarray2[0].ToString());
+                            stockDetail.HighPrice = double.Parse(jarray2[2].ToString());
+                            stockDetail.LowPrice = double.Parse(jarray2[3].ToString());
+                        }
+                        else
+                        {
+                            stockDetail.Volumes.Add(double.Parse(jarray2[4].ToString()));
+                            stockDetail.Times.Add(jarray2[0].ToString());
+                            stockDetail.Latests.Add(double.Parse(jarray2[1].ToString()));
+                            stockDetail.Avgs.Add(double.Parse(jarray2[2].ToString()));
+                            stockDetail.Turnovers.Add(double.Parse(jarray2[3].ToString()));
+                        }
+                    }
+                    for (int j = 0; j < stockDetail.Latests.Count; j++)
+                    {
+                        double d = stockDetail.Latests[j];
+                        if (j == 0)
+                        {
+                            if (d > stockDetail.ClosePrice)
+                            {
+                                stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[j], ColorEnum.Red));
+                            }
+                            else if (d < stockDetail.ClosePrice)
+                            {
+                                stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[j], ColorEnum.Green));
+                            }
+                            else
+                            {
+                                stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[j], ColorEnum.Gray));
+                            }
+                        }
+                        else
+                        {
+                            double d2 = stockDetail.Latests[j - 1];
+                            if (d > d2)
+                            {
+                                stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[j], ColorEnum.Red));
+                            }
+                            else if (d < d2)
+                            {
+                                stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[j], ColorEnum.Green));
+                            }
+                            else
+                            {
+                                stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[j], ColorEnum.Gray));
+                            }
+                        }
+                    }
+                }
             }
-            return null;
+            else
+            {
+                var httpClient = _httpClientFactory.CreateClient();
+                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(SystemConstant.StockUserAgent);
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters["a"] = "GetStockTrend";
+                parameters["c"] = "StockL2History";
+                parameters["PhoneOSNew"] = "1";
+                parameters["DeviceID"] = "ffffffff-c95a-a223-ffff-ffffdcc9b654";
+                parameters["VerSion"] = "5.8.0.2";
+                parameters["Token"] = "0";
+                parameters["apiv"] = "w32";
+                parameters["StockID"] = stockId;
+                parameters["UserID"] = "0";
+                parameters["Day"] = day;
+                var formContent = new FormUrlEncodedContent(parameters);
+                var httpResponseMessage = httpClient.PostAsync("https://apphis.longhuvip.com/w1/api/index.php", formContent).Result;
+                httpResponseMessage.EnsureSuccessStatusCode();
+                var content = httpResponseMessage.Content.ReadAsStringAsync().Result;
+                JObject jobject = (JObject)JsonConvert.DeserializeObject(content);
+                stockDetail.OpenPrice = double.Parse(jobject["begin_px"].ToString());
+                stockDetail.HighPrice = double.Parse(jobject["hprice"].ToString());
+                stockDetail.LowPrice = double.Parse(jobject["lprice"].ToString());
+                stockDetail.ClosePrice = double.Parse(jobject["preclose_px"].ToString());
+                stockDetail.TotalTurnover = long.Parse(jobject["total_turnover"].ToString());
+
+                JArray jarray = (JArray)jobject["trend"];
+                for (int i = 0; i < jarray.Count; i++)
+                {
+                    JArray jarray2 = (JArray)jarray[i];
+                    double latest = double.Parse(jarray2[1].ToString());
+                    stockDetail.Times.Add(jarray2[0].ToString());
+                    stockDetail.Latests.Add(latest);
+                    stockDetail.Avgs.Add(double.Parse(jarray2[2].ToString()));
+                    stockDetail.Turnovers.Add(double.Parse(jarray2[3].ToString()));
+                    stockDetail.Volumes.Add(double.Parse(jarray2[4].ToString()));
+                    if (i == 0)
+                    {
+                        if (latest > stockDetail.ClosePrice)
+                        {
+                            stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Red));
+                        }
+                        else if (latest < stockDetail.ClosePrice)
+                        {
+                            stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Green));
+                        }
+                        else
+                        {
+                            stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Red));
+                        }
+                    }
+                    else
+                    {
+                        double d = double.Parse(((JArray)jarray[i - 1])[1].ToString());
+                        if (latest > d)
+                        {
+                            stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Red));
+                        }
+                        else if (latest < d)
+                        {
+                            stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Green));
+                        }
+                        else
+                        {
+                            stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Gray));
+                        }
+                    }
+                }
+            }
+            return stockDetail;
+        }
+
+        public StockDto GetStock(StockRequestDto request)
+        {
+            var stockMemory = _memoryCache.Get<StockDto>(string.Concat(request.StockId, request.Day));
+            if (stockMemory != null)
+            {
+                return stockMemory;
+            }
+            StockDto stock = new();
+            stock.StockId = request.StockId;
+            stock.Date = request.Day;
+            stock.StockDatas = GetStockDatas(request.StockId).OrderByDescending(t => t.Date).Take(100).ToList();
+            stock.StockDetailData = GetStockDetails(request.StockId, request.Day);
+            _memoryCache.Set(string.Concat(request.StockId, request.Day),
+                             stock,
+                             new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
+
+            return stock;
         }
 
 
@@ -686,6 +834,102 @@ namespace StockReview.Api.ApiService
                 result = "";
             }
             return result;
+        }
+
+        /// <summary>
+        /// url格式处理2
+        /// </summary>
+        /// <param name="string_1"></param>
+        /// <param name="string_2"></param>
+        /// <param name="string_3"></param>
+        /// <returns></returns>
+        private string GetUrlFormat2(string string_1, string string_2, string string_3)
+        {
+            string text = "";
+            ArrayList arrayList = new ArrayList();
+            string result;
+            if (string_2.Length == 0 || string_3.Length == 0)
+            {
+                result = "";
+            }
+            else
+            {
+                try
+                {
+                    string pattern = string.Concat(new string[]
+                    {
+                        "(",
+                        GetUrlFormat4(string_2),
+                        ")(.+?)(",
+                        GetUrlFormat4(string_3),
+                        ")"
+                    });
+                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                    foreach (object obj in regex.Matches(string_1))
+                    {
+                        Match match = (Match)obj;
+                        arrayList.Add(match.Value);
+                    }
+                    for (int i = 0; i < arrayList.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+                            text += arrayList[i].ToString();
+                        }
+                        else
+                        {
+                            text = text + "<|||>" + arrayList[i].ToString();
+                        }
+                    }
+                    text = text.Replace(string_2, "");
+                    text = text.Replace(string_3, "");
+                    result = text;
+                }
+                catch
+                {
+                    result = "";
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// url格式处理3
+        /// </summary>
+        /// <param name="string_1"></param>
+        /// <param name="string_2"></param>
+        /// <returns></returns>
+        private string[] GetUrlFormat3(string string_1, string string_2)
+        {
+            return Regex.Split(string_1, GetUrlFormat4(string_2));
+        }
+
+        public static string GetUrlFormat4(string string_1)
+        {
+            string_1 = string_1.Replace("\\", "\\\\");
+            string_1 = string_1.Replace("~", "\\~");
+            string_1 = string_1.Replace("!", "\\!");
+            string_1 = string_1.Replace("@", "\\@");
+            string_1 = string_1.Replace("#", "\\#");
+            string_1 = string_1.Replace("%", "\\%");
+            string_1 = string_1.Replace("^", "\\^");
+            string_1 = string_1.Replace("&", "\\&");
+            string_1 = string_1.Replace("*", "\\*");
+            string_1 = string_1.Replace("(", "\\(");
+            string_1 = string_1.Replace(")", "\\)");
+            string_1 = string_1.Replace("-", "\\-");
+            string_1 = string_1.Replace("+", "\\+");
+            string_1 = string_1.Replace("[", "\\[");
+            string_1 = string_1.Replace("]", "\\]");
+            string_1 = string_1.Replace("<", "\\<");
+            string_1 = string_1.Replace(">", "\\>");
+            string_1 = string_1.Replace(".", "\\.");
+            string_1 = string_1.Replace("/", "\\/");
+            string_1 = string_1.Replace("?", "\\?");
+            string_1 = string_1.Replace("=", "\\=");
+            string_1 = string_1.Replace("|", "\\|");
+            string_1 = string_1.Replace("$", "\\$");
+            return string_1;
         }
 
         #endregion

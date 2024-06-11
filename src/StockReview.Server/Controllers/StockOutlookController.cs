@@ -44,11 +44,11 @@ namespace StockReview.Server.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = $"{nameof(RoleEnum.Ordinary)},{nameof(RoleEnum.VIP)},{nameof(RoleEnum.Admin)}")]
+        [Authorize(Roles = $"{nameof(RoleEnum.Ordinary)},{nameof(RoleEnum.VIP)},{nameof(RoleEnum.Admin)}")]
         [Route(SystemConstant.StockDataRoute)]
-        public List<StockDataDto> PostStocks([FromBody] string stockId)
+        public StockDto PostStocks([FromBody] StockRequestDto request)
         {
-            return _stockOutlookServerApiService.GetStocks(stockId);
+            return _stockOutlookServerApiService.GetStock(request);
         }
     }
 }

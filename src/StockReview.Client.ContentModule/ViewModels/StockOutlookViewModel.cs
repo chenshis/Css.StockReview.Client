@@ -16,6 +16,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Threading;
 using System.Windows.Input;
+using Prism.Commands;
+using LiveChartsCore.ConditionalDraw;
 
 namespace StockReview.Client.ContentModule.ViewModels
 {
@@ -26,80 +28,39 @@ namespace StockReview.Client.ContentModule.ViewModels
     {
         private readonly IStockOutlookApiService _stockOutlookApiService;
         private DispatcherTimer _timer;
+        private bool _isInit = true;
+        /// <summary>
+        /// 构造
+        /// </summary>
+        /// <param name="unityContainer"></param>
+        /// <param name="regionManager"></param>
+        /// <param name="stockOutlookApiService"></param>
         public StockOutlookViewModel(IUnityContainer unityContainer,
                                      IRegionManager regionManager,
                                      IStockOutlookApiService stockOutlookApiService)
             : base(unityContainer, regionManager)
         {
+            // 开始初始化
+            _isInit = true;
             this.PageTitle = "股市看盘";
-
-            var data = new FinancialData[]
-       {
-            new(new DateTime(2021, 1, 1), 523, 500, 450, 400),
-            new(new DateTime(2021, 1, 2), 500, 450, 425, 400),
-            new(new DateTime(2021, 1, 3), 490, 425, 400, 380),
-            new(new DateTime(2021, 1, 4), 420, 400, 420, 380),
-            new(new DateTime(2021, 1, 5), 520, 420, 490, 400),
-            new(new DateTime(2021, 1, 6), 580, 490, 560, 440),
-            new(new DateTime(2021, 1, 7), 570, 560, 350, 340),
-            new(new DateTime(2021, 1, 8), 380, 350, 380, 330),
-            new(new DateTime(2021, 1, 9), 440, 380, 420, 350),
-            new(new DateTime(2021, 1, 10), 490, 420, 460, 400),
-            new(new DateTime(2021, 1, 11), 520, 460, 510, 460),
-            new(new DateTime(2021, 1, 12), 580, 510, 560, 500),
-            new(new DateTime(2021, 1, 13), 600, 560, 540, 510),
-            new(new DateTime(2021, 1, 14), 580, 540, 520, 500),
-            new(new DateTime(2021, 1, 15), 580, 520, 560, 520),
-            new(new DateTime(2021, 1, 16), 590, 560, 580, 520),
-            new(new DateTime(2021, 1, 17), 650, 580, 630, 550),
-            new(new DateTime(2021, 1, 18), 680, 630, 650, 600),
-            new(new DateTime(2021, 1, 19), 670, 650, 600, 570),
-            new(new DateTime(2021, 1, 20), 640, 600, 610, 560),
-            new(new DateTime(2021, 1, 21), 630, 610, 630, 590)
-       };
-
-            CandleSeries = new ISeries[]
-            {
-                new CandlesticksSeries<FinancialPointI>
-            {
-                Values = data
-                    .Select(x => new FinancialPointI(x.High, x.Open, x.Close, x.Low))
-                    .ToArray()
-            }
-            };
-
-            XAxes = new[]
-            {
-            new Axis
-            {
-                LabelsRotation = 15,
-                Labels = data
-                    .Select(x => x.Date.ToString("yyyy MMM dd"))
-                    .ToArray()
-            }
-        };
             this._stockOutlookApiService = stockOutlookApiService;
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Interval = TimeSpan.FromSeconds(30);
             _timer.Tick += Timer_Tick;
             _timer.Start();
             // 数据刷新
             Refresh();
+            // 初始化结束
+            _isInit = false;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            //RealTimeBulletinBoard();
+            RealTimeBulletinBoard();
         }
 
-        public Axis[] XAxes { get; set; }
-
-        public Axis[] YAxes { get; set; } = null;
-
-        public ISeries[] CandleSeries { get; set; }
-
         public ISeries[] CurveSeries { get; set; } =
-    {
+            {
         new LineSeries<double>
         {
             Values = new double[] { 5, 0, 5, 0, 5, 0 },
@@ -118,7 +79,6 @@ namespace StockReview.Client.ContentModule.ViewModels
             LineSmoothness = 1
         }
     };
-
 
         private DateTime? _currentDate;
         /// <summary>
@@ -161,7 +121,6 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// </summary>
         public NeedleVisual Needle { get; set; }
 
-
         private ISeries[] _histogramSeries;
         /// <summary>
         /// 柱状图序列
@@ -181,6 +140,69 @@ namespace StockReview.Client.ContentModule.ViewModels
             get { return _histogramXAxes; }
             set { SetProperty(ref _histogramXAxes, value); }
         }
+
+
+        private Axis[] _candleXAxes;
+        /// <summary>
+        /// 蜡烛图x坐标
+        /// </summary>
+        public Axis[] CandleXAxes
+        {
+            get { return _candleXAxes; }
+            set { SetProperty(ref _candleXAxes, value); }
+        }
+
+        private Axis[] _candleYAxes;
+        /// <summary>
+        /// 蜡烛图y坐标
+        /// </summary>
+        public Axis[] CandleYAxes
+        {
+            get { return _candleYAxes; }
+            set { SetProperty(ref _candleYAxes, value); }
+        }
+
+        private ISeries[] _candleSeries;
+        /// <summary>
+        /// 蜡烛图序列
+        /// </summary>
+        public ISeries[] CandleSeries
+        {
+            get { return _candleSeries; }
+            set { SetProperty(ref _candleSeries, value); }
+        }
+
+
+        private Axis[] _timeXAxes;
+        /// <summary>
+        /// 折线x坐标
+        /// </summary>
+        public Axis[] TimeXAxes
+        {
+            get { return _timeXAxes; }
+            set { SetProperty(ref _timeXAxes, value); }
+        }
+
+        private ISeries[] _timeSeries;
+        /// <summary>
+        /// 折线图序列
+        /// </summary>
+        public ISeries[] TimeSeries
+        {
+            get { return _timeSeries; }
+            set { SetProperty(ref _timeSeries, value); }
+        }
+
+        private ISeries[] _timeVolumeSeries;
+        /// <summary>
+        /// 分时图成交量
+        /// </summary>
+        public ISeries[] TimeVolumeSeries
+        {
+            get { return _timeVolumeSeries; }
+            set { SetProperty(ref _timeVolumeSeries, value); }
+        }
+
 
 
         /// <summary>
@@ -342,6 +364,7 @@ namespace StockReview.Client.ContentModule.ViewModels
             var infos = emotionDetail.root.data.info;
             if (infos != null)
             {
+                int k = 0;
                 foreach (var item in infos)
                 {
                     LimitUpStockDetailModel stockDetail = new();
@@ -362,6 +385,11 @@ namespace StockReview.Client.ContentModule.ViewModels
                     stockDetail.CurrencyMoney = item.currency_value != null ? zEy(Convert.ToDouble(item.currency_value)).ToString() : null;
                     stockDetail.LBanNum = item.LBanNum;
                     LimitUpStockDetails.Add(stockDetail);
+                    if (k == 0 && _isInit)
+                    {
+                        RealTimeSeries(stockDetail);
+                    }
+                    k++;
                 }
             }
 
@@ -419,6 +447,150 @@ namespace StockReview.Client.ContentModule.ViewModels
             };
         }
 
+
+        /// <summary>
+        /// 选中命令
+        /// </summary>
+        public ICommand SelectionChangedCommand
+        {
+            get
+            {
+                return new DelegateCommand<object>(p => RealTimeSeries(p));
+            }
+        }
+
+        /// <summary>
+        /// 分时图
+        /// </summary>
+        private void RealTimeSeries(object parameter)
+        {
+            if (!CurrentDate.HasValue)
+            {
+                return;
+            }
+            if (parameter is LimitUpStockDetailModel model)
+            {
+                var apiResponse = _stockOutlookApiService.GetStock(new StockRequestDto
+                {
+                    Day = CurrentDate.Value.ToString("yyyy-MM-dd"),
+                    StockId = model.Code
+                });
+
+                if (apiResponse.Code != 0)
+                {
+                    HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
+                    {
+                        Message = apiResponse.Msg,
+                        Token = SystemConstant.headerGrowl,
+                        IsCustom = true,
+                        WaitTime = 0
+                    });
+                    return;
+                }
+                // 序列赋值
+                var candleSeries = new CandlesticksSeries<FinancialPointI>
+                {
+                    Name = "日线",
+                    UpFill = new SolidColorPaint(SKColors.Red),
+                    UpStroke = null,
+                    DownFill = new SolidColorPaint(SKColors.Green),
+                    DownStroke = null,
+                    Values = apiResponse.Data.StockDatas.Select(item => new
+                    FinancialPointI(
+                        item.High,
+                        item.Open,
+                        item.Close,
+                        item.Low)).ToArray()
+                };
+                CandleSeries = new ISeries[] { candleSeries };
+                // x坐标轴
+                var xAxis = new Axis
+                {
+                    MinStep = 1,
+                    MinLimit = 0,
+                    MaxLimit = 10,
+                    Labels = apiResponse.Data.StockDatas.Select(t => t.Date.ToString("yyyy-MM-dd")).ToList(),
+                    CrosshairPaint = new SolidColorPaint(SKColors.DarkOrange, 1),
+                    CrosshairSnapEnabled = true
+                };
+                CandleXAxes = new[] { xAxis };
+                // y坐标轴
+                var yAxis = new Axis
+                {
+                    CrosshairLabelsBackground = SKColors.DarkOrange.AsLvcColor(),
+                    CrosshairLabelsPaint = new SolidColorPaint(SKColors.DarkRed, 1),
+                    CrosshairPaint = new SolidColorPaint(SKColors.DarkOrange, 1),
+                    CrosshairSnapEnabled = true
+                };
+                CandleYAxes = new[] { yAxis };
+
+                //折线
+                var lineLatestSeries = new LineSeries<double>
+                {
+                    Values = apiResponse.Data.StockDetailData.Latests.ToArray(),
+                    Name = "最新",
+                    GeometryFill = null,
+                    GeometryStroke = null,
+                    LineSmoothness = 0.8,
+                    Fill = null,
+                    Stroke = new SolidColorPaint(SKColors.Blue) { StrokeThickness = 1f }
+                };
+                var lineAvgSeries = new LineSeries<double>
+                {
+                    Values = apiResponse.Data.StockDetailData.Avgs.ToArray(),
+                    Name = "均价",
+                    GeometryFill = null,
+                    GeometryStroke = null,
+                    LineSmoothness = 0.8,
+                    Fill = null,
+                    Stroke = new SolidColorPaint(SKColors.Orange) { StrokeThickness = 1f }
+                };
+                TimeSeries = new ISeries[] { lineLatestSeries, lineAvgSeries };
+                // x轴
+                var timeAxis = new Axis
+                {
+                    MinLimit = 0,
+                    MaxLimit = 10,
+                    Labels = apiResponse.Data.StockDetailData.Times.ToArray()
+                };
+                TimeXAxes = new[] { timeAxis };
+                // 分时图成交量
+                var volumeColumnSeries = new ColumnSeries<double>
+                {
+                    Values = apiResponse.Data.StockDetailData.Volumes.ToArray(),
+                    Name = "成交量"
+                };
+                //volumeColumnSeries.OnPointMeasured(point =>
+                //{
+                //    if (point.Visual is null) return;
+                //    var color = apiResponse.Data
+                //                           .StockDetailData
+                //                           .Colors
+                //                           .Where(t => t.Turnover.ToString() == point.AsDataLabel)
+                //                           .Select(t => t.Color)
+                //                           .FirstOrDefault();
+                //    switch (color)
+                //    {
+                //        case ColorEnum.Red:
+                //            point.Visual.Fill = new SolidColorPaint(SKColors.Red);
+                //            break;
+                //        case ColorEnum.Green:
+                //            point.Visual.Fill = new SolidColorPaint(SKColors.Green);
+                //            break;
+                //        case ColorEnum.Gray:
+                //            point.Visual.Fill = new SolidColorPaint(SKColors.Gray);
+                //            break;
+                //        default:
+                //            break;
+                //    }
+                //});
+                TimeVolumeSeries = new ISeries[]
+                {
+                    volumeColumnSeries
+                };
+            }
+        }
+
         /// <summary>
         /// 设定转盘样式
         /// </summary>
@@ -452,26 +624,6 @@ namespace StockReview.Client.ContentModule.ViewModels
         }
 
     }
-
-    public class FinancialData
-    {
-        public FinancialData(DateTime date, double high, double open, double close, double low)
-        {
-            Date = date;
-            High = high;
-            Open = open;
-            Close = close;
-            Low = low;
-        }
-
-        public DateTime Date { get; set; }
-        public double High { get; set; }
-        public double Open { get; set; }
-        public double Close { get; set; }
-        public double Low { get; set; }
-    }
-
-
 
     /// <summary>
     /// 涨停明细
