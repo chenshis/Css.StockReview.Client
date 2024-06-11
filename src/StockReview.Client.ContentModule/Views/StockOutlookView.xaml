@@ -12,6 +12,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -620,21 +621,28 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <lvc:CartesianChart
+                        LegendPosition="Top"
                         Series="{Binding CandleSeries}"
                         XAxes="{Binding CandleXAxes}"
                         YAxes="{Binding CandleYAxes}"
                         ZoomMode="X" />
-
                     <lvc:CartesianChart
                         Grid.Row="1"
+                        LegendPosition="Top"
+                        Series="{Binding CandleVolumeSeries}"
+                        XAxes="{Binding CandleXAxes}" />
+                    <lvc:CartesianChart
+                        Grid.Row="2"
+                        LegendPosition="Top"
                         Series="{Binding TimeSeries}"
                         XAxes="{Binding TimeXAxes}"
                         ZoomMode="X" />
                     <lvc:CartesianChart
-                        Grid.Row="2"
+                        Grid.Row="3"
                         LegendPosition="Top"
                         Series="{Binding TimeVolumeSeries}"
                         XAxes="{Binding TimeXAxes}" />
@@ -803,6 +811,5 @@
             </hc:Drawer>
         </Grid>
     </Grid>
-
 
 </UserControl>
