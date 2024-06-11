@@ -65,7 +65,7 @@
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
             VerticalScrollBarVisibility="Auto">
-            <Grid x:Name="MarketGrid" />
+            <Grid x:Name="MarketGrid"  />
         </ScrollViewer>
 
         <ScrollViewer

@@ -1,5 +1,6 @@
 ﻿using StockReview.Api.Dtos;
 using StockReview.Client.ContentModule.ViewModels;
+using System.Collections.ObjectModel;
 using System.Reflection.Emit;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,7 @@ namespace StockReview.Client.ContentModule.Views
     public partial class MarketLadderView : UserControl
     {
         private MarketLadderViewModel MarketLadderViewModel { get; set; }
+
 
         public MarketLadderView(MarketLadderViewModel marketLadderViewModel)
         {
@@ -44,11 +46,13 @@ namespace StockReview.Client.ContentModule.Views
                     label.Content = j == 0 ? marketNewsList[i].MarketNewsTitle : marketNewsList[i].MarketNewsType;
                     this.MarketNewsGrid.Children.Add(label);
 
-                    newsNumber += i == 0 &&j==0? i : 1;
+                    newsNumber += i == 0 && j == 0 ? i : 1;
                     Grid.SetRow(label, newsNumber); // 设置在Grid的第一行
                     Grid.SetColumn(label, 0); // 设置在Grid的第一列
                 }
             }
+
+            
 
 
             var marketList = MarketLadderViewModel.MarketLadderLists.ToList();
@@ -57,8 +61,7 @@ namespace StockReview.Client.ContentModule.Views
 
             for (int i = 0; i < marketList.Count; i++)
             {
-                rowTemp++;
-
+               
                 RowDefinition newRow = new RowDefinition();
                 this.MarketGrid.RowDefinitions.Add(newRow);
 
@@ -68,6 +71,8 @@ namespace StockReview.Client.ContentModule.Views
                 this.MarketGrid.ColumnDefinitions.Add(newColumTwo);
                 ColumnDefinition newColumThree = new ColumnDefinition();
                 this.MarketGrid.ColumnDefinitions.Add(newColumThree);
+                ColumnDefinition newColumFour = new ColumnDefinition();
+                this.MarketGrid.ColumnDefinitions.Add(newColumFour);
 
                 System.Windows.Controls.Label label = new System.Windows.Controls.Label();
                 label.HorizontalAlignment = HorizontalAlignment.Left;
@@ -102,9 +107,12 @@ namespace StockReview.Client.ContentModule.Views
                 Grid.SetRow(labelThree, rowTemp);
                 Grid.SetColumn(labelThree, 2);
 
+                rowTemp++;
+
+
                 if (marketList[i].MarketLadderInfos.Count() > 0)
                 {
-                    rowTemp++;
+                   
 
                     RowDefinition newRowTwo = new RowDefinition();
                     this.MarketGrid.RowDefinitions.Add(newRowTwo);
@@ -142,10 +150,28 @@ namespace StockReview.Client.ContentModule.Views
                     Grid.SetRow(dataGrid, rowTemp);
                     Grid.SetColumn(dataGrid, 0);
                     Grid.SetColumnSpan(dataGrid, 3);
+
+                    rowTemp++;
                 }
 
+               
             }
 
+        }
+
+        private void ClearExistingContent()
+        {
+            MarketNewsGrid.Children.Clear();
+            MarketNewsGrid.RowDefinitions.Clear();
+            MarketGrid.Children.Clear();
+            MarketGrid.RowDefinitions.Clear();
+            MarketGrid.ColumnDefinitions.Clear();
+        }
+
+        public void OnRefreshRequested()
+        {
+            ClearExistingContent();
+            InitMarketLadderNewsView();
         }
     }
 }
