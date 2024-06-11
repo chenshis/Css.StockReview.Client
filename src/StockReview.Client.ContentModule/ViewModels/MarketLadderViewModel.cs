@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using Unity;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -28,10 +29,23 @@ namespace StockReview.Client.ContentModule.ViewModels
 {
     public class MarketLadderViewModel : NavigationAwareViewModelBase
     {
-        public string MarketTitle { get; set; }
-
+      
         public ObservableCollection<MarketLadderNewsList> MarketLadderNewsLists { get; set; } = new ObservableCollection<MarketLadderNewsList>();
         public ObservableCollection<MarketLadderList> MarketLadderLists { get; set; } = new ObservableCollection<MarketLadderList>();
+
+
+
+        public MarketLadderToInfo MarketLadderInfosOne { get; set; } = new MarketLadderToInfo();
+        public ObservableCollection<MarketLadderInfo> MarketLadderListOne { get; set; } = new ObservableCollection<MarketLadderInfo>();
+
+        public MarketLadderToInfo MarketLadderInfosTwo { get; set; } = new MarketLadderToInfo();
+        public ObservableCollection<MarketLadderInfo> MarketLadderListTwo { get; set; } = new ObservableCollection<MarketLadderInfo>();
+
+        public MarketLadderToInfo MarketLadderInfosThree { get; set; } = new MarketLadderToInfo();
+        public ObservableCollection<MarketLadderInfo> MarketLadderListThree { get; set; } = new ObservableCollection<MarketLadderInfo>();
+
+        public MarketLadderToInfo MarketLadderInfosFours { get; set; } = new MarketLadderToInfo();
+        public ObservableCollection<MarketLadderInfo> MarketLadderListFours { get; set; } = new ObservableCollection<MarketLadderInfo>();
 
         private DateTime? _currentDate;
         /// <summary>
@@ -42,6 +56,17 @@ namespace StockReview.Client.ContentModule.ViewModels
             get { return _currentDate; }
             set { SetProperty(ref _currentDate, value); }
         }
+
+        private string _marketTitle;
+        /// <summary>
+        /// 错误消息
+        /// </summary>
+        public string MarketTitle
+        {
+            get { return _marketTitle; }
+            set { SetProperty(ref _marketTitle, value); }
+        }
+
 
         private readonly IReplayService _replayService;
 
@@ -71,18 +96,70 @@ namespace StockReview.Client.ContentModule.ViewModels
         {
             var markList = this._replayService.GetMarketLadder(date);
 
-            if (markList!=null)
+            if (markList != null)
             {
                 this.MarketTitle = markList.MarketTitle;
             }
 
             this.MarketLadderLists.Clear();
             this.MarketLadderNewsLists.Clear();
-            MarketLadderLists.AddRange(markList.MarketLadderLists);
-            MarketLadderNewsLists.AddRange(markList.MarketLadderNewsLists);
+          
+            for (int i = 0; i < markList.MarketLadderLists.Count; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        MarketLadderInfosOne = new MarketLadderToInfo
+                        {
+                            MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
+                            MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
+                            MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
+                        };
+                        MarketLadderListOne.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
+                        break;
+                    case 1:
+                        MarketLadderInfosTwo = new MarketLadderToInfo
+                        {
+                            MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
+                            MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
+                            MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
+                        };
+                        MarketLadderListTwo.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
+                        break;
+                    case 2:
+                        MarketLadderInfosThree = new MarketLadderToInfo
+                        {
+                            MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
+                            MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
+                            MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
+                        };
+                        MarketLadderListThree.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
+                        break;
+                    case 3:
+                        MarketLadderInfosFours = new MarketLadderToInfo
+                        {
+                            MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
+                            MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
+                            MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
+                        };
+                        MarketLadderListFours.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
+                        break;
+                    default:
+                        break;
+                }
+            }
 
-            MarketLadderView = new MarketLadderView(this);
-            MarketLadderView.Show();
+            for (int i = 0; i < markList.MarketLadderNewsLists.Count; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    MarketLadderNewsLists.Add(new MarketLadderNewsList
+                    {
+                        MarketNewsTitle = j == 0 ? markList.MarketLadderNewsLists[i].MarketNewsTitle : markList.MarketLadderNewsLists[i].MarketNewsType,
+                        MarketColor = j == 0 ? "#F06632" : "Black"
+                    });
+                }
+            }
         }
 
         private void Refresh() 
