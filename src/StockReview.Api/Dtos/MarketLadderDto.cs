@@ -31,6 +31,8 @@ namespace StockReview.Api.Dtos
         /// 字体颜色
         /// </summary>
         public string MarketNewsTitleFontColor { get; set; }
+
+        public string MarketColor { get; set; }
     }
     public class MarketLadderList
     {
@@ -53,6 +55,24 @@ namespace StockReview.Api.Dtos
         /// 描述信息
         /// </summary>
         public List<MarketLadderInfo> MarketLadderInfos { get; set; }
+    }
+
+    public class MarketLadderToInfo 
+    {
+        /// <summary>
+        /// 连板
+        /// </summary>
+        public string MarketLadderBoard { get; set; }
+
+        /// <summary>
+        /// 数量
+        /// </summary>
+        public string MarketLadderNumber { get; set; }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string MarketLadderDescibe { get; set; }
     }
 
     public class MarketLadderInfo

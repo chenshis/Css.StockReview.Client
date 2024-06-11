@@ -65,7 +65,191 @@
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
             VerticalScrollBarVisibility="Auto">
-            <Grid x:Name="MarketGrid"  />
+            <Grid x:Name="MarketGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition />
+                    <RowDefinition Height="50" />
+                    <RowDefinition />
+                    <RowDefinition Height="50" />
+                    <RowDefinition />
+                    <RowDefinition Height="50" />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Content="{Binding MarketLadderInfosOne.MarketLadderBoard}"
+                    FontSize="12"
+                    Foreground="#F06632" />
+                <Label
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Content="{Binding MarketLadderInfosOne.MarketLadderDescibe}"
+                    FontSize="12"
+                    Foreground="#F06632" />
+                <Label
+                    Grid.Column="2"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Content="{Binding MarketLadderInfosOne.MarketLadderNumber}"
+                    FontSize="12"
+                    Foreground="#F06632" />
+                <DataGrid
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    FontFamily="Microsoft YaHei"
+                    ItemsSource="{Binding MarketLadderListOne}"
+                    RowHeaderWidth="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding MarketLadderCode}" Header="代码" />
+                        <DataGridTextColumn Binding="{Binding MarketLadderName}" Header="股票名称 " />
+                        <DataGridTextColumn Binding="{Binding MarketLadderFirstLimitUp}" Header="首次涨停" />
+                        <DataGridTextColumn Binding="{Binding MarketLadderReasonLimitUp}" Header="涨停原因" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+
+                <Label
+                    Grid.Row="2"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Content="{Binding MarketLadderInfosTwo.MarketLadderBoard}"
+                    FontSize="12"
+                    Foreground="#F06632" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Content="{Binding MarketLadderInfosTwo.MarketLadderDescibe}"
+                    FontSize="12"
+                    Foreground="#F06632" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Content="{Binding MarketLadderInfosTwo.MarketLadderNumber}"
+                    FontSize="12"
+                    Foreground="#F06632" />
+                <DataGrid
+                    Grid.Row="3"
+                    Grid.ColumnSpan="3"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    FontFamily="Microsoft YaHei"
+                    ItemsSource="{Binding MarketLadderListTwo}"
+                    RowHeaderWidth="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding MarketLadderCode}" Header="代码" />
+                        <DataGridTextColumn Binding="{Binding MarketLadderName}" Header="股票名称 " />
+                        <DataGridTextColumn Binding="{Binding MarketLadderFirstLimitUp}" Header="首次涨停" />
+                        <DataGridTextColumn Binding="{Binding MarketLadderReasonLimitUp}" Header="涨停原因" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+
+                <Label
+                    Grid.Row="4"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Content="{Binding MarketLadderInfosThree.MarketLadderBoard}"
+                    FontSize="12"
+                    Foreground="#F06632" />
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Content="{Binding MarketLadderInfosThree.MarketLadderDescibe}"
+                    FontSize="12"
+                    Foreground="#F06632" />
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Content="{Binding MarketLadderInfosThree.MarketLadderNumber}"
+                    FontSize="12"
+                    Foreground="#F06632" />
+                <DataGrid
+                    Grid.Row="5"
+                    Grid.ColumnSpan="3"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    FontFamily="Microsoft YaHei"
+                    ItemsSource="{Binding MarketLadderListThree}"
+                    RowHeaderWidth="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding MarketLadderCode}" Header="代码" />
+                        <DataGridTextColumn Binding="{Binding MarketLadderName}" Header="股票名称 " />
+                        <DataGridTextColumn Binding="{Binding MarketLadderFirstLimitUp}" Header="首次涨停" />
+                        <DataGridTextColumn Binding="{Binding MarketLadderReasonLimitUp}" Header="涨停原因" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Label
+                    Grid.Row="6"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Content="{Binding MarketLadderInfosFours.MarketLadderBoard}"
+                    FontSize="12"
+                    Foreground="#F06632" />
+                <Label
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Content="{Binding MarketLadderInfosFours.MarketLadderDescibe}"
+                    FontSize="12"
+                    Foreground="#F06632" />
+                <Label
+                    Grid.Row="6"
+                    Grid.Column="2"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Content="{Binding MarketLadderInfosFours.MarketLadderNumber}"
+                    FontSize="12"
+                    Foreground="#F06632" />
+                <DataGrid
+                    Grid.Row="7"
+                    Grid.ColumnSpan="3"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    FontFamily="Microsoft YaHei"
+                    ItemsSource="{Binding MarketLadderListFours}"
+                    RowHeaderWidth="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding MarketLadderCode}" Header="代码" />
+                        <DataGridTextColumn Binding="{Binding MarketLadderName}" Header="股票名称 " />
+                        <DataGridTextColumn Binding="{Binding MarketLadderFirstLimitUp}" Header="首次涨停" />
+                        <DataGridTextColumn Binding="{Binding MarketLadderReasonLimitUp}" Header="涨停原因" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
         </ScrollViewer>
 
         <ScrollViewer
@@ -76,7 +260,15 @@
             CanContentScroll="True"
             HorizontalScrollBarVisibility="Auto"
             VerticalScrollBarVisibility="Auto">
-            <Grid x:Name="MarketNewsGrid" />
+            <ListBox ItemsSource="{Binding MarketLadderNewsLists}" SelectionMode="Multiple">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="{Binding MarketColor}" Text="{Binding MarketNewsTitle}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </ScrollViewer>
 
     </Grid>
