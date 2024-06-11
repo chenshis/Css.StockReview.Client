@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using NLog.Extensions.Logging;
 using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Regions;
 using Prism.Unity;
 using SkiaSharp;
 using StockReview.Api.ApiService;
@@ -49,10 +50,8 @@ namespace StockReview.Client
             }
             else
             {
-                Container.Resolve<MainViewModel>().LoadRegionManager();
                 base.InitializeShell(shell);
             }
-
         }
 
         /// <summary>
@@ -107,6 +106,14 @@ namespace StockReview.Client
         {
             moduleCatalog.AddModule<ContentInfoModule>();
             base.ConfigureModuleCatalog(moduleCatalog);
+        }
+
+        protected override void OnInitialized()
+        {
+            var regionManager = Container.Resolve<IRegionManager>();
+            regionManager.RegisterViewWithRegion(SystemConstant.MainHeaderRegion, SystemConstant.MainHeaderView);
+            regionManager.RegisterViewWithRegion(SystemConstant.TreeMenuViewRegion, SystemConstant.TreeMenuView);
+            base.OnInitialized();
         }
     }
 

@@ -18,6 +18,9 @@ using System.Windows.Threading;
 using System.Windows.Input;
 using Prism.Commands;
 using LiveChartsCore.ConditionalDraw;
+using Prism.Events;
+using HandyControl.Data;
+using StockReview.Domain.Events;
 
 namespace StockReview.Client.ContentModule.ViewModels
 {
@@ -27,6 +30,7 @@ namespace StockReview.Client.ContentModule.ViewModels
     public class StockOutlookViewModel : NavigationAwareViewModelBase
     {
         private readonly IStockOutlookApiService _stockOutlookApiService;
+        private readonly IEventAggregator _eventAggregator;
         private DispatcherTimer _timer;
         private bool _isInit = true;
         /// <summary>
@@ -35,15 +39,18 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// <param name="unityContainer"></param>
         /// <param name="regionManager"></param>
         /// <param name="stockOutlookApiService"></param>
+        /// <param name="eventAggregator"></param>
         public StockOutlookViewModel(IUnityContainer unityContainer,
                                      IRegionManager regionManager,
-                                     IStockOutlookApiService stockOutlookApiService)
+                                     IStockOutlookApiService stockOutlookApiService,
+                                     IEventAggregator eventAggregator)
             : base(unityContainer, regionManager)
         {
             // 开始初始化
             _isInit = true;
             this.PageTitle = "股市看盘";
             this._stockOutlookApiService = stockOutlookApiService;
+            this._eventAggregator = eventAggregator;
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(30);
             _timer.Tick += Timer_Tick;
@@ -172,6 +179,16 @@ namespace StockReview.Client.ContentModule.ViewModels
             set { SetProperty(ref _candleSeries, value); }
         }
 
+        private ISeries[] _candleVolumeSeries;
+        /// <summary>
+        /// 蜡烛图成交量
+        /// </summary>
+        public ISeries[] CandleVolumeSeries
+        {
+            get { return _candleVolumeSeries; }
+            set { SetProperty(ref _candleVolumeSeries, value); }
+        }
+
 
         private Axis[] _timeXAxes;
         /// <summary>
@@ -220,178 +237,179 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// </summary>
         public override void Refresh()
         {
-            string day;
-            if (!CurrentDate.HasValue)
+            _eventAggregator.GetEvent<LoadingEvent>().Publish(true);
+            Task.Run(() =>
             {
-                var apiToday = _stockOutlookApiService.GetToday();
-                if (apiToday.Code != 0)
+
+                string day;
+                if (!CurrentDate.HasValue)
                 {
-                    HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
+                    var apiToday = _stockOutlookApiService.GetToday();
+                    if (apiToday.Code != 0)
                     {
-                        Message = apiToday.Msg,
-                        Token = SystemConstant.headerGrowl,
-                        IsCustom = true,
-                        WaitTime = 0
-                    });
+                        SetMessageBox(InfoType.Error, apiToday.Msg);
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(apiToday.Data))
+                    {
+                        day = DateTime.Now.ToString("yyyy-MM-dd");
+                    }
+                    else
+                    {
+                        day = apiToday.Data;
+                    }
+                    CurrentDate = DateTime.Parse(day);
+                }
+                else
+                {
+                    day = CurrentDate.Value.ToString("yyyy-MM-dd");
+                }
+
+                // 看板数据
+                RealTimeBulletinBoard();
+                //情绪明细
+                var apiEmotionDetail = _stockOutlookApiService.GetEmotionDetail(day);
+                if (apiEmotionDetail.Code != 0)
+                {
+                    SetMessageBox(InfoType.Error, apiEmotionDetail.Msg);
+                    return;
+                }
+                var emotionDetail = apiEmotionDetail.Data;
+                if (emotionDetail == null)
+                {
+                    SetMessageBox(InfoType.Info, "情绪详情数据等待加载中……");
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(apiToday.Data))
+                HistogramXAxes = new Axis[1];
+                HistogramXAxes[0] = new Axis();
+                HistogramXAxes[0].Labels = new List<string>();
+                HistogramXAxes[0].LabelsRotation = -30;
+                HistogramSeries = new ISeries[3];
+                // 正
+                var positiveSeries = new ColumnSeries<ObservablePoint>();
+                positiveSeries.Fill = new SolidColorPaint(SKColors.Red);
+                positiveSeries.DataLabelsPaint = new SolidColorPaint(SKColors.Gray);
+                var positiveSeriesValues = new List<ObservablePoint>();
+                // 零
+                var zeroSeries = new ColumnSeries<ObservablePoint>();
+                zeroSeries.Fill = new SolidColorPaint(SKColors.Gray);
+                zeroSeries.DataLabelsPaint = new SolidColorPaint(SKColors.Gray);
+                var zeroSeriesValues = new List<ObservablePoint>();
+                // 负
+                var negativeSeries = new ColumnSeries<ObservablePoint>();
+                negativeSeries.Fill = new SolidColorPaint(SKColors.Green);
+                negativeSeries.DataLabelsPaint = new SolidColorPaint(SKColors.Gray);
+                var negativeSeriesValues = new List<ObservablePoint>();
+
+                for (int i = 0; i < emotionDetail.histogram.Count; i++)
                 {
-                    day = DateTime.Now.ToString("yyyy-MM-dd");
-                }
-                else
-                {
-                    day = apiToday.Data;
-                }
-                CurrentDate = DateTime.Parse(day);
-            }
-            else
-            {
-                day = CurrentDate.Value.ToString("yyyy-MM-dd");
-            }
-
-            // 看板数据
-            RealTimeBulletinBoard();
-            //情绪明细
-            var apiEmotionDetail = _stockOutlookApiService.GetEmotionDetail(day);
-            if (apiEmotionDetail.Code != 0)
-            {
-                HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
-                {
-                    Message = apiEmotionDetail.Msg,
-                    Token = SystemConstant.headerGrowl,
-                    IsCustom = true,
-                    WaitTime = 0
-                });
-                return;
-            }
-            var emotionDetail = apiEmotionDetail.Data;
-            if (emotionDetail == null)
-            {
-                HandyControl.Controls.Growl.Info(new HandyControl.Data.GrowlInfo
-                {
-                    Message = "情绪详情数据等待加载中……",
-                    Token = SystemConstant.headerGrowl,
-                    IsCustom = true,
-                    WaitTime = 0
-                });
-                return;
-            }
-
-            HistogramXAxes = new Axis[1];
-            HistogramXAxes[0] = new Axis();
-            HistogramXAxes[0].Labels = new List<string>();
-            HistogramXAxes[0].LabelsRotation = -30;
-            HistogramSeries = new ISeries[3];
-            // 正
-            var positiveSeries = new ColumnSeries<ObservablePoint>();
-            positiveSeries.Fill = new SolidColorPaint(SKColors.Red);
-            positiveSeries.DataLabelsPaint = new SolidColorPaint(SKColors.Gray);
-            var positiveSeriesValues = new List<ObservablePoint>();
-            // 零
-            var zeroSeries = new ColumnSeries<ObservablePoint>();
-            zeroSeries.Fill = new SolidColorPaint(SKColors.Gray);
-            zeroSeries.DataLabelsPaint = new SolidColorPaint(SKColors.Gray);
-            var zeroSeriesValues = new List<ObservablePoint>();
-            // 负
-            var negativeSeries = new ColumnSeries<ObservablePoint>();
-            negativeSeries.Fill = new SolidColorPaint(SKColors.Green);
-            negativeSeries.DataLabelsPaint = new SolidColorPaint(SKColors.Gray);
-            var negativeSeriesValues = new List<ObservablePoint>();
-
-            for (int i = 0; i < emotionDetail.histogram.Count; i++)
-            {
-                double.TryParse(emotionDetail.histogram[i].yvalue, out var yValue);
-                if (i < 5)
-                {
-                    positiveSeriesValues.Add(new ObservablePoint(i, yValue));
-                }
-                else if (i == 5)
-                {
-                    zeroSeriesValues.Add(new ObservablePoint(i, yValue));
-                }
-                else
-                {
-                    negativeSeriesValues.Add(new ObservablePoint(i, yValue));
-                }
-
-                HistogramXAxes[0].Labels.Add(emotionDetail.histogram[i].xvalue);
-            }
-
-            // 正值
-            positiveSeries.Values = positiveSeriesValues;
-            HistogramSeries[0] = positiveSeries;
-            // 零值
-            zeroSeries.Values = zeroSeriesValues;
-            HistogramSeries[1] = zeroSeries;
-            // 负值
-            negativeSeries.Values = negativeSeriesValues;
-            HistogramSeries[2] = negativeSeries;
-
-            var todayLimitUpDetail = new LimitUpDetailModel();
-            todayLimitUpDetail.Time = "今日";
-            todayLimitUpDetail.ZTBan = emotionDetail.root.data.limit_up_count.today.num.ToString();
-            todayLimitUpDetail.FBRate = GetPercentage(Convert.ToDouble(emotionDetail.root.data.limit_up_count.today.rate)).ToString("F0") + "%";
-            todayLimitUpDetail.ZBan = emotionDetail.root.data.limit_up_count.today.open_num.ToString();
-            todayLimitUpDetail.DTBan = emotionDetail.root.data.limit_down_count.today.num.ToString();
-            var dFRate = emotionDetail.root.data.limit_down_count.today.rate;
-            if (!string.IsNullOrWhiteSpace(dFRate))
-            {
-                todayLimitUpDetail.DFRate = GetPercentage(Convert.ToDouble(dFRate)) + "%";
-            }
-            todayLimitUpDetail.QBan = emotionDetail.root.data.limit_down_count.today.open_num.ToString();
-
-            var yesterdayLimitUpDetail = new LimitUpDetailModel();
-            yesterdayLimitUpDetail.Time = "昨日";
-            yesterdayLimitUpDetail.ZTBan = emotionDetail.root.data.limit_up_count.yesterday.num.ToString();
-            yesterdayLimitUpDetail.FBRate = GetPercentage(Convert.ToDouble(emotionDetail.root.data.limit_up_count.yesterday.rate)).ToString("F0") + "%";
-            yesterdayLimitUpDetail.ZBan = emotionDetail.root.data.limit_up_count.yesterday.open_num.ToString();
-            yesterdayLimitUpDetail.DTBan = emotionDetail.root.data.limit_down_count.yesterday.num.ToString();
-            var yesterdayDfRate = emotionDetail.root.data.limit_down_count.yesterday.rate;
-            if (!string.IsNullOrWhiteSpace(yesterdayDfRate))
-            {
-                yesterdayLimitUpDetail.DFRate = GetPercentage(Convert.ToDouble(yesterdayDfRate)) + "%";
-            }
-            yesterdayLimitUpDetail.QBan = emotionDetail.root.data.limit_down_count.yesterday.open_num.ToString();
-
-            LimitUpDetails.Clear();
-            LimitUpDetails.Add(todayLimitUpDetail);
-            LimitUpDetails.Add(yesterdayLimitUpDetail);
-
-            // 股票明细
-            LimitUpStockDetails.Clear();
-            var infos = emotionDetail.root.data.info;
-            if (infos != null)
-            {
-                int k = 0;
-                foreach (var item in infos)
-                {
-                    LimitUpStockDetailModel stockDetail = new();
-                    stockDetail.Code = item.code;
-                    var imageValue = !(item.code.Substring(0, 1) == "6") ? "sz" + item.code : "sh" + item.code;
-                    stockDetail.ImageUrl = "http://image.sinajs.cn/newchart/min/n/" + imageValue + ".gif";
-                    stockDetail.Name = item.name;
-                    stockDetail.ZF = Convert.ToDouble(item.change_rate).ToString("0.00");
-                    stockDetail.Latest = item.latest;
-                    stockDetail.Reason = item.reason_type;
-                    stockDetail.FirstLetterTime = GetDateTime(item.first_limit_up_time).ToString("HH:mm:ss");
-                    stockDetail.LastFBan = GetDateTime(item.last_limit_up_time).ToString("HH:mm:ss");
-                    stockDetail.LimitUpType = item.limit_up_type;
-                    stockDetail.OpenNum = item.open_num?.ToString();
-                    stockDetail.SeveralDaysBan = item.high_days;
-                    stockDetail.FDanMoney = zWy(Convert.ToDouble(item.order_amount)).ToString();
-                    stockDetail.TurnoverRate = Convert.ToDouble(item.turnover_rate).ToString("F2") + "%";
-                    stockDetail.CurrencyMoney = item.currency_value != null ? zEy(Convert.ToDouble(item.currency_value)).ToString() : null;
-                    stockDetail.LBanNum = item.LBanNum;
-                    LimitUpStockDetails.Add(stockDetail);
-                    if (k == 0 && _isInit)
+                    double.TryParse(emotionDetail.histogram[i].yvalue, out var yValue);
+                    if (i < 5)
                     {
-                        RealTimeSeries(stockDetail);
+                        positiveSeriesValues.Add(new ObservablePoint(i, yValue));
                     }
-                    k++;
+                    else if (i == 5)
+                    {
+                        zeroSeriesValues.Add(new ObservablePoint(i, yValue));
+                    }
+                    else
+                    {
+                        negativeSeriesValues.Add(new ObservablePoint(i, yValue));
+                    }
+
+                    HistogramXAxes[0].Labels.Add(emotionDetail.histogram[i].xvalue);
                 }
-            }
+
+                // 正值
+                positiveSeries.Values = positiveSeriesValues;
+                HistogramSeries[0] = positiveSeries;
+                // 零值
+                zeroSeries.Values = zeroSeriesValues;
+                HistogramSeries[1] = zeroSeries;
+                // 负值
+                negativeSeries.Values = negativeSeriesValues;
+                HistogramSeries[2] = negativeSeries;
+
+                var todayLimitUpDetail = new LimitUpDetailModel();
+                todayLimitUpDetail.Time = "今日";
+                todayLimitUpDetail.ZTBan = emotionDetail.root.data.limit_up_count.today.num.ToString();
+                todayLimitUpDetail.FBRate = GetPercentage(Convert.ToDouble(emotionDetail.root.data.limit_up_count.today.rate)).ToString("F0") + "%";
+                todayLimitUpDetail.ZBan = emotionDetail.root.data.limit_up_count.today.open_num.ToString();
+                todayLimitUpDetail.DTBan = emotionDetail.root.data.limit_down_count.today.num.ToString();
+                var dFRate = emotionDetail.root.data.limit_down_count.today.rate;
+                if (!string.IsNullOrWhiteSpace(dFRate))
+                {
+                    todayLimitUpDetail.DFRate = GetPercentage(Convert.ToDouble(dFRate)) + "%";
+                }
+                todayLimitUpDetail.QBan = emotionDetail.root.data.limit_down_count.today.open_num.ToString();
+
+                var yesterdayLimitUpDetail = new LimitUpDetailModel();
+                yesterdayLimitUpDetail.Time = "昨日";
+                yesterdayLimitUpDetail.ZTBan = emotionDetail.root.data.limit_up_count.yesterday.num.ToString();
+                yesterdayLimitUpDetail.FBRate = GetPercentage(Convert.ToDouble(emotionDetail.root.data.limit_up_count.yesterday.rate)).ToString("F0") + "%";
+                yesterdayLimitUpDetail.ZBan = emotionDetail.root.data.limit_up_count.yesterday.open_num.ToString();
+                yesterdayLimitUpDetail.DTBan = emotionDetail.root.data.limit_down_count.yesterday.num.ToString();
+                var yesterdayDfRate = emotionDetail.root.data.limit_down_count.yesterday.rate;
+                if (!string.IsNullOrWhiteSpace(yesterdayDfRate))
+                {
+                    yesterdayLimitUpDetail.DFRate = GetPercentage(Convert.ToDouble(yesterdayDfRate)) + "%";
+                }
+                yesterdayLimitUpDetail.QBan = emotionDetail.root.data.limit_down_count.yesterday.open_num.ToString();
+
+                // 列表保证在ui队列中
+                System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    LimitUpDetails.Clear();
+                    LimitUpDetails.Add(todayLimitUpDetail);
+                    LimitUpDetails.Add(yesterdayLimitUpDetail);
+                    // 股票明细
+                    LimitUpStockDetails.Clear();
+                }));
+
+
+                var infos = emotionDetail.root.data.info;
+                if (infos != null)
+                {
+                    int k = 0;
+                    foreach (var item in infos)
+                    {
+                        LimitUpStockDetailModel stockDetail = new();
+                        stockDetail.Code = item.code;
+                        var imageValue = !(item.code.Substring(0, 1) == "6") ? "sz" + item.code : "sh" + item.code;
+                        stockDetail.ImageUrl = "http://image.sinajs.cn/newchart/min/n/" + imageValue + ".gif";
+                        stockDetail.Name = item.name;
+                        stockDetail.ZF = Convert.ToDouble(item.change_rate).ToString("0.00");
+                        stockDetail.Latest = item.latest;
+                        stockDetail.Reason = item.reason_type;
+                        stockDetail.FirstLetterTime = GetDateTime(item.first_limit_up_time).ToString("HH:mm:ss");
+                        stockDetail.LastFBan = GetDateTime(item.last_limit_up_time).ToString("HH:mm:ss");
+                        stockDetail.LimitUpType = item.limit_up_type;
+                        stockDetail.OpenNum = item.open_num?.ToString();
+                        stockDetail.SeveralDaysBan = item.high_days;
+                        stockDetail.FDanMoney = zWy(Convert.ToDouble(item.order_amount)).ToString();
+                        stockDetail.TurnoverRate = Convert.ToDouble(item.turnover_rate).ToString("F2") + "%";
+                        stockDetail.CurrencyMoney = item.currency_value != null ? zEy(Convert.ToDouble(item.currency_value)).ToString() : null;
+                        stockDetail.LBanNum = item.LBanNum;
+                        // 列表保证在ui队列中
+                        System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            LimitUpStockDetails.Add(stockDetail);
+                        }));
+
+                        if (k == 0 && _isInit)
+                        {
+                            RealTimeSeries(stockDetail);
+                        }
+                        k++;
+                    }
+                }
+
+
+                // 关闭loading
+                _eventAggregator.GetEvent<LoadingEvent>().Publish(false);
+            });
 
         }
 
@@ -408,25 +426,13 @@ namespace StockReview.Client.ContentModule.ViewModels
             var apiResponse = _stockOutlookApiService.GetBulletinBoard(day);
             if (apiResponse.Code != 0)
             {
-                HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
-                {
-                    Message = apiResponse.Msg,
-                    Token = SystemConstant.headerGrowl,
-                    IsCustom = true,
-                    WaitTime = 0
-                });
+                SetMessageBox(InfoType.Error, apiResponse.Msg);
                 return;
             }
             BulletinBoard = apiResponse.Data;
             if (BulletinBoard == null)
             {
-                HandyControl.Controls.Growl.Info(new HandyControl.Data.GrowlInfo
-                {
-                    Message = "看板数据等待加载中……",
-                    Token = SystemConstant.headerGrowl,
-                    IsCustom = true,
-                    WaitTime = 0
-                });
+                SetMessageBox(InfoType.Info, "看板数据等待加载中……");
                 return;
             }
             double.TryParse(BulletinBoard.EmotionPercent, out var emotionValue);
@@ -451,13 +457,17 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// <summary>
         /// 选中命令
         /// </summary>
-        public ICommand SelectionChangedCommand
+        public ICommand SelectionChangedCommand => new DelegateCommand<object>(p =>
         {
-            get
+            _eventAggregator.GetEvent<LoadingEvent>().Publish(true);
+            Task.Run(() =>
             {
-                return new DelegateCommand<object>(p => RealTimeSeries(p));
-            }
-        }
+                RealTimeSeries(p);
+
+                // 关闭loading
+                _eventAggregator.GetEvent<LoadingEvent>().Publish(false);
+            });
+        });
 
         /// <summary>
         /// 分时图
@@ -478,13 +488,7 @@ namespace StockReview.Client.ContentModule.ViewModels
 
                 if (apiResponse.Code != 0)
                 {
-                    HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
-                    {
-                        Message = apiResponse.Msg,
-                        Token = SystemConstant.headerGrowl,
-                        IsCustom = true,
-                        WaitTime = 0
-                    });
+                    SetMessageBox(InfoType.Error, apiResponse.Msg);
                     return;
                 }
                 // 序列赋值
@@ -524,6 +528,15 @@ namespace StockReview.Client.ContentModule.ViewModels
                 };
                 CandleYAxes = new[] { yAxis };
 
+                CandleVolumeSeries = new ISeries[]
+                {
+                    new ColumnSeries<double>
+                    {
+                        Name = "成交量",
+                        Values= apiResponse.Data.StockDatas.Select(t=>t.Volume).ToArray()
+                    }
+                };
+
                 //折线
                 var lineLatestSeries = new LineSeries<double>
                 {
@@ -555,10 +568,13 @@ namespace StockReview.Client.ContentModule.ViewModels
                 };
                 TimeXAxes = new[] { timeAxis };
                 // 分时图成交量
-                var volumeColumnSeries = new ColumnSeries<double>
+                TimeVolumeSeries = new ISeries[]
                 {
-                    Values = apiResponse.Data.StockDetailData.Volumes.ToArray(),
-                    Name = "成交量"
+                    new ColumnSeries<double>
+                    {
+                        Values = apiResponse.Data.StockDetailData.Volumes.ToArray(),
+                        Name = "成交量"
+                    }
                 };
                 //volumeColumnSeries.OnPointMeasured(point =>
                 //{
@@ -584,10 +600,6 @@ namespace StockReview.Client.ContentModule.ViewModels
                 //            break;
                 //    }
                 //});
-                TimeVolumeSeries = new ISeries[]
-                {
-                    volumeColumnSeries
-                };
             }
         }
 
@@ -623,6 +635,37 @@ namespace StockReview.Client.ContentModule.ViewModels
             return Math.Round(e * 1E-08, 2);
         }
 
+        /// <summary>
+        /// 设置消息框
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <param name="message">消息</param>
+        private void SetMessageBox(InfoType type, string message)
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (type == InfoType.Error)
+                {
+                    HandyControl.Controls.Growl.Error(new HandyControl.Data.GrowlInfo
+                    {
+                        Message = message,
+                        Token = SystemConstant.headerGrowl,
+                        IsCustom = true,
+                        WaitTime = 0
+                    });
+                }
+                else if (type == InfoType.Info)
+                {
+                    HandyControl.Controls.Growl.Info(new HandyControl.Data.GrowlInfo
+                    {
+                        Message = message,
+                        Token = SystemConstant.headerGrowl,
+                        IsCustom = true,
+                        WaitTime = 0
+                    });
+                }
+            });
+        }
     }
 
     /// <summary>

@@ -1,6 +1,6 @@
-﻿using Prism.Mvvm;
-using Prism.Regions;
-using StockReview.Infrastructure.Config;
+﻿using Prism.Events;
+using Prism.Mvvm;
+using StockReview.Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,26 +9,37 @@ using System.Threading.Tasks;
 
 namespace StockReview.Client.ViewModels
 {
-    /// <summary>
-    /// 主体视图模型
-    /// </summary>
     public class MainViewModel : BindableBase
     {
-        private readonly IRegionManager _regionManager;
+        private readonly IEventAggregator _eventAggregator;
 
-        public MainViewModel(IRegionManager regionManager)
+        public MainViewModel(IEventAggregator eventAggregator)
         {
-            _regionManager = regionManager;
+            this._eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<LoadingEvent>().Subscribe(OnLoadingEvent);
+        }
+
+
+        private bool _isLoading;
+        /// <summary>
+        /// loading加载
+        /// </summary>
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { SetProperty(ref _isLoading, value); }
         }
 
         /// <summary>
-        /// 初始化区域管理
+        /// loading加载
         /// </summary>
-        public void LoadRegionManager()
+        /// <param name="isLoading"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void OnLoadingEvent(bool isLoading)
         {
-            // 头部
-            _regionManager.RegisterViewWithRegion(SystemConstant.MainHeaderRegion, SystemConstant.MainHeaderView);
-            _regionManager.RegisterViewWithRegion(SystemConstant.TreeMenuViewRegion, SystemConstant.TreeMenuView);
+            IsLoading = isLoading;
         }
+
+
     }
 }
