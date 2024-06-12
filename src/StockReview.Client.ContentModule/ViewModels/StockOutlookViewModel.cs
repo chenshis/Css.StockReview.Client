@@ -24,6 +24,8 @@ using StockReview.Domain.Events;
 using System.Net.Http;
 using Polly;
 using Polly.Retry;
+using Microsoft.Extensions.Caching.Memory;
+using NPOI.SS.Formula.Functions;
 
 namespace StockReview.Client.ContentModule.ViewModels
 {
@@ -46,23 +48,66 @@ namespace StockReview.Client.ContentModule.ViewModels
         public StockOutlookViewModel(IUnityContainer unityContainer,
                                      IRegionManager regionManager,
                                      IStockOutlookApiService stockOutlookApiService,
-                                     IEventAggregator eventAggregator)
+                                     IEventAggregator eventAggregator,
+                                     IMemoryCache memoryCache)
             : base(unityContainer, regionManager)
         {
             this.PageTitle = "股市看盘";
             this._stockOutlookApiService = stockOutlookApiService;
             this._eventAggregator = eventAggregator;
             _retryPolicy = Policy.Handle<Exception>().WaitAndRetry(3, retryAttempt => TimeSpan.FromSeconds(3));
+            var user = memoryCache.Get<UserDto>(SystemConstant.GlobalUserInfo);
+            if (user != null)
+            {
+                UserName = user.UserName;
+                Expires = user.Expires?.ToString("yyyy-MM-dd HH:mm:ss") ?? "--";
+            }
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(30);
+            _timer.Interval = TimeSpan.FromSeconds(1);
             _timer.Tick += Timer_Tick;
             _timer.Start();
             // 数据刷新
             Refresh();
         }
 
+
+        private string _userName;
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        public string UserName
+        {
+            get { return _userName; }
+            set { SetProperty(ref _userName, value); }
+        }
+
+        private string _expires;
+        /// <summary>
+        /// 过期时间
+        /// </summary>
+        public string Expires
+        {
+            get { return _expires; }
+            set { SetProperty(ref _expires, value); }
+        }
+
+        private string _formattedRealTime;
+        /// <summary>
+        /// 实时格式化时间
+        /// </summary>
+        public string FormattedRealTime
+        {
+            get { return _formattedRealTime; }
+            set { SetProperty(ref _formattedRealTime, value); }
+        }
+
+
+
         private void Timer_Tick(object sender, EventArgs e)
         {
+            // 实时格式化时间
+            FormattedRealTime = DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss dddd", new CultureInfo("zh-CN"));
+
             RealTimeBulletinBoard();
         }
 

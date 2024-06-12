@@ -168,6 +168,10 @@ namespace StockReview.Api.ApiService
                     bulletinBoard.ThirdBoardPercent = Math.Round(Convert.ToDouble(jArrayInfo[5].ToString())).ToString() + "%";
                     bulletinBoard.HighBoardPercent = Math.Round(Convert.ToDouble(jArrayInfo[6].ToString())).ToString() + "%";
                     bulletinBoard.TodayFryingRate = Math.Round(Convert.ToDouble(jArrayInfo[7].ToString())).ToString() + "%";
+                    bulletinBoard.TodayZTPBRate = Math.Round(Convert.ToDouble(jArrayInfo[7].ToString()), 3).ToString() + "%";
+                    bulletinBoard.YesterdayZTJBX = Math.Round(Convert.ToDouble(jArrayInfo[8].ToString()),3).ToString() + "%";
+                    bulletinBoard.YesterdayLBJBX = Math.Round(Convert.ToDouble(jArrayInfo[9].ToString()),3).ToString() + "%";
+                    bulletinBoard.YesterdayPBJBX = Math.Round(Convert.ToDouble(jArrayInfo[10].ToString()),3).ToString() + "%";
                     #endregion
 
                     #region 情绪
@@ -241,6 +245,10 @@ namespace StockReview.Api.ApiService
                     bulletinBoard.ThirdBoardPercent = Math.Round(Convert.ToDouble(jArrayInfo[5].ToString())).ToString() + "%";
                     bulletinBoard.HighBoardPercent = Math.Round(Convert.ToDouble(jArrayInfo[6].ToString())).ToString() + "%";
                     bulletinBoard.TodayFryingRate = Math.Round(Convert.ToDouble(jArrayInfo[7].ToString())).ToString() + "%";
+                    bulletinBoard.TodayZTPBRate = Math.Round(Convert.ToDouble(jArrayInfo[7].ToString()), 3).ToString() + "%";
+                    bulletinBoard.YesterdayZTJBX = Math.Round(Convert.ToDouble(jArrayInfo[8].ToString()), 3).ToString() + "%";
+                    bulletinBoard.YesterdayLBJBX = Math.Round(Convert.ToDouble(jArrayInfo[9].ToString()), 3).ToString() + "%";
+                    bulletinBoard.YesterdayPBJBX = Math.Round(Convert.ToDouble(jArrayInfo[10].ToString()), 3).ToString() + "%";
                     #endregion
 
                     #region 情绪

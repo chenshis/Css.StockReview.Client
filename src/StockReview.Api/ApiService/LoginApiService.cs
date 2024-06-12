@@ -70,6 +70,11 @@ namespace StockReview.Api.ApiService
             return _stockHttpClient.Get<List<UserDto>>(string.Format(SystemConstant.UsersRouteQuery, keyword));
         }
 
+        public ApiResponse<UserDto> GetUser(string userName)
+        {
+            return _stockHttpClient.Get<UserDto>(string.Format(SystemConstant.UserInfoRouteQuery, userName));
+        }
+
         public ApiResponse<bool?> UpdateUserRole(UpdateUserRoleRequestDto request)
         {
             return _stockHttpClient.Post<UpdateUserRoleRequestDto, bool?>(SystemConstant.UpdateUserRoleRoute, request);
@@ -85,5 +90,6 @@ namespace StockReview.Api.ApiService
         {
             return _stockHttpClient.Post<string, bool?>(SystemConstant.DeleteUserRoute, userName);
         }
+
     }
 }

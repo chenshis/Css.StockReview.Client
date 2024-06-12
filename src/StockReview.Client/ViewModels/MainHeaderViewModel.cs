@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Prism.Mvvm;
+using StockReview.Api.Dtos;
 using StockReview.Infrastructure.Config;
 
 namespace StockReview.Client.ViewModels
@@ -8,7 +9,11 @@ namespace StockReview.Client.ViewModels
     {
         public MainHeaderViewModel(IMemoryCache memoryCache)
         {
-            UserName = memoryCache.Get<string>(SystemConstant.GlobalUserName);
+            var user = memoryCache.Get<UserDto>(SystemConstant.GlobalUserInfo);
+            if (user != null)
+            {
+                UserName = user.UserName;
+            }
         }
 
         private string _userName;

@@ -107,6 +107,16 @@ namespace StockReview.Server.Controllers
         public List<UserDto> GetUsers([FromQuery] string keyword) => _loginServerApiService.GetUsers(keyword);
 
         /// <summary>
+        /// 获取用户
+        /// </summary>
+        /// <param name="userName">用户名</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route(SystemConstant.UserInfoRoute)]
+        [Authorize]
+        public UserDto GetUser([FromQuery] string userName) => _loginServerApiService.GetUser(userName);
+
+        /// <summary>
         /// 添加用户
         /// </summary>
         /// <param name="request"></param>

@@ -257,6 +257,13 @@ namespace StockReview.Api.ApiService
         }
 
 
+        public UserDto GetUser(string userName)
+        {
+            var userEntity = _dbContext.UserEntities.Where(t => t.UserName == userName).FirstOrDefault();
+            return userEntity.ToDto();
+        }
+
+
         /// <summary>
         /// 获取属性名称
         /// </summary>
@@ -339,5 +346,6 @@ namespace StockReview.Api.ApiService
         {
             return _httpContext?.User.Claims.FirstOrDefault(t => t.Type == ClaimTypes.Name)?.Value;
         }
+
     }
 }

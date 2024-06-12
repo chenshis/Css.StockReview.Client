@@ -179,8 +179,17 @@ namespace StockReview.Client.ViewModels
                 ErrorMessage = response.Msg;
                 return;
             }
+
+            var userApiResponse = _loginApiService.GetUser(UserName);
+            if (userApiResponse.Code != 0)
+            {
+                ErrorMessage = userApiResponse.Msg;
+                return;
+            }
+            // 菜单
             _memoryCache.Set(SystemConstant.TreeMenuView, responseMenus.Data);
-            _memoryCache.Set(SystemConstant.GlobalUserName, UserName);
+            // 用户
+            _memoryCache.Set(SystemConstant.GlobalUserInfo, userApiResponse.Data);
 
             // 设置弹窗结果
             window.DialogResult = true;

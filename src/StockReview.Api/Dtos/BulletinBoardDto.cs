@@ -53,5 +53,25 @@ namespace StockReview.Api.Dtos
         public string TodayFryingRate { get; set; }
         public string YesterdayFryingRate { get; set; }
         public string CityPower { get; set; }
+
+        /// <summary>
+        /// 今日涨停破板率
+        /// </summary>
+        public string TodayZTPBRate { get; set; }
+
+        /// <summary>
+        /// 昨日涨停今表现
+        /// </summary>
+        public string YesterdayZTJBX { get; set; }
+
+        /// <summary>
+        /// 昨日连扳今表现
+        /// </summary>
+        public string YesterdayLBJBX { get; set; }
+
+        /// <summary>
+        /// 昨日破板今表现
+        /// </summary>
+        public string YesterdayPBJBX { get; set; }
     }
 }

@@ -28,6 +28,21 @@ namespace StockReview.Api.Mappers
             return userEntity;
         }
 
+        public static UserDto ToDto(this UserEntity userEntity)
+        {
+            if (userEntity == null)
+            {
+                return new UserDto();
+            }
+            return new UserDto
+            {
+                Contacts = userEntity.Contacts,
+                CreateTime = userEntity.CreateTime,
+                UserName = userEntity.UserName,
+                Expires = userEntity.Expires
+            };
+        }
+
         public static List<UserDto> ToDtos(this List<UserEntity> userEntities)
         {
             if (userEntities == null || userEntities.Count <= 0)

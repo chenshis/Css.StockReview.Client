@@ -43,7 +43,7 @@ namespace StockReview.Infrastructure.Config
         /// <summary>
         /// 全局用户信息
         /// </summary>
-        public const string GlobalUserName = nameof(GlobalUserName);
+        public const string GlobalUserInfo = nameof(GlobalUserInfo);
 
         /// <summary>
         /// 菜单树区域
@@ -227,10 +227,12 @@ namespace StockReview.Infrastructure.Config
         /// 用户列表集合
         /// </summary>
         public const string UsersRoute = "v1/stockreview/user/list";
+        public const string UserInfoRoute = "v1/stockreview/user/info";
         public const string AddUserRoute = "v1/stockreview/user/add";
         public const string UpdateUserRoleRoute = "v1/stockreview/user/update-role";
         public const string DeleteUserRoute = "v1/stockreview/user/delete";
         public const string UsersRouteQuery = "v1/stockreview/user/list?keyword={0}";
+        public const string UserInfoRouteQuery = "v1/stockreview/user/info?userName={0}";
         public const string BulletinBoardRoute = "v1/stockreview/stockOutlook/bulletin-board";
         public const string EmotionDetailRoute = "v1/stockreview/stockOutlook/emotion";
         public const string TodayRoute = "v1/stockreview/stockOutlook/today";

@@ -681,10 +681,10 @@
                         Orientation="Horizontal">
                         <TextBlock Foreground="Black">
                             <Run>用户:</Run>
-                            <Run>张三</Run>
+                            <Run Text="{Binding UserName}" />
                             <Run>,</Run>
                             <Run>到期:</Run>
-                            <Run>2099-12-30</Run>
+                            <Run Text="{Binding Expires}" />
                         </TextBlock>
                         <Border />
                     </StackPanel>
@@ -694,7 +694,7 @@
                         Orientation="Horizontal">
                         <TextBlock Foreground="Black">
                             <Run>涨停破板率:</Run>
-                            <Run>26%</Run>
+                            <Run Text="{Binding BulletinBoard.TodayZTPBRate}" />
                         </TextBlock>
                         <Border />
                     </StackPanel>
@@ -705,7 +705,7 @@
                         Orientation="Horizontal">
                         <TextBlock Foreground="Black">
                             <Run>昨涨停今表现:</Run>
-                            <Run Foreground="Green">-0.767%</Run>
+                            <Run Foreground="Green" Text="{Binding BulletinBoard.YesterdayZTJBX}" />
                         </TextBlock>
                         <Border />
                     </StackPanel>
@@ -716,7 +716,7 @@
                         Orientation="Horizontal">
                         <TextBlock Foreground="Black">
                             <Run>昨连扳今表现:</Run>
-                            <Run Foreground="Red">3.356%</Run>
+                            <Run Foreground="Red" Text="{Binding BulletinBoard.YesterdayLBJBX}" />
                         </TextBlock>
                         <Border />
                     </StackPanel>
@@ -727,7 +727,7 @@
                         Orientation="Horizontal">
                         <TextBlock Foreground="Black">
                             <Run>昨破扳今表现:</Run>
-                            <Run Foreground="Green">-4.778%</Run>
+                            <Run Foreground="Green" Text="{Binding BulletinBoard.YesterdayPBJBX}" />
                         </TextBlock>
                         <Border />
                     </StackPanel>
@@ -737,9 +737,7 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
-                        <TextBlock Foreground="Black">
-                            <Run>2024-4-16 14:49:17 星期二</Run>
-                        </TextBlock>
+                        <TextBlock Foreground="Black" Text="{Binding FormattedRealTime}" />
                     </StackPanel>
                 </Grid>
 

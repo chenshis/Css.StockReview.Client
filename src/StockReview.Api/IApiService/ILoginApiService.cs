@@ -52,6 +52,13 @@ namespace StockReview.Api.IApiService
         ApiResponse<List<UserDto>> GetUsers(string keyword);
 
         /// <summary>
+        /// 用户信息
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        ApiResponse<UserDto> GetUser(string userName);
+
+        /// <summary>
         /// 修改角色
         /// </summary>
         /// <param name="request"></param>
