@@ -21,6 +21,9 @@ using LiveChartsCore.ConditionalDraw;
 using Prism.Events;
 using HandyControl.Data;
 using StockReview.Domain.Events;
+using System.Net.Http;
+using Polly;
+using Polly.Retry;
 
 namespace StockReview.Client.ContentModule.ViewModels
 {
@@ -31,6 +34,7 @@ namespace StockReview.Client.ContentModule.ViewModels
     {
         private readonly IStockOutlookApiService _stockOutlookApiService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly RetryPolicy _retryPolicy;
         private DispatcherTimer _timer;
         /// <summary>
         /// 构造
@@ -48,6 +52,7 @@ namespace StockReview.Client.ContentModule.ViewModels
             this.PageTitle = "股市看盘";
             this._stockOutlookApiService = stockOutlookApiService;
             this._eventAggregator = eventAggregator;
+            _retryPolicy = Policy.Handle<Exception>().WaitAndRetry(3, retryAttempt => TimeSpan.FromSeconds(3));
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(30);
             _timer.Tick += Timer_Tick;
@@ -262,19 +267,26 @@ namespace StockReview.Client.ContentModule.ViewModels
 
                 // 看板数据
                 RealTimeBulletinBoard();
-                //情绪明细
-                var apiEmotionDetail = _stockOutlookApiService.GetEmotionDetail(day);
-                if (apiEmotionDetail.Code != 0)
+                EmotionDetailDto emotionDetail = null;
+                // 重试策略
+                _retryPolicy.Execute(() =>
                 {
-                    SetMessageBox(InfoType.Error, apiEmotionDetail.Msg);
-                    return;
-                }
-                var emotionDetail = apiEmotionDetail.Data;
-                if (emotionDetail == null)
-                {
-                    SetMessageBox(InfoType.Info, "情绪详情数据等待加载中……");
-                    return;
-                }
+                    //情绪明细
+                    var apiEmotionDetail = _stockOutlookApiService.GetEmotionDetail(day);
+                    if (apiEmotionDetail.Code != 0)
+                    {
+                        SetMessageBox(InfoType.Error, apiEmotionDetail.Msg);
+                        _eventAggregator.GetEvent<LoadingEvent>().Publish(false);
+                        return;
+                    }
+                    emotionDetail = apiEmotionDetail.Data;
+                    if (emotionDetail == null)
+                    {
+                        SetMessageBox(InfoType.Info, "情绪详情数据等待加载中……");
+                        _eventAggregator.GetEvent<LoadingEvent>().Publish(false);
+                        throw new ArgumentNullException();
+                    }
+                });
 
                 HistogramXAxes = new Axis[1];
                 HistogramXAxes[0] = new Axis();
@@ -424,18 +436,24 @@ namespace StockReview.Client.ContentModule.ViewModels
                 return;
             }
             string day = CurrentDate.Value.ToString("yyyy-MM-dd");
-            var apiResponse = _stockOutlookApiService.GetBulletinBoard(day);
-            if (apiResponse.Code != 0)
+
+            // 重试策略
+            _retryPolicy.Execute(() =>
             {
-                SetMessageBox(InfoType.Error, apiResponse.Msg);
-                return;
-            }
-            BulletinBoard = apiResponse.Data;
-            if (BulletinBoard == null)
-            {
-                SetMessageBox(InfoType.Info, "看板数据等待加载中……");
-                return;
-            }
+                var apiResponse = _stockOutlookApiService.GetBulletinBoard(day);
+                if (apiResponse.Code != 0)
+                {
+                    SetMessageBox(InfoType.Error, apiResponse.Msg);
+                    return;
+                }
+                BulletinBoard = apiResponse.Data;
+                if (BulletinBoard == null)
+                {
+                    SetMessageBox(InfoType.Info, "看板数据等待加载中……");
+                    throw new ArgumentNullException(nameof(BulletinBoard));
+                }
+            });
+
             double.TryParse(BulletinBoard.EmotionPercent, out var emotionValue);
             Needle = new NeedleVisual { Value = emotionValue };
             EmotionSeries = GaugeGenerator.BuildAngularGaugeSections(
@@ -568,8 +586,6 @@ namespace StockReview.Client.ContentModule.ViewModels
                 // x轴
                 var timeAxis = new Axis
                 {
-                    MinLimit = 0,
-                    MaxLimit = 10,
                     Labels = apiResponse.Data.StockDetailData.Times.ToArray()
                 };
                 TimeXAxes = new[] { timeAxis };

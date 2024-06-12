@@ -638,8 +638,7 @@
                         Grid.Row="2"
                         LegendPosition="Top"
                         Series="{Binding TimeSeries}"
-                        XAxes="{Binding TimeXAxes}"
-                        ZoomMode="X" />
+                        XAxes="{Binding TimeXAxes}" />
                     <lvc:CartesianChart
                         Grid.Row="3"
                         Series="{Binding TimeVolumeSeries}"

@@ -630,17 +630,11 @@ namespace StockReview.Api.ApiService
             else
             {
                 var httpClient = _httpClientFactory.CreateClient();
-                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(SystemConstant.StockUserAgent);
+                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(SystemConstant.UserAgent);
                 Dictionary<string, string> parameters = new Dictionary<string, string>();
                 parameters["a"] = "GetStockTrend";
                 parameters["c"] = "StockL2History";
-                parameters["PhoneOSNew"] = "1";
-                parameters["DeviceID"] = "ffffffff-c95a-a223-ffff-ffffdcc9b654";
-                parameters["VerSion"] = "5.8.0.2";
-                parameters["Token"] = "0";
-                parameters["apiv"] = "w32";
                 parameters["StockID"] = stockId;
-                parameters["UserID"] = "0";
                 parameters["Day"] = day;
                 var formContent = new FormUrlEncodedContent(parameters);
                 var httpResponseMessage = httpClient.PostAsync("https://apphis.longhuvip.com/w1/api/index.php", formContent).Result;
@@ -651,47 +645,58 @@ namespace StockReview.Api.ApiService
                 stockDetail.HighPrice = double.Parse(jobject["hprice"]?.ToString() ?? "0.0");
                 stockDetail.LowPrice = double.Parse(jobject["lprice"]?.ToString() ?? "0.0");
                 stockDetail.ClosePrice = double.Parse(jobject["preclose_px"]?.ToString() ?? "0.0");
-                stockDetail.TotalTurnover = long.Parse(jobject["total_turnover"]?.ToString() ?? "0.0");
 
-                JArray jarray = (JArray)jobject["trend"];
-                for (int i = 0; i < jarray.Count; i++)
+                var totalTurnover = jobject["total_turnover"];
+                if (totalTurnover != null)
                 {
-                    JArray jarray2 = (JArray)jarray[i];
-                    double latest = double.Parse(jarray2[1].ToString());
-                    stockDetail.Times.Add(jarray2[0].ToString());
-                    stockDetail.Latests.Add(latest);
-                    stockDetail.Avgs.Add(double.Parse(jarray2[2].ToString()));
-                    stockDetail.Turnovers.Add(double.Parse(jarray2[3].ToString()));
-                    stockDetail.Volumes.Add(double.Parse(jarray2[4].ToString()));
-                    if (i == 0)
+                    stockDetail.TotalTurnover = long.Parse(totalTurnover.ToString());
+                }
+                else
+                {
+                    stockDetail.TotalTurnover = 0;
+                }
+                JArray jarray = (JArray)jobject["trend"];
+                if (jarray != null)
+                {
+                    for (int i = 0; i < jarray.Count; i++)
                     {
-                        if (latest > stockDetail.ClosePrice)
+                        JArray jarray2 = (JArray)jarray[i];
+                        double latest = double.Parse(jarray2[1].ToString());
+                        stockDetail.Times.Add(jarray2[0].ToString());
+                        stockDetail.Latests.Add(latest);
+                        stockDetail.Avgs.Add(double.Parse(jarray2[2].ToString()));
+                        stockDetail.Turnovers.Add(double.Parse(jarray2[3].ToString()));
+                        stockDetail.Volumes.Add(double.Parse(jarray2[4].ToString()));
+                        if (i == 0)
                         {
-                            stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Red));
-                        }
-                        else if (latest < stockDetail.ClosePrice)
-                        {
-                            stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Green));
+                            if (latest > stockDetail.ClosePrice)
+                            {
+                                stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Red));
+                            }
+                            else if (latest < stockDetail.ClosePrice)
+                            {
+                                stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Green));
+                            }
+                            else
+                            {
+                                stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Red));
+                            }
                         }
                         else
                         {
-                            stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Red));
-                        }
-                    }
-                    else
-                    {
-                        double d = double.Parse(((JArray)jarray[i - 1])[1].ToString());
-                        if (latest > d)
-                        {
-                            stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Red));
-                        }
-                        else if (latest < d)
-                        {
-                            stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Green));
-                        }
-                        else
-                        {
-                            stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Gray));
+                            double d = double.Parse(((JArray)jarray[i - 1])[1].ToString());
+                            if (latest > d)
+                            {
+                                stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Red));
+                            }
+                            else if (latest < d)
+                            {
+                                stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Green));
+                            }
+                            else
+                            {
+                                stockDetail.Colors.Add(new StockDetailColorDto(stockDetail.Turnovers[i], ColorEnum.Gray));
+                            }
                         }
                     }
                 }
@@ -709,12 +714,16 @@ namespace StockReview.Api.ApiService
             StockDto stock = new();
             stock.StockId = request.StockId;
             stock.Date = request.Day;
-            stock.StockDatas = GetStockDatas(request.StockId).OrderByDescending(t => t.Date).Take(100).ToList();
-            stock.StockDetailData = GetStockDetails(request.StockId, request.Day);
-            _memoryCache.Set(string.Concat(request.StockId, request.Day),
-                             stock,
-                             new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
-
+            //日期过滤
+            if (DateTime.TryParse(request.Day, out DateTime dateTime))
+            {
+                stock.StockDatas = GetStockDatas(request.StockId);
+                stock.StockDatas = stock.StockDatas.Where(t => t.Date <= dateTime).OrderByDescending(t => t.Date).Take(100).ToList();
+                stock.StockDetailData = GetStockDetails(request.StockId, request.Day);
+                _memoryCache.Set(string.Concat(request.StockId, request.Day),
+                                 stock,
+                                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
+            }
             return stock;
         }
 
