@@ -615,7 +615,7 @@ namespace StockReview.Client.ContentModule.ViewModels
                     GeometryStroke = null,
                     LineSmoothness = 0.8,
                     Fill = null,
-                    Stroke = new SolidColorPaint(SKColors.Blue) { StrokeThickness = 1f }
+                    Stroke = new SolidColorPaint(SKColors.SkyBlue) { StrokeThickness = 1f }
                 };
                 var lineAvgSeries = new LineSeries<double>
                 {
