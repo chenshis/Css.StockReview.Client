@@ -66,5 +66,12 @@ namespace StockReview.Api.IApiService
         /// <param name="request">请求</param>
         /// <returns></returns>
         StockDto GetStock(StockRequestDto request);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        ConnectingBoardDto GetConnectingBoard(string day);
     }
 }

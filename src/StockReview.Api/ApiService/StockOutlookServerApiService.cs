@@ -736,6 +736,13 @@ namespace StockReview.Api.ApiService
         }
 
 
+        public ConnectingBoardDto GetConnectingBoard(string day)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
         #region 私有方法
 
         /// <summary>
