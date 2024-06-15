@@ -22,11 +22,7 @@ namespace StockReview.Server.BackgroundServices
             var stockReviewApiService = serviceProvider.GetRequiredService<IStockOutlookServerApiService>();
             try
             {
-                var day = memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
-                if (day == null)
-                {
-                    day = stockReviewApiService.GetCurrentDay();
-                }
+                var day = stockReviewApiService.GetCurrentDay();
                 var bulletinBoard = stockReviewApiService.GetHisBulletinBoard(day);
                 if (bulletinBoard != null)
                 {

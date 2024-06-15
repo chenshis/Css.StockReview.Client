@@ -67,8 +67,8 @@ namespace StockReview.Api.ApiService
                     filterDays.Add(item.Value<string>());
                 }
                 // 更新缓存
-                _memoryCache.Set(SystemConstant.StockSelectedDayKey, day);
-                _memoryCache.Set(SystemConstant.StockFilterDaysKey, filterDays);
+                _memoryCache.Set(SystemConstant.StockSelectedDayKey, day, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
+                _memoryCache.Set(SystemConstant.StockFilterDaysKey, filterDays, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
             }
             catch (Exception ex)
             {
@@ -80,7 +80,7 @@ namespace StockReview.Api.ApiService
         public BulletinBoardDto GetBulletinBoard(string day)
         {
             GetDateByDay(day);
-            var today = _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
+            var today = GetCurrentDay();
             if (today != null && today == day)
             {
                 var board = _memoryCache.Get<BulletinBoardDto>(SystemConstant.BulletinBoardKey);
@@ -95,7 +95,7 @@ namespace StockReview.Api.ApiService
         public BulletinBoardDto GetHisBulletinBoard(string day)
         {
             // 检测日期合法性
-            var cacheSelectedDay = _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
+            var cacheSelectedDay = GetCurrentDay();
             if (cacheSelectedDay == null)
             {
                 throw new Exception("当前日期未获取到，请稍后重试！");
@@ -169,9 +169,9 @@ namespace StockReview.Api.ApiService
                     bulletinBoard.HighBoardPercent = Math.Round(Convert.ToDouble(jArrayInfo[6].ToString())).ToString() + "%";
                     bulletinBoard.TodayFryingRate = Math.Round(Convert.ToDouble(jArrayInfo[7].ToString())).ToString() + "%";
                     bulletinBoard.TodayZTPBRate = Math.Round(Convert.ToDouble(jArrayInfo[7].ToString()), 3).ToString() + "%";
-                    bulletinBoard.YesterdayZTJBX = Math.Round(Convert.ToDouble(jArrayInfo[8].ToString()),3).ToString() + "%";
-                    bulletinBoard.YesterdayLBJBX = Math.Round(Convert.ToDouble(jArrayInfo[9].ToString()),3).ToString() + "%";
-                    bulletinBoard.YesterdayPBJBX = Math.Round(Convert.ToDouble(jArrayInfo[10].ToString()),3).ToString() + "%";
+                    bulletinBoard.YesterdayZTJBX = Math.Round(Convert.ToDouble(jArrayInfo[8].ToString()), 3).ToString() + "%";
+                    bulletinBoard.YesterdayLBJBX = Math.Round(Convert.ToDouble(jArrayInfo[9].ToString()), 3).ToString() + "%";
+                    bulletinBoard.YesterdayPBJBX = Math.Round(Convert.ToDouble(jArrayInfo[10].ToString()), 3).ToString() + "%";
                     #endregion
 
                     #region 情绪
@@ -303,7 +303,7 @@ namespace StockReview.Api.ApiService
         public EmotionDetailDto GetEmotionDetail(string day)
         {
             GetDateByDay(day);
-            var today = _memoryCache.Get<string>(SystemConstant.StockSelectedDayKey);
+            var today = GetCurrentDay();
             if (today != null && today == day)
             {
                 return _memoryCache.Get<EmotionDetailDto>(SystemConstant.EmotionDetailKey);
@@ -738,6 +738,8 @@ namespace StockReview.Api.ApiService
 
         public ConnectingBoardDto GetConnectingBoard(string day)
         {
+
+
             throw new NotImplementedException();
         }
 
