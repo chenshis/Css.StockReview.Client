@@ -670,6 +670,134 @@ namespace StockReview.Client.ContentModule.ViewModels
             }
         }
 
+        private DateTime? _connectingBoardDate;
+        /// <summary>
+        /// 连板晋级日期
+        /// </summary>
+        public DateTime? ConnectingBoardDate
+        {
+            get { return _connectingBoardDate; }
+            set { SetProperty(ref _connectingBoardDate, value); }
+        }
+
+
+        /// <summary>
+        /// 连板晋级命令
+        /// </summary>
+        public ICommand ConnectedBoardCommand => new DelegateCommand(() => GetConnectedBoard());
+
+        private ConnectingBoardDto _oneConnectingBoard;
+        /// <summary>
+        /// 一板
+        /// </summary>
+        public ConnectingBoardDto OneConnectingBoard
+        {
+            get { return _oneConnectingBoard; }
+            set { SetProperty(ref _oneConnectingBoard, value); }
+        }
+
+        private ConnectingBoardDto _twoConnectingBoard;
+        /// <summary>
+        /// 二板
+        /// </summary>
+        public ConnectingBoardDto TwoConnectingBoard
+        {
+            get { return _twoConnectingBoard; }
+            set { SetProperty(ref _twoConnectingBoard, value); }
+        }
+
+        private ConnectingBoardDto _threeConnectingBoard;
+        /// <summary>
+        /// 三板
+        /// </summary>
+        public ConnectingBoardDto ThreeConnectingBoard
+        {
+            get { return _threeConnectingBoard; }
+            set { SetProperty(ref _threeConnectingBoard, value); }
+        }
+
+        private ConnectingBoardDto _fourConnectingBoard;
+        /// <summary>
+        /// 四板
+        /// </summary>
+        public ConnectingBoardDto FourConnectingBoard
+        {
+            get { return _fourConnectingBoard; }
+            set { SetProperty(ref _fourConnectingBoard, value); }
+        }
+
+        private ConnectingBoardDto _fiveConnectingBoard;
+        /// <summary>
+        /// 五板
+        /// </summary>
+        public ConnectingBoardDto FiveConnectingBoard
+        {
+            get { return _fiveConnectingBoard; }
+            set { SetProperty(ref _fiveConnectingBoard, value); }
+        }
+
+        /// <summary>
+        /// 获取连板晋级数据
+        /// </summary>
+        private void GetConnectedBoard()
+        {
+            if (ConnectingBoardDate == null)
+            {
+                var apiToday = _stockOutlookApiService.GetToday();
+                if (apiToday.Code != 0)
+                {
+                    SetMessageBox(InfoType.Error, apiToday.Msg);
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(apiToday.Data))
+                {
+                    ConnectingBoardDate = DateTime.Now;
+                }
+                else
+                {
+                    ConnectingBoardDate = Convert.ToDateTime(apiToday.Data);
+                }
+            }
+
+
+            Task.Run(() =>
+            {
+                var apiResponse = _stockOutlookApiService.GetConnectingBoard(ConnectingBoardDate.Value.ToString("yyyy-MM-dd"));
+                if (apiResponse.Code != 0)
+                {
+                    SetMessageBox(InfoType.Error, apiResponse.Msg);
+                    return;
+                }
+                var data = apiResponse.Data;
+                if (data != null)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        if (i == 0)
+                        {
+                            OneConnectingBoard = data[i];
+                        }
+                        else if (i == 1)
+                        {
+                            TwoConnectingBoard = data[i];
+                        }
+                        else if (i == 2)
+                        {
+                            ThreeConnectingBoard = data[i];
+                        }
+                        else if (i == 3)
+                        {
+                            FourConnectingBoard = data[i];
+                        }
+                        else
+                        {
+                            FiveConnectingBoard = data[i];
+                        }
+                    }
+                }
+            });
+        }
+
         /// <summary>
         /// 设定转盘样式
         /// </summary>

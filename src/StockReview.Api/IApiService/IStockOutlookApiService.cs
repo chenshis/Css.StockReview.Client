@@ -1,5 +1,6 @@
 ﻿using StockReview.Api.Dtos;
 using StockReview.Infrastructure.Config;
+using System.Collections.Generic;
 
 namespace StockReview.Api.IApiService
 {
@@ -12,5 +13,7 @@ namespace StockReview.Api.IApiService
         ApiResponse<string> GetToday();
 
         ApiResponse<StockDto> GetStock(StockRequestDto request);
+
+        ApiResponse<List<ConnectingBoardDto>> GetConnectingBoard(string day);
     }
 }

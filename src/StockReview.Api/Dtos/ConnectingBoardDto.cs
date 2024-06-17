@@ -13,9 +13,19 @@ namespace StockReview.Api.Dtos
         public int Type { get; set; }
 
         /// <summary>
+        /// 当天数量
+        /// </summary>
+        public int TodayCount { get; set; }
+
+        /// <summary>
         /// 今天
         /// </summary>
         public List<ConnectingBoardTodayDto> ConnectingBoardTodays { get; set; }
+
+        /// <summary>
+        /// 昨天数量
+        /// </summary>
+        public int YesterdayCount { get; set; }
 
         /// <summary>
         /// 昨天
@@ -36,6 +46,10 @@ namespace StockReview.Api.Dtos
         /// 名称
         /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// 图片地址
+        /// </summary>
+        public string ImageUrl { get; set; }
         /// <summary>
         /// 涨停时间
         /// </summary>
@@ -99,6 +113,10 @@ namespace StockReview.Api.Dtos
         /// 名称
         /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// 图片地址
+        /// </summary>
+        public string ImageUrl { get; set; }
         /// <summary>
         /// 价格
         /// </summary>

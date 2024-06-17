@@ -845,7 +845,13 @@ namespace StockReview.Api.ApiService
                 foreach (var item in jArrayTodayInfo[0])
                 {
                     ConnectingBoardTodayDto connectingBoardToday = new();
-                    connectingBoardToday.Code = item[0]?.ToString();
+                    if (item[0] != null)
+                    {
+                        connectingBoardToday.Code = item[0].ToString();
+                        var imageValue = !(connectingBoardToday.Code.Substring(0, 1) == "6") ?
+                            "sz" + connectingBoardToday.Code : "sh" + connectingBoardToday.Code;
+                        connectingBoardToday.ImageUrl = "http://image.sinajs.cn/newchart/min/n/" + imageValue + ".gif";
+                    }
                     connectingBoardToday.Name = item[1]?.ToString();
                     if (item[4] != null && long.TryParse(item[4].ToString(), out long timeStamp))
                     {
@@ -895,6 +901,7 @@ namespace StockReview.Api.ApiService
                 }
 
                 connectingBoard.ConnectingBoardTodays = connectingBoardTodays;
+                connectingBoard.TodayCount = connectingBoardTodays.Count();
 
 
 
@@ -907,7 +914,13 @@ namespace StockReview.Api.ApiService
                     foreach (var item in jArrayYesterdayInfo[0])
                     {
                         ConnectingBoardYesterdayDto connectingBoardYesterday = new();
-                        connectingBoardYesterday.Code = item[0]?.ToString();
+                        if (item[0] != null)
+                        {
+                            connectingBoardYesterday.Code = item[0].ToString();
+                            var imageValue = !(connectingBoardYesterday.Code.Substring(0, 1) == "6") ?
+                                "sz" + connectingBoardYesterday.Code : "sh" + connectingBoardYesterday.Code;
+                            connectingBoardYesterday.ImageUrl = "http://image.sinajs.cn/newchart/min/n/" + imageValue + ".gif";
+                        }
                         connectingBoardYesterday.Name = item[1]?.ToString();
                         connectingBoardYesterday.Price = item[4]?.ToString();
                         if (item[5] != null)
@@ -947,7 +960,7 @@ namespace StockReview.Api.ApiService
                     }
 
                     connectingBoard.ConnectingBoardYesterdays = connectingBoardYesterdays;
-
+                    connectingBoard.YesterdayCount = connectingBoardYesterdays.Count();
                 }
 
                 connectingBoards.Add(connectingBoard);

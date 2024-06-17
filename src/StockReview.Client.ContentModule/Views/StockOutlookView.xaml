@@ -529,7 +529,13 @@
                                 HorizontalAlignment="Stretch"
                                 Content="连板股晋级区"
                                 IsChecked="{Binding IsOpen, ElementName=DrawerConnectingBoard}"
-                                Style="{StaticResource ToggleButtonSuccess}" />
+                                Style="{StaticResource ToggleButtonSuccess}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding ConnectedBoardCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ToggleButton>
                             <ToggleButton
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Stretch"
@@ -762,37 +768,594 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            HorizontalAlignment="Left"
-                            Style="{StaticResource TextBlockTitle}"
-                            Text="连板晋级区" />
-                        <Button
-                            HorizontalAlignment="Right"
-                            hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
-                            Command="hc:ControlCommands.Close"
-                            Foreground="{DynamicResource PrimaryTextBrush}"
-                            Style="{StaticResource ButtonIcon}" />
-
+                        <Grid>
+                            <TextBlock
+                                Margin="10,0"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBlockTitle}"
+                                Text="连板晋级区" />
+                            <StackPanel
+                                Margin="0,5,0,0"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal">
+                                <DatePicker
+                                    Width="150"
+                                    SelectedDate="{Binding ConnectingBoardDate}"
+                                    SelectedDateFormat="Short"
+                                    Style="{StaticResource DatePickerExtend}" />
+                                <Button
+                                    Width="80"
+                                    Margin="10,0,0,0"
+                                    Command="{Binding ConnectedBoardCommand}"
+                                    Content="查询"
+                                    Cursor="Hand"
+                                    Style="{StaticResource ButtonPrimary}" />
+                            </StackPanel>
+                            <Button
+                                HorizontalAlignment="Right"
+                                hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                Command="hc:ControlCommands.Close"
+                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                Style="{StaticResource ButtonIcon}" />
+                        </Grid>
                         <TabControl
                             Grid.Row="1"
                             Margin="0,20"
                             Style="{StaticResource TabControlInLine}">
-                            <TabItem Header="一板" IsSelected="True">
-                                <Border />
+                            <TabItem IsSelected="True">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontSize="15" Text="一板" />
+                                        <Border
+                                            Width="15"
+                                            Height="15"
+                                            Margin="2,0"
+                                            VerticalAlignment="Top"
+                                            Background="Red"
+                                            BorderBrush="Red"
+                                            BorderThickness="1"
+                                            CornerRadius="15">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="10"
+                                                Foreground="White"
+                                                Text="{Binding OneConnectingBoard.TodayCount}" />
+                                        </Border>
+                                    </StackPanel>
+                                </TabItem.Header>
+
+                                <ListView ItemsSource="{Binding OneConnectingBoard.ConnectingBoardTodays}">
+                                    <ListView.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource ListViewItemBaseStyle}" TargetType="ListViewItem">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="ToolTipService.ToolTip">
+                                                        <Setter.Value>
+                                                            <ToolTip Placement="Top" Style="{StaticResource ToolTipBaseStyle}">
+                                                                <Image
+                                                                    Width="500"
+                                                                    Height="300"
+                                                                    Source="{Binding ImageUrl}" />
+                                                            </ToolTip>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn DisplayMemberBinding="{Binding Code}" Header="代码" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="股票名称" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="涨停时间" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Reason}" Header="涨停原因" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Closing}" Header="封单" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding MaxClosing}" Header="最大封单" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding MainForceNet}" Header="主力净额" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding MainBuy}" Header="主力买入" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding MainSell}" Header="主力卖出" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding TransactionAmount}" Header="成交额" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Plate}" Header="板块" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Amplitude}" Header="振幅" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding ActualCirculation}" Header="实际流通" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding ActualTurnover}" Header="实际换手" />
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
                             </TabItem>
-                            s
-                            <TabItem Header="二板">
-                                <Border />
+
+                            <TabItem>
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontSize="15" Text="二板" />
+                                        <Border
+                                            Width="15"
+                                            Height="15"
+                                            Margin="2,0"
+                                            VerticalAlignment="Top"
+                                            Background="Red"
+                                            BorderBrush="Red"
+                                            BorderThickness="1"
+                                            CornerRadius="15">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="10"
+                                                Foreground="White"
+                                                Text="{Binding TwoConnectingBoard.TodayCount}" />
+                                        </Border>
+                                    </StackPanel>
+                                </TabItem.Header>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <ListView ItemsSource="{Binding TwoConnectingBoard.ConnectingBoardTodays}">
+                                        <ListView.ItemContainerStyle>
+                                            <Style BasedOn="{StaticResource ListViewItemBaseStyle}" TargetType="ListViewItem">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="ToolTipService.ToolTip">
+                                                            <Setter.Value>
+                                                                <ToolTip Placement="Top" Style="{StaticResource ToolTipBaseStyle}">
+                                                                    <Image
+                                                                        Width="500"
+                                                                        Height="300"
+                                                                        Source="{Binding ImageUrl}" />
+                                                                </ToolTip>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn DisplayMemberBinding="{Binding Code}" Header="代码" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="股票名称" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="涨停时间" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Reason}" Header="涨停原因" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Closing}" Header="封单" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MaxClosing}" Header="最大封单" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MainForceNet}" Header="主力净额" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MainBuy}" Header="主力买入" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MainSell}" Header="主力卖出" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding TransactionAmount}" Header="成交额" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Plate}" Header="板块" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Amplitude}" Header="振幅" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding ActualCirculation}" Header="实际流通" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding ActualTurnover}" Header="实际换手" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                    <Grid Grid.Row="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid Margin="5">
+                                            <Border
+                                                Width="4"
+                                                Height="12"
+                                                Margin="5,0"
+                                                HorizontalAlignment="Left"
+                                                Background="Red" />
+                                            <TextBlock Margin="20,0,0,0" FontWeight="Black">
+                                                <Run Text="未涨停的昨日一板个股" />
+                                                <Run Text="（" />
+                                                <Run Text="{Binding TwoConnectingBoard.YesterdayCount}" />
+                                                <Run Text="）" />
+                                            </TextBlock>
+                                        </Grid>
+                                        <ListView Grid.Row="1" ItemsSource="{Binding TwoConnectingBoard.ConnectingBoardYesterdays}">
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource ListViewItemBaseStyle}" TargetType="ListViewItem">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="ToolTipService.ToolTip">
+                                                                <Setter.Value>
+                                                                    <ToolTip Placement="Top" Style="{StaticResource ToolTipBaseStyle}">
+                                                                        <Image
+                                                                            Width="500"
+                                                                            Height="300"
+                                                                            Source="{Binding ImageUrl}" />
+                                                                    </ToolTip>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Code}" Header="代码" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="股票名称" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="价格" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding ZhangF}" Header="涨幅" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Plate}" Header="板块" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Amplitude}" Header="振幅" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding MainForceNet}" Header="主力净额" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding MainBuy}" Header="主力买入" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding MainSell}" Header="主力卖出" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding TransactionAmount}" Header="成交额" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding ActualCirculation}" Header="实际流通" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding ActualTurnover}" Header="实际换手" />
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </Grid>
+                                </Grid>
                             </TabItem>
-                            <TabItem Header="三板">
-                                <Border />
+                            <TabItem>
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontSize="15" Text="三板" />
+                                        <Border
+                                            Width="15"
+                                            Height="15"
+                                            Margin="2,0"
+                                            VerticalAlignment="Top"
+                                            Background="Red"
+                                            BorderBrush="Red"
+                                            BorderThickness="1"
+                                            CornerRadius="15">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="10"
+                                                Foreground="White"
+                                                Text="{Binding ThreeConnectingBoard.TodayCount}" />
+                                        </Border>
+                                    </StackPanel>
+                                </TabItem.Header>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <ListView ItemsSource="{Binding ThreeConnectingBoard.ConnectingBoardTodays}">
+                                        <ListView.ItemContainerStyle>
+                                            <Style BasedOn="{StaticResource ListViewItemBaseStyle}" TargetType="ListViewItem">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="ToolTipService.ToolTip">
+                                                            <Setter.Value>
+                                                                <ToolTip Placement="Top" Style="{StaticResource ToolTipBaseStyle}">
+                                                                    <Image
+                                                                        Width="500"
+                                                                        Height="300"
+                                                                        Source="{Binding ImageUrl}" />
+                                                                </ToolTip>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn DisplayMemberBinding="{Binding Code}" Header="代码" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="股票名称" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="涨停时间" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Reason}" Header="涨停原因" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Closing}" Header="封单" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MaxClosing}" Header="最大封单" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MainForceNet}" Header="主力净额" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MainBuy}" Header="主力买入" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MainSell}" Header="主力卖出" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding TransactionAmount}" Header="成交额" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Plate}" Header="板块" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Amplitude}" Header="振幅" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding ActualCirculation}" Header="实际流通" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding ActualTurnover}" Header="实际换手" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                    <Grid Grid.Row="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid Margin="5">
+                                            <Border
+                                                Width="4"
+                                                Height="12"
+                                                Margin="5,0"
+                                                HorizontalAlignment="Left"
+                                                Background="Red" />
+                                            <TextBlock Margin="20,0,0,0" FontWeight="Black">
+                                                <Run Text="未涨停的昨日二板个股" />
+                                                <Run Text="（" />
+                                                <Run Text="{Binding ThreeConnectingBoard.YesterdayCount}" />
+                                                <Run Text="）" />
+                                            </TextBlock>
+                                        </Grid>
+                                        <ListView Grid.Row="1" ItemsSource="{Binding ThreeConnectingBoard.ConnectingBoardYesterdays}">
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource ListViewItemBaseStyle}" TargetType="ListViewItem">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="ToolTipService.ToolTip">
+                                                                <Setter.Value>
+                                                                    <ToolTip Placement="Top" Style="{StaticResource ToolTipBaseStyle}">
+                                                                        <Image
+                                                                            Width="500"
+                                                                            Height="300"
+                                                                            Source="{Binding ImageUrl}" />
+                                                                    </ToolTip>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Code}" Header="代码" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="股票名称" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="价格" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding ZhangF}" Header="涨幅" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Plate}" Header="板块" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Amplitude}" Header="振幅" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding MainForceNet}" Header="主力净额" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding MainBuy}" Header="主力买入" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding MainSell}" Header="主力卖出" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding TransactionAmount}" Header="成交额" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding ActualCirculation}" Header="实际流通" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding ActualTurnover}" Header="实际换手" />
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </Grid>
+                                </Grid>
                             </TabItem>
-                            <TabItem Header="四板">
-                                <Border />
+                            <TabItem>
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontSize="15" Text="四板" />
+                                        <Border
+                                            Width="15"
+                                            Height="15"
+                                            Margin="2,0"
+                                            VerticalAlignment="Top"
+                                            Background="Red"
+                                            BorderBrush="Red"
+                                            BorderThickness="1"
+                                            CornerRadius="15">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="10"
+                                                Foreground="White"
+                                                Text="{Binding FourConnectingBoard.TodayCount}" />
+                                        </Border>
+                                    </StackPanel>
+                                </TabItem.Header>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <ListView ItemsSource="{Binding FourConnectingBoard.ConnectingBoardTodays}">
+                                        <ListView.ItemContainerStyle>
+                                            <Style BasedOn="{StaticResource ListViewItemBaseStyle}" TargetType="ListViewItem">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="ToolTipService.ToolTip">
+                                                            <Setter.Value>
+                                                                <ToolTip Placement="Top" Style="{StaticResource ToolTipBaseStyle}">
+                                                                    <Image
+                                                                        Width="500"
+                                                                        Height="300"
+                                                                        Source="{Binding ImageUrl}" />
+                                                                </ToolTip>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn DisplayMemberBinding="{Binding Code}" Header="代码" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="股票名称" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="涨停时间" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Reason}" Header="涨停原因" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Closing}" Header="封单" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MaxClosing}" Header="最大封单" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MainForceNet}" Header="主力净额" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MainBuy}" Header="主力买入" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MainSell}" Header="主力卖出" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding TransactionAmount}" Header="成交额" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Plate}" Header="板块" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Amplitude}" Header="振幅" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding ActualCirculation}" Header="实际流通" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding ActualTurnover}" Header="实际换手" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                    <Grid Grid.Row="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid Margin="5">
+                                            <Border
+                                                Width="4"
+                                                Height="12"
+                                                Margin="5,0"
+                                                HorizontalAlignment="Left"
+                                                Background="Red" />
+                                            <TextBlock Margin="20,0,0,0" FontWeight="Black">
+                                                <Run Text="未涨停的昨日三板个股" />
+                                                <Run Text="（" />
+                                                <Run Text="{Binding FourConnectingBoard.YesterdayCount}" />
+                                                <Run Text="）" />
+                                            </TextBlock>
+                                        </Grid>
+                                        <ListView Grid.Row="1" ItemsSource="{Binding FourConnectingBoard.ConnectingBoardYesterdays}">
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource ListViewItemBaseStyle}" TargetType="ListViewItem">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="ToolTipService.ToolTip">
+                                                                <Setter.Value>
+                                                                    <ToolTip Placement="Top" Style="{StaticResource ToolTipBaseStyle}">
+                                                                        <Image
+                                                                            Width="500"
+                                                                            Height="300"
+                                                                            Source="{Binding ImageUrl}" />
+                                                                    </ToolTip>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Code}" Header="代码" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="股票名称" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="价格" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding ZhangF}" Header="涨幅" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Plate}" Header="板块" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Amplitude}" Header="振幅" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding MainForceNet}" Header="主力净额" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding MainBuy}" Header="主力买入" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding MainSell}" Header="主力卖出" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding TransactionAmount}" Header="成交额" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding ActualCirculation}" Header="实际流通" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding ActualTurnover}" Header="实际换手" />
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </Grid>
+                                </Grid>
                             </TabItem>
-                            <TabItem Header="更高">
-                                <Border />
+                            <TabItem>
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontSize="15" Text="更高" />
+                                        <Border
+                                            Width="15"
+                                            Height="15"
+                                            Margin="2,0"
+                                            VerticalAlignment="Top"
+                                            Background="Red"
+                                            BorderBrush="Red"
+                                            BorderThickness="1"
+                                            CornerRadius="15">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="10"
+                                                Foreground="White"
+                                                Text="{Binding FiveConnectingBoard.TodayCount}" />
+                                        </Border>
+                                    </StackPanel>
+                                </TabItem.Header>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <ListView ItemsSource="{Binding FiveConnectingBoard.ConnectingBoardTodays}">
+                                        <ListView.ItemContainerStyle>
+                                            <Style BasedOn="{StaticResource ListViewItemBaseStyle}" TargetType="ListViewItem">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="ToolTipService.ToolTip">
+                                                            <Setter.Value>
+                                                                <ToolTip Placement="Top" Style="{StaticResource ToolTipBaseStyle}">
+                                                                    <Image
+                                                                        Width="500"
+                                                                        Height="300"
+                                                                        Source="{Binding ImageUrl}" />
+                                                                </ToolTip>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn DisplayMemberBinding="{Binding Code}" Header="代码" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="股票名称" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="涨停时间" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Reason}" Header="涨停原因" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Closing}" Header="封单" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MaxClosing}" Header="最大封单" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MainForceNet}" Header="主力净额" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MainBuy}" Header="主力买入" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding MainSell}" Header="主力卖出" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding TransactionAmount}" Header="成交额" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Plate}" Header="板块" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Amplitude}" Header="振幅" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding ActualCirculation}" Header="实际流通" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding ActualTurnover}" Header="实际换手" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                    <Grid Grid.Row="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid Margin="5">
+                                            <Border
+                                                Width="4"
+                                                Height="12"
+                                                Margin="5,0"
+                                                HorizontalAlignment="Left"
+                                                Background="Red" />
+                                            <TextBlock Margin="20,0,0,0" FontWeight="Black">
+                                                <Run Text="未涨停的昨日四板及以上个股" />
+                                                <Run Text="（" />
+                                                <Run Text="{Binding FiveConnectingBoard.YesterdayCount}" />
+                                                <Run Text="）" />
+                                            </TextBlock>
+                                        </Grid>
+                                        <ListView Grid.Row="1" ItemsSource="{Binding FiveConnectingBoard.ConnectingBoardYesterdays}">
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource ListViewItemBaseStyle}" TargetType="ListViewItem">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="ToolTipService.ToolTip">
+                                                                <Setter.Value>
+                                                                    <ToolTip Placement="Top" Style="{StaticResource ToolTipBaseStyle}">
+                                                                        <Image
+                                                                            Width="500"
+                                                                            Height="300"
+                                                                            Source="{Binding ImageUrl}" />
+                                                                    </ToolTip>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Code}" Header="代码" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="股票名称" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="价格" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding ZhangF}" Header="涨幅" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Plate}" Header="板块" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Amplitude}" Header="振幅" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding MainForceNet}" Header="主力净额" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding MainBuy}" Header="主力买入" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding MainSell}" Header="主力卖出" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding TransactionAmount}" Header="成交额" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding ActualCirculation}" Header="实际流通" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding ActualTurnover}" Header="实际换手" />
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </Grid>
+                                </Grid>
                             </TabItem>
                         </TabControl>
                     </Grid>
