@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +14,22 @@ namespace StockReview.Infrastructure.Config.Snowflake
         public static long CurrentTimeMillis()
         {
             return CurrentTimeFunc();
+        }
+
+        /// <summary>
+        ///     把Unix时间戳转化为时间
+        /// </summary>
+        /// <param name="unixTimeStamp"></param>
+        /// <returns></returns>
+        public static DateTime GetTimeByUnixTimestamp(this long unixTimeStamp, bool isAddEightHour = false)
+        {
+            var startTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc); // 当地时区
+            var dt = startTime.AddSeconds(unixTimeStamp);
+            if (isAddEightHour)
+            {
+                dt = dt.AddHours(8);
+            }
+            return dt;
         }
 
         public static IDisposable StubCurrentTime(Func<long> func)

@@ -50,5 +50,13 @@ namespace StockReview.Server.Controllers
         {
             return _stockOutlookServerApiService.GetStock(request);
         }
+
+        [HttpPost]
+        [Authorize(Roles = $"{nameof(RoleEnum.Ordinary)},{nameof(RoleEnum.VIP)},{nameof(RoleEnum.Admin)}")]
+        [Route(SystemConstant.StockConnectingBoard)]
+        public List<ConnectingBoardDto> ConnectingBoard([FromBody] string day)
+        {
+            return _stockOutlookServerApiService.GetConnectingBoard(day);
+        }
     }
 }

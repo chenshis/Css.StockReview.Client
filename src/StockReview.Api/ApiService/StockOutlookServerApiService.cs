@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections;
+using StockReview.Infrastructure.Config.Snowflake;
 
 namespace StockReview.Api.ApiService
 {
@@ -482,7 +483,12 @@ namespace StockReview.Api.ApiService
                                                                string deviceID = SystemConstant.DeviceID,
                                                                string verSion = SystemConstant.VerSion57012,
                                                                string Day = null,
-                                                               string Date = null)
+                                                               string Date = null,
+                                                               string Order = null,
+                                                               string PidType = null,
+                                                               string Index = null,
+                                                               string Type = null,
+                                                               string st = null)
         {
             Dictionary<string, string> parameters = new()
             {
@@ -501,6 +507,26 @@ namespace StockReview.Api.ApiService
             if (!string.IsNullOrWhiteSpace(Date))
             {
                 parameters[nameof(Date)] = Date;
+            }
+            if (!string.IsNullOrWhiteSpace(Order))
+            {
+                parameters[nameof(Order)] = Order;
+            }
+            if (!string.IsNullOrWhiteSpace(PidType))
+            {
+                parameters[nameof(PidType)] = PidType;
+            }
+            if (!string.IsNullOrWhiteSpace(Index))
+            {
+                parameters[nameof(Index)] = Index;
+            }
+            if (!string.IsNullOrWhiteSpace(Type))
+            {
+                parameters[nameof(Type)] = Type;
+            }
+            if (!string.IsNullOrWhiteSpace(st))
+            {
+                parameters[nameof(st)] = st;
             }
 
             var content = new FormUrlEncodedContent(parameters);
@@ -736,11 +762,201 @@ namespace StockReview.Api.ApiService
         }
 
 
-        public ConnectingBoardDto GetConnectingBoard(string day)
+        public List<ConnectingBoardDto> GetConnectingBoard(string day)
         {
+            List<ConnectingBoardDto> connectingBoards = new();
+            var today = GetCurrentDay();
+            for (int i = 1; i <= 5; i++)
+            {
+                JArray jArrayTodayInfo = null;
+                JArray jArrayYesterdayInfo = null;
+                try
+                {
+                    if (today == day)
+                    {
+                        // today
+                        var client = _httpClientFactory.CreateClient(SystemConstant.SpecialLonghuVipUrl);
+                        var content = GetFormUrlEncodedContent(a: "DailyLimitPerformance", Order: "0", PidType: $"{i}", Index: "0", Type: "4", st: "100");
+                        var httpResponseMessage = client.PostAsync(default(string), content).Result;
+                        var strResult = httpResponseMessage.Content.ReadAsStringAsync().Result;
+                        var jObject = (JObject)JsonConvert.DeserializeObject(strResult);
+                        jArrayTodayInfo = (JArray)jObject["info"];
+                        // yesterday
+                        if (i != 1)
+                        {
+                            content = GetFormUrlEncodedContent(a: "DailyLimitPerformance2", Order: "1", PidType: $"{i}", Index: "0", Type: "5", st: "100");
+                            httpResponseMessage = client.PostAsync(default(string), content).Result;
+                            strResult = httpResponseMessage.Content.ReadAsStringAsync().Result;
+                            jObject = (JObject)JsonConvert.DeserializeObject(strResult);
+                            jArrayYesterdayInfo = (JArray)jObject["info"];
+                        }
+                    }
+                    else
+                    {
+                        // today
+                        var client = _httpClientFactory.CreateClient(SystemConstant.HistoryLonghuVipUrl);
+                        var content = GetFormUrlEncodedContent(a: "DailyLimitPerformance",
+                                                               c: "HisHomeDingPan",
+                                                               Day: day,
+                                                               Order: "0",
+                                                               PidType: $"{i}",
+                                                               Index: "0",
+                                                               Type: "4",
+                                                               st: "100");
+                        var httpResponseMessage = client.PostAsync(default(string), content).Result;
+                        var strResult = httpResponseMessage.Content.ReadAsStringAsync().Result;
+                        var jObject = (JObject)JsonConvert.DeserializeObject(strResult);
+                        jArrayTodayInfo = (JArray)jObject["info"];
+                        // yesterday
+                        if (i != 1)
+                        {
+                            content = GetFormUrlEncodedContent(a: "DailyLimitPerformance2",
+                                                               c: "HisHomeDingPan",
+                                                               Day: day,
+                                                               Order: "1",
+                                                               PidType: $"{i}",
+                                                               Index: "0",
+                                                               Type: "5",
+                                                               st: "100");
+                            httpResponseMessage = client.PostAsync(default(string), content).Result;
+                            strResult = httpResponseMessage.Content.ReadAsStringAsync().Result;
+                            jObject = (JObject)JsonConvert.DeserializeObject(strResult);
+                            jArrayYesterdayInfo = (JArray)jObject["info"];
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
+                    throw new Exception(ex.Message);
+                }
 
 
-            throw new NotImplementedException();
+                // is null 不处理
+                if (jArrayTodayInfo == null)
+                {
+                    continue;
+                }
+                // 赋值
+                ConnectingBoardDto connectingBoard = new();
+                connectingBoard.Type = i;
+
+                List<ConnectingBoardTodayDto> connectingBoardTodays = new();
+                foreach (var item in jArrayTodayInfo[0])
+                {
+                    ConnectingBoardTodayDto connectingBoardToday = new();
+                    connectingBoardToday.Code = item[0]?.ToString();
+                    connectingBoardToday.Name = item[1]?.ToString();
+                    if (item[4] != null && long.TryParse(item[4].ToString(), out long timeStamp))
+                    {
+                        connectingBoardToday.Time = timeStamp.GetTimeByUnixTimestamp(true).ToString("HH:mm:ss");
+                    }
+                    connectingBoardToday.Reason = item[5]?.ToString();
+                    if (item[6] != null)
+                    {
+                        connectingBoardToday.Closing = ToEy(item[6].ToString());
+                    }
+                    if (item[7] != null)
+                    {
+                        connectingBoardToday.MaxClosing = ToEy(item[7].ToString());
+                    }
+                    if (item[8] != null)
+                    {
+                        connectingBoardToday.MainForceNet = ToEy(item[8].ToString());
+                    }
+                    if (item[9] != null)
+                    {
+                        connectingBoardToday.MainBuy = ToEy(item[9].ToString());
+                    }
+                    if (item[10] != null)
+                    {
+                        connectingBoardToday.MainSell = ToEy(item[10].ToString());
+                    }
+                    if (item[11] != null)
+                    {
+                        connectingBoardToday.TransactionAmount = ToEy(item[11].ToString());
+                    }
+                    connectingBoardToday.Plate = item[12]?.ToString();
+                    if (item[13] != null)
+                    {
+                        connectingBoardToday.ActualCirculation = ToEy(item[13].ToString());
+                    }
+                    if (item[14] != null)
+                    {
+                        connectingBoardToday.ActualTurnover = $"{item[14].ToString()}%";
+                    }
+                    //振幅
+                    if (item[17] != null)
+                    {
+                        connectingBoardToday.Amplitude = $"{item[17].ToString()}%";
+                    }
+
+                    connectingBoardTodays.Add(connectingBoardToday);
+                }
+
+                connectingBoard.ConnectingBoardTodays = connectingBoardTodays;
+
+
+
+                // is null 不处理
+                if (jArrayYesterdayInfo != null)
+                {
+
+                    // 赋值
+                    List<ConnectingBoardYesterdayDto> connectingBoardYesterdays = new();
+                    foreach (var item in jArrayYesterdayInfo[0])
+                    {
+                        ConnectingBoardYesterdayDto connectingBoardYesterday = new();
+                        connectingBoardYesterday.Code = item[0]?.ToString();
+                        connectingBoardYesterday.Name = item[1]?.ToString();
+                        connectingBoardYesterday.Price = item[4]?.ToString();
+                        if (item[5] != null)
+                        {
+                            connectingBoardYesterday.ZhangF = $"{item[5].ToString()}%";
+                        }
+                        connectingBoardYesterday.Plate = item[6]?.ToString();
+                        if (item[14] != null)
+                        {
+                            connectingBoardYesterday.Amplitude = $"{item[14].ToString()}%";
+                        }
+                        if (item[7] != null)
+                        {
+                            connectingBoardYesterday.MainForceNet = ToEy(item[7].ToString());
+                        }
+                        if (item[8] != null)
+                        {
+                            connectingBoardYesterday.MainBuy = ToEy(item[8].ToString());
+                        }
+                        if (item[9] != null)
+                        {
+                            connectingBoardYesterday.MainSell = ToEy(item[9].ToString());
+                        }
+                        if (item[10] != null)
+                        {
+                            connectingBoardYesterday.TransactionAmount = ToEy(item[10].ToString());
+                        }
+                        if (item[11] != null)
+                        {
+                            connectingBoardYesterday.ActualCirculation = ToEy(item[11].ToString());
+                        }
+                        if (item[12] != null)
+                        {
+                            connectingBoardYesterday.ActualTurnover = $"{item[12].ToString()}%";
+                        }
+                        connectingBoardYesterdays.Add(connectingBoardYesterday);
+                    }
+
+                    connectingBoard.ConnectingBoardYesterdays = connectingBoardYesterdays;
+
+                }
+
+                connectingBoards.Add(connectingBoard);
+
+            }
+
+
+
+            return connectingBoards;
         }
 
 
@@ -956,6 +1172,21 @@ namespace StockReview.Api.ApiService
             string_1 = string_1.Replace("|", "\\|");
             string_1 = string_1.Replace("$", "\\$");
             return string_1;
+        }
+
+        public string ToEy(string s)
+        {
+            string result = "";
+            if (double.TryParse(s, out var result2))
+            {
+                result = Math.Round(result2 * 1E-08, 2).ToString("0.00");
+            }
+            return result;
+        }
+
+        public double ToEyy(string s)
+        {
+            return Math.Round(Convert.ToDouble(s) * 1E-08, 2);
         }
 
         #endregion

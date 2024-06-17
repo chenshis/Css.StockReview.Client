@@ -72,6 +72,6 @@ namespace StockReview.Api.IApiService
         /// </summary>
         /// <param name="day"></param>
         /// <returns></returns>
-        ConnectingBoardDto GetConnectingBoard(string day);
+        List<ConnectingBoardDto> GetConnectingBoard(string day);
     }
 }

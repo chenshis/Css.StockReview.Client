@@ -237,6 +237,7 @@ namespace StockReview.Infrastructure.Config
         public const string EmotionDetailRoute = "v1/stockreview/stockOutlook/emotion";
         public const string TodayRoute = "v1/stockreview/stockOutlook/today";
         public const string StockDataRoute = "v1/stockreview/stockOutlook/stock";
+        public const string StockConnectingBoard = "v1/stockreview/stockOutlook/connecting-board";
 
         public const string TodayLonghuVipUrl = "https://apphq.longhuvip.com/w1/api/index.php";
         public const string HistoryLonghuVipUrl = "https://apphis.longhuvip.com/w1/api/index.php";
