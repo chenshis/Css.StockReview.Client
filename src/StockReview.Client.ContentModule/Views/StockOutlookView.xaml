@@ -19,7 +19,7 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
@@ -635,7 +635,7 @@
                         <RowDefinition />
                         <RowDefinition Height="150" />
                         <RowDefinition />
-                        <RowDefinition Height="150" />
+                        <RowDefinition Height="250" />
                     </Grid.RowDefinitions>
 
                     <lvc:CartesianChart

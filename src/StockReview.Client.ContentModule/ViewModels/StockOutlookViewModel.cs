@@ -575,8 +575,14 @@ namespace StockReview.Client.ContentModule.ViewModels
             }
             Task.Run(() =>
             {
-                RealTimeSeries(p);
+                try
+                {
+                    RealTimeSeries(p);
+                }
+                catch (Exception ex)
+                {
 
+                }
                 // 关闭loading
                 _eventAggregator.GetEvent<LoadingEvent>().Publish(false);
             });
