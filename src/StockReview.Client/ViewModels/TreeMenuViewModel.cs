@@ -37,6 +37,11 @@ namespace StockReview.Client.ViewModels
             if (menuDtos != null && menuDtos.Count > 0)
             {
                 FillMenus(menuDtos, 0);
+                // 绑定首个菜单视图
+                if (Menus.Any())
+                {
+                    Menus.First().OpenViewCommand.Execute(null);
+                }
             }
         }
 
@@ -131,8 +136,7 @@ namespace StockReview.Client.ViewModels
         {
             get => new DelegateCommand(() =>
             {
-                if ((this.Children == null || this.Children.Count == 0)
-                    && !string.IsNullOrEmpty(this.TargetView))
+                if ((this.Children == null || this.Children.Count == 0) && !string.IsNullOrEmpty(this.TargetView))
                 {
                     this.IsSelected = true;
                     // 页面跳转
