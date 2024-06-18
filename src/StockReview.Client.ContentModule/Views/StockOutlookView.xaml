@@ -540,8 +540,13 @@
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Stretch"
                                 Content="财联社电报"
-                                IsChecked="{Binding IsOpen, ElementName=DrawerRight}"
-                                Style="{StaticResource ToggleButtonSuccess}" />
+                                Style="{StaticResource ToggleButtonSuccess}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding ClsTipCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ToggleButton>
                         </UniformGrid>
                     </Grid>
                 </Border>
@@ -1358,33 +1363,6 @@
                                 </Grid>
                             </TabItem>
                         </TabControl>
-                    </Grid>
-                </Border>
-            </hc:Drawer>
-
-            <hc:Drawer Name="DrawerRight" MaskCanClose="False">
-                <Border
-                    MinWidth="600"
-                    Margin="0,92,0,0"
-                    Background="{DynamicResource DarkDefaultBrush}"
-                    BorderBrush="{DynamicResource BorderBrush}"
-                    BorderThickness="0,1,0,0">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            HorizontalAlignment="Left"
-                            Style="{StaticResource TextBlockTitle}"
-                            Text="财联社电报" />
-                        <Button
-                            HorizontalAlignment="Right"
-                            hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
-                            Command="hc:ControlCommands.Close"
-                            Foreground="{DynamicResource PrimaryTextBrush}"
-                            Style="{StaticResource ButtonIcon}" />
                     </Grid>
                 </Border>
             </hc:Drawer>

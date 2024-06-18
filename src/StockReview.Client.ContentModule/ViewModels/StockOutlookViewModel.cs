@@ -26,6 +26,7 @@ using Polly;
 using Polly.Retry;
 using Microsoft.Extensions.Caching.Memory;
 using NPOI.SS.Formula.Functions;
+using StockReview.Client.ContentModule.Common;
 
 namespace StockReview.Client.ContentModule.ViewModels
 {
@@ -797,6 +798,20 @@ namespace StockReview.Client.ContentModule.ViewModels
                 }
             });
         }
+
+        /// <summary>
+        /// 财联社命令
+        /// </summary>
+        public ICommand ClsTipCommand => new DelegateCommand(() =>
+        {
+            _eventAggregator.GetEvent<LoadingEvent>().Publish(true);
+            Task.Run(() =>
+            {
+                ProcessClsTipHelper.StartProcess();
+                // 关闭loading
+                _eventAggregator.GetEvent<LoadingEvent>().Publish(false);
+            });
+        });
 
         /// <summary>
         /// 设定转盘样式
