@@ -37,5 +37,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /s /e /i /y $(SolutionDir)plugins\ $(TargetDir)" />
+  </Target>
 
 </Project>
