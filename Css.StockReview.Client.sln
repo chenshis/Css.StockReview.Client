@@ -13,9 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.solution items", "1.solut
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{6E78F0E5-0874-44E1-8EE5-5BABC75A2E42}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Infrastructure", "2.Infrastructure", "{51C5A899-5EA3-4BAB-A166-FBE496F7FDD6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Infrastructure", "4.Infrastructure", "{51C5A899-5EA3-4BAB-A166-FBE496F7FDD6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Api", "4.Api", "{679B1C53-7C9B-488D-800C-40E3F4620D24}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5.Api", "5.Api", "{679B1C53-7C9B-488D-800C-40E3F4620D24}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockReview.Api", "src\StockReview.Api\StockReview.Api.csproj", "{35AA8A90-ACAE-4480-99D0-C2324A34775F}"
 EndProject
@@ -29,7 +29,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{90C6AA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockReview.Server", "src\StockReview.Server\StockReview.Server.csproj", "{56B62D2F-19B3-453A-B6B4-5FAFE30F8201}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockReview.Client.ContentModule", "src\StockReview.Client.ContentModule\StockReview.Client.ContentModule.csproj", "{AE1154BB-456C-4496-9720-1275F55B2390}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockReview.Client.ContentModule", "src\StockReview.Client.ContentModule\StockReview.Client.ContentModule.csproj", "{AE1154BB-456C-4496-9720-1275F55B2390}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Database", "2.Database", "{56DBA78B-1C3A-4A57-86CB-7979C4D5B8DB}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\sys_user.sql = scripts\sys_user.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
