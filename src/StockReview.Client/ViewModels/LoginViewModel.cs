@@ -98,9 +98,12 @@ namespace StockReview.Client.ViewModels
                 if (dialogResult.Result == ButtonResult.OK)
                 {
                     HandyControl.Controls.PasswordBox pwdBox = null;
-                    pwdBox = window.FindName(nameof(pwdBox)) as HandyControl.Controls.PasswordBox;
-                    pwdBox.Password = dialogResult.Parameters.GetValue<string>(nameof(Password));
-                    UserName = dialogResult.Parameters.GetValue<string>(nameof(UserName));
+                    if (window != null)
+                    {
+                        pwdBox = window.FindName(nameof(pwdBox)) as HandyControl.Controls.PasswordBox;
+                        pwdBox.Password = dialogResult.Parameters.GetValue<string>(nameof(Password));
+                        UserName = dialogResult.Parameters.GetValue<string>(nameof(UserName));
+                    }
                 }
             });
             // 启用按钮
@@ -124,9 +127,12 @@ namespace StockReview.Client.ViewModels
                 if (dialogResult.Result == ButtonResult.OK)
                 {
                     HandyControl.Controls.PasswordBox pwdBox = null;
-                    pwdBox = window.FindName(nameof(pwdBox)) as HandyControl.Controls.PasswordBox;
-                    pwdBox.Password = dialogResult.Parameters.GetValue<string>(nameof(Password));
-                    UserName = dialogResult.Parameters.GetValue<string>(nameof(UserName));
+                    if (window != null)
+                    {
+                        pwdBox = window.FindName(nameof(pwdBox)) as HandyControl.Controls.PasswordBox;
+                        pwdBox.Password = dialogResult.Parameters.GetValue<string>(nameof(Password));
+                        UserName = dialogResult.Parameters.GetValue<string>(nameof(UserName));
+                    }
                 }
             });
             // 启用按钮
