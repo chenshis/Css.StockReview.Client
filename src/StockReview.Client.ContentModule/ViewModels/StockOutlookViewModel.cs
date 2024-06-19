@@ -59,7 +59,7 @@ namespace StockReview.Client.ContentModule.ViewModels
             this.PageTitle = "股市看盘";
             this._stockOutlookApiService = stockOutlookApiService;
             this._eventAggregator = eventAggregator;
-            _retryPolicy = Policy.Handle<Exception>().WaitAndRetry(5, retryAttempt => TimeSpan.FromSeconds(3));
+            _retryPolicy = Policy.Handle<Exception>().WaitAndRetry(3, retryAttempt => TimeSpan.FromSeconds(5));
             var user = memoryCache.Get<UserDto>(SystemConstant.GlobalUserInfo);
             if (user != null)
             {
