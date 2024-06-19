@@ -79,9 +79,6 @@ namespace StockReview.Api.Dtos
         /// </summary>
         public double LowPrice { get; set; }
 
-        /// <summary>
-        /// 成交量
-        /// </summary>
         public List<double> Volumes { get; set; } = new List<double>();
 
         public List<string> Times { get; set; } = new List<string>();
@@ -91,7 +88,9 @@ namespace StockReview.Api.Dtos
         public List<double> Latests { get; set; } = new List<double>();
 
         public List<double> Avgs { get; set; } = new List<double>();
-
+        /// <summary>
+        /// 成交量
+        /// </summary>
         public List<double> Turnovers { get; set; } = new List<double>();
     }
 

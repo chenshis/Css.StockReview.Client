@@ -363,26 +363,27 @@ namespace StockReview.Client.ContentModule.ViewModels
                     negativeSeries.Fill = new SolidColorPaint(SKColors.Green);
                     negativeSeries.DataLabelsPaint = new SolidColorPaint(SKColors.Gray);
                     var negativeSeriesValues = new List<ObservablePoint>();
-
-                    for (int i = 0; i < emotionDetail.histogram.Count; i++)
+                    if (emotionDetail?.histogram != null)
                     {
-                        double.TryParse(emotionDetail.histogram[i].yvalue, out var yValue);
-                        if (i < 5)
+                        for (int i = 0; i < emotionDetail.histogram.Count; i++)
                         {
-                            positiveSeriesValues.Add(new ObservablePoint(i, yValue));
-                        }
-                        else if (i == 5)
-                        {
-                            zeroSeriesValues.Add(new ObservablePoint(i, yValue));
-                        }
-                        else
-                        {
-                            negativeSeriesValues.Add(new ObservablePoint(i, yValue));
-                        }
+                            double.TryParse(emotionDetail.histogram[i].yvalue, out var yValue);
+                            if (i < 5)
+                            {
+                                positiveSeriesValues.Add(new ObservablePoint(i, yValue));
+                            }
+                            else if (i == 5)
+                            {
+                                zeroSeriesValues.Add(new ObservablePoint(i, yValue));
+                            }
+                            else
+                            {
+                                negativeSeriesValues.Add(new ObservablePoint(i, yValue));
+                            }
 
-                        HistogramXAxes[0].Labels.Add(emotionDetail.histogram[i].xvalue);
+                            HistogramXAxes[0].Labels.Add(emotionDetail.histogram[i].xvalue);
+                        }
                     }
-
                     // 正值
                     positiveSeries.Values = positiveSeriesValues;
                     HistogramSeries[0] = positiveSeries;
@@ -394,86 +395,108 @@ namespace StockReview.Client.ContentModule.ViewModels
                     HistogramSeries[2] = negativeSeries;
 
                     var todayLimitUpDetail = new LimitUpDetailModel();
-                    todayLimitUpDetail.Time = "今日";
-                    todayLimitUpDetail.ZTBan = emotionDetail.root.data.limit_up_count.today.num.ToString();
-                    todayLimitUpDetail.FBRate = GetPercentage(Convert.ToDouble(emotionDetail.root.data.limit_up_count.today.rate)).ToString("F0") + "%";
-                    todayLimitUpDetail.ZBan = emotionDetail.root.data.limit_up_count.today.open_num.ToString();
-                    todayLimitUpDetail.DTBan = emotionDetail.root.data.limit_down_count.today.num.ToString();
-                    var dFRate = emotionDetail.root.data.limit_down_count.today.rate;
-                    if (!string.IsNullOrWhiteSpace(dFRate))
+                    if (emotionDetail != null)
                     {
-                        todayLimitUpDetail.DFRate = GetPercentage(Convert.ToDouble(dFRate)) + "%";
+                        todayLimitUpDetail.Time = "今日";
+                        todayLimitUpDetail.ZTBan = emotionDetail.root.data.limit_up_count.today.num.ToString();
+                        todayLimitUpDetail.FBRate = GetPercentage(Convert.ToDouble(emotionDetail.root.data.limit_up_count.today.rate)).ToString("F0") + "%";
+                        todayLimitUpDetail.ZBan = emotionDetail.root.data.limit_up_count.today.open_num.ToString();
+                        todayLimitUpDetail.DTBan = emotionDetail.root.data.limit_down_count.today.num.ToString();
+                        var dFRate = emotionDetail.root.data.limit_down_count.today.rate;
+                        if (!string.IsNullOrWhiteSpace(dFRate))
+                        {
+                            todayLimitUpDetail.DFRate = GetPercentage(Convert.ToDouble(dFRate)) + "%";
+                        }
+                        todayLimitUpDetail.QBan = emotionDetail.root.data.limit_down_count.today.open_num.ToString();
                     }
-                    todayLimitUpDetail.QBan = emotionDetail.root.data.limit_down_count.today.open_num.ToString();
-
                     var yesterdayLimitUpDetail = new LimitUpDetailModel();
-                    yesterdayLimitUpDetail.Time = "昨日";
-                    yesterdayLimitUpDetail.ZTBan = emotionDetail.root.data.limit_up_count.yesterday.num.ToString();
-                    yesterdayLimitUpDetail.FBRate = GetPercentage(Convert.ToDouble(emotionDetail.root.data.limit_up_count.yesterday.rate)).ToString("F0") + "%";
-                    yesterdayLimitUpDetail.ZBan = emotionDetail.root.data.limit_up_count.yesterday.open_num.ToString();
-                    yesterdayLimitUpDetail.DTBan = emotionDetail.root.data.limit_down_count.yesterday.num.ToString();
-                    var yesterdayDfRate = emotionDetail.root.data.limit_down_count.yesterday.rate;
-                    if (!string.IsNullOrWhiteSpace(yesterdayDfRate))
+                    if (emotionDetail != null)
                     {
-                        yesterdayLimitUpDetail.DFRate = GetPercentage(Convert.ToDouble(yesterdayDfRate)) + "%";
+                        yesterdayLimitUpDetail.Time = "昨日";
+                        yesterdayLimitUpDetail.ZTBan = emotionDetail.root.data.limit_up_count.yesterday.num.ToString();
+                        yesterdayLimitUpDetail.FBRate = GetPercentage(Convert.ToDouble(emotionDetail.root.data.limit_up_count.yesterday.rate)).ToString("F0") + "%";
+                        yesterdayLimitUpDetail.ZBan = emotionDetail.root.data.limit_up_count.yesterday.open_num.ToString();
+                        yesterdayLimitUpDetail.DTBan = emotionDetail.root.data.limit_down_count.yesterday.num.ToString();
+                        var yesterdayDfRate = emotionDetail.root.data.limit_down_count.yesterday.rate;
+                        if (!string.IsNullOrWhiteSpace(yesterdayDfRate))
+                        {
+                            yesterdayLimitUpDetail.DFRate = GetPercentage(Convert.ToDouble(yesterdayDfRate)) + "%";
+                        }
+                        yesterdayLimitUpDetail.QBan = emotionDetail.root.data.limit_down_count.yesterday.open_num.ToString();
                     }
-                    yesterdayLimitUpDetail.QBan = emotionDetail.root.data.limit_down_count.yesterday.open_num.ToString();
-
                     LimitUpStockDetailModel selectedStockDetailModel = null;
                     // 列表保证在ui队列中
                     System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         LimitUpDetails.Clear();
-                        LimitUpDetails.Add(todayLimitUpDetail);
-                        LimitUpDetails.Add(yesterdayLimitUpDetail);
+                        if (todayLimitUpDetail != null)
+                        {
+                            LimitUpDetails.Add(todayLimitUpDetail);
+                        }
+                        if (yesterdayLimitUpDetail != null)
+                        {
+                            LimitUpDetails.Add(yesterdayLimitUpDetail);
+                        }
                         // 股票明细
                         selectedStockDetailModel = LimitUpStockDetails.Where(t => t.IsSelected).FirstOrDefault();
                         LimitUpStockDetails.Clear();
                     }));
-
-                    var infos = emotionDetail.root.data.info;
-                    if (infos != null)
+                    if (emotionDetail != null)
                     {
-                        foreach (var item in infos)
+
+                        var infos = emotionDetail.root.data.info;
+                        if (infos != null)
                         {
-                            LimitUpStockDetailModel stockDetail = new();
-                            stockDetail.Code = item.code;
-                            var imageValue = !(item.code.Substring(0, 1) == "6") ? "sz" + item.code : "sh" + item.code;
-                            stockDetail.ImageUrl = "http://image.sinajs.cn/newchart/min/n/" + imageValue + ".gif";
-                            stockDetail.Name = item.name;
-                            stockDetail.ZF = Convert.ToDouble(item.change_rate).ToString("0.00");
-                            stockDetail.Latest = item.latest;
-                            stockDetail.Reason = item.reason_type;
-                            stockDetail.FirstLetterTime = GetDateTime(item.first_limit_up_time).ToString("HH:mm:ss");
-                            stockDetail.LastFBan = GetDateTime(item.last_limit_up_time).ToString("HH:mm:ss");
-                            stockDetail.LimitUpType = item.limit_up_type;
-                            stockDetail.OpenNum = item.open_num?.ToString();
-                            stockDetail.SeveralDaysBan = item.high_days;
-                            stockDetail.FDanMoney = zWy(Convert.ToDouble(item.order_amount)).ToString();
-                            stockDetail.TurnoverRate = Convert.ToDouble(item.turnover_rate).ToString("F2") + "%";
-                            stockDetail.CurrencyMoney = item.currency_value != null ? zEy(Convert.ToDouble(item.currency_value)).ToString() : null;
-                            stockDetail.LBanNum = item.LBanNum;
-                            // 列表保证在ui队列中
-                            System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
+                            foreach (var item in infos)
                             {
-                                LimitUpStockDetails.Add(stockDetail);
-                            }));
+                                LimitUpStockDetailModel stockDetail = new();
+                                stockDetail.Code = item.code;
+                                var imageValue = !(item.code.Substring(0, 1) == "6") ? "sz" + item.code : "sh" + item.code;
+                                stockDetail.ImageUrl = "http://image.sinajs.cn/newchart/min/n/" + imageValue + ".gif";
+                                stockDetail.Name = item.name;
+                                stockDetail.ZF = Convert.ToDouble(item.change_rate).ToString("0.00");
+                                stockDetail.Latest = item.latest;
+                                stockDetail.Reason = item.reason_type;
+                                stockDetail.FirstLetterTime = GetDateTime(item.first_limit_up_time).ToString("HH:mm:ss");
+                                stockDetail.LastFBan = GetDateTime(item.last_limit_up_time).ToString("HH:mm:ss");
+                                stockDetail.LimitUpType = item.limit_up_type;
+                                stockDetail.OpenNum = item.open_num?.ToString();
+                                stockDetail.SeveralDaysBan = item.high_days;
+                                stockDetail.FDanMoney = zWy(Convert.ToDouble(item.order_amount)).ToString();
+                                stockDetail.TurnoverRate = Convert.ToDouble(item.turnover_rate).ToString("F2") + "%";
+                                stockDetail.CurrencyMoney = item.currency_value != null ? zEy(Convert.ToDouble(item.currency_value)).ToString() : null;
+                                stockDetail.LBanNum = item.LBanNum;
+                                // 列表保证在ui队列中
+                                System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    LimitUpStockDetails.Add(stockDetail);
+                                }));
+                            }
+
+                            // 分时图数据更新
+                            if (LimitUpStockDetails.Count > 0)
+                            {
+                                if (selectedStockDetailModel != null && LimitUpStockDetails.Where(t => t.Code == selectedStockDetailModel.Code).Count() > 0)
+                                {
+                                    RealTimeSeries(selectedStockDetailModel);
+                                }
+                                else
+                                {
+                                    RealTimeSeries(LimitUpStockDetails.First());
+                                }
+                            }
                         }
 
-                        // 分时图数据更新
-                        if (LimitUpStockDetails.Count > 0)
-                        {
-                            if (selectedStockDetailModel != null && LimitUpStockDetails.Where(t => t.Code == selectedStockDetailModel.Code).Count() > 0)
-                            {
-                                RealTimeSeries(selectedStockDetailModel);
-                            }
-                            else
-                            {
-                                RealTimeSeries(LimitUpStockDetails.First());
-                            }
-                        }
                     }
-
+                    else
+                    {
+                        CandleSeries = null;
+                        CandleXAxes = null;
+                        CandleVolumeSeries = null;
+                        TimeXAxes = null;
+                        TimeSeries = null;
+                        TimeVolumeSeries = null;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -533,7 +556,8 @@ namespace StockReview.Client.ContentModule.ViewModels
                 var apiResponse = _stockOutlookApiService.GetBulletinBoard(day);
                 if (apiResponse.Code != 0)
                 {
-                    SetMessageBox(InfoType.Error, apiResponse.Msg);
+                    //SetMessageBox(InfoType.Error, apiResponse.Msg);
+                    BulletinBoard = new BulletinBoardDto();
                     return;
                 }
                 BulletinBoard = apiResponse.Data;
@@ -632,7 +656,7 @@ namespace StockReview.Client.ContentModule.ViewModels
                 {
                     MinStep = 1,
                     MinLimit = 0,
-                    MaxLimit = 10,
+                    MaxLimit = 20,
                     Labels = apiResponse.Data.StockDatas.Select(t => t.Date.ToString("yyyy-MM-dd")).ToList(),
                     CrosshairPaint = new SolidColorPaint(SKColors.DarkOrange, 1),
                     CrosshairSnapEnabled = true
@@ -690,7 +714,7 @@ namespace StockReview.Client.ContentModule.ViewModels
                 {
                     new ColumnSeries<double>
                     {
-                        Values = apiResponse.Data.StockDetailData.Volumes.ToArray(),
+                        Values = apiResponse.Data.StockDetailData.Turnovers.ToArray(),
                         Name = "成交量"
                     }
                 };

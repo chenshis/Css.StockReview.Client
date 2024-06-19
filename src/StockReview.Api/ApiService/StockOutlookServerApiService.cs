@@ -612,16 +612,17 @@ namespace StockReview.Api.ApiService
                         if (i == 0)
                         {
                             stockDetail.ClosePrice = double.Parse(jarray2[0].ToString());
+                            stockDetail.OpenPrice = double.Parse(jarray2[1].ToString());
                             stockDetail.HighPrice = double.Parse(jarray2[2].ToString());
                             stockDetail.LowPrice = double.Parse(jarray2[3].ToString());
                         }
                         else
                         {
-                            stockDetail.Volumes.Add(double.Parse(jarray2[4].ToString()));
                             stockDetail.Times.Add(jarray2[0].ToString());
                             stockDetail.Latests.Add(double.Parse(jarray2[1].ToString()));
                             stockDetail.Avgs.Add(double.Parse(jarray2[2].ToString()));
                             stockDetail.Turnovers.Add(double.Parse(jarray2[3].ToString()));
+                            stockDetail.Volumes.Add(double.Parse(jarray2[4].ToString()));
                         }
                     }
                     for (int j = 0; j < stockDetail.Latests.Count; j++)
