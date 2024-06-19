@@ -1,7 +1,9 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Regions;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
+using StockReview.Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,7 +28,7 @@ namespace StockReview.Client.ContentModule.ViewModels
         public DateInfo DateInfo { get; set; } = new DateInfo();
 
         private readonly IReplayService _replayService;
-
+        private readonly IEventAggregator _eventAggregator;
         private DateTime? _currentDate;
         /// <summary>
         /// 选中日期
@@ -51,40 +53,58 @@ namespace StockReview.Client.ContentModule.ViewModels
             Recovery();
         });
         #endregion
-        public DragonTigerViewModel(IUnityContainer unityContainer, IRegionManager regionManager, IReplayService replayService) : base(unityContainer, regionManager)
+        public DragonTigerViewModel(IUnityContainer unityContainer, IRegionManager regionManager, IReplayService replayService, IEventAggregator eventAggregator) : base(unityContainer, regionManager)
         {
             this.PageTitle = "龙虎榜";
+            this._eventAggregator = eventAggregator;
             this._replayService = replayService;
             CurrentDate = DateTime.Parse(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"));
             this.CurrentDate = CurrentDate;
-            InitTableHeader(this.CurrentDate ?? DateTime.Now); //组织头部
+
+            _eventAggregator.GetEvent<LoadingEvent>().Publish(true);
+            InitTableHeader(this.CurrentDate ?? DateTime.Now); 
         }
 
         private void InitTableHeader(DateTime date)
         {
-            var dragonTigerList = this._replayService.GetDragonTiger(date);
+            Task.Run(() => 
+            {
+                try
+                {
+                    var dragonTigerList = this._replayService.GetDragonTiger(date);
 
+                    System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
+                    {
+                        this.DragonTigerGetInfos.Clear();
+                        this.DragonTigerAllGetInfos.Clear();
+                        this.DragonTigerGetInfosOne.Clear();
+                        this.DragonTigerGetInfosTwo.Clear();
+                        this.DragonTigerGetInfosThree.Clear();
+                        this.DragonTigerGetInfosFous.Clear();
+                        this.SpeculatvieGroups.Clear();
 
-            this.DragonTigerGetInfos.Clear();
-            this.DragonTigerAllGetInfos.Clear();
-            this.DragonTigerGetInfosOne.Clear();
-            this.DragonTigerGetInfosTwo.Clear();
-            this.DragonTigerGetInfosThree.Clear();
-            this.DragonTigerGetInfosFous.Clear();
-            this.SpeculatvieGroups.Clear();
-
-            this.DragonTigerGetInfos.AddRange(dragonTigerList.DragonTigerGetInfos);
-            this.DragonTigerAllGetInfos.AddRange(dragonTigerList.DragonTigerGetInfos);
-            this.DragonTigerGetInfosOne.AddRange(dragonTigerList.DragonTigerGetInfosOne);
-            this.DragonTigerGetInfosTwo.AddRange(dragonTigerList.DragonTigerGetInfosTwo);
-            this.DragonTigerGetInfosThree.AddRange(dragonTigerList.DragonTigerGetInfosThree);
-            this.DragonTigerGetInfosFous.AddRange(dragonTigerList.DragonTigerGetInfosFous);
-            this.SpeculatvieGroups.AddRange(dragonTigerList.SpeculatvieGroups);
-            this.DateInfo = dragonTigerList.DateInfo;
+                        this.DragonTigerGetInfos.AddRange(dragonTigerList.DragonTigerGetInfos);
+                        this.DragonTigerAllGetInfos.AddRange(dragonTigerList.DragonTigerGetInfos);
+                        this.DragonTigerGetInfosOne.AddRange(dragonTigerList.DragonTigerGetInfosOne);
+                        this.DragonTigerGetInfosTwo.AddRange(dragonTigerList.DragonTigerGetInfosTwo);
+                        this.DragonTigerGetInfosThree.AddRange(dragonTigerList.DragonTigerGetInfosThree);
+                        this.DragonTigerGetInfosFous.AddRange(dragonTigerList.DragonTigerGetInfosFous);
+                        this.SpeculatvieGroups.AddRange(dragonTigerList.SpeculatvieGroups);
+                      
+                    }));
+                    this.DateInfo = dragonTigerList.DateInfo;
+                }
+                catch (Exception)
+                {
+                }
+                // 关闭loading
+                _eventAggregator.GetEvent<LoadingEvent>().Publish(false);
+            });
         }
 
         private void Refresh()
         {
+            _eventAggregator.GetEvent<LoadingEvent>().Publish(true);
             InitTableHeader(this.CurrentDate ?? DateTime.Now);
         }
 

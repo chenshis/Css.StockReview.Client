@@ -1,6 +1,8 @@
-﻿using Prism.Regions;
+﻿using Prism.Events;
+using Prism.Regions;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
+using StockReview.Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,11 +19,14 @@ namespace StockReview.Client.ContentModule.ViewModels
         public ObservableCollection<LeadingDateHeaderDto> LeadingDateHeaderLists { get; set; } = new ObservableCollection<LeadingDateHeaderDto>();
 
         private readonly IReplayService _replayService;
+        private readonly IEventAggregator _eventAggregator;
 
-        public LeadingGroupPromotionViewModel(IUnityContainer unityContainer, IRegionManager regionManager, IReplayService replayService) : base(unityContainer, regionManager)
+        public LeadingGroupPromotionViewModel(IUnityContainer unityContainer, IRegionManager regionManager, IReplayService replayService, IEventAggregator eventAggregator) : base(unityContainer, regionManager)
         {
             this.PageTitle = "龙头晋级";
+            this._eventAggregator = eventAggregator;
             this._replayService = replayService;
+            _eventAggregator.GetEvent<LoadingEvent>().Publish(true);
             InitTableHeader(); //组织头部
         }
 
@@ -30,9 +35,17 @@ namespace StockReview.Client.ContentModule.ViewModels
         /// </summary>
         private void InitTableHeader()
         {
-            var leadingList = this._replayService.GetLeadingGroupPromotion(DateTime.Now);
+            Task.Run(() =>
+            { 
+                var leadingList = this._replayService.GetLeadingGroupPromotion(DateTime.Now);
 
-            LeadingDateHeaderLists.AddRange(leadingList);
+                System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    LeadingDateHeaderLists.AddRange(leadingList);
+                }));
+                _eventAggregator.GetEvent<LoadingEvent>().Publish(false);
+            });
+
           
         }
 

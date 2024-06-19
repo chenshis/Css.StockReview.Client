@@ -65,11 +65,11 @@ namespace StockReview.Api.Dtos
         /// <summary>
         /// 首封时间
         /// </summary>
-        public DateTime ExpDownFirstSealingTime { get; set; }
+        public string ExpDownFirstSealingTime { get; set; }
         /// <summary>
         /// 尾封时间
         /// </summary>
-        public DateTime ExpDownTailSealingTime { get; set; }
+        public string ExpDownTailSealingTime { get; set; }
         /// <summary>
         /// 开板
         /// </summary>
@@ -130,17 +130,17 @@ namespace StockReview.Api.Dtos
         /// <summary>
         /// 首封时间
         /// </summary>
-        public DateTime ExpSharesFirstSealingTime { get; set; }
+        public string ExpSharesFirstSealingTime { get; set; }
 
         /// <summary>
         /// 尾封时间
         /// </summary>
-        public DateTime ExpSharesTailSealingTime { get; set; }
+        public string ExpSharesTailSealingTime { get; set; }
 
         /// <summary>
         /// 最后炸板时间
         /// </summary>
-        public DateTime ExpSharesLastFryingTime { get; set; }
+        public string ExpSharesLastFryingTime { get; set; }
 
         /// <summary>
         /// 开板
