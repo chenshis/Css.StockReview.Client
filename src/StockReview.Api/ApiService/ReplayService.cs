@@ -1187,11 +1187,11 @@ namespace StockReview.Api.ApiService
                         explosiveFriedIndividualInfo.ExpSharesCode = root.data[i].symbol.ToString().Substring(0, 6);
                         explosiveFriedIndividualInfo.ExpSharesName = root.data[i].stock_chi_name;
                         explosiveFriedIndividualInfo.ExpSharesStartConnectedBoard = root.data[i].yesterday_limit_up_days;
-                        explosiveFriedIndividualInfo.ExpSharesFirstSealingTime = GetDateTime(root.data[i].first_limit_up.ToString());
-                        explosiveFriedIndividualInfo.ExpSharesTailSealingTime = GetDateTime(root.data[i].last_limit_up.ToString());
+                        explosiveFriedIndividualInfo.ExpSharesFirstSealingTime = GetDateTime(root.data[i].first_limit_up.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+                        explosiveFriedIndividualInfo.ExpSharesTailSealingTime = GetDateTime(root.data[i].last_limit_up.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
                         explosiveFriedIndividualInfo.ExpSharesStartDoingBusiness = root.data[i].break_limit_up_times;
                         explosiveFriedIndividualInfo.ExpSharesCirculatingMarketValue = zEy(root.data[i].non_restricted_capital);
-                        explosiveFriedIndividualInfo.ExpSharesLastFryingTime = GetDateTime(root.data[i].last_break_limit_up.ToString());
+                        explosiveFriedIndividualInfo.ExpSharesLastFryingTime = GetDateTime(root.data[i].last_break_limit_up.ToString()).ToString("yyyy-MM-dd HH:mm:ss");;
                         explosiveFriedIndividualInfo.ExpSharesConcept = root.data[i].surge_reason.related_plates[0].plate_name;
                         result.ExplosiveFriedIndividualInfos.Add(explosiveFriedIndividualInfo);
                     }
@@ -1246,13 +1246,12 @@ namespace StockReview.Api.ApiService
                     var dataInfo = new ExplosiveLimitDownStaticsInfo();
                     dataInfo.ExpDownCode = root.data[i].symbol.ToString().Substring(0, 6);
                     dataInfo.ExpDownName = root.data[i].stock_chi_name;
-                    dataInfo.ExpDownFirstSealingTime= GetDateTime(root.data[i].first_limit_up.ToString());
-                    dataInfo.ExpDownTailSealingTime= GetDateTime(root.data[i].last_limit_up.ToString());
+                    dataInfo.ExpDownFirstSealingTime= GetDateTime(root.data[i].first_limit_down.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+                    dataInfo.ExpDownTailSealingTime= GetDateTime(root.data[i].last_limit_down.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
                     dataInfo.ExpDownStartConnectedBoard = root.data[i].break_limit_up_times;
                     dataInfo.ExpDownStartDoingBusiness = root.data[i].limit_down_days;
 
                     result.ExplosiveLimitDownStaticsInfos.Add(dataInfo);
-
                 }
 
             }

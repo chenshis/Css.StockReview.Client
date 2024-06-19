@@ -4,11 +4,13 @@ using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
 using StockReview.Client.ContentModule.Views;
+using StockReview.Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,8 +34,6 @@ namespace StockReview.Client.ContentModule.ViewModels
       
         public ObservableCollection<MarketLadderNewsList> MarketLadderNewsLists { get; set; } = new ObservableCollection<MarketLadderNewsList>();
         public ObservableCollection<MarketLadderList> MarketLadderLists { get; set; } = new ObservableCollection<MarketLadderList>();
-
-
 
         public MarketLadderToInfo MarketLadderInfosOne { get; set; } = new MarketLadderToInfo();
         public ObservableCollection<MarketLadderInfo> MarketLadderListOne { get; set; } = new ObservableCollection<MarketLadderInfo>();
@@ -69,6 +69,7 @@ namespace StockReview.Client.ContentModule.ViewModels
 
 
         private readonly IReplayService _replayService;
+        private readonly IEventAggregator _eventAggregator;
 
         private  MarketLadderView MarketLadderView;
 
@@ -83,91 +84,104 @@ namespace StockReview.Client.ContentModule.ViewModels
         });
         #endregion
         public MarketLadderViewModel(IUnityContainer unityContainer, IRegionManager regionManager
-            , IReplayService replayService) : base(unityContainer, regionManager)
+            , IReplayService replayService, IEventAggregator eventAggregator) : base(unityContainer, regionManager)
         {
             this.PageTitle = "市场天梯";
+            this._eventAggregator = eventAggregator;
             this._replayService = replayService;
             CurrentDate = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
             this.CurrentDate = CurrentDate;
+            _eventAggregator.GetEvent<LoadingEvent>().Publish(true);
             InitTableHeader(this.CurrentDate ?? DateTime.Now); //组织头部
         }
 
         private void InitTableHeader(DateTime date)
         {
-            var markList = this._replayService.GetMarketLadder(date);
-
-            if (markList != null)
+            Task.Run(() =>
             {
-                this.MarketTitle = markList.MarketTitle;
-            }
+                var markList = this._replayService.GetMarketLadder(date);
 
-            this.MarketLadderLists.Clear();
-            this.MarketLadderNewsLists.Clear();
-          
-            for (int i = 0; i < markList.MarketLadderLists.Count; i++)
-            {
-                switch (i)
+                if (markList != null)
                 {
-                    case 0:
-                        MarketLadderInfosOne = new MarketLadderToInfo
-                        {
-                            MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
-                            MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
-                            MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
-                        };
-                        MarketLadderListOne.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
-                        break;
-                    case 1:
-                        MarketLadderInfosTwo = new MarketLadderToInfo
-                        {
-                            MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
-                            MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
-                            MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
-                        };
-                        MarketLadderListTwo.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
-                        break;
-                    case 2:
-                        MarketLadderInfosThree = new MarketLadderToInfo
-                        {
-                            MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
-                            MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
-                            MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
-                        };
-                        MarketLadderListThree.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
-                        break;
-                    case 3:
-                        MarketLadderInfosFours = new MarketLadderToInfo
-                        {
-                            MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
-                            MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
-                            MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
-                        };
-                        MarketLadderListFours.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
-                        break;
-                    default:
-                        break;
+                    this.MarketTitle = markList.MarketTitle;
                 }
-            }
 
-            for (int i = 0; i < markList.MarketLadderNewsLists.Count; i++)
-            {
-                for (int j = 0; j < 2; j++)
+                System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
-                    MarketLadderNewsLists.Add(new MarketLadderNewsList
+                    this.MarketLadderLists.Clear();
+                    this.MarketLadderNewsLists.Clear();
+
+                    for (int i = 0; i < markList.MarketLadderLists.Count; i++)
                     {
-                        MarketNewsTitle = j == 0 ? markList.MarketLadderNewsLists[i].MarketNewsTitle : markList.MarketLadderNewsLists[i].MarketNewsType,
-                        MarketColor = j == 0 ? "#F06632" : "Black"
-                    });
-                }
-            }
+                        switch (i)
+                        {
+                            case 0:
+                                MarketLadderInfosOne = new MarketLadderToInfo
+                                {
+                                    MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
+                                    MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
+                                    MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
+                                };
+                                MarketLadderListOne.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
+                                break;
+                            case 1:
+                                MarketLadderInfosTwo = new MarketLadderToInfo
+                                {
+                                    MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
+                                    MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
+                                    MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
+                                };
+                                MarketLadderListTwo.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
+                                break;
+                            case 2:
+                                MarketLadderInfosThree = new MarketLadderToInfo
+                                {
+                                    MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
+                                    MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
+                                    MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
+                                };
+                                MarketLadderListThree.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
+                                break;
+                            case 3:
+                                MarketLadderInfosFours = new MarketLadderToInfo
+                                {
+                                    MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
+                                    MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
+                                    MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
+                                };
+                                MarketLadderListFours.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    for (int i = 0; i < markList.MarketLadderNewsLists.Count; i++)
+                    {
+                        for (int j = 0; j < 2; j++)
+                        {
+                            MarketLadderNewsLists.Add(new MarketLadderNewsList
+                            {
+                                MarketNewsTitle = j == 0 ? markList.MarketLadderNewsLists[i].MarketNewsTitle : markList.MarketLadderNewsLists[i].MarketNewsType,
+                                MarketColor = j == 0 ? "#F06632" : "Black"
+                            });
+                        }
+                    }
+
+                }));
+
+                _eventAggregator.GetEvent<LoadingEvent>().Publish(false);
+            });
         }
 
         private void Refresh() 
         {
+            _eventAggregator.GetEvent<LoadingEvent>().Publish(true);
             InitTableHeader(this.CurrentDate ?? DateTime.Now);
         }
         private void Export() 
         {
+            _eventAggregator.GetEvent<LoadingEvent>().Publish(true);
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory + "data\\";
             saveFileDialog.Title = "导出到Excel";
@@ -180,6 +194,7 @@ namespace StockReview.Client.ContentModule.ViewModels
             {
                 ExportListToExcel(saveFileDialog.FileName);
             }
+            _eventAggregator.GetEvent<LoadingEvent>().Publish(false);
         }
 
         public  void ExportListToExcel( string filePath)

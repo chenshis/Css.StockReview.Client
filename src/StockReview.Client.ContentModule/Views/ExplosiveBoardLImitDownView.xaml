@@ -98,7 +98,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding ExpSharesName}" Header="股票名称" />
-                    <DataGridTextColumn Binding="{Binding NuExpSharesConceptmber}" Header="板块概念 " />
+                    <DataGridTextColumn Binding="{Binding ExpSharesConcept}" Header="板块概念 " />
                     <DataGridTextColumn Binding="{Binding ExpSharesFirstSealingTime}" Header="首封时间" />
                     <DataGridTextColumn Binding="{Binding ExpSharesTailSealingTime}" Header="尾封时间" />
                     <DataGridTextColumn Binding="{Binding ExpSharesLastFryingTime}" Header="最后炸板时间" />
@@ -190,7 +190,7 @@
                     <DataGridTextColumn Binding="{Binding ExpYeaIncrease}" Header="涨幅" />
                     <DataGridTextColumn Binding="{Binding ExpYeaConsecutiveBoard}" Header="昨连板" />
                     <DataGridTextColumn Binding="{Binding ExpYeaModule}" Header="模块" />
-                    <DataGridTextColumn Binding="{Binding ExpYeaChange}" Header="变化" />
+                    <!--<DataGridTextColumn Binding="{Binding ExpYeaChange}" Header="变化" />-->
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
