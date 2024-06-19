@@ -15,6 +15,7 @@ namespace StockReview.Server.BackgroundServices
         protected override Task Process(IServiceProvider serviceProvider)
         {
             serviceProvider.GetRequiredService<IStockOutlookServerApiService>().FilterDates();
+
             return Task.CompletedTask;
         }
     }

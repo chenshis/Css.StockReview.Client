@@ -14,6 +14,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections;
 using StockReview.Infrastructure.Config.Snowflake;
+using StockReview.Domain.Entities;
+using StockReview.Api.Mappers;
+using StockReview.Domain;
 
 namespace StockReview.Api.ApiService
 {
@@ -25,14 +28,17 @@ namespace StockReview.Api.ApiService
         private readonly ILogger<StockOutlookServerApiService> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IMemoryCache _memoryCache;
+        private readonly StockReviewDbContext _dbContext;
 
         public StockOutlookServerApiService(ILogger<StockOutlookServerApiService> logger,
                                             IHttpClientFactory httpClientFactory,
-                                            IMemoryCache memoryCache)
+                                            IMemoryCache memoryCache,
+                                            StockReviewDbContext dbContext)
         {
             this._logger = logger;
             this._httpClientFactory = httpClientFactory;
             this._memoryCache = memoryCache;
+            this._dbContext = dbContext;
         }
 
         public string GetCurrentDay()
@@ -974,6 +980,82 @@ namespace StockReview.Api.ApiService
         }
 
 
+        public void SaveStock()
+        {
+            string today = GetCurrentDay();
+            if (string.IsNullOrWhiteSpace(today))
+            {
+                return;
+            }
+
+            var todayDateTime = Convert.ToDateTime(today);
+            if (todayDateTime < DateTime.Now.Date)
+            {
+                return;
+            }
+
+            // 看板数据保存
+            BulletinBoardDto bulletinBoard = GetHisBulletinBoard(today);
+            BulletinBoardEntity boardEntity = bulletinBoard.ToEntity();
+            if (boardEntity != null)
+            {
+                var delEntities = _dbContext.BulletinBoardEntities.Where(t => t.CreateTime >= todayDateTime).ToList();
+                if (delEntities != null && delEntities.Count > 0)
+                {
+                    _dbContext.RemoveRange(delEntities);
+                }
+                _dbContext.Add(boardEntity);
+            }
+
+            //股票明细
+            var emotionDetail = GetHisEmotionDetail(today);
+            if (emotionDetail?.root?.data?.info != null)
+            {
+                var infos = emotionDetail.root.data.info;
+                if (infos != null)
+                {
+                    List<StockDetailEntity> stockDetailEntities = infos.ToEntities();
+                    List<TimeIndexChartEntity> timeIndexChartEntities = new List<TimeIndexChartEntity>();
+                    if (stockDetailEntities != null && stockDetailEntities.Count > 0)
+                    {
+                        foreach (var item in stockDetailEntities)
+                        {
+                            StockDetailDataDto stockDetail = GetStockDetails(item.StockId, today);
+                            if (stockDetail != null)
+                            {
+                                var indexChartEntities = stockDetail.ToEntities(item.StockId, item.StockName);
+                                if (indexChartEntities != null && indexChartEntities.Count > 0)
+                                {
+                                    timeIndexChartEntities.AddRange(indexChartEntities);
+                                }
+                            }
+                        }
+
+                        // 股票明细
+                        var delStockDetailEntities = _dbContext.StockDetailEntities.Where(t => t.CreateTime >= todayDateTime).ToList();
+                        if (delStockDetailEntities != null && delStockDetailEntities.Count > 0)
+                        {
+                            _dbContext.StockDetailEntities.RemoveRange(delStockDetailEntities);
+                        }
+                        _dbContext.StockDetailEntities.AddRange(stockDetailEntities);
+
+                        // 股票分时
+                        if (timeIndexChartEntities != null && timeIndexChartEntities.Count > 0)
+                        {
+                            var delTimeIndexChartEntities = _dbContext.TimeIndexChartEntities.Where(t => t.CreateTime >= todayDateTime).ToList();
+                            if (delTimeIndexChartEntities != null && delTimeIndexChartEntities.Count > 0)
+                            {
+                                _dbContext.TimeIndexChartEntities.RemoveRange(delTimeIndexChartEntities);
+                            }
+                            _dbContext.TimeIndexChartEntities.AddRange(timeIndexChartEntities);
+                        }
+                    }
+                }
+            }
+
+
+            _dbContext.SaveChanges();
+        }
 
         #region 私有方法
 
