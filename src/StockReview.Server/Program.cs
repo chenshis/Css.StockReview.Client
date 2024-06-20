@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NLog.Web;
 using StockReview.Api.ApiService;
 using StockReview.Api.IApiService;
 using StockReview.Domain;
@@ -10,6 +11,7 @@ using StockReview.Infrastructure.Config;
 using StockReview.Server;
 using StockReview.Server.BackgroundServices;
 using StockReview.Server.Exceptions;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -70,13 +72,17 @@ builder.Services.AddMemoryCache();
 // 后台服务
 builder.Services.AddHostedService<BulletinBoardBackgroundService>();
 builder.Services.AddHostedService<StockFilterDatesBackgroundService>();
+builder.Host.UseNLog();
+builder.Host.UseWindowsService();
+// 更改端口号
+builder.WebHost.UseUrls($"http://0.0.0.0:{GetPort()}");
 var app = builder.Build();
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 app.UseAuthentication();
 app.UseAuthorization();
@@ -85,3 +91,18 @@ app.UseException();
 app.MapControllers();
 
 app.Run();
+
+
+
+
+
+// 获取端口号
+string GetPort()
+{
+    var configBuilder = new ConfigurationBuilder()
+   .SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
+   .AddJsonFile(SystemConstant.HostFileName)
+   .Build();
+    var port = configBuilder.GetSection(SystemConstant.HostPort).Value;
+    return port;
+}

@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="host.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Menu.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
