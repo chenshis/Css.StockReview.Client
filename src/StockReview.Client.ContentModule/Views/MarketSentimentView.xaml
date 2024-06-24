@@ -10,24 +10,32 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style TargetType="RowDefinition">
+            <Setter Property="Height" Value="20" />
+        </Style>
+        <Style TargetType="ColumnDefinition">
+            <Setter Property="Width" Value="110" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Label
             Grid.RowSpan="2"
@@ -51,7 +59,10 @@
             Grid.Column="2"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="最高版" />
+            <TextBlock
+                FontSize="20"
+                Foreground="#FFD000"
+                Text="最高板" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
@@ -166,38 +177,67 @@
             <TextBlock Text="市场量能" />
         </StackPanel>
 
-        <hc:Drawer
-            Name="DrawerRight"
+
+        <ScrollViewer
             Grid.Row="2"
             Grid.ColumnSpan="10"
-            MaskCanClose="False">
-            <Border
-                MinWidth="600"
-                Margin="0,92,0,0"
-                Background="{DynamicResource DarkDefaultBrush}"
-                BorderBrush="{DynamicResource BorderBrush}"
-                BorderThickness="0,1,0,0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        HorizontalAlignment="Left"
-                        Style="{StaticResource TextBlockTitle}"
-                        Text="财联社电报" />
-                    <Button
-                        HorizontalAlignment="Right"
-                        hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
-                        Command="hc:ControlCommands.Close"
-                        Foreground="{DynamicResource PrimaryTextBrush}"
-                        Style="{StaticResource ButtonIcon}" />
-                </Grid>
-            </Border>
-        </hc:Drawer>
+            Background="Black"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <lvc:CartesianChart
+                    Height="300"
+                    DrawMarginFrame="{Binding Frame}"
+                    Series="{Binding Series}"
+                    XAxes="{Binding XAxes}"
+                    YAxes="{Binding YAxes}"
+                    ZoomMode="None" />
 
+                <Grid
+                    x:Name="MarketNewsGrid"
+                    Grid.Row="1"
+                    Margin="24,-50" />
 
+                <!--<DataGrid
+                    x:Name="dataGrid"
+
+                    Margin="20,-18"
+                    Background="#EAEAEA"
+                    BorderBrush="#CCCCCC"
+                    BorderThickness="1"
+                    Foreground="White"
+                    GridLinesVisibility="All">
+                -->
+                <!--  显示所有网格线  -->
+                <!--
+                    <DataGrid.Resources>
+                -->
+                <!--  定义网格线样式  -->
+                <!--
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <Border
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            SnapsToDevicePixels="True">
+                                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.Resources>
+                </DataGrid>-->
+            </Grid>
+
+        </ScrollViewer>
 
     </Grid>
 </UserControl>

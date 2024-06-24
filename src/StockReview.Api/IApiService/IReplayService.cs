@@ -15,6 +15,12 @@ namespace StockReview.Api.IApiService
     public interface IReplayService
     {
         /// <summary>
+        /// 获取最高版数据
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        List<MarketSentimentDataDto> GetHighest(int year);
+        /// <summary>
         /// 获取龙头晋级数据
         /// </summary>
         /// <param name="date"></param>

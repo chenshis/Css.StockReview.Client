@@ -34,6 +34,61 @@ namespace StockReview.Api.ApiService
             _stockHttpClient = httpClientFactory.CreateClient();
         }
 
+        public List<MarketSentimentDataDto> GetHighest(int year)
+        {
+            var dataList = new List<MarketSentimentDataDto>();
+            var date = DateTime.Now;
+
+            int textCount = 30;
+            //while (date.Year == year)
+            while (textCount > 1)
+            {
+                textCount--;
+                DayOfWeek dayOfWeek = date.DayOfWeek;
+
+                if (dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday)
+                {
+                    var strName = new List<string>();
+
+                    var url = SystemConstantTwo.LeadingGroupPromotionDataUrl + date.ToString("yyyyMMdd");
+                    var response = _stockHttpClient.GetAsync(url).Result;
+                    var content = response.Content.ReadAsStringAsync().Result;
+
+                    if (!string.IsNullOrEmpty(content))
+                    {
+                        SharesBasicDataDto.Root root = JsonConvert.DeserializeObject<SharesBasicDataDto.Root>(content);
+
+                        for (int i = 0; i < root.data.more.limit_up_list.Count; i++)
+                        {
+                            strName.Add(root.data.more.limit_up_list[i].stockName);
+                        }
+                        for (int i = 0; i < root.data.fifth.limit_up_list.Count; i++)
+                        {
+                            strName.Add(root.data.fifth.limit_up_list[i].stockName);
+                        }
+                        for (int i = 0; i < root.data.fourth.limit_up_list.Count; i++)
+                        {
+                            strName.Add(root.data.fourth.limit_up_list[i].stockName);
+                        }
+                        for (int i = 0; i < root.data.third.limit_up_list.Count; i++)
+                        {
+                            strName.Add(root.data.third.limit_up_list[i].stockName);
+                        }
+                        if (strName.Count > 0)
+                        {
+                            dataList.Add(new MarketSentimentDataDto
+                            {
+                                date = date.ToString("yyyy年MM月dd日"),
+                                name = strName
+                            });
+                        }
+                    }
+                }
+                date = date.AddDays(-1);
+            }
+            return dataList;
+        }
+
         public List<LeadingDateHeaderDto> GetLeadingGroupPromotion(DateTime date)
         {
             var leadingList = new List<LeadingDateHeaderDto>();
