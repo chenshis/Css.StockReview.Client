@@ -34,6 +34,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Database", "2.Database", "{56DBA78B-1C3A-4A57-86CB-7979C4D5B8DB}"
 	ProjectSection(SolutionItems) = preProject
 		scripts\sys_user.sql = scripts\sys_user.sql
+		scripts\tb_bulletinboard.sql = scripts\tb_bulletinboard.sql
+		scripts\tb_stockdetail.sql = scripts\tb_stockdetail.sql
+		scripts\tb_timeindexchart.sql = scripts\tb_timeindexchart.sql
 	EndProjectSection
 EndProject
 Global

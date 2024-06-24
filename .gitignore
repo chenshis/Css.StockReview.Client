@@ -22,3 +22,9 @@
 /src/StockReview.Domain/bin/Debug/net6.0
 /src/StockReview.Infrastructure.Config/bin/Debug/net6.0
 /obj
+/src/StockReview.Infrastructure.Config/bin/Release/net6.0
+/src/StockReview.Domain/bin/Release/net6.0
+/src/StockReview.Api/bin/Release/net6.0
+/src/StockReview.Client/bin/Release/net6.0-windows
+/src/StockReview.Client.ContentModule/bin/Release/net6.0-windows
+/src/StockReview.Server/bin/Release/net6.0

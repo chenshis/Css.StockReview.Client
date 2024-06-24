@@ -30,6 +30,21 @@ namespace StockReview.Domain
         /// </summary>
         public DbSet<UserEntity> UserEntities { get; set; }
 
+        /// <summary>
+        /// 看板实体Db
+        /// </summary>
+        public DbSet<BulletinBoardEntity> BulletinBoardEntities { get; set; }
+
+        /// <summary>
+        /// 分时实体Db
+        /// </summary>
+        public DbSet<TimeIndexChartEntity> TimeIndexChartEntities { get; set; }
+
+        /// <summary>
+        /// 股票明细实体Db
+        /// </summary>
+        public DbSet<StockDetailEntity> StockDetailEntities { get; set; }
+
 
         #region 软删除相关配置值
 

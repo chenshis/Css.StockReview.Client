@@ -68,6 +68,11 @@ namespace StockReview.Api.IApiService
         StockDto GetStock(StockRequestDto request);
 
         /// <summary>
+        /// 保存股票数据
+        /// </summary>
+        void SaveStock();
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="day"></param>

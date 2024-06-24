@@ -7,7 +7,15 @@ namespace StockReview.Infrastructure.Config
     public static class SystemConstant
     {
         public const int Zero = 0;
+        /// <summary>
+        /// 宿主地址列表
+        /// </summary>
+        public const string HostPort = "HostPort";
 
+        /// <summary>
+        /// 端口
+        /// </summary>
+        public const string HostFileName = "host.json";
         /// <summary>
         /// 龙头晋级视图
         /// </summary>
