@@ -37,11 +37,11 @@ namespace StockReview.Api.ApiService
         public List<MarketSentimentDataDto> GetHighest(int year)
         {
             var dataList = new List<MarketSentimentDataDto>();
-            var date = DateTime.Now;
+            var date = DateTime.Now.Year == year ? DateTime.Now : Convert.ToDateTime(year + "-" + "12" + "-" + "30");
 
             int textCount = 30;
-            //while (date.Year == year)
-            while (textCount > 1)
+            while (date.Year == year)
+            //while (textCount > 1)
             {
                 textCount--;
                 DayOfWeek dayOfWeek = date.DayOfWeek;

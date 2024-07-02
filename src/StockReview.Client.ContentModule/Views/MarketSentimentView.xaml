@@ -186,8 +186,8 @@
             VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <lvc:CartesianChart
                     Height="300"
@@ -200,7 +200,7 @@
                 <Grid
                     x:Name="MarketNewsGrid"
                     Grid.Row="1"
-                    Margin="24,-50" />
+                    Margin="40" />
 
                 <!--<DataGrid
                     x:Name="dataGrid"

@@ -1,4 +1,5 @@
-﻿using LiveChartsCore;
+﻿using HandyControl.Tools.Extension;
+using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
@@ -7,6 +8,7 @@ using Prism.Regions;
 using SkiaSharp;
 using StockReview.Api.Dtos;
 using StockReview.Api.IApiService;
+using StockReview.Client.ContentModule.Common;
 using StockReview.Domain.Events;
 using System.Collections.ObjectModel;
 using Unity;
@@ -29,21 +31,41 @@ namespace StockReview.Client.ContentModule.ViewModels
             this.PageTitle = "市场情绪";
             this._eventAggregator = eventAggregator;
             this._replayService = replayService;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 3; i++)
             {
                 DateItem.Add(DateTime.Now.AddYears(-i).Year.ToString());
             }
 
-            InitTableHeader(DateTime.Now.Year);
+            InitTableHeader();
         }
         
-        public void InitTableHeader(int year) 
+        public void InitTableHeader() 
         {
-            var highestList = _replayService.GetHighest(year);
+            var dataList = JsonCacheManager.GetMarDataList();
+
+            if (dataList.MarkDataInfos == null)
+            {
+                dataList.MarkDataInfos = new List<Common.Model.MarkDataToInfo>();
+            }
+
+            if (dataList.MarkDataInfos.Count<=0)
+            {
+                for (int i = 0; i < DateItem.Count; i++)
+                {
+                    var highestList = _replayService.GetHighest(Convert.ToInt32(DateItem[i]));
+
+                    dataList.MarkDataInfos.Add(new Common.Model.MarkDataToInfo
+                    {
+                        Year = Convert.ToInt32(DateItem[i]),
+                        MarketSentimentDataDtos = highestList
+                    });
+                }
+            }
+            JsonCacheManager.SetMarDataList(dataList);
 
             MarketSentimentDataDtos.Clear();
-            MarketSentimentDataDtos.AddRange(highestList);
-        
+            var dataToList= dataList.MarkDataInfos.FirstOrDefault(x => x.Year == DateTime.Now.Year);
+            MarketSentimentDataDtos.AddRange(dataToList.MarketSentimentDataDtos);
         }
 
         private static readonly SKColor s_gray = new(195, 195, 195);
@@ -98,9 +120,9 @@ namespace StockReview.Client.ContentModule.ViewModels
                     Color = s_gray,
                     StrokeThickness = 1
                 },
-               Labels = new string[] { },
+               //Labels = new string[] { },
                MinLimit=0,
-               MaxLimit=50,  
+               MaxLimit=65,  
                MinStep=1
             }
         };
@@ -135,9 +157,9 @@ namespace StockReview.Client.ContentModule.ViewModels
                     Color = s_gray,
                     StrokeThickness = 1
                 },
-                Labels = new string[] { },
+                //Labels = new string[] { },
                 MinLimit =0,
-                MaxLimit=15,
+                MaxLimit=20,
                 MinStep=1
             }
         };
@@ -159,7 +181,7 @@ namespace StockReview.Client.ContentModule.ViewModels
 
             Random random = new Random(10);
 
-            for (int i = 0; i <= 50; i++)
+            for (int i = 0; i <= 65; i++)
             {
                 list.Add(new ObservablePoint(i > 0 ? i + 0.5 : i + 0.5, random.Next(0, 8)));
             }

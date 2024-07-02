@@ -29,9 +29,7 @@ namespace StockReview.Client.ContentModule.Views
         {
             InitializeComponent();
             MarketSentimentViewModels = marketLadderViewModels;
-            var date = DateTime.Now;
-            int index = 0;
-
+         
             var colTemp = 0;
 
             foreach (var item in MarketSentimentViewModels.MarketSentimentDataDtos)
@@ -41,7 +39,7 @@ namespace StockReview.Client.ContentModule.Views
                 var rows = new RowDefinition();
                 this.MarketNewsGrid.RowDefinitions.Add(rows);
                 var columns = new ColumnDefinition();
-               
+
                 this.MarketNewsGrid.ColumnDefinitions.Add(columns);
 
                 TextBlock textBlock = new TextBlock();
@@ -50,9 +48,9 @@ namespace StockReview.Client.ContentModule.Views
                 textBlock.FontSize = 12;
                 textBlock.Foreground = Brushes.White;
                 textBlock.Text = item.date;
-             
+
                 this.MarketNewsGrid.Children.Add(textBlock);
-               
+
                 Grid.SetRow(textBlock, rowTemp);
                 Grid.SetColumn(textBlock, colTemp);
 
@@ -61,7 +59,7 @@ namespace StockReview.Client.ContentModule.Views
                 foreach (var itemName in item.name)
                 {
                     this.MarketNewsGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                 
+
                     TextBlock textBlockTwo = new TextBlock();
                     textBlockTwo.HorizontalAlignment = HorizontalAlignment.Left;
                     textBlockTwo.Background = Brushes.Transparent;
@@ -75,7 +73,6 @@ namespace StockReview.Client.ContentModule.Views
                     rowTemp++;
                 }
                 colTemp++;
-             
             }
 
             for (int row = 0; row < MarketNewsGrid.RowDefinitions.Count; row++)
