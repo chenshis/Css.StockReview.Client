@@ -52,7 +52,8 @@
             Width="135"
             Height="20"
             HorizontalAlignment="Center"
-            ItemsSource="{Binding DateItem}" />
+            ItemsSource="{Binding DateItem}"
+            SelectedIndex="0" />
 
         <StackPanel
             Grid.RowSpan="1"
@@ -189,52 +190,25 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+
                 <lvc:CartesianChart
                     Height="300"
                     DrawMarginFrame="{Binding Frame}"
-                    Series="{Binding Series}"
-                    XAxes="{Binding XAxes}"
-                    YAxes="{Binding YAxes}"
+                    Series="{Binding PointSeries}"
+                    XAxes="{Binding PointXAxes}"
+                    YAxes="{Binding PointYAxes}"
                     ZoomMode="None" />
 
-                <Grid
+                <!--<Grid
                     x:Name="MarketNewsGrid"
                     Grid.Row="1"
-                    Margin="40" />
-
-                <!--<DataGrid
+                    Margin="40" />-->
+                <DataGrid
                     x:Name="dataGrid"
+                    Grid.Row="1"
+                    AutoGenerateColumns="False" />
 
-                    Margin="20,-18"
-                    Background="#EAEAEA"
-                    BorderBrush="#CCCCCC"
-                    BorderThickness="1"
-                    Foreground="White"
-                    GridLinesVisibility="All">
-                -->
-                <!--  显示所有网格线  -->
-                <!--
-                    <DataGrid.Resources>
-                -->
-                <!--  定义网格线样式  -->
-                <!--
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="DataGridCell">
-                                        <Border
-                                            Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            SnapsToDevicePixels="True">
-                                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </DataGrid.Resources>
-                </DataGrid>-->
+
             </Grid>
 
         </ScrollViewer>

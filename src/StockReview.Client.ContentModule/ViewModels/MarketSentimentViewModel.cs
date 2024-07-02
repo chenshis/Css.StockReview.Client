@@ -3,6 +3,7 @@ using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
+using NPOI.SS.Formula.Atp;
 using Prism.Events;
 using Prism.Regions;
 using SkiaSharp;
@@ -21,9 +22,36 @@ namespace StockReview.Client.ContentModule.ViewModels
         public ObservableCollection<string> DateItem { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<MarketSentimentDataDto> MarketSentimentDataDtos { get; set; } = new ObservableCollection<MarketSentimentDataDto>();
         public ObservableCollection<string> DataPoints { get; set; } = new ObservableCollection<string>();
-        
+
+        public ObservableCollection<ObservablePoint> ObservablePoints { get; set; }=new ObservableCollection<ObservablePoint>();
+
+        public ObservableCollection<DataItem> DataItems { get; set; }= new ObservableCollection<DataItem>();
+        public ObservableCollection<DateTime> Dates { get; set; } = new ObservableCollection<DateTime>();
+        public ObservableCollection<Dictionary<DateTime, string>> TransformedData { get; set; } = new ObservableCollection<Dictionary<DateTime, string>>();
+
+        private ISeries[] _pointSeries;
+        /// <summary>
+        /// 折线图序列
+        /// </summary>
+        public ISeries[] PointSeries
+        {
+            get { return _pointSeries; }
+            set { SetProperty(ref _pointSeries, value); }
+        }
+
+        private Axis[] _pointXAxes;
+        /// <summary>
+        /// 蜡烛图x坐标
+        /// </summary>
+        public Axis[] PointXAxes
+        {
+            get { return _pointXAxes; }
+            set { SetProperty(ref _pointXAxes, value); }
+        }
+
         private readonly IReplayService _replayService;
         private readonly IEventAggregator _eventAggregator;
+
 
         public MarketSentimentViewModel(IUnityContainer unityContainer, IRegionManager regionManager
              , IReplayService replayService, IEventAggregator eventAggregator) : base(unityContainer, regionManager)
@@ -37,9 +65,32 @@ namespace StockReview.Client.ContentModule.ViewModels
             }
 
             InitTableHeader();
+
+           
         }
-        
-        public void InitTableHeader() 
+
+        private IEnumerable<Dictionary<DateTime, string>> TransformData()
+        {
+            var groupedData = DataItems.GroupBy(item => item.Date)
+                                       .ToDictionary(g => g.Key, g => g.Select(item => item.Value).ToList());
+
+            var maxRows = groupedData.Values.Max(v => v.Count);
+            var transformed = new List<Dictionary<DateTime, string>>();
+
+            for (int i = 0; i < maxRows; i++)
+            {
+                var row = new Dictionary<DateTime, string>();
+                foreach (var date in Dates)
+                {
+                    row[date] = groupedData.ContainsKey(date) && groupedData[date].Count > i ? groupedData[date][i] : string.Empty;
+                }
+                transformed.Add(row);
+            }
+
+            return transformed;
+        }
+
+        public void InitTableHeader()
         {
             var dataList = JsonCacheManager.GetMarDataList();
 
@@ -48,7 +99,7 @@ namespace StockReview.Client.ContentModule.ViewModels
                 dataList.MarkDataInfos = new List<Common.Model.MarkDataToInfo>();
             }
 
-            if (dataList.MarkDataInfos.Count<=0)
+            if (dataList.MarkDataInfos.Count <= 0)
             {
                 for (int i = 0; i < DateItem.Count; i++)
                 {
@@ -64,18 +115,10 @@ namespace StockReview.Client.ContentModule.ViewModels
             JsonCacheManager.SetMarDataList(dataList);
 
             MarketSentimentDataDtos.Clear();
-            var dataToList= dataList.MarkDataInfos.FirstOrDefault(x => x.Year == DateTime.Now.Year);
+            var dataToList = dataList.MarkDataInfos.FirstOrDefault(x => x.Year == DateTime.Now.Year);
             MarketSentimentDataDtos.AddRange(dataToList.MarketSentimentDataDtos);
-        }
 
-        private static readonly SKColor s_gray = new(195, 195, 195);
-        private static readonly SKColor s_gray1 = new(160, 160, 160);
-        private static readonly SKColor s_gray2 = new(90, 90, 90);
-        private static readonly SKColor s_dark3 = new(60, 60, 60);
-
-        public ISeries[] Series { get; set; } =
-        {
-            new LineSeries<ObservablePoint>
+            var pointSeries = new LineSeries<ObservablePoint>
             {
                 Values = Fetch(),
                 Stroke = new SolidColorPaint(new SKColor(255, 208, 0)),
@@ -83,19 +126,18 @@ namespace StockReview.Client.ContentModule.ViewModels
                 GeometryFill = new SolidColorPaint(new SKColor(255, 208, 0)),
                 GeometryStroke = new SolidColorPaint(new SKColor(255, 208, 0)) { StrokeThickness = 2 },
                 DataLabelsSize = 25,
-                DataLabelsPaint=new SolidColorPaint(new SKColor(255, 208, 0)),
-                DataLabelsPosition=LiveChartsCore.Measure.DataLabelsPosition.Top,
-                DataLabelsFormatter=(point)=>point.PrimaryValue.ToString()
-            }
-        };
+                DataLabelsPaint = new SolidColorPaint(new SKColor(255, 208, 0)),
+                DataLabelsPosition = LiveChartsCore.Measure.DataLabelsPosition.Top,
+                DataLabelsFormatter = (point) => point.PrimaryValue.ToString()
+            };
 
-        public Axis[] XAxes { get; set; } =
-        {
-            new Axis
+            PointSeries = new ISeries[] { pointSeries };
+
+            var pointXAxes = new Axis
             {
                 SeparatorsPaint = new SolidColorPaint
                 {
-                   
+
                     Color = s_gray,
                     StrokeThickness = 1,
                 },
@@ -120,14 +162,20 @@ namespace StockReview.Client.ContentModule.ViewModels
                     Color = s_gray,
                     StrokeThickness = 1
                 },
-               //Labels = new string[] { },
-               MinLimit=0,
-               MaxLimit=65,  
-               MinStep=1
-            }
-        };
+                //Labels = new string[] { },
+                MinLimit = 0,
+                MaxLimit = MarketSentimentDataDtos.Count(),
+                MinStep = 1
+            };
+            PointXAxes = new[] { pointXAxes };
+        }
 
-        public Axis[] YAxes { get; set; } =
+        private static readonly SKColor s_gray = new(195, 195, 195);
+        private static readonly SKColor s_gray1 = new(160, 160, 160);
+        private static readonly SKColor s_gray2 = new(90, 90, 90);
+        private static readonly SKColor s_dark3 = new(60, 60, 60);
+
+        public Axis[] PointYAxes { get; set; } =
         {
             new Axis
             {
@@ -175,26 +223,36 @@ namespace StockReview.Client.ContentModule.ViewModels
             }
         };
 
-        private static List<ObservablePoint> Fetch()
+        private  List<ObservablePoint> Fetch()
         {
             var list = new List<ObservablePoint>();
 
-            Random random = new Random(10);
-
-            for (int i = 0; i <= 65; i++)
+            for (int i = 0; i < MarketSentimentDataDtos.Count; i++)
             {
-                list.Add(new ObservablePoint(i > 0 ? i + 0.5 : i + 0.5, random.Next(0, 8)));
+                list.Add(new ObservablePoint(i <= 0 ? 0.5 : i - 0.5, MarketSentimentDataDtos[i].name.Count()));
+
+                for (int j = 0; j < MarketSentimentDataDtos[i].name.Count;j++) 
+                {
+                    DataItems.Add(new DataItem
+                    {
+                        Date = Convert.ToDateTime(MarketSentimentDataDtos[i].date),
+                        Value= MarketSentimentDataDtos[i].name[j].ToString()
+                    });
+                }
+              
             }
+
+            Dates = new ObservableCollection<DateTime>(DataItems.Select(item => item.Date).Distinct());
+
+            TransformedData = new ObservableCollection<Dictionary<DateTime, string>>(TransformData());
+
             return list;
         }
     }
 
-    public class DataPoint
+    public class DataItem
     {
-       
-        public List<string> Head1 { get; set; }
-
-        public List<string> Head2 { get; set; }
-
+        public DateTime Date { get; set; }
+        public string Value { get; set; }
     }
 }
