@@ -59,7 +59,7 @@ namespace StockReview.Client.ContentModule.ViewModels
             this.PageTitle = "市场情绪";
             this._eventAggregator = eventAggregator;
             this._replayService = replayService;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 1; i++)
             {
                 DateItem.Add(DateTime.Now.AddYears(-i).Year.ToString());
             }
@@ -101,6 +101,7 @@ namespace StockReview.Client.ContentModule.ViewModels
 
             if (dataList.MarkDataInfos.Count <= 0)
             {
+                dataList.MarkDataInfos.Clear();//测试用
                 for (int i = 0; i < DateItem.Count; i++)
                 {
                     var highestList = _replayService.GetHighest(Convert.ToInt32(DateItem[i]));
@@ -120,7 +121,7 @@ namespace StockReview.Client.ContentModule.ViewModels
 
             var pointSeries = new LineSeries<ObservablePoint>
             {
-                Values = Fetch(),
+                Values = Fetch(1),
                 Stroke = new SolidColorPaint(new SKColor(255, 208, 0)),
                 Fill = null,
                 GeometryFill = new SolidColorPaint(new SKColor(255, 208, 0)),
@@ -131,7 +132,46 @@ namespace StockReview.Client.ContentModule.ViewModels
                 DataLabelsFormatter = (point) => point.PrimaryValue.ToString()
             };
 
-            PointSeries = new ISeries[] { pointSeries };
+            var pointSeries2 = new LineSeries<ObservablePoint>
+            {
+                Values = Fetch(2),
+                Stroke = new SolidColorPaint(new SKColor(255, 0, 0)),
+                Fill = null,
+                GeometryFill = new SolidColorPaint(new SKColor(255, 0, 0)),
+                GeometryStroke = new SolidColorPaint(new SKColor(255, 0, 0)) { StrokeThickness = 2 },
+                DataLabelsSize = 25,
+                DataLabelsPaint = new SolidColorPaint(new SKColor(255, 0, 0)),
+                DataLabelsPosition = LiveChartsCore.Measure.DataLabelsPosition.Top,
+                DataLabelsFormatter = (point) => point.PrimaryValue.ToString()
+            };
+
+            var pointSeries3 = new LineSeries<ObservablePoint>
+            {
+                Values = Fetch(3),
+                Stroke = new SolidColorPaint(new SKColor(0, 0, 255)),
+                Fill = null,
+                GeometryFill = new SolidColorPaint(new SKColor(0, 0, 255)),
+                GeometryStroke = new SolidColorPaint(new SKColor(0, 0, 255)) { StrokeThickness = 2 },
+                DataLabelsSize = 25,
+                DataLabelsPaint = new SolidColorPaint(new SKColor(0, 0, 255)),
+                DataLabelsPosition = LiveChartsCore.Measure.DataLabelsPosition.Top,
+                DataLabelsFormatter = (point) => point.PrimaryValue.ToString()
+            };
+
+            var pointSeries4 = new LineSeries<ObservablePoint>
+            {
+                Values = Fetch(4),
+                Stroke = new SolidColorPaint(new SKColor(0, 255, 0)),
+                Fill = null,
+                GeometryFill = new SolidColorPaint(new SKColor(0, 255, 0)),
+                GeometryStroke = new SolidColorPaint(new SKColor(0, 255, 0)) { StrokeThickness = 2 },
+                DataLabelsSize = 25,
+                DataLabelsPaint = new SolidColorPaint(new SKColor(0, 255, 0)),
+                DataLabelsPosition = LiveChartsCore.Measure.DataLabelsPosition.Top,
+                DataLabelsFormatter = (point) => point.PrimaryValue.ToString()
+            };
+
+            PointSeries = new ISeries[] { pointSeries, pointSeries2, pointSeries3, pointSeries4 };
 
             var pointXAxes = new Axis
             {
@@ -164,10 +204,12 @@ namespace StockReview.Client.ContentModule.ViewModels
                 },
                 //Labels = new string[] { },
                 MinLimit = 0,
-                MaxLimit = MarketSentimentDataDtos.Count(),
+                MaxLimit = MarketSentimentDataDtos.Where(x=>x.type==1).Count(),
                 MinStep = 1
             };
             PointXAxes = new[] { pointXAxes };
+
+
         }
 
         private static readonly SKColor s_gray = new(195, 195, 195);
@@ -207,7 +249,7 @@ namespace StockReview.Client.ContentModule.ViewModels
                 },
                 //Labels = new string[] { },
                 MinLimit =0,
-                MaxLimit=20,
+                MaxLimit=150,
                 MinStep=1
             }
         };
@@ -223,28 +265,36 @@ namespace StockReview.Client.ContentModule.ViewModels
             }
         };
 
-        private  List<ObservablePoint> Fetch()
+        private  List<ObservablePoint> Fetch(int type)
         {
             var list = new List<ObservablePoint>();
 
-            for (int i = 0; i < MarketSentimentDataDtos.Count; i++)
-            {
-                list.Add(new ObservablePoint(i <= 0 ? 0.5 : i - 0.5, MarketSentimentDataDtos[i].name.Count()));
+            var markOne = MarketSentimentDataDtos.Where(x => x.type == type).ToList();
 
-                for (int j = 0; j < MarketSentimentDataDtos[i].name.Count;j++) 
+            for (int i = 0; i < markOne.Count; i++)
+            {
+                list.Add(new ObservablePoint(i <= 0 ? 0.5 : i - 0.5, markOne[i].name.Count()));
+
+                if (type==1)
                 {
-                    DataItems.Add(new DataItem
+                    for (int j = 0; j < markOne[i].name.Count; j++)
                     {
-                        Date = Convert.ToDateTime(MarketSentimentDataDtos[i].date),
-                        Value= MarketSentimentDataDtos[i].name[j].ToString()
-                    });
+                        DataItems.Add(new DataItem
+                        {
+                            Date = Convert.ToDateTime(markOne[i].date),
+                            Value = markOne[i].name[j].ToString()
+                        });
+                    }
                 }
+                
               
             }
+            if (type==1)
+            {
+                Dates = new ObservableCollection<DateTime>(DataItems.Select(item => item.Date).Distinct());
 
-            Dates = new ObservableCollection<DateTime>(DataItems.Select(item => item.Date).Distinct());
-
-            TransformedData = new ObservableCollection<Dictionary<DateTime, string>>(TransformData());
+                TransformedData = new ObservableCollection<Dictionary<DateTime, string>>(TransformData());
+            }
 
             return list;
         }

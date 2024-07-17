@@ -93,9 +93,6 @@ app.MapControllers();
 app.Run();
 
 
-
-
-
 // »ñÈ¡¶Ë¿ÚºÅ
 string GetPort()
 {

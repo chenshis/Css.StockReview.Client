@@ -49,11 +49,9 @@ namespace StockReview.Api.ApiService
                 if (dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday)
                 {
                     var strName = new List<string>();
-
                     var url = SystemConstantTwo.LeadingGroupPromotionDataUrl + date.ToString("yyyyMMdd");
                     var response = _stockHttpClient.GetAsync(url).Result;
                     var content = response.Content.ReadAsStringAsync().Result;
-
                     if (!string.IsNullOrEmpty(content))
                     {
                         SharesBasicDataDto.Root root = JsonConvert.DeserializeObject<SharesBasicDataDto.Root>(content);
@@ -83,10 +81,85 @@ namespace StockReview.Api.ApiService
                                 name = strName
                             });
                         }
+
                     }
 
+                    var strName1 = new List<string>();
+                    var url1 = date.ToString("yyyy-MM-dd") != DateTime.Now.ToString("yyyy-MM-dd")
+                             ? SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_up_broken&date=" + date.ToString("yyyy-MM-dd")
+                             : SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_up_broken";
+                    var response1 = _stockHttpClient.GetAsync(url1).Result;
+                    var content1 = response1.Content.ReadAsStringAsync().Result;
 
+                    if (!string.IsNullOrEmpty(content1))
+                    {
+                        if (content1 != null && !(content1.Substring(0, 1) != "{") && content1.Length >= 120)
+                        {
+                            ZaBanBasicDataDto.Root root = JsonConvert.DeserializeObject<ZaBanBasicDataDto.Root>(content1);
 
+                            for (int i = 0; i < root.data.Count; i++)
+                            {
+                                strName1.Add(root.data[i].stock_chi_name);
+                            }
+
+                            if (strName1.Count > 0)
+                            {
+                                dataList.Add(new MarketSentimentDataDto
+                                {
+                                    @type = 2,
+                                    date = date.ToString("yyyy年MM月dd日"),
+                                    name = strName1
+                                });
+                            }
+
+                        }
+                    }
+
+                    var strName2 = new List<string>();
+                    var urlLimitUp = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=yesterday_limit_up&date=" + date.ToString("yyyy-MM-dd");
+                    var responseLimitUp = _stockHttpClient.GetAsync(urlLimitUp).Result;
+                    var contentLimitUp = responseLimitUp.Content.ReadAsStringAsync().Result;
+                    if (!string.IsNullOrEmpty(contentLimitUp) && contentLimitUp.Length > 120)
+                    {
+                        ExplosiveBasicDataDto.Root root = JsonConvert.DeserializeObject<ExplosiveBasicDataDto.Root>(contentLimitUp);
+                        for (int i = 0; i < root.data.Count; i++)
+                        {
+                            strName2.Add(root.data[i].stock_chi_name);
+                        }
+
+                        if (strName2.Count > 0)
+                        {
+                            dataList.Add(new MarketSentimentDataDto
+                            {
+                                @type = 3,
+                                date = date.ToString("yyyy年MM月dd日"),
+                                name = strName1
+                            });
+                        }
+
+                    }
+
+                    var strName3 = new List<string>();
+                    var urlLimitDown = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_down&date=" + date.ToString("yyyy-MM-dd");
+                    var responseLimitDown = _stockHttpClient.GetAsync(urlLimitDown).Result;
+                    var contentLimitDown = responseLimitDown.Content.ReadAsStringAsync().Result;
+                    if (!string.IsNullOrEmpty(contentLimitDown) && contentLimitDown.Length > 120)
+                    {
+                        ExplosiveBasicDataDto.Root root = JsonConvert.DeserializeObject<ExplosiveBasicDataDto.Root>(contentLimitDown);
+                        for (int i = 0; i < root.data.Count; i++)
+                        {
+                            strName3.Add(root.data[i].stock_chi_name);
+                        }
+                        if (strName3.Count > 0)
+                        {
+                            dataList.Add(new MarketSentimentDataDto
+                            {
+                                @type = 4,
+                                date = date.ToString("yyyy年MM月dd日"),
+                                name = strName1
+                            });
+                        }
+                    }
                 }
                 date = date.AddDays(-1);
             }

@@ -49,9 +49,9 @@
         <ComboBox
             Grid.RowSpan="2"
             Grid.Column="1"
-            Width="135"
+            Width="Auto"
             Height="20"
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Left"
             ItemsSource="{Binding DateItem}"
             SelectedIndex="0" />
 
@@ -125,7 +125,7 @@
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 FontSize="15"
-                Foreground="#FFC0CB"
+                Foreground="#0000FF"
                 Text="涨停家数" />
         </StackPanel>
         <StackPanel
@@ -146,7 +146,7 @@
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 FontSize="15"
-                Foreground="#FFC0CB"
+                Foreground="#00FF00"
                 Text="跌停家数" />
         </StackPanel>
         <StackPanel
@@ -188,7 +188,7 @@
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 FontSize="15"
-                Foreground="#FFC0CB"
+                Foreground="#FF0000"
                 Text="炸板家数" />
         </StackPanel>
         <StackPanel
@@ -232,12 +232,12 @@
             VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="500" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <lvc:CartesianChart
-                    Height="300"
+                    Grid.Row="0"
                     DrawMarginFrame="{Binding Frame}"
                     Series="{Binding PointSeries}"
                     XAxes="{Binding PointXAxes}"
