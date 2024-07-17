@@ -8,6 +8,7 @@ namespace StockReview.Api.Dtos
 {
     public class MarketSentimentDataDto
     {
+        public int type { get; set; }
         public string date { get; set; }
         public List<string> name { get; set; }
     }

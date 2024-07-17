@@ -78,11 +78,15 @@ namespace StockReview.Api.ApiService
                         {
                             dataList.Add(new MarketSentimentDataDto
                             {
+                                @type = 1,
                                 date = date.ToString("yyyy年MM月dd日"),
                                 name = strName
                             });
                         }
                     }
+
+
+
                 }
                 date = date.AddDays(-1);
             }
@@ -104,8 +108,8 @@ namespace StockReview.Api.ApiService
                 HeadRow = 0,
                 HeadColumn = 0,
                 HeadName = "版数",
-                HeadColor="Turquoise",
-                HeadFontColor="Green"
+                HeadColor = "Turquoise",
+                HeadFontColor = "Green"
             });
             leadingList.Add(new LeadingDateHeaderDto
             {
@@ -608,7 +612,7 @@ namespace StockReview.Api.ApiService
             var url = SystemConstantTwo.LeadingGroupPromotionDataUrl + date.ToString("yyyyMMdd");
             var response = _stockHttpClient.GetAsync(url).Result;
             var content = response.Content.ReadAsStringAsync().Result;
-            if (!string.IsNullOrEmpty(content)&&content.Length>= 3000)
+            if (!string.IsNullOrEmpty(content) && content.Length >= 3000)
             {
                 SharesBasicDataDto.Root root = JsonConvert.DeserializeObject<SharesBasicDataDto.Root>(content);
                 marketLadderList.MarketTitle = root.data.trade_date + "  涨停" + root.data.total.limit_up_num + "只    晋级率:" + root.data.total.promotion_rate + "%   炸板率:" + root.data.total.plate_frying_rate + "%    竞价涨幅:" + root.data.total.call_auction_rise + "%";
@@ -623,7 +627,7 @@ namespace StockReview.Api.ApiService
                     marketLadderLists.MarketLadderDescibe = string.Format("(晋级率：{0}%   炸板率：{1}%   竞价涨幅：{2}% )"
                         , root.data.more.promotion_rate, root.data.more.plate_frying_rate, root.data.more.call_auction_rise);
 
-                    var MarketLadderInfoList=new List<MarketLadderInfo>();
+                    var MarketLadderInfoList = new List<MarketLadderInfo>();
                     for (int i = 0; i < root.data.more.limit_up_list.Count; i++)
                     {
                         MarketLadderInfoList.Add(new Dtos.MarketLadderInfo
@@ -650,7 +654,7 @@ namespace StockReview.Api.ApiService
                         , root.data.fifth.promotion_rate, root.data.fifth.plate_frying_rate, root.data.fifth.call_auction_rise);
 
                     var MarketLadderInfoListFifth = new List<MarketLadderInfo>();
-                 
+
                     for (int i = 0; i < root.data.fifth.limit_up_list.Count; i++)
                     {
                         MarketLadderInfoListFifth.Add(new Dtos.MarketLadderInfo
@@ -773,7 +777,7 @@ namespace StockReview.Api.ApiService
             var urlNews = SystemConstantTwo.MarketLadderDataUrl + GetTimeStamp(date);
             var responseNews = _stockHttpClient.GetAsync(urlNews).Result;
             var contentNews = responseNews.Content.ReadAsStringAsync().Result;
-            if (!string.IsNullOrEmpty(contentNews)&&contentNews.Length>= 200)
+            if (!string.IsNullOrEmpty(contentNews) && contentNews.Length >= 200)
             {
                 NewsBasicDataDto.Root root = JsonConvert.DeserializeObject<NewsBasicDataDto.Root>(contentNews);
 
@@ -786,7 +790,7 @@ namespace StockReview.Api.ApiService
                     });
                 }
             }
-           
+
             return marketLadderList;
         }
 
@@ -882,7 +886,7 @@ namespace StockReview.Api.ApiService
 
                             if (!string.IsNullOrWhiteSpace(contextOne))
                             {
-                                PlateBasicDataDto.Root rootOne= JsonConvert.DeserializeObject<PlateBasicDataDto.Root>(contextOne);
+                                PlateBasicDataDto.Root rootOne = JsonConvert.DeserializeObject<PlateBasicDataDto.Root>(contextOne);
 
                                 for (int k = 0; k < rootOne.list.Count; k++)
                                 {
@@ -1100,26 +1104,26 @@ namespace StockReview.Api.ApiService
                                 });
                             }
 
-                                string postDtaFive = DateTime.Compare(date, DateTime.Now.Date) != 0 ? "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&old=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Index=0&Date=" + date + "&apiv=w35&Type=6&PlateID=" + root.list[0][0] + "&" :
-   "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Token=&Index=0&apiv=w35&Type=6&IsKZZType=0&PlateID=" + root.list[0][0] + "&";
-                                HttpHelper httpHelperFive = new HttpHelper();
-                                HttpItem itemFive = new HttpItem
-                                {
-                                    URL = DateTime.Compare(date, DateTime.Now.Date) != 0 ? SystemConstantTwo.PlateRotationPostDataUrl : SystemConstantTwo.PlateRotationPostDayDataUrl,
-                                    Method = "POST",
-                                    Timeout = 100000,
-                                    ReadWriteTimeout = 30000,
-                                    IsToLower = false,
-                                    Cookie = "",
-                                    UserAgent = SusAgent,
-                                    Accept = "text/html, application/xhtml+xml, */*",
-                                    ContentType = "application/x-www-form-urlencoded",
-                                    Referer = "",
-                                    Postdata = postDtaFive,
-                                    ResultType = ResultType.String,
-                                    ProtocolVersion = HttpVersion.Version11
-                                };
-                                string contextFive = httpHelperFive.GetHtml(itemFive).Html;
+                            string postDtaFive = DateTime.Compare(date, DateTime.Now.Date) != 0 ? "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&old=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Index=0&Date=" + date + "&apiv=w35&Type=6&PlateID=" + root.list[0][0] + "&" :
+"Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Token=&Index=0&apiv=w35&Type=6&IsKZZType=0&PlateID=" + root.list[0][0] + "&";
+                            HttpHelper httpHelperFive = new HttpHelper();
+                            HttpItem itemFive = new HttpItem
+                            {
+                                URL = DateTime.Compare(date, DateTime.Now.Date) != 0 ? SystemConstantTwo.PlateRotationPostDataUrl : SystemConstantTwo.PlateRotationPostDayDataUrl,
+                                Method = "POST",
+                                Timeout = 100000,
+                                ReadWriteTimeout = 30000,
+                                IsToLower = false,
+                                Cookie = "",
+                                UserAgent = SusAgent,
+                                Accept = "text/html, application/xhtml+xml, */*",
+                                ContentType = "application/x-www-form-urlencoded",
+                                Referer = "",
+                                Postdata = postDtaFive,
+                                ResultType = ResultType.String,
+                                ProtocolVersion = HttpVersion.Version11
+                            };
+                            string contextFive = httpHelperFive.GetHtml(itemFive).Html;
 
                             if (!string.IsNullOrWhiteSpace(contextFive))
                             {
@@ -1160,26 +1164,26 @@ namespace StockReview.Api.ApiService
                                 });
                             }
 
-                                string postDtaSix = DateTime.Compare(date, DateTime.Now.Date) != 0 ? "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&old=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Index=0&Date=" + date + "&apiv=w35&Type=6&PlateID=" + root.list[0][0] + "&" :
-   "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Token=&Index=0&apiv=w35&Type=6&IsKZZType=0&PlateID=" + root.list[0][0] + "&";
-                                HttpHelper httpHelperSix = new HttpHelper();
-                                HttpItem itemSix = new HttpItem
-                                {
-                                    URL = DateTime.Compare(date, DateTime.Now.Date) != 0 ? SystemConstantTwo.PlateRotationPostDataUrl : SystemConstantTwo.PlateRotationPostDayDataUrl,
-                                    Method = "POST",
-                                    Timeout = 100000,
-                                    ReadWriteTimeout = 30000,
-                                    IsToLower = false,
-                                    Cookie = "",
-                                    UserAgent = SusAgent,
-                                    Accept = "text/html, application/xhtml+xml, */*",
-                                    ContentType = "application/x-www-form-urlencoded",
-                                    Referer = "",
-                                    Postdata = postDtaSix,
-                                    ResultType = ResultType.String,
-                                    ProtocolVersion = HttpVersion.Version11
-                                };
-                                string contextSix = httpHelperSix.GetHtml(itemSix).Html;
+                            string postDtaSix = DateTime.Compare(date, DateTime.Now.Date) != 0 ? "Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&old=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Index=0&Date=" + date + "&apiv=w35&Type=6&PlateID=" + root.list[0][0] + "&" :
+"Order=1&a=ZhiShuStockList_W8&st=30&c=ZhiShuRanking&PhoneOSNew=1&DeviceID=" + deviceId + "&VerSion=5.13.0.0&old=1&IsZZ=0&Token=&Index=0&apiv=w35&Type=6&IsKZZType=0&PlateID=" + root.list[0][0] + "&";
+                            HttpHelper httpHelperSix = new HttpHelper();
+                            HttpItem itemSix = new HttpItem
+                            {
+                                URL = DateTime.Compare(date, DateTime.Now.Date) != 0 ? SystemConstantTwo.PlateRotationPostDataUrl : SystemConstantTwo.PlateRotationPostDayDataUrl,
+                                Method = "POST",
+                                Timeout = 100000,
+                                ReadWriteTimeout = 30000,
+                                IsToLower = false,
+                                Cookie = "",
+                                UserAgent = SusAgent,
+                                Accept = "text/html, application/xhtml+xml, */*",
+                                ContentType = "application/x-www-form-urlencoded",
+                                Referer = "",
+                                Postdata = postDtaSix,
+                                ResultType = ResultType.String,
+                                ProtocolVersion = HttpVersion.Version11
+                            };
+                            string contextSix = httpHelperSix.GetHtml(itemSix).Html;
 
                             if (!string.IsNullOrWhiteSpace(contextSix))
                             {
@@ -1246,7 +1250,7 @@ namespace StockReview.Api.ApiService
                         explosiveFriedIndividualInfo.ExpSharesTailSealingTime = GetDateTime(root.data[i].last_limit_up.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
                         explosiveFriedIndividualInfo.ExpSharesStartDoingBusiness = root.data[i].break_limit_up_times;
                         explosiveFriedIndividualInfo.ExpSharesCirculatingMarketValue = zEy(root.data[i].non_restricted_capital);
-                        explosiveFriedIndividualInfo.ExpSharesLastFryingTime = GetDateTime(root.data[i].last_break_limit_up.ToString()).ToString("yyyy-MM-dd HH:mm:ss");;
+                        explosiveFriedIndividualInfo.ExpSharesLastFryingTime = GetDateTime(root.data[i].last_break_limit_up.ToString()).ToString("yyyy-MM-dd HH:mm:ss"); ;
                         explosiveFriedIndividualInfo.ExpSharesConcept = root.data[i].surge_reason.related_plates[0].plate_name;
                         result.ExplosiveFriedIndividualInfos.Add(explosiveFriedIndividualInfo);
                     }
@@ -1293,7 +1297,7 @@ namespace StockReview.Api.ApiService
             var urlLimitDown = SystemConstantTwo.ExplosivePostDataUrl + "?pool_name=limit_down&date=" + date.ToString("yyyy-MM-dd");
             var responseLimitDown = _stockHttpClient.GetAsync(urlLimitDown).Result;
             var contentLimitDown = responseLimitDown.Content.ReadAsStringAsync().Result;
-            if (!string.IsNullOrEmpty(contentLimitDown)&& contentLimitDown.Length > 120)
+            if (!string.IsNullOrEmpty(contentLimitDown) && contentLimitDown.Length > 120)
             {
                 ExplosiveBasicDataDto.Root root = JsonConvert.DeserializeObject<ExplosiveBasicDataDto.Root>(contentLimitDown);
                 for (int i = 0; i < root.data.Count; i++)
@@ -1301,8 +1305,8 @@ namespace StockReview.Api.ApiService
                     var dataInfo = new ExplosiveLimitDownStaticsInfo();
                     dataInfo.ExpDownCode = root.data[i].symbol.ToString().Substring(0, 6);
                     dataInfo.ExpDownName = root.data[i].stock_chi_name;
-                    dataInfo.ExpDownFirstSealingTime= GetDateTime(root.data[i].first_limit_down.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
-                    dataInfo.ExpDownTailSealingTime= GetDateTime(root.data[i].last_limit_down.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+                    dataInfo.ExpDownFirstSealingTime = GetDateTime(root.data[i].first_limit_down.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+                    dataInfo.ExpDownTailSealingTime = GetDateTime(root.data[i].last_limit_down.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
                     dataInfo.ExpDownStartConnectedBoard = root.data[i].break_limit_up_times;
                     dataInfo.ExpDownStartDoingBusiness = root.data[i].limit_down_days;
 
@@ -1351,7 +1355,7 @@ namespace StockReview.Api.ApiService
                 };
                 string context = httpHelper.GetHtml(item).Html;
 
-                if (!string.IsNullOrEmpty(context)&& context.Length>170)
+                if (!string.IsNullOrEmpty(context) && context.Length > 170)
                 {
                     switch (workDaysCount)
                     {
@@ -1404,7 +1408,7 @@ namespace StockReview.Api.ApiService
                         double num = Convert.ToDouble(root.ResultSets[0].Content[i][4]);
                         if (Math.Abs(num) < 100000000.0)
                         {
-                           
+
                             if (num > 0.0)
                             {
                                 dragonTigerInfos.DragonPurchaseColor = "Green";
@@ -1417,7 +1421,7 @@ namespace StockReview.Api.ApiService
                         }
                         else
                         {
-                         
+
                             if (num <= 0.0)
                             {
                                 dragonTigerInfos.DragonPurchaseColor = "Green";
@@ -1483,7 +1487,7 @@ namespace StockReview.Api.ApiService
                                     if (text3.Contains(text2))
                                     {
                                         int limit_up_days = rootOne.data[j].limit_up_days;
-                                        result.DragonTigerGetInfos[i].DragonPlate = limit_up_days>0? limit_up_days.ToString():"";
+                                        result.DragonTigerGetInfos[i].DragonPlate = limit_up_days > 0 ? limit_up_days.ToString() : "";
                                     }
                                 }
                             }

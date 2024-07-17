@@ -28,7 +28,7 @@ namespace StockReview.Client.ContentModule.Views
         public MarketSentimentView(MarketSentimentViewModel marketLadderViewModels)//
         {
             InitializeComponent();
-          
+
 
             GenerateDynamicColumns(marketLadderViewModels);
             //MarketSentimentViewModels = marketLadderViewModels;
@@ -98,7 +98,7 @@ namespace StockReview.Client.ContentModule.Views
 
         private void GenerateDynamicColumns(MarketSentimentViewModel viewModel)
         {
-            
+
             // 清除现有列
             dataGrid.Columns.Clear();
 

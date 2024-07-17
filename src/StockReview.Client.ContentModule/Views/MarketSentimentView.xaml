@@ -61,7 +61,7 @@
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
-                FontSize="20"
+                FontSize="15"
                 Foreground="#FFD000"
                 Text="最高板" />
         </StackPanel>
@@ -70,7 +70,10 @@
             Grid.Column="2"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="次高版" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="次高板" />
         </StackPanel>
 
         <StackPanel
@@ -78,14 +81,20 @@
             Grid.Column="3"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="压力高度" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="压力高度" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
             Grid.Column="3"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="短线情绪" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="短线情绪" />
         </StackPanel>
 
         <StackPanel
@@ -93,14 +102,20 @@
             Grid.Column="4"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="一字板" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="一字板" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
             Grid.Column="4"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="一字板总成交" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="一字板总成交" />
         </StackPanel>
 
         <StackPanel
@@ -108,14 +123,20 @@
             Grid.Column="5"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="涨停家数" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="涨停家数" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
             Grid.Column="5"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="涨停总成交" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="涨停总成交" />
         </StackPanel>
 
         <StackPanel
@@ -123,14 +144,20 @@
             Grid.Column="6"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="跌停家数" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="跌停家数" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
             Grid.Column="6"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="连扳家数" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="连扳家数" />
         </StackPanel>
 
         <StackPanel
@@ -138,14 +165,20 @@
             Grid.Column="7"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="大肉家数" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="大肉家数" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
             Grid.Column="7"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="大面家数" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="大面家数" />
         </StackPanel>
 
         <StackPanel
@@ -153,14 +186,20 @@
             Grid.Column="8"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="炸板家数" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="炸板家数" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
             Grid.Column="8"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="炸板率" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="炸板率" />
         </StackPanel>
 
         <StackPanel
@@ -168,14 +207,20 @@
             Grid.Column="9"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="红盘家数" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="红盘家数" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
             Grid.Column="9"
             Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="市场量能" />
+            <TextBlock
+                FontSize="15"
+                Foreground="#FFC0CB"
+                Text="市场量能" />
         </StackPanel>
 
 
