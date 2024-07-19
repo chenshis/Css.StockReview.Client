@@ -64,6 +64,7 @@ namespace StockReview.Api.Dtos
         /// </summary>
         public string MarketLadderBoard { get; set; }
 
+
         /// <summary>
         /// 数量
         /// </summary>

@@ -52,35 +52,35 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Foreground="Black"
-            Text="{Binding PlateRotationHeaderTitle.PlateDateOne}" />
+            Text="{Binding PlateDateOne}" />
         <TextBlock
             Grid.Row="1"
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Foreground="Black"
-            Text="{Binding PlateRotationHeaderTitle.PlateDateTwo}" />
+            Text="{Binding PlateDateTwo}" />
         <TextBlock
             Grid.Row="1"
             Grid.Column="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Foreground="Black"
-            Text="{Binding PlateRotationHeaderTitle.PlateDateThree}" />
+            Text="{Binding PlateDateThree}" />
         <TextBlock
             Grid.Row="1"
             Grid.Column="3"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Foreground="Black"
-            Text="{Binding PlateRotationHeaderTitle.PlateDateFour}" />
+            Text="{Binding PlateDateFour}" />
         <TextBlock
             Grid.Row="1"
             Grid.Column="4"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Foreground="Black"
-            Text="{Binding PlateRotationHeaderTitle.PlateDateFive}" />
+            Text="{Binding PlateDateFive}" />
 
         <TextBlock
             Grid.Row="1"
@@ -88,7 +88,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Foreground="Black"
-            Text="{Binding PlateRotationHeaderTitle.PlateDateSix}" />
+            Text="{Binding PlateDateSix}" />
 
         <ScrollViewer
             Grid.Row="2"

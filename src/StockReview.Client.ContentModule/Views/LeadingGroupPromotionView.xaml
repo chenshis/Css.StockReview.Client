@@ -9,8 +9,38 @@
     d:DesignHeight="450"
     d:DesignWidth="1380"
     mc:Ignorable="d">
-    <Grid>
+    <!--<UserControl.Resources>
+        <DrawingBrush
+            x:Key="GridLinesBrush"
+            TileMode="Tile"
+            Viewbox="0,0,100,100"
+            ViewboxUnits="Absolute"
+            Viewport="0,0,100,100"
+            ViewportUnits="Absolute">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry Rect="0,0,100,100" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing>
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="Black" Thickness="1" />
+                        </GeometryDrawing.Pen>
+                        <GeometryDrawing.Geometry>
+                            <GeometryGroup>
+                                <LineGeometry StartPoint="0,0" EndPoint="100,0" />
+                                <LineGeometry StartPoint="0,0" EndPoint="0,100" />
+                            </GeometryGroup>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+    </UserControl.Resources>-->
 
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="50" />
@@ -26,7 +56,10 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Border Background="#EEE">
+                <Border
+                    Background="#EEE"
+                    BorderBrush="#EEE"
+                    BorderThickness="1">
                     <ItemsControl ItemsSource="{Binding LeadingDateHeaderLists}">
                         <ItemsControl.ItemContainerStyle>
                             <Style>
@@ -38,7 +71,9 @@
 
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <Grid>
+
+                                <Grid ShowGridLines="True">
+
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -80,7 +115,6 @@
                                         <ColumnDefinition Width="80" />
                                         <ColumnDefinition Width="80" />
                                     </Grid.ColumnDefinitions>
-
                                 </Grid>
 
                             </ItemsPanelTemplate>
@@ -88,7 +122,6 @@
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-
                                 <Border
                                     Grid.Row="{Binding Path=HeadRow}"
                                     Grid.Column="{Binding Path=HeadColumn}"
@@ -104,6 +137,9 @@
                                         TextAlignment="Center"
                                         TextWrapping="Wrap" />
                                 </Border>
+
+
+
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

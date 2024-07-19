@@ -18,7 +18,7 @@ namespace StockReview.Client.ContentModule.ViewModels
     public class PlateRotationViewModel : NavigationAwareViewModelBase
     {
 
-        public PlateRotationHeaderTitle PlateRotationHeaderTitle { get; set; }= new PlateRotationHeaderTitle();
+        //public PlateRotationHeaderTitle PlateRotationHeaderTitle { get; set; }= new PlateRotationHeaderTitle();
 
         public ObservableCollection<PlateRotationInfo> PlateRotationInfosOne { get; set; } =new ObservableCollection<PlateRotationInfo>();
         public ObservableCollection<PlateRotationInfo> PlateRotationInfosTwo { get; set; } = new ObservableCollection<PlateRotationInfo>();
@@ -53,6 +53,55 @@ namespace StockReview.Client.ContentModule.ViewModels
             set { SetProperty(ref _currentDate, value); }
         }
 
+        private string _plateDateOne;
+     
+        public string PlateDateOne
+        {
+            get { return _plateDateOne; }
+            set { SetProperty(ref _plateDateOne, value); }
+        }
+
+        private string _plateDateTwo;
+
+        public string PlateDateTwo
+        {
+            get { return _plateDateTwo; }
+            set { SetProperty(ref _plateDateTwo, value); }
+        }
+
+        private string _plateDateThree;
+
+        public string PlateDateThree
+        {
+            get { return _plateDateThree; }
+            set { SetProperty(ref _plateDateThree, value); }
+        }
+
+        private string _plateDateFour;
+
+        public string PlateDateFour
+        {
+            get { return _plateDateFour; }
+            set { SetProperty(ref _plateDateFour, value); }
+        }
+
+        private string _plateDateFive;
+
+        public string PlateDateFive
+        {
+            get { return _plateDateFive; }
+            set { SetProperty(ref _plateDateFive, value); }
+        }
+
+        private string _plateDateSix;
+
+        public string PlateDateSix
+        {
+            get { return _plateDateSix; }
+            set { SetProperty(ref _plateDateSix, value); }
+        }
+
+
 
 
         public PlateRotationViewModel(IUnityContainer unityContainer, IRegionManager regionManager, IReplayService replayService, IEventAggregator eventAggregator) : base(unityContainer, regionManager)
@@ -75,7 +124,7 @@ namespace StockReview.Client.ContentModule.ViewModels
                 System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
 
-                    this.PlateRotationHeaderTitle = new PlateRotationHeaderTitle();
+                    //this.PlateRotationHeaderTitle = new PlateRotationHeaderTitle();
                     this.PlateRotationInfosOne.Clear();
                     this.PlateRotationInfosTwo.Clear();
                     this.PlateRotationInfosThree.Clear();
@@ -90,7 +139,13 @@ namespace StockReview.Client.ContentModule.ViewModels
                     this.PlateSharesLimitUpInfosFive.Clear();
                     this.PlateSharesLimitUpInfosSix.Clear();
 
-                    this.PlateRotationHeaderTitle = plateList.PlateRotationHeaderTitle;
+
+                    this.PlateDateOne = plateList.PlateRotationHeaderTitle.PlateDateOne;
+                    this.PlateDateTwo = plateList.PlateRotationHeaderTitle.PlateDateTwo;
+                    this.PlateDateThree = plateList.PlateRotationHeaderTitle.PlateDateThree;
+                    this.PlateDateFour = plateList.PlateRotationHeaderTitle.PlateDateFour;
+                    this.PlateDateFive = plateList.PlateRotationHeaderTitle.PlateDateFive;
+                    this.PlateDateSix = plateList.PlateRotationHeaderTitle.PlateDateSix;
 
                     this.PlateRotationInfosOne.AddRange(plateList.PlateRotationInfosOne);
                     this.PlateRotationInfosTwo.AddRange(plateList.PlateRotationInfosTwo);

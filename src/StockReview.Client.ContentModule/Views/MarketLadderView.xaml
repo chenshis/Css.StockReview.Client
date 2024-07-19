@@ -86,7 +86,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Content="{Binding MarketLadderInfosOne.MarketLadderBoard}"
+                    Content="{Binding MarketLadderBoardOne}"
                     FontSize="12"
                     Foreground="#F06632" />
                 <Label
@@ -94,7 +94,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Content="{Binding MarketLadderInfosOne.MarketLadderDescibe}"
+                    Content="{Binding MarketLadderDescibeOne}"
                     FontSize="12"
                     Foreground="#F06632" />
                 <Label
@@ -102,7 +102,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Content="{Binding MarketLadderInfosOne.MarketLadderNumber}"
+                    Content="{Binding MarketLadderNumberOne}"
                     FontSize="12"
                     Foreground="#F06632" />
                 <DataGrid
@@ -127,7 +127,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Content="{Binding MarketLadderInfosTwo.MarketLadderBoard}"
+                    Content="{Binding MarketLadderBoardTwo}"
                     FontSize="12"
                     Foreground="#F06632" />
                 <Label
@@ -136,7 +136,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Content="{Binding MarketLadderInfosTwo.MarketLadderDescibe}"
+                    Content="{Binding MarketLadderDescibeTwo}"
                     FontSize="12"
                     Foreground="#F06632" />
                 <Label
@@ -145,7 +145,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Content="{Binding MarketLadderInfosTwo.MarketLadderNumber}"
+                    Content="{Binding MarketLadderNumberTwo}"
                     FontSize="12"
                     Foreground="#F06632" />
                 <DataGrid
@@ -170,7 +170,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Content="{Binding MarketLadderInfosThree.MarketLadderBoard}"
+                    Content="{Binding MarketLadderBoardThree}"
                     FontSize="12"
                     Foreground="#F06632" />
                 <Label
@@ -179,7 +179,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Content="{Binding MarketLadderInfosThree.MarketLadderDescibe}"
+                    Content="{Binding MarketLadderDescibeThree}"
                     FontSize="12"
                     Foreground="#F06632" />
                 <Label
@@ -188,7 +188,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Content="{Binding MarketLadderInfosThree.MarketLadderNumber}"
+                    Content="{Binding MarketLadderNumberThree}"
                     FontSize="12"
                     Foreground="#F06632" />
                 <DataGrid
@@ -212,7 +212,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Content="{Binding MarketLadderInfosFours.MarketLadderBoard}"
+                    Content="{Binding MarketLadderBoardFours}"
                     FontSize="12"
                     Foreground="#F06632" />
                 <Label
@@ -221,7 +221,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Content="{Binding MarketLadderInfosFours.MarketLadderDescibe}"
+                    Content="{Binding MarketLadderDescibeFours}"
                     FontSize="12"
                     Foreground="#F06632" />
                 <Label
@@ -230,7 +230,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Content="{Binding MarketLadderInfosFours.MarketLadderNumber}"
+                    Content="{Binding MarketLadderNumberFours}"
                     FontSize="12"
                     Foreground="#F06632" />
                 <DataGrid

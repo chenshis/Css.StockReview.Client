@@ -68,6 +68,141 @@ namespace StockReview.Client.ContentModule.ViewModels
         }
 
 
+        /// <summary>
+        /// 连板
+        /// </summary>
+        private string _marketLadderBoardOne;
+       
+        public string MarketLadderBoardOne
+        {
+            get { return _marketLadderBoardOne; }
+            set { SetProperty(ref _marketLadderBoardOne, value); }
+        }
+
+
+        /// <summary>
+        /// 数量
+        /// </summary>
+        private string _marketLadderNumberOne;
+
+        public string MarketLadderNumberOne
+        {
+            get { return _marketLadderNumberOne; }
+            set { SetProperty(ref _marketLadderNumberOne, value); }
+        }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        private string _marketLadderDescibeOne;
+
+        public string MarketLadderDescibeOne
+        {
+            get { return _marketLadderDescibeOne; }
+            set { SetProperty(ref _marketLadderDescibeOne, value); }
+        }
+
+        /// <summary>
+        /// 连板
+        /// </summary>
+        private string _marketLadderBoardTwo;
+
+        public string MarketLadderBoardTwo
+        {
+            get { return _marketLadderBoardTwo; }
+            set { SetProperty(ref _marketLadderBoardTwo, value); }
+        }
+
+
+        /// <summary>
+        /// 数量
+        /// </summary>
+        private string _marketLadderNumberTwo;
+
+        public string MarketLadderNumberTwo
+        {
+            get { return _marketLadderNumberTwo; }
+            set { SetProperty(ref _marketLadderNumberTwo, value); }
+        }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        private string _marketLadderDescibeTwo;
+
+        public string MarketLadderDescibeTwo
+        {
+            get { return _marketLadderDescibeTwo; }
+            set { SetProperty(ref _marketLadderDescibeTwo, value); }
+        }
+
+        /// <summary>
+        /// 连板
+        /// </summary>
+        private string _marketLadderBoardThree;
+
+        public string MarketLadderBoardThree
+        {
+            get { return _marketLadderBoardThree; }
+            set { SetProperty(ref _marketLadderBoardThree, value); }
+        }
+
+
+        /// <summary>
+        /// 数量
+        /// </summary>
+        private string _marketLadderNumberThree;
+
+        public string MarketLadderNumberThree
+        {
+            get { return _marketLadderNumberThree; }
+            set { SetProperty(ref _marketLadderNumberThree, value); }
+        }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        private string _marketLadderDescibeThree;
+
+        public string MarketLadderDescibeThree
+        {
+            get { return _marketLadderDescibeThree; }
+            set { SetProperty(ref _marketLadderDescibeThree, value); }
+        }
+
+        /// <summary>
+        /// 连板
+        /// </summary>
+        private string _marketLadderBoardFours;
+
+        public string MarketLadderBoardFours
+        {
+            get { return _marketLadderBoardFours; }
+            set { SetProperty(ref _marketLadderBoardFours, value); }
+        }
+
+
+        /// <summary>
+        /// 数量
+        /// </summary>
+        private string _marketLadderNumberFours;
+
+        public string MarketLadderNumberFours
+        {
+            get { return _marketLadderNumberFours; }
+            set { SetProperty(ref _marketLadderNumberFours, value); }
+        }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        private string _marketLadderDescibeFours;
+
+        public string MarketLadderDescibeFours
+        {
+            get { return _marketLadderDescibeFours; }
+            set { SetProperty(ref _marketLadderDescibeFours, value); }
+        }
         private readonly IReplayService _replayService;
         private readonly IEventAggregator _eventAggregator;
 
@@ -116,39 +251,51 @@ namespace StockReview.Client.ContentModule.ViewModels
                         switch (i)
                         {
                             case 0:
-                                MarketLadderInfosOne = new MarketLadderToInfo
-                                {
-                                    MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
-                                    MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
-                                    MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
-                                };
+                                MarketLadderBoardOne = markList.MarketLadderLists[i].MarketLadderBoard;
+                                MarketLadderDescibeOne = markList.MarketLadderLists[i].MarketLadderDescibe;
+                                MarketLadderNumberOne = markList.MarketLadderLists[i].MarketLadderNumber;
+                                //MarketLadderInfosOne = new MarketLadderToInfo
+                                //{
+                                //    MarketLadderBoard = ,
+                                //    MarketLadderDescibe = ,
+                                //    MarketLadderNumber = 
+                                //};
                                 MarketLadderListOne.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
                                 break;
                             case 1:
-                                MarketLadderInfosTwo = new MarketLadderToInfo
-                                {
-                                    MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
-                                    MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
-                                    MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
-                                };
+                                MarketLadderBoardTwo= markList.MarketLadderLists[i].MarketLadderBoard;
+                                MarketLadderDescibeTwo = markList.MarketLadderLists[i].MarketLadderDescibe;
+                                MarketLadderNumberTwo = markList.MarketLadderLists[i].MarketLadderNumber;
+                                //MarketLadderInfosTwo = new MarketLadderToInfo
+                                //{
+                                //    MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
+                                //    MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
+                                //    MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
+                                //};
                                 MarketLadderListTwo.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
                                 break;
                             case 2:
-                                MarketLadderInfosThree = new MarketLadderToInfo
-                                {
-                                    MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
-                                    MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
-                                    MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
-                                };
+                                MarketLadderBoardThree = markList.MarketLadderLists[i].MarketLadderBoard;
+                                MarketLadderDescibeThree = markList.MarketLadderLists[i].MarketLadderDescibe;
+                                MarketLadderNumberThree = markList.MarketLadderLists[i].MarketLadderNumber;
+                                //MarketLadderInfosThree = new MarketLadderToInfo
+                                //{
+                                //    MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
+                                //    MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
+                                //    MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
+                                //};
                                 MarketLadderListThree.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
                                 break;
                             case 3:
-                                MarketLadderInfosFours = new MarketLadderToInfo
-                                {
-                                    MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
-                                    MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
-                                    MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
-                                };
+                                MarketLadderBoardFours = markList.MarketLadderLists[i].MarketLadderBoard;
+                                MarketLadderDescibeFours = markList.MarketLadderLists[i].MarketLadderDescibe;
+                                MarketLadderNumberFours = markList.MarketLadderLists[i].MarketLadderNumber;
+                                //MarketLadderInfosFours = new MarketLadderToInfo
+                                //{
+                                //    MarketLadderBoard = markList.MarketLadderLists[i].MarketLadderBoard,
+                                //    MarketLadderDescibe = markList.MarketLadderLists[i].MarketLadderDescibe,
+                                //    MarketLadderNumber = markList.MarketLadderLists[i].MarketLadderNumber
+                                //};
                                 MarketLadderListFours.AddRange(markList.MarketLadderLists[i].MarketLadderInfos);
                                 break;
                             default:
